@@ -21,7 +21,11 @@ from audience.widgets import AdminBitFieldWidget, bitfield_display
 from bitfield import BitField
 from concepts.admin import ConceptItemInline
 
-ACTIVITY_FIELDS = (KEY_IMAGE, RESOURCE_CAROUSEL)
+ACTIVITY_FIELDS = []
+if KEY_IMAGE is not None:
+    ACTIVITY_FIELDS.append(KEY_IMAGE)
+if RESOURCE_CAROUSEL is not None:
+    ACTIVITY_FIELDS.append(RESOURCE_CAROUSEL)
 LESSON_FIELDS = (KEY_IMAGE, RC_SLIDE)
 
 try:

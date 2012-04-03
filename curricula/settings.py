@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db.models import Q
+from django.core.exceptions import ImproperlyConfigured
 
 DEFAULT_SETTINGS = {
     'RELATION_MODELS': [],
@@ -47,6 +48,9 @@ DEFAULT_SETTINGS = {
 }
 
 DEFAULT_SETTINGS.update(getattr(settings, 'LESSON_SETTINGS', {}))
+
+# if DEFAULT_SETTINGS['KEY_IMAGE'] is None:
+#     raise ImproperlyConfigured("The KEY_IMAGE setting for curricula is not set.")
 
 globals().update(DEFAULT_SETTINGS)
 

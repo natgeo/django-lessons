@@ -5,9 +5,7 @@ from django.utils.safestring import mark_safe
 try:
     from education.edu_core.models import GlossaryTerm
 except ImportError:
-    # Temporary shim for testing
-    class GlossaryTerm(models.Model):
-        name = models.CharField(max_length=128)
+    from .models import GlossaryTerm
 
 class VocabularyIdWidget(widgets.ForeignKeyRawIdWidget):
     def __init__(self, rel, attrs=None):
