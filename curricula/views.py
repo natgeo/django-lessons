@@ -7,15 +7,31 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 from settings import RELATION_MODELS, KEY_IMAGE, RC_SLIDE
 from curricula.models import Activity, Lesson
 
-def activity_detail(request, slug, template_name='curricula/activity_detail.html'):
-    activity = get_object_or_404(Activity, slug=slug)
+def activity_detail(request, slug, preview=False, template_name='curricula/activity_detail.html'):
+    if preview:
+        activity = get_object_or_404(Activity, slug=slug)
+    else:
+        activity = get_object_or_404(Activity, slug=slug, published=True)
 
     return render_to_response(template_name, {
         'activity': activity,
     }, context_instance=RequestContext(request))
 
-def lesson_detail(request, slug, template_name='curricula/lesson_detail.html'):
-    lesson = get_object_or_404(Lesson, slug=slug)
+def activity_list(request, preview=False, template_name='curricula/activity_list.html'):
+    if preview:
+        activities = Activity.objects.all()
+    else:
+        activities = Activity.objects.filter(published=True)
+    
+    return render_to_response(template_name, {
+        'activity_list': activities
+    }, context_instance=RequestContext(request))
+
+def lesson_detail(request, slug, preview=False, template_name='curricula/lesson_detail.html'):
+    if preview:
+        lesson = get_object_or_404(Lesson, slug=slug)
+    else:
+        lesson = get_object_or_404(Lesson, slug=slug, published=True)
 
     getvars = request.GET.copy()
     if getvars.has_key('activities'):

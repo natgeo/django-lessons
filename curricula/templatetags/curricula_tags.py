@@ -27,7 +27,7 @@ def get_model(field, setting):
 
 @register.filter(name='get_activity_model')
 def get_activity_model(field):
-    return get_model(field, (KEY_IMAGE, RESOURCE_CAROUSEL))
+    return get_model(field, [x for x in (KEY_IMAGE, RESOURCE_CAROUSEL) if x is not None])
 
 @register.filter(name='get_lesson_model')
 def get_lesson_model(field):
