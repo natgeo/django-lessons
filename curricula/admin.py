@@ -267,7 +267,7 @@ class LessonAdmin(ContentAdmin):
         filter_horizontal += ['reporting_categories']
     form = LessonForm
     if RELATION_MODELS:
-        inlines = [ConceptItemInline, ActivityInline, InlineLessonRelation,]
+        inlines = [ActivityInline, ConceptItemInline, InlineLessonRelation,]
     else:
         inlines = [ActivityInline,]
     list_display = ('get_title', 'thumbnail_display', 'get_description', 'appropriate_display', 'published_date')
