@@ -109,6 +109,12 @@ class ActivityForm(forms.ModelForm):
                 raise forms.ValidationError("%s is required." % field_name)
         return cleaned_data
 
+    def clean_assessment_type(self):
+        atype = self.cleaned_data['assessment_type']
+        assessment = self.cleaned_data['assessment']
+        if assessment and not atype:
+            raise forms.ValidationError("Assessment Type is required, when there is an Assessment.")
+
 class ContentAdmin(admin.ModelAdmin):
     formfield_overrides = {
         BitField: {
