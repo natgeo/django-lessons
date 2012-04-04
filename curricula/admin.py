@@ -321,7 +321,7 @@ class LessonAdmin(ContentAdmin):
                     # following code is, unfortunately, copied from education.edu_core.models - raj
                     ctype = ContentType.objects.get(app_label=app_label, model=model)
 
-                    name = "Overview Lesson %s" % obj.id
+                    name = "Overview Lesson %s" % obj.title
                     rcs_type = ResourceCarouselModuleType.objects.get(name="Overview Module")
                     _rctype = ResourceCategoryType.objects.get(name="Websites")
 
@@ -329,7 +329,8 @@ class LessonAdmin(ContentAdmin):
                             name=name,
                             title=name,
                             resource_carousel_module_type=rcs_type,
-                            resource_category_type=_rctype)
+                            resource_category_type=_rctype,
+                            duration_minutes=obj.get_duration_minutes())
                     new_rcs.save()
 
                     item = obj.lessonrelation_set.create(
