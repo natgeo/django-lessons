@@ -185,7 +185,7 @@ Note that the text you input in this form serves as the default text. If you ind
     setup = models.TextField(blank=True, null=True)
    #Required Technology
     internet_access_type = models.CharField(max_length=8, choices=INTERNET_ACCESS_TYPES)
-    plugin_types = models.ForeignKey(PluginType, blank=True, null=True)
+    plugin_types = models.ManyToManyField(PluginType, blank=True, null=True)
     tech_setup_types = models.ManyToManyField(TechSetupType, blank=True, null=True)
 
    #Background & Vocabulary
@@ -450,8 +450,8 @@ Note that the text you input in this form serves as the default text. If you ind
         if activities is None:
             activities = self.get_activities()
         for activity in activities:
-            if activity.plugin_types:
-                required_technology += activity.plugin_types
+            for plugin_type in activity.plugin_types.all():
+                required_technology += plugin_type
             required_technology += activity.tech_setup_types.all()
         deduped_technology = set(required_technology)
         return list(deduped_technology)

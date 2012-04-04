@@ -136,7 +136,8 @@ class ActivityAdmin(ContentAdmin):
                          'physical_space_types', 'prior_activities', 'skills',
                          'standards', 'subjects', 'teaching_method_types',
                          'tech_setup_types', 'tips', 'teaching_approaches',
-                         'secondary_content_types', 'learner_groups']
+                         'secondary_content_types', 'learner_groups',
+                         'plugin_types']
     if REPORTING_MODEL:
         filter_horizontal += ['reporting_categories']
     form = ActivityForm
