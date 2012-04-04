@@ -115,6 +115,8 @@ class ActivityForm(forms.ModelForm):
         if assessment and not atype:
             raise forms.ValidationError("Assessment Type is required, when there is an Assessment.")
 
+        return atype
+
 class ContentAdmin(admin.ModelAdmin):
     formfield_overrides = {
         BitField: {
