@@ -395,24 +395,30 @@ Note that the text you input in this form serves as the default text. If you ind
 
     def get_learning_objectives(self, activities=None):
         objectives = []
+        deduped_objectives = []
 
         if activities is None:
             activities = self.get_activities()
         for activity in activities:
             objectives += ul_as_list(activity.learning_objectives)
-        deduped_objectives = set(objectives)
-        return list(deduped_objectives)
+        for objective in objectives:
+            if objective not in deduped_objectives:
+                deduped_objectives.append(objective)
+        return deduped_objectives
 
     def get_background_information(self, activities=None):
         '''Used by the admin to import text'''
         bg_info = []
+        deduped_info = []
 
         if activities is None:
             activities = self.get_activities()
         for activity in activities:
             bg_info.append(activity.background_information)
-        deduped_info = set(bg_info)
-        return list(deduped_info)
+        for info in bg_info:
+            if info not in deduped_info:
+                deduped_info.append(info)
+        return deduped_info
 
     def get_grades(self):
         grades = []
