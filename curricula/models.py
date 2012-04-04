@@ -381,6 +381,14 @@ Note that the text you input in this form serves as the default text. If you ind
         deduped_notes = set(accessibility_notes)
         return list(deduped_notes)
 
+    def get_duration(self, activities=None):
+        duration = 0
+        if activities is None:
+            activities = self.get_activities()
+        for activity in activities:
+            duration += activity.duration
+        return duration
+
     # TODO
     def get_glossary(self):
         pass
