@@ -112,7 +112,7 @@ class Tip(models.Model):
     category = models.ForeignKey(TipCategory, blank=True, null=True)
 
     class Meta:
-        ordering = ["body"]
+        ordering = ["category", "body"]
 
     def __unicode__(self):
         if self.category:
@@ -134,7 +134,7 @@ class Standard(models.Model):
         return "%s: %s" % (self.get_standard_type_display(), self.name)
 
     class Meta:
-        ordering = ["name"]
+        ordering = ["standard_type", "name"]
 
 class ContentManager(models.Manager):
     def get_published(self):
