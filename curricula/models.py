@@ -402,8 +402,8 @@ Note that the text you input in this form serves as the default text. If you ind
         for activity in activities:
             objectives += ul_as_list(activity.learning_objectives)
         for objective in objectives:
-            if objective not in deduped_objectives:
-                deduped_objectives.append(objective)
+            if objective.strip() not in deduped_objectives:
+                deduped_objectives.append(objective.strip())
         return deduped_objectives
 
     def get_background_information(self, activities=None):
