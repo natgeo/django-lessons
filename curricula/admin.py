@@ -314,15 +314,15 @@ class LessonAdmin(ContentAdmin):
             ('Time and Date Metadata', {'fields': ['eras', 'geologic_time', 'relevant_start_date', 'relevant_end_date'], 'classes': ['collapse']}),
             ('Publishing', {'fields': ['published', 'published_date'], 'classes': ['collapse']}),
         ]
-        for field in LESSON_FIELDS:
-            fieldsets[0][1]['fields'].insert(4, field[0])
+        fieldsets[0][1]['fields'].insert(4, KEY_IMAGE[0])
         return fieldsets
 
     def save_model(self, request, obj, form, change, *args, **kwargs):
         super(LessonAdmin, self).save_model(request, obj, form, change, *args, **kwargs)
 
         for field, model in LESSON_FIELDS:
-            if form[field].data == '':
+            print 'field = %s, data = %s' % (field, form[field].data)
+            if form[field].data == None or form[field].data == '':
                 # (EDU-2469) Lesson - User should not need to enter RC slide but
                 # the system should generate one and associate with the Lesson
                 try:
