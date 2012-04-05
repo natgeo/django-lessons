@@ -38,6 +38,9 @@ except ImportError:
     class ResourceCategoryType(models.Model):
         name = models.CharField(max_length=128)
 
+class TagInline(ConceptItemInline):
+    extra = 10
+
 class VocabularyInline(admin.TabularInline):
     extra = 10
     model = Vocabulary
@@ -149,7 +152,7 @@ class ActivityAdmin(ContentAdmin):
     if REPORTING_MODEL:
         filter_horizontal += ['reporting_categories']
     form = ActivityForm
-    inlines = [ConceptItemInline, VocabularyInline, ResourceInline, QuestionAnswerInline]
+    inlines = [TagInline, VocabularyInline, ResourceInline, QuestionAnswerInline]
     if RELATION_MODELS:
         inlines.append(InlineActivityRelation)
 
@@ -275,7 +278,7 @@ class LessonAdmin(ContentAdmin):
         filter_horizontal += ['reporting_categories']
     form = LessonForm
     if RELATION_MODELS:
-        inlines = [ActivityInline, ConceptItemInline, InlineLessonRelation,]
+        inlines = [ActivityInline, TagInline, InlineLessonRelation,]
     else:
         inlines = [ActivityInline,]
     list_display = ('get_title', 'thumbnail_display', 'get_description', 'appropriate_display', 'published_date')
