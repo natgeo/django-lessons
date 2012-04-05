@@ -318,13 +318,13 @@ class Lesson(models.Model): # Publish):
     assessment = models.TextField(blank=True, null=True, help_text="This field is for a new, lesson-level assessment. It is not impacted by activity-level assessments.")
 
   # Objectives
-    learning_objectives = models.TextField(blank=True, null=True, help_text='Click the "import text" link to import learning objectives from all activities in this lesson into this field and edit them.')
+    learning_objectives = models.TextField(blank=True, null=True, help_text='Click the "import text" link to import learning objectives from all activities in this lesson into this field and edit them. If you click "import text from activities" and revise/override the imported text, note that clicking "import text from activities" again will re-set the text back to the imported version.')
 
   # Preparation
     materials = models.ManyToManyField(Material, blank=True, null=True, help_text="This field is for additional, lesson-level materials a teacher will need to provide; for example, new materials needed in order to conduct the lesson-level assessment. Do not repeat activity-specific materials.")
     other_notes = models.TextField(blank=True, null=True, help_text="This field has multiple uses, but one possible use is to indicate the larger context into which the lesson fits. Example: This is lesson 1 in a series of 10 lessons in a unit on Europe.")
   # Background & Vocabulary
-    background_information = models.TextField(blank=True, null=True, help_text='Producers can either copy/paste background information into this field, or click the "import text" link to import background information from all activities in this lesson into this field and edit them.') 
+    background_information = models.TextField(blank=True, null=True, help_text='Producers can either copy/paste background information into this field, or click the "import text" link to import background information from all activities in this lesson into this field and edit them. If you click "import text from activities" and revise/override the imported text, note that clicking "import text from activities" again will re-set the text back to the imported version.')
 
   # Credits, Sponsors, Partners
     if CREDIT_MODEL:
@@ -484,7 +484,8 @@ Note that the text you input in this form serves as the default text. If you ind
         if activities is None:
             activities = self.get_activities()
         for activity in activities:
-            subjects |= activity.subjects.all()
+            for subject in activity.subjects.all():
+                subjects.append(subject)
         deduped_subjects = set(subjects)
         return list(deduped_subjects)
 
