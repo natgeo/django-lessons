@@ -338,7 +338,7 @@ class LessonAdmin(ContentAdmin):
                             title=name,
                             resource_carousel_module_type=rcs_type,
                             resource_category_type=_rctype,
-                            duration_minutes=obj.get_duration_minutes())
+                            duration_minutes=obj.get_duration())
                     new_rcs.save()
 
                     item = obj.lessonrelation_set.create(
