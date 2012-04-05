@@ -255,7 +255,7 @@ class Vocabulary(models.Model):
 class QuestionAnswer(models.Model):
     activity = models.ForeignKey(Activity)
     question = models.TextField()
-    answer = models.TextField()
+    answer = models.TextField(blank=True, null=True)
     appropriate_for = BitField(flags=AUDIENCE_FLAGS, blank=True, null=True)
 
     def __unicode__(self):
@@ -395,16 +395,14 @@ Note that the text you input in this form serves as the default text. If you ind
 
     def get_learning_objectives(self, activities=None):
         objectives = []
-        deduped_objectives = []
 
         if activities is None:
             activities = self.get_activities()
         for activity in activities:
-            objectives += ul_as_list(activity.learning_objectives)
-        for objective in objectives:
-            if objective.strip() not in deduped_objectives:
-                deduped_objectives.append(objective.strip())
-        return deduped_objectives
+            for objective in ul_as_list(activity.learning_objectives):
+                if objective.strip() not in objectives:
+                    objectives.append(objective.strip())
+        return objectives
 
     def get_background_information(self, activities=None):
         '''Used by the admin to import text'''
