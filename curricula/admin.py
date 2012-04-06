@@ -120,6 +120,52 @@ class ActivityForm(forms.ModelForm):
 
         return atype
 
+    def clean_field(self, name):
+        field = self.cleaned_data[name]
+        if self.cleaned_data['published']:
+            raise forms.ValidationError("This field is required, for published activities.")
+
+        return field
+
+    def clean_background_information(self):
+        return self.clean_field('background_information')
+
+    def clean_directions(self):
+        return self.clean_field('directions')
+
+    def clean_grades(self):
+        return self.clean_field('grades')
+
+    def clean_grouping_types(self):
+        return self.clean_field('grouping_types')
+
+    def clean_internet_access_type(self):
+        return self.clean_field('internet_access_type')
+
+    def clean_learning_objectives(self):
+        return self.clean_field('learning_objectives')
+
+    def clean_materials(self):
+        return self.clean_field('materials')
+
+    def clean_prior_knowledge(self):
+        return self.clean_field('prior_knowledge')
+
+    def clean_skills(self):
+        return self.clean_field('skills')
+
+    def clean_subjects(self):
+        return self.clean_field('subjects')
+
+    def clean_standards(self):
+        return self.clean_field('standards')
+
+    def clean_teaching_approaches(self):
+        return self.clean_field('teaching_approaches')
+
+    def clean_teaching_method_types(self):
+        return self.clean_field('teaching_method_types')
+
 class ContentAdmin(admin.ModelAdmin):
     formfield_overrides = {
         BitField: {

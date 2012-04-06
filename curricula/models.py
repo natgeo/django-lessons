@@ -152,7 +152,7 @@ Note that the text you input in this form serves as the default text. If you ind
     description = models.TextField()
     duration = models.IntegerField(verbose_name="Duration Minutes")
     extending_the_learning = models.TextField(blank=True, null=True)
-    grades = models.ManyToManyField(Grade)
+    grades = models.ManyToManyField(Grade, blank=True, null=True)
     id_number = models.CharField(max_length=10, help_text="This field is for the internal NG Education ID number. This is required for all instructional content.")
     is_modular = models.BooleanField(default=True, help_text="If unchecked, this field indicates that this activity should not appear as stand-alone outside of a lesson view.")
     learner_groups = models.ManyToManyField(LearnerGroup, blank=True, null=True)
@@ -161,36 +161,36 @@ Note that the text you input in this form serves as the default text. If you ind
     published = models.BooleanField()
     published_date = models.DateTimeField(blank=True, null=True)
     slug = models.SlugField(unique=True, help_text="The URL slug is auto-generated, but producers should adjust it if: a) punctuation in the title causes display errors; and/or b) the title changes after the slug has been generated.")
-    standards = models.ManyToManyField(Standard)
-    subjects = models.ManyToManyField(Subject, limit_choices_to={'parent__isnull': False}, verbose_name="Subjects and Disciplines")
+    standards = models.ManyToManyField(Standard, blank=True, null=True)
+    subjects = models.ManyToManyField(Subject, blank=True, null=True, limit_choices_to={'parent__isnull': False}, verbose_name="Subjects and Disciplines")
     subtitle_guiding_question = models.TextField(verbose_name="Subtitle or Guiding Question")
 
    #Directions
-    directions = models.TextField()
+    directions = models.TextField(blank=True, null=True)
     tips = models.ManyToManyField(Tip, blank=True, null=True, verbose_name="Tips & Modifications")
 
    #Objectives
-    learning_objectives = models.TextField(help_text="If this activity is part of an already-created lesson and you update the learning objectives, you must also also make the same change in lesson for this field.")
-    skills = models.ManyToManyField(Skill, limit_choices_to={'children__isnull': True})
-    teaching_approaches = models.ManyToManyField(TeachingApproach)
-    teaching_method_types = models.ManyToManyField(TeachingMethodType)
+    learning_objectives = models.TextField(blank=True, null=True, help_text="If this activity is part of an already-created lesson and you update the learning objectives, you must also also make the same change in lesson for this field.")
+    skills = models.ManyToManyField(Skill, blank=True, null=True, limit_choices_to={'children__isnull': True})
+    teaching_approaches = models.ManyToManyField(TeachingApproach, blank=True, null=True)
+    teaching_method_types = models.ManyToManyField(TeachingMethodType, blank=True, null=True)
 
    #Preparation
     accessibility_notes = models.TextField(blank=True, null=True)
-    materials = models.ManyToManyField(Material)
-    grouping_types = models.ManyToManyField(GroupingType)
+    materials = models.ManyToManyField(Material, blank=True, null=True)
+    grouping_types = models.ManyToManyField(GroupingType, blank=True, null=True)
     other_notes = models.TextField(blank=True, null=True)
     physical_space_types = models.ManyToManyField(PhysicalSpaceType, blank=True, null=True)
     prior_activities = models.ManyToManyField('self', blank=True, null=True, verbose_name="Recommended Prior Activities")
     setup = models.TextField(blank=True, null=True)
    #Required Technology
-    internet_access_type = models.CharField(max_length=8, choices=INTERNET_ACCESS_TYPES)
+    internet_access_type = models.CharField(max_length=8, blank=True, null=True, choices=INTERNET_ACCESS_TYPES)
     plugin_types = models.ManyToManyField(PluginType, blank=True, null=True)
     tech_setup_types = models.ManyToManyField(TechSetupType, blank=True, null=True)
 
    #Background & Vocabulary
-    background_information = models.TextField(help_text="If this activity is part of an already-created lesson and you update the background information, you must also make the same change in lesson for this field.")
-    prior_knowledge = models.TextField()
+    background_information = models.TextField(blank=True, null=True, help_text="If this activity is part of an already-created lesson and you update the background information, you must also make the same change in lesson for this field.")
+    prior_knowledge = models.TextField(blank=True, null=True)
 
   # Credits, Sponsors, Partners
     if CREDIT_MODEL:
