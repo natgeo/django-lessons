@@ -521,8 +521,10 @@ class LessonActivity(models.Model):
     lesson = models.ForeignKey(Lesson)
     activity = models.ForeignKey(Activity)
     transition_text = models.TextField(blank=True, null=True)
+    order = models.IntegerField(blank = True, null = True)
 
     class Meta:
+        ordering = ('order',)
         verbose_name_plural = 'Activities'
 
 #register(Activity)
