@@ -9,7 +9,7 @@ from django.utils.html import strip_tags
 from settings import (ASSESSMENT_TYPES, STANDARD_TYPES,
                       PEDAGOGICAL_PURPOSE_TYPE_CHOICES, RELATION_MODELS, 
                       RELATIONS, CREDIT_MODEL, INTERNET_ACCESS_TYPES,
-                      REPORTING_MODEL, KEY_IMAGE)
+                      REPORTING_MODEL, KEY_IMAGE, RESOURCE_CAROUSEL)
 from utils import truncate, ul_as_list
 
 from audience.models import AUDIENCE_FLAGS
@@ -184,7 +184,7 @@ Note that the text you input in this form serves as the default text. If you ind
     prior_activities = models.ManyToManyField('self', blank=True, null=True, verbose_name="Recommended Prior Activities")
     setup = models.TextField(blank=True, null=True)
    #Required Technology
-    internet_access_type = models.CharField(max_length=8, blank=True, null=True, choices=INTERNET_ACCESS_TYPES)
+    internet_access_type = models.IntegerField(blank=True, null=True, choices=INTERNET_ACCESS_TYPES)
     plugin_types = models.ManyToManyField(PluginType, blank=True, null=True)
     tech_setup_types = models.ManyToManyField(TechSetupType, blank=True, null=True)
 
@@ -232,6 +232,13 @@ Note that the text you input in this form serves as the default text. If you ind
             """
             return self.activityrelation_set.filter(
                 relation_type=relation_type)
+
+    def resource_carousel(self):
+        app_label, model = RESOURCE_CAROUSEL[1].split('.')
+        ctype = ContentType.objects.get(app_label=app_label, model=model)
+        ar = ActivityRelation.objects.get(activity=self, content_type=ctype)
+
+        return ar.content_object.name
 
     def thumbnail_html(self):
         app_label, model = KEY_IMAGE[1].split('.')
