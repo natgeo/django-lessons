@@ -33,55 +33,6 @@ def get_activity_model(field):
 def get_lesson_model(field):
     return get_model(field, (KEY_IMAGE, RC_SLIDE))
 
-@register.filter(name='lesson_slug')
-def lesson_slug(id):
-    if id:
-        return Lesson.objects.get(id=id).slug
-    else:
-        return None
-
-@register.filter(name='activity_slug')
-def activity_slug(id):
-    if id:
-        return Activity.objects.get(id=id).slug
-    else:
-        return None
-
-@register.filter(name='activity_thumbnail')
-def activity_thumbnail(id):
-    try:
-        return Activity.objects.get(id=id).thumbnail_html()
-    except Activity.DoesNotExist:
-        return None
-
-@register.filter(name='lesson_thumbnail')
-def lesson_thumbnail(id):
-    try:
-        return Lesson.objects.get(id=id).thumbnail_html()
-    except Lesson.DoesNotExist:
-        return None
-
-@register.filter(name='resource_carousel')
-def resource_carousel(id):
-    app_label, model = RESOURCE_CAROUSEL[1].split('.')
-    ctype = ContentType.objects.get(app_label=app_label, model=model)
-    activity = Activity.objects.get(id=id)
-    ar = ActivityRelation.objects.get(activity=activity, content_type=ctype)
-
-    return ar.content_object.name
-
-@register.filter(name='rc_slide')
-def rc_slide(id):
-    try:
-        lesson = Lesson.objects.get(id=id)
-        app_label, model = RC_SLIDE[1].split('.')
-        ctype = ContentType.objects.get(app_label=app_label, model=model)
-        lr = LessonRelation.objects.get(lesson=lesson, content_type=ctype)
-
-        return lr.content_object.name
-    except LessonRelation.DoesNotExist:
-        return None
-
 @register.tag('get_related_content_type')
 def do_get_related_content_type(parser, token):
     """

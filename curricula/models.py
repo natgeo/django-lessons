@@ -233,21 +233,24 @@ Note that the text you input in this form serves as the default text. If you ind
             return self.activityrelation_set.filter(
                 relation_type=relation_type)
 
+    def key_image(self):
+        app_label, model = KEY_IMAGE[1].split('.')
+        ctype = ContentType.objects.get(app_label=app_label, model=model)
+        ar = self.get_related_content_type(ctype.name)
+        if len(ar) > 0:
+            return ar[0].content_object.thumbnail_url()
+        else:
+            return None
+
     def resource_carousel(self):
         app_label, model = RESOURCE_CAROUSEL[1].split('.')
         ctype = ContentType.objects.get(app_label=app_label, model=model)
-        ar = ActivityRelation.objects.get(activity=self, content_type=ctype)
+        ar = self.get_related_content_type(ctype.name)
 
         return ar.content_object.name
 
     def thumbnail_html(self):
-        app_label, model = KEY_IMAGE[1].split('.')
-        ctype = ContentType.objects.get(app_label=app_label, model=model)
-        ar = ActivityRelation.objects.filter(activity=self, content_type=ctype)
-        if len(ar) > 0:
-            return '<img src="%s"/>' % ar[0].content_object.thumbnail_url()
-        else:
-            return None
+        return '<img src="%s"/>' % self.key_image()
 
 class Vocabulary(models.Model):
     activity = models.ForeignKey(Activity)
@@ -389,12 +392,9 @@ Note that the text you input in this form serves as the default text. If you ind
         return list(deduped_notes)
 
     def get_duration(self, activities=None):
-        duration = 0
         if activities is None:
             activities = self.get_activities()
-        for activity in activities:
-            duration += activity.duration
-        return duration
+        return sum([activity.duration for activity in activities])
 
     # TODO
     def get_glossary(self):
@@ -496,13 +496,16 @@ Note that the text you input in this form serves as the default text. If you ind
         deduped_subjects = set(subjects)
         return list(deduped_subjects)
 
-    def thumbnail_html(self):
+    def key_image(self):
         ctype = ContentType.objects.get(app_label='core_media', model='ngphoto')
-        lr = LessonRelation.objects.filter(lesson=self, content_type=ctype)
+        lr = self.get_related_content_type(ctype.name)
         if len(lr) > 0:
             return '<img src="%s"/>' % lr[0].content_object.thumbnail_url()
         else:
             return None
+
+    def thumbnail_html(self):
+        return '<img src="%s"/>' % self.key_image()
 
 class LessonRelation(models.Model):
     lesson = models.ForeignKey(Lesson)
