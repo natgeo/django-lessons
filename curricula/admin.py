@@ -370,13 +370,11 @@ class LessonAdmin(ContentAdmin):
         super(LessonAdmin, self).save_formset(request, form, formset, change)
 
         if formset.model == LessonActivity:
-            field, model = RC_SLIDE
             lesson_relations = formset.instance.lessonrelation_set
+            item = lesson_relations.get(relation_type=RC_SLIDE[0])
 
-            print field
-            rcs = lesson_relations.get(relation_type=field).content_object
+            rcs = item.content_object
             rcs.duration_minutes = formset.instance.get_duration()
-            print rcs.duration_minutes
             rcs.save()
 
     def save_model(self, request, obj, form, change, *args, **kwargs):
