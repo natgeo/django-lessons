@@ -376,21 +376,43 @@ class LessonAdmin(ContentAdmin):
                 # the system should generate one and associate with the Lesson
                 try:
                     item = obj.lessonrelation_set.get(relation_type=field)
+
+                    rcs = item.content_object
+                    rcs.name = "Lesson Overview - %s" % obj.title
+                    rcs.duration_minutes = obj.get_duration()
+
+                    l_variations = obj.variations.filter(field='description')
+                    for lessonvariation in variations:
+                        a_keys = lessonvariation.audience.keys()
+                        # reading level/ text difficulty 6 = Not Applicable
+                        rcs.body.update_ARs(
+                            key='%s-[6]' % get_audience_indices(a_keys),
+                            targetted_text=lessonvariation.variation)
+                        rcs.body.save()
+                    rcs.save()
                 except LessonRelation.DoesNotExist:
                     app_label, model = model.split('.')
                     # following code is, unfortunately, copied from education.edu_core.models - raj
                     ctype = ContentType.objects.get(app_label=app_label, model=model)
 
-                    name = "Overview Lesson %s" % obj.title
                     rcs_type = ResourceCarouselModuleType.objects.get(name="Overview Module")
                     _rctype = ResourceCategoryType.objects.get(name="Websites")
 
                     new_rcs = ResourceCarouselSlide.objects.create(
-                            name=name,
-                            title=name,
+                            name="Lesson Overview - %s" % obj.title,
+                            title="Lesson Overview",
                             resource_carousel_module_type=rcs_type,
                             resource_category_type=_rctype,
+                            label="Lesson Overview",
                             duration_minutes=obj.get_duration())
+
+                    l_variations = obj.variations.filter(field='description')
+                    for lessonvariation in l_variations:
+                        a_keys = lessonvariation.audience.keys()
+                        new_rcs.body.update_ARs(
+                            key='%s-[6]' % get_audience_indices(a_keys),
+                            targetted_text=lessonvariation.variation)
+                        new_rcs.body.save()
                     new_rcs.save()
 
                     item = obj.lessonrelation_set.create(
