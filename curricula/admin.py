@@ -12,7 +12,7 @@ from models import *
 from settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
                       RESOURCE_CAROUSEL, RC_SLIDE, CREDIT_MODEL,
                       REPORTING_MODEL)
-from utils import truncate, ul_as_list
+from utils import truncate, ul_as_list, get_audience_indices
 from widgets import VocabularyIdWidget
 
 from tinymce.widgets import TinyMCE
@@ -390,6 +390,13 @@ class LessonAdmin(ContentAdmin):
                     rcs = item.content_object
                     rcs.name = "Lesson Overview - %s" % obj.title
 
+                    # default
+                    a_keys = obj.appropriate_for.keys()
+                    rcs.body.update_ARs(
+                        key='%s-[6]' % get_audience_indices(a_keys),
+                        targetted_text=obj.description)
+                    rcs.body.save()
+
                     l_variations = obj.variations.filter(field='description')
                     for lessonvariation in l_variations:
                         a_keys = lessonvariation.audience.keys()
@@ -414,6 +421,12 @@ class LessonAdmin(ContentAdmin):
                             resource_category_type=_rctype,
                             label="Lesson Overview",
                             duration_minutes=obj.get_duration())
+
+                    a_keys = obj.appropriate_for.keys()
+                    new_rcs.body.update_ARs(
+                        key='%s-[6]' % get_audience_indices(a_keys),
+                        targetted_text=obj.description)
+                    new_rcs.body.save()
 
                     l_variations = obj.variations.filter(field='description')
                     for lessonvariation in l_variations:
