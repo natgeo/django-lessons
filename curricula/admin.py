@@ -366,11 +366,23 @@ class LessonAdmin(ContentAdmin):
         fieldsets[0][1]['fields'].insert(4, KEY_IMAGE[0])
         return fieldsets
 
+    def save_formset(self, request, form, formset, change):
+        super(LessonAdmin, self).save_formset(request, form, formset, change)
+
+        if formset.model == LessonActivity:
+            field, model = RC_SLIDE
+            lesson_relations = formset.instance.lessonrelation_set
+
+            print field
+            rcs = lesson_relations.get(relation_type=field).content_object
+            rcs.duration_minutes = formset.instance.get_duration()
+            print rcs.duration_minutes
+            rcs.save()
+
     def save_model(self, request, obj, form, change, *args, **kwargs):
         super(LessonAdmin, self).save_model(request, obj, form, change, *args, **kwargs)
 
         for field, model in LESSON_FIELDS:
-            print 'field = %s, data = %s' % (field, form[field].data)
             if form[field].data == None or form[field].data == '':
                 # (EDU-2469) Lesson - User should not need to enter RC slide but
                 # the system should generate one and associate with the Lesson
@@ -379,10 +391,9 @@ class LessonAdmin(ContentAdmin):
 
                     rcs = item.content_object
                     rcs.name = "Lesson Overview - %s" % obj.title
-                    rcs.duration_minutes = obj.get_duration()
 
                     l_variations = obj.variations.filter(field='description')
-                    for lessonvariation in variations:
+                    for lessonvariation in l_variations:
                         a_keys = lessonvariation.audience.keys()
                         # reading level/ text difficulty 6 = Not Applicable
                         rcs.body.update_ARs(
