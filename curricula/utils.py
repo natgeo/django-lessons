@@ -14,5 +14,5 @@ def get_audience_index(key):
             return i
     return 0
 
-def get_audience_indices(keys):
-    return [get_audience_index(key) for key in keys]
+def get_audience_indices(items):
+    return [get_audience_index(item[0]) for item in items if item[1]]

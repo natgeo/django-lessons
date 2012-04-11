@@ -391,18 +391,18 @@ class LessonAdmin(ContentAdmin):
                     rcs.name = "Lesson Overview - %s" % obj.title
 
                     # default
-                    a_keys = obj.appropriate_for.keys()
+                    a_items = obj.appropriate_for.items()
                     rcs.body.update_ARs(
-                        key='%s-[6]' % get_audience_indices(a_keys),
+                        key='%s-[6]' % get_audience_indices(a_items),
                         targetted_text=obj.description)
                     rcs.body.save()
 
                     l_variations = obj.variations.filter(field='description')
                     for lessonvariation in l_variations:
-                        a_keys = lessonvariation.audience.keys()
+                        a_items = lessonvariation.audience.items()
                         # reading level/ text difficulty 6 = Not Applicable
                         rcs.body.update_ARs(
-                            key='%s-[6]' % get_audience_indices(a_keys),
+                            key='%s-[6]' % get_audience_indices(a_items),
                             targetted_text=lessonvariation.variation)
                         rcs.body.save()
                     rcs.save()
@@ -422,9 +422,9 @@ class LessonAdmin(ContentAdmin):
                             label="Lesson Overview",
                             duration_minutes=obj.get_duration())
 
-                    a_keys = obj.appropriate_for.keys()
+                    a_items = obj.appropriate_for.items()
                     new_rcs.body.update_ARs(
-                        key='%s-[6]' % get_audience_indices(a_keys),
+                        key='%s-[6]' % get_audience_indices(a_items),
                         targetted_text=obj.description)
                     new_rcs.body.save()
 
