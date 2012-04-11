@@ -500,7 +500,7 @@ Note that the text you input in this form serves as the default text. If you ind
         ctype = ContentType.objects.get(app_label='core_media', model='ngphoto')
         lr = self.get_related_content_type(ctype.name)
         if len(lr) > 0:
-            return '<img src="%s"/>' % lr[0].content_object.thumbnail_url()
+            return lr[0].content_object.thumbnail_url()
         else:
             return None
 
