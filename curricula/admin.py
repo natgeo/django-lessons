@@ -390,21 +390,8 @@ class LessonAdmin(ContentAdmin):
                     rcs = item.content_object
                     rcs.name = "Lesson Overview - %s" % obj.title
 
-                    # default
-                    a_items = obj.appropriate_for.items()
-                    rcs.body.update_ARs(
-                        key='%s-[6]' % get_audience_indices(a_items),
-                        targetted_text=obj.description)
-                    rcs.body.save()
+                    self.update_ARs(obj, rcs)
 
-                    l_variations = obj.variations.filter(field='description')
-                    for lessonvariation in l_variations:
-                        a_items = lessonvariation.audience.items()
-                        # reading level/ text difficulty 6 = Not Applicable
-                        rcs.body.update_ARs(
-                            key='%s-[6]' % get_audience_indices(a_items),
-                            targetted_text=lessonvariation.variation)
-                        rcs.body.save()
                     rcs.save()
                 except LessonRelation.DoesNotExist:
                     app_label, model = model.split('.')
@@ -422,19 +409,8 @@ class LessonAdmin(ContentAdmin):
                             label="Lesson Overview",
                             duration_minutes=obj.get_duration())
 
-                    a_items = obj.appropriate_for.items()
-                    new_rcs.body.update_ARs(
-                        key='%s-[6]' % get_audience_indices(a_items),
-                        targetted_text=obj.description)
-                    new_rcs.body.save()
+                    self.update_ARs(obj, new_rcs)
 
-                    l_variations = obj.variations.filter(field='description')
-                    for lessonvariation in l_variations:
-                        a_keys = lessonvariation.audience.keys()
-                        new_rcs.body.update_ARs(
-                            key='%s-[6]' % get_audience_indices(a_keys),
-                            targetted_text=lessonvariation.variation)
-                        new_rcs.body.save()
                     new_rcs.save()
 
                     item = obj.lessonrelation_set.create(
@@ -453,6 +429,23 @@ class LessonAdmin(ContentAdmin):
     def thumbnail_display(self, obj):
         return obj.thumbnail_html()
     thumbnail_display.allow_tags = True
+
+    def update_ARs(self, obj, rcs):
+        # clear existing, first
+        rcs.body.delete_ARs()
+        # default
+        rcs.body.create_ARs(
+            '%s-[6]' % get_audience_indices(obj.appropriate_for.items()),
+            obj.description)
+        rcs.body.save()
+
+        for lessonvariation in obj.variations.filter(field='description'):
+            a_items = lessonvariation.audience.items()
+            # reading level/ text difficulty 6 = Not Applicable
+            rcs.body.create_ARs(
+                '%s-[6]' % get_audience_indices(a_items),
+                lessonvariation.variation)
+            rcs.body.save()
 
 class TypeAdmin(admin.ModelAdmin):
     search_fields = ['name']
