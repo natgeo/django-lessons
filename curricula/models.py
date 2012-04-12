@@ -123,7 +123,7 @@ class Tip(models.Model):
 class Standard(models.Model):
     definition = models.TextField('Standard text', null=True, blank=True)
     name = models.CharField(max_length=256, null=True, blank=True)
-    standard_type = models.CharField(max_length=14, choices=STANDARD_TYPES)
+    standard_type = models.IntegerField(choices=STANDARD_TYPES)
     state = models.CharField(max_length=2, null=True, blank=True, choices=STATE_CHOICES)
     thinkfinity_code = models.CharField(max_length=100, blank=True, null=True)
     url = models.CharField(max_length=256, null=True, blank=True)
