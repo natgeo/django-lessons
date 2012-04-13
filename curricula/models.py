@@ -506,7 +506,11 @@ Note that the text you input in this form serves as the default text. If you ind
             return None
 
     def thumbnail_html(self):
-        return '<img src="%s"/>' % self.key_image()
+        key_image = self.key_image()
+        if key_image:
+            return '<img src="%s"/>' % self.key_image()
+        else:
+            return None
 
 class LessonRelation(models.Model):
     lesson = models.ForeignKey(Lesson)
