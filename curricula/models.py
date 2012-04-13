@@ -234,24 +234,27 @@ Note that the text you input in this form serves as the default text. If you ind
             return self.activityrelation_set.filter(
                 relation_type=relation_type)
 
-    def key_image(self):
-        app_label, model = KEY_IMAGE[1].split('.')
-        ctype = ContentType.objects.get(app_label=app_label, model=model)
-        ar = self.get_related_content_type(ctype.name)
-        if len(ar) > 0:
-            return ar[0].content_object.thumbnail_url()
-        else:
-            return None
+        def get_content_object(self, field):
+            app_label, model = field[1].split('.')
+            ctype = ContentType.objects.get(app_label=app_label, model=model)
+            ar = self.get_related_content_type(ctype.name)
+            if len(ar) > 0:
+                return ar[0].content_object
+            else:
+                return None
 
-    def resource_carousel(self):
-        app_label, model = RESOURCE_CAROUSEL[1].split('.')
-        ctype = ContentType.objects.get(app_label=app_label, model=model)
-        ar = self.get_related_content_type(ctype.name)
+        def key_image(self):
+            content_object = self.get_content_object(KEY_IMAGE)
+            if content_object:
+                return content_object.thumbnail_url()
+            else:
+                return None
 
-        return ar.content_object.name
+        def resource_carousel(self):
+            return self.get_content_object(RESOURCE_CAROUSEL)
 
-    def thumbnail_html(self):
-        return '<img src="%s"/>' % self.key_image()
+        def thumbnail_html(self):
+            return '<img src="%s"/>' % self.key_image()
 
 class Vocabulary(models.Model):
     activity = models.ForeignKey(Activity)
