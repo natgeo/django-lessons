@@ -149,6 +149,7 @@ Note that the text you input in this form serves as the default text. If you ind
     ads_excluded = models.BooleanField(default=True, verbose_name="Are ads excluded?", help_text="If unchecked, this field indicates that external ads are allowed.")
     assessment = models.TextField(blank=True, null=True)
     assessment_type = models.CharField(max_length=15, blank=True, null=True, choices=ASSESSMENT_TYPES)
+    create_date = models.DateTimeField(auto_now_add=True)
     description = models.TextField()
     duration = models.IntegerField(verbose_name="Duration Minutes")
     extending_the_learning = models.TextField(blank=True, null=True)
