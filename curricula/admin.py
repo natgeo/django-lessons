@@ -431,21 +431,25 @@ class LessonAdmin(ContentAdmin):
     thumbnail_display.allow_tags = True
 
     def update_ARs(self, obj, rcs):
+        unique_indices = []
         # clear existing, first
         rcs.body.delete_ARs()
-        # default
-        rcs.body.create_ARs(
-            '%s-[6]' % get_audience_indices(obj.appropriate_for.items()),
-            obj.description)
-        rcs.body.save()
 
         for lessonvariation in obj.variations.filter(field='description'):
             a_items = lessonvariation.audience.items()
+            audience_indices = get_audience_indices(a_items)
+            unique_indices = list(set(unique_indices + audience_indices))
             # reading level/ text difficulty 6 = Not Applicable
             rcs.body.create_ARs(
-                '%s-[6]' % get_audience_indices(a_items),
+                '%s-[6]' % audience_indices,
                 lessonvariation.variation)
             rcs.body.save()
+        # default
+        audience_indices = get_audience_indices(obj.appropriate_for.items())
+        rcs.body.create_ARs(
+            '%s-[6]' % [i for i in audience_indices if i not in unique_indices],
+            obj.description)
+        rcs.body.save()
 
 class TypeAdmin(admin.ModelAdmin):
     search_fields = ['name']
