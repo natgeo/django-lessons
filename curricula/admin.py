@@ -446,9 +446,9 @@ class LessonAdmin(ContentAdmin):
             rcs.body.save()
         # default
         audience_indices = get_audience_indices(obj.appropriate_for.items())
-        rcs.body.create_ARs(
-            '%s-[6]' % [i for i in audience_indices if i not in unique_indices],
-            obj.description)
+        indices = [i for i in audience_indices if i not in unique_indices]
+        if indices:
+            rcs.body.create_ARs('%s-[6]' % indices, obj.description)
         rcs.body.save()
 
 class TypeAdmin(admin.ModelAdmin):
