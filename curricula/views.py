@@ -13,8 +13,18 @@ def activity_detail(request, slug, preview=False, template_name='curricula/activ
     else:
         activity = get_object_or_404(Activity, slug=slug, published=True)
 
+    audience = None
+    getvars = request.GET.copy()
+    if getvars.has_key('ar_a'):
+        audience = int(getvars['ar_a'])
+    resourceitems = activity.resourceitem_set.all()
+    if audience:
+        resourceitems = [resourceitem for resourceitem in resourceitems
+            if audience in resourceitem.resource.appropriate_for_audience_type_pks]
+
     return render_to_response(template_name, {
         'activity': activity,
+        'resourceitems': resourceitems,
     }, context_instance=RequestContext(request))
 
 def activity_list(request, preview=False, template_name='curricula/activity_list.html'):
