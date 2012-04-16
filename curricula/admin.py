@@ -402,7 +402,7 @@ class LessonAdmin(ContentAdmin):
                     _rctype = ResourceCategoryType.objects.get(name="Websites")
 
                     new_rcs = ResourceCarouselSlide.objects.create(
-                            name="Lesson Overview - %s" % obj.title,
+                            name=truncate("Lesson Overview - %s" % obj.title, 50),
                             title="Lesson Overview",
                             resource_carousel_module_type=rcs_type,
                             resource_category_type=_rctype,
@@ -443,7 +443,6 @@ class LessonAdmin(ContentAdmin):
             rcs.body.create_ARs(
                 '%s-[6]' % audience_indices,
                 lessonvariation.variation)
-            rcs.body.save()
         # default
         audience_indices = get_audience_indices(obj.appropriate_for.items())
         indices = [i for i in audience_indices if i not in unique_indices]
