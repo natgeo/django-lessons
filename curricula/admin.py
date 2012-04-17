@@ -192,6 +192,7 @@ class ContentAdmin(admin.ModelAdmin):
     get_title.short_description = 'Title'
 
 class ActivityAdmin(ContentAdmin):
+    date_hierarchy = 'create_date'
     filter_horizontal = ['eras', 'grades', 'grouping_types', 'materials',
                          'physical_space_types', 'prior_activities', 'skills',
                          'standards', 'subjects', 'teaching_method_types',
@@ -322,6 +323,7 @@ class LessonForm(forms.ModelForm):
         return cleaned_data
 
 class LessonAdmin(ContentAdmin):
+    date_hierarchy = 'create_date'
     filter_horizontal = ['eras', 'materials', 'secondary_content_types']
     if REPORTING_MODEL:
         filter_horizontal += ['reporting_categories']
