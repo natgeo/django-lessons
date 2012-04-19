@@ -151,8 +151,8 @@ class ActivityForm(forms.ModelForm):
     def clean_prior_knowledge(self):
         return self.clean_field('prior_knowledge')
 
-    def clean_reporting_categories(self):
-        return self.clean_field('reporting_categories')
+  # def clean_reporting_categories(self):
+  #     return self.clean_field('reporting_categories')
 
     def clean_skills(self):
         return self.clean_field('skills')
