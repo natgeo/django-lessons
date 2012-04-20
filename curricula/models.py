@@ -261,6 +261,7 @@ class Vocabulary(models.Model):
     glossary_term = models.ForeignKey(GlossaryTerm)
 
     class Meta:
+        ordering = ["glossary_term"]
         verbose_name_plural = 'Vocabulary'
 
     def __unicode__(self):
