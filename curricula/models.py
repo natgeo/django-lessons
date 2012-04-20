@@ -439,6 +439,48 @@ Note that the text you input in this form serves as the default text. If you ind
         deduped_grades = set(grades)
         return list(deduped_grades)
 
+    # copied from education.edu_core.models.BaseGradeMethod
+    @property
+    def get_grades_html(self):
+        grades = self.get_grades()
+        if not grades:
+            return ''
+
+        def gradesDict(grades_list):
+            g = {}
+            special = {'K': 0,
+                       'preschool': -1,
+                       'post-secondary': 13}
+            for item in grades_list:
+                if item.isdigit():
+                    g[item] = int(item)
+                else:
+                    try:
+                        g[item] = special[item]
+                    except KeyError:
+                        pass
+            return g
+
+        min_age = min([grade.min_age for grade in grades])
+        max_age = max([grade.max_age for grade in grades])
+        grades_grad = [x.name if x.name != u'13' else u'13+' for x in grades]
+
+        if 'Unknown' in grades_grad:
+            _grades_html = "<span class='grades'>Grades: Unknown</span><br>Ages: Unknown"
+        elif 'All' in grades_grad:
+            _grades_html = "Grades: All<br>Ages: All"
+        elif grades > 1:
+            gradestuple = sorted(gradesDict(grades_grad).iteritems(),
+                    key=lambda (k, v): (v, k))
+            _grades_html = "<span class='grades'>Grades %s-%s</span><br/>Ages %s-%s" % (
+                    gradestuple[0][0], gradestuple[-1][0],
+                        min_age, max_age) if \
+                    gradestuple[0][0] != gradestuple[-1][0] else \
+                        "Grade %s<br>Age %s" % \
+                        (gradestuple[0][0], min_age)
+
+        return _grades_html
+
     def get_materials(self, activities=None):
         materials = self.materials.all()
 
@@ -501,11 +543,18 @@ Note that the text you input in this form serves as the default text. If you ind
         deduped_subjects = set(subjects)
         return list(deduped_subjects)
 
-    def key_image(self):
+    def get_key_image(self):
         ctype = ContentType.objects.get(app_label='core_media', model='ngphoto')
         lr = self.get_related_content_type(ctype.name)
         if len(lr) > 0:
-            return lr[0].content_object.thumbnail_url()
+            return lr[0].content_object
+        else:
+            return None
+
+    def key_image(self):
+        image = self.get_key_image()
+        if image:
+            return image.thumbnail_url()
         else:
             return None
 
