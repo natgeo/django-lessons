@@ -16,6 +16,7 @@ from utils import truncate, ul_as_list, get_audience_indices
 from widgets import VocabularyIdWidget
 
 from tinymce.widgets import TinyMCE
+from audience.admin import ModelVarationAdmin
 from audience.models import AUDIENCE_FLAGS
 from audience.widgets import AdminBitFieldWidget, bitfield_display
 from bitfield import BitField
@@ -169,7 +170,7 @@ class ActivityForm(forms.ModelForm):
     def clean_teaching_method_types(self):
         return self.clean_field('teaching_method_types')
 
-class ContentAdmin(admin.ModelAdmin):
+class ContentAdmin(ModelVarationAdmin):
     formfield_overrides = {
         BitField: {
             'choices': AUDIENCE_FLAGS,
@@ -208,9 +209,11 @@ class ActivityAdmin(ContentAdmin):
 
     list_display = ('get_title', 'thumbnail_display', 'description', 'pedagogical_purpose_type', 'grade_levels', 'published_date')
     list_filter = ('pedagogical_purpose_type', 'published', 'published_date')
+    object_name = 'activity'
     if CREDIT_MODEL is not None:
         raw_id_fields = ("credit",)
     search_fields = ['title', 'subtitle_guiding_question', 'description', 'id_number']
+    varying_fields = ('assessment', 'background_information', 'description', 'extending_the_learning', 'subtitle_guiding_question', 'title', 'directions', 'learning_objectives', 'prior_knowledge')
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = [
@@ -334,9 +337,11 @@ class LessonAdmin(ContentAdmin):
         inlines = [ActivityInline,]
     list_display = ('get_title', 'thumbnail_display', 'get_description', 'appropriate_display', 'published_date')
     list_filter = ('published_date', 'published')
+    object_name = 'lesson'
     if CREDIT_MODEL is not None:
         raw_id_fields = ("credit",)
     search_fields = ['title', 'description', 'id_number']
+    varying_fields = ('title', 'subtitle_guiding_question', 'description', 'directions', 'assessment', 'learning_objectives', 'background_information', 'prior_knowledge')
 
     def appropriate_display(self, obj):
         return bitfield_display(obj.appropriate_for)
@@ -465,7 +470,7 @@ class StandardAdmin(admin.ModelAdmin):
         return obj.grades.all().as_grade_range()
     grade_levels.short_description = 'Grades'
 
-class TipAdmin(admin.ModelAdmin):
+class TipAdmin(ModelVarationAdmin):
     formfield_overrides = {
         BitField: {
             'choices': AUDIENCE_FLAGS,
@@ -474,7 +479,9 @@ class TipAdmin(admin.ModelAdmin):
     }
     list_display = ('body_display', 'tip_type', 'appropriate_display')
     list_filter = ('tip_type',)
+    object_name = 'tip'
     search_fields = ['body', 'id_number']
+    varying_fields = ('body',)
 
     class Media:
         css = {'all': ('/media/static/audience/bitfield.css',)}
