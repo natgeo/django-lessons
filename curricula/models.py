@@ -26,6 +26,7 @@ if CREDIT_MODEL is not None:
 if REPORTING_MODEL is not None:
     ReportingModel = get_model(*REPORTING_MODEL.split('.'))
 
+
 try:
     from education.edu_core.models import GlossaryTerm, Resource, ResourceCarouselSlide
 except ImportError:

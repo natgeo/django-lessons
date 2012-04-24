@@ -6,6 +6,7 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 
 from settings import RELATION_MODELS, KEY_IMAGE, RC_SLIDE
 from curricula.models import Activity, Lesson
+from curricula.utils import activities_info
 
 def activity_detail(request, slug, preview=False, template_name='curricula/activity_detail.html'):
     if preview:
@@ -71,8 +72,20 @@ def lesson_detail(request, slug, preview=False, template_name='curricula/lesson_
         related_ctypes = lesson.get_related_content_type(name)
         if len(related_ctypes) > 0:
             context[name] = related_ctypes[0].content_object
-
+    
+    activity_ids = ",".join([str(x.id) for x in activities])
+    activity_info = activities_info(activity_ids)
+    context.update(activity_info)
     return render_to_response(template_name, context, context_instance=RequestContext(request))
+
+def activity_info(request, ids):
+    """
+    Return a json serialized datastream of activity infomation based on the 
+    requested id combination.
+    """
+    from curricula.utils import activities_info
+    result = simplejson.dumps(activities_info(ids))
+    return HttpResponse(result, mimetype="text/javascript")
 
 def background_information(request, id):
     lesson = get_object_or_404(Lesson, id=id)
