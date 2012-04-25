@@ -16,11 +16,20 @@ from utils import truncate, ul_as_list, get_audience_indices
 from widgets import VocabularyIdWidget
 
 from tinymce.widgets import TinyMCE
-from audience.admin import ModelVarationAdmin
 from audience.models import AUDIENCE_FLAGS
-from audience.widgets import AdminBitFieldWidget, bitfield_display
+from audience.widgets import AdminBitFieldWidget, bitfield_display, VariationWidgetWrapper
 from bitfield import BitField
 from concepts.admin import ConceptItemInline
+
+TINYMCE_FIELDS = ('description', 'assessment', 'learning_objectives', 'other_notes', 'background_information')
+ACTIVITY_TINYMCE_FIELDS = TINYMCE_FIELDS + ('extending_the_learning', 'setup', 'accessibility_notes', 'prior_knowledge')
+LESSON_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle_guiding_question',)
+
+MCE_SIMPLE_ATTRS = {
+    'plugins': "rawmode,paste",
+    'theme_advanced_buttons1': "pasteword,|,bold,underline,italic,strikethrough,|,link,unlink,|,numlist,bullist,|,charmap,|,rawmode",
+    'theme_advanced_buttons2': "",
+}
 
 ACTIVITY_FIELDS = []
 if KEY_IMAGE is not None:
@@ -170,7 +179,7 @@ class ActivityForm(forms.ModelForm):
     def clean_teaching_method_types(self):
         return self.clean_field('teaching_method_types')
 
-class ContentAdmin(ModelVarationAdmin):
+class ContentAdmin(admin.ModelAdmin):
     formfield_overrides = {
         BitField: {
             'choices': AUDIENCE_FLAGS,
@@ -214,6 +223,38 @@ class ActivityAdmin(ContentAdmin):
         raw_id_fields = ("credit",)
     search_fields = ['title', 'subtitle_guiding_question', 'description', 'id_number']
     varying_fields = ('assessment', 'background_information', 'description', 'extending_the_learning', 'subtitle_guiding_question', 'title', 'directions', 'learning_objectives', 'prior_knowledge')
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super(ActivityAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name in ACTIVITY_TINYMCE_FIELDS:
+            formfield.widget = TinyMCE(mce_attrs=MCE_SIMPLE_ATTRS)
+        elif db_field.name == 'subtitle_guiding_question':
+            formfield.widget = TinyMCE(mce_attrs={
+               'plugins': "rawmode,paste",
+               'theme_advanced_buttons1': "pasteword,|,bold,underline,italic,strikethrough,|,link,unlink,|,numlist,bullist,|,charmap,|,rawmode",
+               'theme_advanced_buttons2': "",
+               'height': "150",
+            })
+        elif db_field.name == 'directions':
+            formfield.widget = TinyMCE(mce_attrs={
+                "content_css": "/media/static/sites/education/c/glossary_term.css",
+                'theme_advanced_buttons1': 'glossify, fullscreen,preview,code,print,spellchecker,|,cut,copy,paste,pastetext,pasteword,undo,redo,|,search,replace,|,rawmode',
+                'setup': 'add_button_callback',
+            })
+
+        if db_field.name in self.varying_fields:
+            request = kwargs.get('request', None)
+            if request:
+                obj_id = request.path.split('/')[-2]
+                if not obj_id.isdigit():
+                    obj_id = None
+            else:
+                obj_id = None
+            formfield.widget = VariationWidgetWrapper(formfield.widget,
+                self.admin_site, obj_id=obj_id, field=db_field.name,
+                object_name=self.object_name)
+
+        return formfield
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = [
@@ -348,6 +389,24 @@ class LessonAdmin(ContentAdmin):
     appropriate_display.short_description = 'Appropriate For'
     appropriate_display.allow_tags = True
 
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super(LessonAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name in LESSON_TINYMCE_FIELDS:
+            formfield.widget = TinyMCE(mce_attrs=MCE_SIMPLE_ATTRS)
+        if db_field.name in self.varying_fields:
+            request = kwargs.get('request', None)
+            if request:
+                obj_id = request.path.split('/')[-2]
+                if not obj_id.isdigit():
+                    obj_id = None
+            else:
+                obj_id = None
+            formfield.widget = VariationWidgetWrapper(formfield.widget,
+                self.admin_site, obj_id=obj_id, field=db_field.name,
+                object_name=self.object_name)
+
+        return formfield
+
     def get_description(self, obj):
         return truncate(strip_tags(obj.description), 180)
     get_description.short_description = 'Description'
@@ -470,7 +529,7 @@ class StandardAdmin(admin.ModelAdmin):
         return obj.grades.all().as_grade_range()
     grade_levels.short_description = 'Grades'
 
-class TipAdmin(ModelVarationAdmin):
+class TipAdmin(admin.ModelAdmin):
     formfield_overrides = {
         BitField: {
             'choices': AUDIENCE_FLAGS,
@@ -496,6 +555,24 @@ class TipAdmin(ModelVarationAdmin):
     def body_display(self, obj):
         return truncate(strip_tags(obj.body), 90)
     body_display.short_description = 'Body'
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super(TipAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == 'body':
+            formfield.widget = TinyMCE()
+        if db_field.name in self.varying_fields:
+            request = kwargs.get('request', None)
+            if request:
+                obj_id = request.path.split('/')[-2]
+                if not obj_id.isdigit():
+                    obj_id = None
+            else:
+                obj_id = None
+            formfield.widget = VariationWidgetWrapper(formfield.widget,
+                self.admin_site, obj_id=obj_id, field=db_field.name,
+                object_name=self.object_name)
+
+        return formfield
 
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(GroupingType)

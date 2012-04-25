@@ -5,3 +5,4 @@ django-categories>=1.0.2
 django-concepts>=0.3.1
 django-edumetadata>=0.4
 # django-publisher==0.1
+django-tinymce
