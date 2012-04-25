@@ -41,7 +41,7 @@ urlpatterns = patterns('',
         {'template_name': 'curricula/lesson_detail.html'}, 
         name='lesson-detail'
     ),
-    url(r'activity_info/(?P<ids>/+)$',
+    url(r'activity_info/(?P<ids>.+)$',
         'activity_info',
         name='activity-info'),
 )
