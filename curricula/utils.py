@@ -38,6 +38,12 @@ def activities_info(ids):
                                   TechSetupType, PhysicalSpaceType, GroupingType, 
                                   GlossaryTerm, ResourceItem)
     
+    from concepts.models import Concept, ConceptItem
+    from django.contrib.contenttypes.models import ContentType
+    from django.db.models import Avg
+    
+    ctype = ContentType.objects.get_for_model(Activity)
+    
     act_ids = [int(x) for x in ids.split(',')]
     activities = Activity.objects.filter(id__in=act_ids) #, published=True)
     subjects = set()
@@ -61,6 +67,18 @@ def activities_info(ids):
     prior_act = set()
     glossary = set()
     further_expl = set()
+    
+    # we can't get the related fields using values querysets in this version
+    # of Django. Instead, we'll query them separately and replace the id
+    # with the tag information we need
+    items = ConceptItem.objects.filter(content_type=ctype, object_id__in=act_ids)
+    concepts = items.values('tag').annotate(avg_weight=Avg('weight'))
+    con_ids = [x['tag'] for x in concepts]
+    tags = Concept.objects.filter(id__in=con_ids).values('id', 'name', 'url')
+    tag_dict = dict((x['id'], x) for x in tags)
+    for tag in concepts:
+        tag['tag'] = tag_dict[tag['tag']]
+    print concepts
     for activity in activities:
         subjects |= set(activity.subjects.values_list('id', flat=True))
         teach_approach |= set(activity.teaching_approaches.values_list('id', flat=True))
