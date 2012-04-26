@@ -72,13 +72,13 @@ def activities_info(ids):
     # of Django. Instead, we'll query them separately and replace the id
     # with the tag information we need
     items = ConceptItem.objects.filter(content_type=ctype, object_id__in=act_ids)
-    concepts = items.values('tag').annotate(avg_weight=Avg('weight'))
+    concepts = list(items.values('tag').annotate(avg_weight=Avg('weight')).order_by('tag').distinct())
     con_ids = [x['tag'] for x in concepts]
     tags = Concept.objects.filter(id__in=con_ids).values('id', 'name', 'url')
     tag_dict = dict((x['id'], x) for x in tags)
     for tag in concepts:
         tag['tag'] = tag_dict[tag['tag']]
-    print concepts
+        tag['weight'] = int(round(tag['avg_weight']/5.0)*5)
     for activity in activities:
         subjects |= set(activity.subjects.values_list('id', flat=True))
         teach_approach |= set(activity.teaching_approaches.values_list('id', flat=True))
@@ -156,8 +156,9 @@ def activities_info(ids):
     
     ctxt = {'objects': ResourceItem.objects.select_related().filter(id__in=list(further_expl))}
     output['further_exploration'] = render_to_string('includes/further_exploration_list.html', ctxt)
+    ctxt = {'key_concepts': concepts}
+    output['key_concepts'] = render_to_string('includes/key_concepts_list.html', ctxt)
     
     # We'll keep resources as is, and call the javascript to render it.
     output['resources'] = resources
-    
     return output
