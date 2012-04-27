@@ -113,6 +113,7 @@ class Tip(models.Model):
 
     class Meta:
         ordering = ["category", "body"]
+        verbose_name_plural = "Tips & Modifications"
 
     def __unicode__(self):
         if self.category:
