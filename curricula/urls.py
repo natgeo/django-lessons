@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from .models import Activity, Lesson
 
 urlpatterns = patterns('curricula.views',
     url(r'objectives/(?P<id>\d+)/$', 
@@ -18,4 +19,27 @@ urlpatterns = patterns('curricula.views',
     url(r'get_breakout_terms/(?P<id>\d+)/$', 
         'get_breakout_terms',
         name='get-breakout-terms'),
+    url(r'^activity/$', 
+        'django.views.generic.list_detail.object_list', 
+        {'template_name': 'curricula/activity_list.html',
+         'queryset': Activity.objects.filter(published=True),},
+        name="activity-list",
+    ),
+    url(r'^activity/(?P<slug>[-\w]*)/$', 
+        'curricula.views.activity_detail', 
+        {'template_name': 'curricula/activity_detail.html'}, 
+        name='activity-detail'
+    ),
+    url(r'^lesson/$', 
+        'django.views.generic.list_detail.object_list', 
+        {'template_name': 'curricula/lesson_list.html',
+         'queryset': Lesson.objects.filter(published=True),},
+        name="lesson-list",
+    ),
+    url(r'^lesson/(?P<slug>[-\w]*)/$', 
+        'curricula.views.lesson_detail', 
+        {'template_name': 'curricula/lesson_detail.html'}, 
+        name='lesson-detail'
+    ),
+    
 )
