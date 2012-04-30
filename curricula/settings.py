@@ -42,6 +42,7 @@ DEFAULT_SETTINGS = {
         (9, 'Ocean Literacy Essential Principles and Fundamental Concepts'),
         (10, 'TEST: State Standards'),
         (11, 'Voluntary National Content Standards in Economics'),
+        (12, 'Common Core State Standards for English Language Arts'),
     ),
     'JAVASCRIPT_URL': settings.MEDIA_URL + 'js/',
     'CREDIT_MODEL': None,
