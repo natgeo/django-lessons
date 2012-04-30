@@ -214,8 +214,8 @@ Note that the text you input in this form serves as the default text. If you ind
     objects = ContentManager()
 
     @models.permalink
-    def get_absolute_url():
-        return ('activity-detail', self.slug)
+    def get_absolute_url(self):
+        return ('activity-detail', (), {'slug': self.slug})
     
     def __unicode__(self):
         return strip_tags(self.title)
@@ -365,8 +365,8 @@ Note that the text you input in this form serves as the default text. If you ind
     objects = ContentManager()
 
     @models.permalink
-    def get_absolute_url():
-        return ('lesson-detail', self.slug)
+    def get_absolute_url(self):
+        return ('lesson-detail', (), {'slug': self.slug})
 
     def __unicode__(self):
         return strip_tags(self.title)
