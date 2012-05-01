@@ -140,7 +140,7 @@ def activities_info(ids):
     output['skills'] = render_to_string('includes/tree_list.html', ctxt)
     
     ctxt = {'activities': Activity.objects.filter(id__in=list(prior_act)).values("slug", "title")}
-    output['prior_activities'] = render_to_string("includes/prior_activities.html")
+    output['prior_activities'] = render_to_string("includes/prior_activities.html", ctxt)
     
     ctxt = {'objects': Standard.objects.filter(id__in=list(standards))}
     output['standards'] = render_to_string('includes/standards.html', ctxt)
