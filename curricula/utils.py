@@ -113,8 +113,14 @@ def activities_info(ids):
     li_template = "<li>%s</li>"
     
     output['teaching_approaches'] = "".join([li_template % x for x in TeachingApproach.objects.filter(id__in=list(teach_approach)).values_list('name', flat=True)])
+    if output['teaching_approaches'] == "":
+        output['teaching_approaches'] = li_template % "None"
     output['teaching_methods'] = "".join([li_template % x for x in TeachingMethodType.objects.filter(id__in=list(teach_meth)).values_list('name', flat=True)])
+    if output['teaching_methods'] == "":
+        output['teaching_methods'] = li_template % "None"
     output['materials'] = "".join([li_template % x for x in Material.objects.filter(id__in=list(materials)).values_list('name', flat=True)])
+    if output['materials'] == "":
+        output['materials'] = li_template % "None"
     output['required_tech'] = ""
     if inet_access:
         output['required_tech'] += "<li>Internet access: %s</li>" % dict(INTERNET_ACCESS_TYPES)[inet_access]
@@ -125,10 +131,20 @@ def activities_info(ids):
     if pis:
         output['required_tech'] += "<li>Plug-Ins: %s</li>" % ", ".join(pis)
     output['physical_space'] = "".join([li_template % x for x in PhysicalSpaceType.objects.filter(id__in=list(phys_space)).values_list('name', flat=True)])
+    if output['physical_space'] == "":
+        output['physical_space'] = li_template % "None"
     output['setup'] = "".join(setup)
+    if output['setup'] == "":
+        output['setup'] = "<ul><li>None</li></ul>"
     output['grouping'] = "".join([li_template % x for x in GroupingType.objects.filter(id__in=list(grouping)).values_list('name', flat=True)])
+    if output['grouping'] == "":
+        output['grouping'] = li_template % "None"
     output['accessibility_notes'] = "".join(access_notes)
+    if output['accessibility_notes'] == "":
+        output['accessibility_notes'] = "<ul><li>None</li></ul>"
     output['other_notes'] = "".join(other)
+    if output['other_notes'] == "":
+        output['other_notes'] = "<ul><li>None</li></ul>"
     prior_knowledge.discard(u'<ul>\r\n<li>None</li>\r\n</ul>')
     output['prior_knowledge'] = "".join(prior_knowledge)
     
