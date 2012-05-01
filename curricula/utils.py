@@ -129,6 +129,7 @@ def activities_info(ids):
     output['grouping'] = "".join([li_template % x for x in GroupingType.objects.filter(id__in=list(grouping)).values_list('name', flat=True)])
     output['accessibility_notes'] = "".join(access_notes)
     output['other_notes'] = "".join(other)
+    prior_knowledge.discard(u'<ul>\r\n<li>None</li>\r\n</ul>')
     output['prior_knowledge'] = "".join(prior_knowledge)
     
     # these are complex and require rendering
