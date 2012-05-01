@@ -147,6 +147,8 @@ def activities_info(ids):
         output['other_notes'] = "<ul><li>None</li></ul>"
     prior_knowledge.discard(u'<ul>\r\n<li>None</li>\r\n</ul>')
     output['prior_knowledge'] = "".join(prior_knowledge)
+    if output['prior_knowledge'] == "":
+        output['prior_knowledge'] = "<ul><li>None</li></ul>"
     
     # these are complex and require rendering
     ctxt = {'objects': Subject.objects.filter(id__in=list(subjects))}
