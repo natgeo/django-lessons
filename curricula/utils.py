@@ -36,7 +36,7 @@ def activities_info(ids):
     from curricula.models import (Activity, TeachingApproach, TeachingMethodType, 
                                   Standard, Material, Skill, PluginType, 
                                   TechSetupType, PhysicalSpaceType, GroupingType, 
-                                  GlossaryTerm, ResourceItem)
+                                  GlossaryTerm, ResourceItem, Resource)
     
     from concepts.models import Concept, ConceptItem
     from django.contrib.contenttypes.models import ContentType
@@ -173,7 +173,7 @@ def activities_info(ids):
         ctxt['objects'].append(item)
     output['glossary'] = render_to_string('includes/vocabulary_list.html', ctxt)
     
-    ctxt = {'objects': ResourceItem.objects.select_related().filter(id__in=list(further_expl))}
+    ctxt = {'objects': Resource.objects.select_related().filter(id__in=list(further_expl))}
     output['further_exploration'] = render_to_string('includes/further_exploration_list.html', ctxt)
     ctxt = {'key_concepts': concepts}
     output['key_concepts'] = render_to_string('includes/key_concepts_list.html', ctxt)
