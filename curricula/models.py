@@ -39,6 +39,45 @@ except ImportError:
     class ResourceCarouselSlide(models.Model):
         name = models.CharField(max_length=128)
 
+def grades_html(grades):
+    if not grades:
+        return ''
+
+    def gradesDict(grades_list):
+        g = {}
+        special = {'K': 0,
+                   'preschool': -1,
+                   'post-secondary': 13}
+        for item in grades_list:
+            if item.isdigit():
+                g[item] = int(item)
+            else:
+                try:
+                    g[item] = special[item]
+                except KeyError:
+                    pass
+        return g
+
+    min_age = min([grade.min_age for grade in grades])
+    max_age = max([grade.max_age for grade in grades])
+    grades_grad = [x.name if x.name != u'13' else u'13+' for x in grades]
+
+    if 'Unknown' in grades_grad:
+        _grades_html = "<span class='grades'>Grades: Unknown</span><br>Ages: Unknown"
+    elif 'All' in grades_grad:
+        _grades_html = "Grades: All<br>Ages: All"
+    elif grades > 1:
+        gradestuple = sorted(gradesDict(grades_grad).iteritems(),
+                key=lambda (k, v): (v, k))
+        _grades_html = "<span class='grades'>Grades %s-%s</span><br/>Ages %s-%s" % (
+                gradestuple[0][0], gradestuple[-1][0],
+                    min_age, max_age) if \
+                gradestuple[0][0] != gradestuple[-1][0] else \
+                    "Grade %s<br>Age %s" % \
+                    (gradestuple[0][0], min_age)
+
+    return _grades_html
+
 class TypeModel(models.Model):
     name = models.CharField(max_length=128)
 
@@ -223,6 +262,10 @@ Note that the text you input in this form serves as the default text. If you ind
     class Meta:
         ordering = ["title"]
         verbose_name_plural = 'Activities'
+
+    @property
+    def get_grades_html(self):
+        return grades_html(self.grades.all())
 
     if RELATION_MODELS:
         def get_related_content_type(self, content_type):
@@ -451,44 +494,7 @@ Note that the text you input in this form serves as the default text. If you ind
     # copied from education.edu_core.models.BaseGradeMethod
     @property
     def get_grades_html(self):
-        grades = self.get_grades()
-        if not grades:
-            return ''
-
-        def gradesDict(grades_list):
-            g = {}
-            special = {'K': 0,
-                       'preschool': -1,
-                       'post-secondary': 13}
-            for item in grades_list:
-                if item.isdigit():
-                    g[item] = int(item)
-                else:
-                    try:
-                        g[item] = special[item]
-                    except KeyError:
-                        pass
-            return g
-
-        min_age = min([grade.min_age for grade in grades])
-        max_age = max([grade.max_age for grade in grades])
-        grades_grad = [x.name if x.name != u'13' else u'13+' for x in grades]
-
-        if 'Unknown' in grades_grad:
-            _grades_html = "<span class='grades'>Grades: Unknown</span><br>Ages: Unknown"
-        elif 'All' in grades_grad:
-            _grades_html = "Grades: All<br>Ages: All"
-        elif grades > 1:
-            gradestuple = sorted(gradesDict(grades_grad).iteritems(),
-                    key=lambda (k, v): (v, k))
-            _grades_html = "<span class='grades'>Grades %s-%s</span><br/>Ages %s-%s" % (
-                    gradestuple[0][0], gradestuple[-1][0],
-                        min_age, max_age) if \
-                    gradestuple[0][0] != gradestuple[-1][0] else \
-                        "Grade %s<br>Age %s" % \
-                        (gradestuple[0][0], min_age)
-
-        return _grades_html
+        return grades_html(self.get_grades())
 
     def get_materials(self, activities=None):
         materials = self.materials.all()
