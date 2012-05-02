@@ -6,7 +6,7 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 
 from settings import RELATION_MODELS, KEY_IMAGE, RC_SLIDE
 from curricula.models import Activity, Lesson
-from curricula.utils import activities_info
+from curricula.utils import activities_info, tags_for_activities
 
 def activity_detail(request, slug, preview=False, template_name='curricula/activity_detail.html'):
     if preview:
@@ -75,6 +75,7 @@ def lesson_detail(request, slug, preview=False, template_name='curricula/lesson_
     
     activity_ids = ",".join([str(x.id) for x in activities])
     activity_info = activities_info(activity_ids)
+    activity_info['tags'] = tags_for_activities(activity_ids)
     context.update(activity_info)
     return render_to_response(template_name, context, context_instance=RequestContext(request))
 

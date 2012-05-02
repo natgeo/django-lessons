@@ -29,6 +29,21 @@ def get_audience_indices(items):
     return [get_audience_index(item[0]) for item in items if item[1]]
 
 
+def tags_for_activities(ids):
+    """
+    De-duplicate tags on a comma-delimited list of activity ids
+    """
+    from concepts.models import Concept, ConceptItem
+    from curricula.models import Activity
+    from django.contrib.contenttypes.models import ContentType
+    
+    ctype = ContentType.objects.get_for_model(Activity)
+    act_ids = [int(x) for x in ids.split(',')]
+    
+    con_ids = ConceptItem.objects.filter(content_type=ctype, object_id__in=act_ids).values_list('tag', flat=True)
+    return Concept.objects.filter(id__in=con_ids)
+
+
 def activities_info(ids):
     """
     De-duplicate and aggregate fields on a comma-delimited list of activity ids
