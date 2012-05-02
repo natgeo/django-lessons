@@ -291,8 +291,11 @@ Note that the text you input in this form serves as the default text. If you ind
             else:
                 return None
 
+        def get_key_image(self):
+            return self.get_content_object(KEY_IMAGE)
+
         def key_image(self):
-            content_object = self.get_content_object(KEY_IMAGE)
+            content_object = self.get_key_image()
             if content_object:
                 return content_object.thumbnail_url()
             else:
