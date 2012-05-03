@@ -59,7 +59,7 @@ def lesson_detail(request, slug, preview=False, template_name='curricula/lesson_
         if preview:
             activities = lesson.get_activities()
         else:
-            activities = lesson.get_activities({'published': True})
+            activities = lesson.get_activities({'activity__published': True})
 
     context = {
         'lesson': lesson,
