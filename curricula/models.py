@@ -393,8 +393,14 @@ Note that the text you input in this form serves as the default text. If you ind
             return self.lessonrelation_set.filter(
                 relation_type=relation_type)
 
-    def get_activities(self):
-        return [lessonactivity.activity for lessonactivity in self.lessonactivity_set.all()]
+    def get_activities(self, filter=None):
+        """
+        filter should be a dictionary for lookups
+        """
+        if filter is None:
+            return [lessonactivity.activity for lessonactivity in self.lessonactivity_set.all()]
+        else:
+            return [lessonactivity.activity for lessonactivity in self.lessonactivity_set.filter(**filter)]
 
     def get_accessibility(self, activities=None):
         accessibility_notes = []

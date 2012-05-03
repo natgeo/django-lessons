@@ -33,6 +33,7 @@ def activity_detail(request, slug, preview=False, template_name='curricula/activ
         'activity': activity,
         'resourceitems': resourceitems,
         'credit_details': credit_details,
+        'preview': preview,
     }, context_instance=RequestContext(request))
 
 def activity_list(request, preview=False, template_name='curricula/activity_list.html'):
@@ -55,11 +56,15 @@ def lesson_detail(request, slug, preview=False, template_name='curricula/lesson_
     if getvars.has_key('activities'):
         activities = getvars['activities']
     else:
-        activities = lesson.get_activities()
+        if preview:
+            activities = lesson.get_activities()
+        else:
+            activities = lesson.get_activities({'published': True})
 
     context = {
         'lesson': lesson,
         'activities': activities,
+        'preview': preview,
     }
 
     for field in (KEY_IMAGE, RC_SLIDE):
