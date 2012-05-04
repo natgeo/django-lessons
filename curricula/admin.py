@@ -106,7 +106,7 @@ class ActivityForm(forms.ModelForm):
             field_name = field[0]
             model = get_model(*field[1].split('.'))
             # ctype = ContentType.objects.get(app_label=app_label, model=model)
-            self.fields[field_name] = forms.ModelChoiceField(queryset=model.objects.all(), widget=forms.TextInput)
+            self.fields[field_name] = forms.ModelChoiceField(queryset=model.objects.all(), widget=forms.TextInput, required=False)
             # for existing lessons, initialize the fields
             if kwargs.has_key('instance'):
                 objects = kwargs['instance'].activityrelation_set.filter(relation_type=field_name)
@@ -299,14 +299,20 @@ class ActivityAdmin(ContentAdmin):
         super(ActivityAdmin, self).save_model(request, obj, form, change, *args, **kwargs)
         
         for field, model in ACTIVITY_FIELDS:
-            try:
-                item = obj.activityrelation_set.get(relation_type=field)
-                item.object_id = form[field].data
-                item.save()
-            except ActivityRelation.DoesNotExist:
-                app_label, model = model.split('.')
-                ctype = ContentType.objects.get(app_label=app_label, model=model)
-                item = obj.activityrelation_set.create(relation_type=field, object_id=form[field].data, content_type_id=ctype.id)
+            if form[field].data == None or form[field].data == '':
+                # user cleared the field
+                items = obj.activityrelation_set.filter(relation_type=field)
+                if len(items) > 0:
+                    items[0].delete()
+            else:
+                try:
+                    item = obj.activityrelation_set.get(relation_type=field)
+                    item.object_id = form[field].data
+                    item.save()
+                except ActivityRelation.DoesNotExist:
+                    app_label, model = model.split('.')
+                    ctype = ContentType.objects.get(app_label=app_label, model=model)
+                    item = obj.activityrelation_set.create(relation_type=field, object_id=form[field].data, content_type_id=ctype.id)
 
     def thumbnail_display(self, obj):
         return obj.thumbnail_html()
