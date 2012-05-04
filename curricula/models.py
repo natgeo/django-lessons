@@ -201,7 +201,7 @@ Note that the text you input in this form serves as the default text. If you ind
     pedagogical_purpose_type = models.SmallIntegerField(blank=True, null=True, choices=PEDAGOGICAL_PURPOSE_TYPE_CHOICES)
     published = models.BooleanField()
     published_date = models.DateTimeField(blank=True, null=True)
-    slug = models.SlugField(unique=True, help_text="The URL slug is auto-generated, but producers should adjust it if: a) punctuation in the title causes display errors; and/or b) the title changes after the slug has been generated.")
+    slug = models.SlugField(unique=True, max_length=100, help_text="The URL slug is auto-generated, but producers should adjust it if: a) punctuation in the title causes display errors; and/or b) the title changes after the slug has been generated.")
     standards = models.ManyToManyField(Standard, blank=True, null=True)
     subjects = models.ManyToManyField(Subject, blank=True, null=True, limit_choices_to={'parent__isnull': False}, verbose_name="Subjects and Disciplines")
     subtitle_guiding_question = models.TextField(verbose_name="Subtitle or Guiding Question")
