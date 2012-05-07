@@ -1,5 +1,6 @@
 #--extra-index-url http://callowayproject.com/pypi/
 BeautifulSoup
+South==0.7.3
 django-audience>=0.5.3
 django-categories>=1.0.2
 django-concepts>=0.3.1

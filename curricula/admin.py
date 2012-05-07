@@ -478,7 +478,7 @@ class LessonAdmin(ContentAdmin):
                             title="Lesson Overview",
                             resource_carousel_module_type=rcs_type,
                             resource_category_type=_rctype,
-                            label="Lesson Overview",
+                            label="Lesson OVERVIEW",
                             duration_minutes=obj.get_duration())
 
                     self.update_ARs(obj, new_rcs)

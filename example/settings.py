@@ -90,7 +90,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
   # 'django.contrib.messages',
-  # 'south',
+    'south',
     'tinymce',
     'categories',
     'categories.editor',
