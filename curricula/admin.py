@@ -48,6 +48,9 @@ except ImportError:
     class ResourceCategoryType(models.Model):
         name = models.CharField(max_length=128)
 
+def rcs_name(title):
+    return truncate("Lesson Overview - %s" % obj.title, 47)
+
 class TagInline(ConceptItemInline):
     extra = 10
 
@@ -460,7 +463,7 @@ class LessonAdmin(ContentAdmin):
                     item = obj.lessonrelation_set.get(relation_type=field)
 
                     rcs = item.content_object
-                    rcs.name = "Lesson Overview - %s" % obj.title
+                    rcs.name = rcs_name(obj.title)
 
                     self.update_ARs(obj, rcs)
 
@@ -474,7 +477,7 @@ class LessonAdmin(ContentAdmin):
                     _rctype = ResourceCategoryType.objects.get(name="Websites")
 
                     new_rcs = ResourceCarouselSlide.objects.create(
-                            name=truncate("Lesson Overview - %s" % obj.title, 50),
+                            name=rcs_name(obj.title),
                             title="Lesson Overview",
                             resource_carousel_module_type=rcs_type,
                             resource_category_type=_rctype,
