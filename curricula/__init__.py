@@ -3,10 +3,10 @@ django-lessons
 """
 __version_info__ = {
     'major': 1,
-    'minor': 1,
-    'micro': 19,
+    'minor': 2,
+    'micro': 1,
     'releaselevel': 'final',
-    'serial': 15,
+    'serial': 1,
 }
 
 def get_version():

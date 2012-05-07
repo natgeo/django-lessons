@@ -158,8 +158,8 @@ def activities_info(ids):
     if output['accessibility_notes'] == "":
         output['accessibility_notes'] = "<ul><li>None</li></ul>"
     output['other_notes'] = "".join(other)
-    if output['other_notes'] == "":
-        output['other_notes'] = "<ul><li>None</li></ul>"
+    # if output['other_notes'] == "":
+    #     output['other_notes'] = "<ul><li>None</li></ul>"
     prior_knowledge.discard(u'<ul>\r\n<li>None</li>\r\n</ul>')
     output['prior_knowledge'] = "".join(prior_knowledge)
     if output['prior_knowledge'] == "":
