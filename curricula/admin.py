@@ -193,12 +193,16 @@ class ContentAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
     class Media:
-        css = {'all': ('/media/static/audience/bitfield.css',)}
+        css = {'all': (settings.STATIC_URL + 'audience/bitfield.css',
+                       settings.STATIC_URL + 'css/dynamic_inlines_with_sort.css')}
         js = ('/media/static/audience/bitfield.js',
               JAVASCRIPT_URL + 'jquery-1.7.1.min.js',
               JAVASCRIPT_URL + 'genericcollections.js',
               JAVASCRIPT_URL + 'admin.js',
-              JAVASCRIPT_URL + 'sectioned_tinymce_widget.js')
+              JAVASCRIPT_URL + 'sectioned_tinymce_widget.js',
+              settings.STATIC_URL + 'js_scss/libs/jquery.ui.core.min.js',
+              settings.STATIC_URL + 'js_scss/libs/jquery.ui.sortable.min.js',
+              JAVASCRIPT_URL + 'dynamic_inlines_with_sort.js',)
 
     def get_title(self, obj):
         return strip_tags(obj.title)
