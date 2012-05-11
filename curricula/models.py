@@ -264,9 +264,42 @@ Note that the text you input in this form serves as the default text. If you ind
         ordering = ["title"]
         verbose_name_plural = 'Activities'
 
+    def get_grades_and_ages(self):
+        grades = self.grades.all()
+        return (grades.as_grade_range(), grades.as_age_range())
+
     @property
     def get_grades_html(self):
         return grades_html(self.grades.all())
+
+    @property
+    def get_grades_range(self):
+        grades = self.grades.all()
+        if not grades:
+            return ''
+        def gradesDict(grades_list):
+            g = {}
+            special = {'K': 0,
+                       'preschool': -1,
+                       'post-secondary': 13}
+            for item in grades_list:
+                if item.isdigit():
+                    g[item] = int(item)
+                else:
+                    try:
+                        g[item] = special[item]
+                    except KeyError:
+                        pass
+            return g
+
+        grades_grad = [x.name if x.name != u'13' else u'13+' for x in grades]
+        if 'Unknown' in grades_grad:
+            _grades_html = "<span class='grades'>Grades: Unknown</span>"
+        elif 'All' in grades_grad:
+            _grades_html = "Grades: All"
+        elif grades > 1:
+            _grades_html = "<span class='grades'>Grades %s-%s</span>" % (grades_grad[0], grades_grad[-1])
+        return _grades_html
 
     if RELATION_MODELS:
         def get_related_content_type(self, content_type):
