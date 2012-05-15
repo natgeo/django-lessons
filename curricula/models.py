@@ -534,6 +534,14 @@ Note that the text you input in this form serves as the default text. If you ind
         deduped_grades = set(grades)
         return list(deduped_grades)
 
+    def get_grades_and_ages(self):
+        grades = Grade.objects.none()
+
+        for activity in self.get_activities():
+            grades |= activity.grades.all()
+
+        return (grades.as_grade_range(), grades.as_age_range())
+
     # copied from education.edu_core.models.BaseGradeMethod
     @property
     def get_grades_html(self):
