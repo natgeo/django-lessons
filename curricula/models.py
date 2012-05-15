@@ -301,6 +301,13 @@ Note that the text you input in this form serves as the default text. If you ind
             _grades_html = "<span class='grades'>Grades %s-%s</span>" % (grades_grad[0], grades_grad[-1])
         return _grades_html
 
+    def get_lessons(self):
+        lessonactivities = LessonActivity.objects.filter(activity=self)
+        return [lessonactivity.lesson for lessonactivity in lessonactivities]
+
+    def get_published_lessons(self):
+        return [lesson for lesson in self.get_lessons() if lesson.published]
+
     if RELATION_MODELS:
         def get_related_content_type(self, content_type):
             """
