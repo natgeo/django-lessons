@@ -49,7 +49,7 @@ except ImportError:
         name = models.CharField(max_length=128)
 
 def rcs_name(title):
-    return truncate("Lesson Overview - %s" % obj.title, 47)
+    return truncate("Lesson Overview - %s" % title, 47)
 
 class TagInline(ConceptItemInline):
     extra = 10
