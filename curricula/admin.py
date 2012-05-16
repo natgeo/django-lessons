@@ -325,7 +325,22 @@ class ActivityAdmin(ContentAdmin):
         return obj.thumbnail_html()
     thumbnail_display.allow_tags = True
 
+class ActivityInlineFormset(forms.models.BaseInlineFormSet):
+    def clean(self):
+        super(ActivityInlineFormset, self).clean()
+
+        for form in self.forms:
+            if form.instance:
+                model_instance = form.instance
+            else:
+                model_instance = form.save(commit=False)
+
+            activity = form.cleaned_data.get('activity')
+            if 'published' in self.data and activity and not activity.published:
+                raise forms.ValidationError('Please publish all associated activities, before publishing this lesson.')
+
 class ActivityInline(admin.TabularInline):
+    formset = ActivityInlineFormset
     model = LessonActivity
     raw_id_fields = ('activity',)
 
