@@ -33,6 +33,10 @@ def get_activity_model(field):
 def get_lesson_model(field):
     return get_model(field, (KEY_IMAGE, RC_SLIDE))
 
+@register.filter('display_required_technology')
+def display_required_technology(activity):
+    return activity.internet_access_type != 1 or activity.tech_setup_types.all() or activity.plugin_types.all()
+
 @register.tag('get_related_content_type')
 def do_get_related_content_type(parser, token):
     """
