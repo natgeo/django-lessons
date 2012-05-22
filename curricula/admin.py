@@ -212,12 +212,13 @@ class ActivityAdmin(ContentAdmin):
     date_hierarchy = 'create_date'
     filter_horizontal = ['eras', 'grades', 'grouping_types', 'materials',
                          'physical_space_types', 'prior_activities', 'skills',
-                         'standards', 'subjects', 'teaching_method_types',
+                         'subjects', 'teaching_method_types',
                          'tech_setup_types', 'tips', 'teaching_approaches',
                          'secondary_content_types', 'learner_groups',
                          'plugin_types']
     if REPORTING_MODEL:
         filter_horizontal += ['reporting_categories']
+    filter_vertical = ['standards', ]
     form = ActivityForm
     inlines = [TagInline, VocabularyInline, ResourceInline, QuestionAnswerInline]
     if RELATION_MODELS:
@@ -606,6 +607,8 @@ admin.site.register(Activity, ActivityAdmin)
 admin.site.register(GroupingType)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Material, TypeAdmin)
+if settings.DEBUG:
+    admin.site.register(Skill)
 admin.site.register(Standard, StandardAdmin)
 admin.site.register(TeachingMethodType, TypeAdmin)
 admin.site.register(Tip, TipAdmin)
