@@ -172,7 +172,9 @@ class Standard(models.Model):
     grades = models.ManyToManyField(Grade)
 
     def __unicode__(self):
-        return "%s: %s" % (self.get_standard_type_display(), self.name)
+        return "%s: %s: %s" % (truncate(self.get_standard_type_display(), 50),
+                               truncate(self.name, 40),
+                               truncate(strip_tags(self.definition), 50))
 
     class Meta:
         ordering = ["standard_type", "name"]
