@@ -446,7 +446,7 @@ class LessonAdmin(ContentAdmin):
             ('Directions', {'fields': ['assessment_type', 'assessment'], 'classes': ['collapse']}),
             ('Objectives', {'fields': ['learning_objectives'], 'classes': ['collapse']}),
             ('Preparation', {'fields': ['materials', 'other_notes'], 'classes': ['collapse']}),
-            ('Background & Vocabulary', {'fields': ['background_information'], 'classes': ['collapse']}),
+            ('Background & Vocabulary', {'fields': ['background_information', 'prior_knowledge', 'prior_activities'], 'classes': ['collapse']}),
         ]
         if CREDIT_MODEL is not None:
             fieldsets.append(('Credits, Sponsors, Partners', {'fields': ['credit'], 'classes': ['collapse']}))

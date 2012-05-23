@@ -434,6 +434,8 @@ class Lesson(models.Model): # Publish):
     other_notes = models.TextField(blank=True, null=True, help_text="This field has multiple uses, but one possible use is to indicate the larger context into which the lesson fits. Example: This is lesson 1 in a series of 10 lessons in a unit on Europe.")
   # Background & Vocabulary
     background_information = models.TextField(blank=True, null=True, help_text='Producers can either copy/paste background information into this field, or click the "import text" link to import background information from all activities in this lesson into this field and edit them. If you click "import text from activities" and revise/override the imported text, note that clicking "import text from activities" again will re-set the text back to the imported version.')
+    prior_knowledge = models.TextField(blank=True, null=True)
+    prior_activities = models.ManyToManyField(Activity, blank=True, null=True)
 
   # Credits, Sponsors, Partners
     if CREDIT_MODEL:
