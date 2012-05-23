@@ -78,8 +78,6 @@ def activities_info(ids):
     grouping = set()
     access_notes = [] # text fields. Can't really dedup them with sets.
     other = [] # text fields. Can't really dedup them with sets.
-    prior_knowledge = set()
-    prior_act = set()
     glossary = set()
     further_expl = set()
     
@@ -118,8 +116,6 @@ def activities_info(ids):
         grouping |= set(activity.grouping_types.values_list('id', flat=True))
         access_notes.append(activity.accessibility_notes)
         other.append(activity.other_notes)
-        prior_knowledge.add(activity.prior_knowledge)
-        prior_act |= set(activity.prior_activities.values_list('id', flat=True))
         glossary |= set(activity.vocabulary_set.values_list('glossary_term__id', flat=True))
         further_expl |= set(activity.resourceitem_set.values_list('resource__id', flat=True))
     
@@ -160,10 +156,6 @@ def activities_info(ids):
     output['other_notes'] = "".join(other)
     # if output['other_notes'] == "":
     #     output['other_notes'] = "<ul><li>None</li></ul>"
-    prior_knowledge.discard(u'<ul>\r\n<li>None</li>\r\n</ul>')
-    output['prior_knowledge'] = "".join(prior_knowledge)
-    if output['prior_knowledge'] == "":
-        output['prior_knowledge'] = "<ul><li>None</li></ul>"
     
     # these are complex and require rendering
     ctxt = {'objects': Subject.objects.filter(id__in=list(subjects))}
@@ -171,9 +163,6 @@ def activities_info(ids):
     
     ctxt = {'objects': Skill.objects.filter(id__in=list(skills))}
     output['skills'] = render_to_string('includes/tree_list.html', ctxt)
-    
-    ctxt = {'activities': Activity.objects.filter(id__in=list(prior_act)).values("slug", "title")}
-    output['prior_activities'] = render_to_string("includes/prior_activities.html", ctxt)
     
     ctxt = {'objects': Standard.objects.filter(id__in=list(standards))}
     output['standards'] = render_to_string('includes/standards.html', ctxt)
