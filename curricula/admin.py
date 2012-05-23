@@ -23,7 +23,7 @@ from concepts.admin import ConceptItemInline
 
 TINYMCE_FIELDS = ('description', 'assessment', 'learning_objectives', 'other_notes', 'background_information')
 ACTIVITY_TINYMCE_FIELDS = TINYMCE_FIELDS + ('extending_the_learning', 'setup', 'accessibility_notes', 'prior_knowledge')
-LESSON_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle_guiding_question',)
+LESSON_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle_guiding_question', 'prior_knowledge')
 
 MCE_SIMPLE_ATTRS = {
     'plugins': "rawmode,paste",
@@ -397,7 +397,7 @@ class LessonForm(forms.ModelForm):
 
 class LessonAdmin(ContentAdmin):
     date_hierarchy = 'create_date'
-    filter_horizontal = ['eras', 'materials', 'secondary_content_types']
+    filter_horizontal = ['eras', 'materials', 'secondary_content_types', 'prior_activities']
     if REPORTING_MODEL:
         filter_horizontal += ['reporting_categories']
     form = LessonForm
