@@ -3,7 +3,7 @@ BeautifulSoup
 South==0.7.3
 django-audience>=0.5.3
 django-categories>=1.0.2
-django-concepts>=0.3.1
+django-concepts>=0.3.5
 django-edumetadata>=0.4
 # django-publisher==0.1
 django-tinymce

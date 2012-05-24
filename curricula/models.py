@@ -1,5 +1,6 @@
 #import datetime
 from django.db import models
+from django.db.models.signals import pre_delete
 from django.db.models.loading import get_model
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
@@ -15,6 +16,7 @@ from utils import truncate, ul_as_list
 from audience.models import AUDIENCE_FLAGS
 from bitfield import BitField
 from categories.models import CategoryBase
+from concepts.models import delete_listener
 
 from edumetadata.models import *
 from edumetadata.fields import HistoricalDateField
@@ -671,6 +673,8 @@ class LessonActivity(models.Model):
     class Meta:
         ordering = ('order',)
         verbose_name_plural = 'Activities'
+
+pre_delete.connect(delete_listener, sender=Activity)
 
 #register(Activity)
 #register(Lesson)
