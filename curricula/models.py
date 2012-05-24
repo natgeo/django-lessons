@@ -352,6 +352,9 @@ Note that the text you input in this form serves as the default text. If you ind
         def thumbnail_html(self):
             return '<img src="%s"/>' % self.key_image()
 
+        def model_student_work(self):
+            return self.get_relation_type('Model Student Work')
+
 class Vocabulary(models.Model):
     activity = models.ForeignKey(Activity)
     glossary_term = models.ForeignKey(GlossaryTerm)
