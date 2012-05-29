@@ -19,6 +19,8 @@ def activity_detail(request, slug, preview=False, template_name='curricula/activ
     if getvars.has_key('ar_a'):
         audience = int(getvars['ar_a'])
     resourceitems = activity.resourceitem_set.all()
+    # [EDU-2741] Sort alphabetically
+    resourceitems = resourceitems.order_by('resource__resource_category_type')
     if audience:
         resourceitems = [resourceitem for resourceitem in resourceitems
             if audience in resourceitem.resource.appropriate_for_audience_type_pks]
