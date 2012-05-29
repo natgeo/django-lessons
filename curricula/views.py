@@ -36,6 +36,8 @@ def activity_detail(request, slug, preview=False, template_name='curricula/activ
         'activity': activity,
         'resourceitems': resourceitems,
         'credit_details': credit_details,
+        'model_student_work': activity.model_student_work(audience),
+        'pictures_of_practice': activity.pictures_of_practice(audience),
         'preview': preview,
     }, context_instance=RequestContext(request))
 

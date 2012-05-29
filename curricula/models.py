@@ -352,11 +352,13 @@ Note that the text you input in this form serves as the default text. If you ind
         def thumbnail_html(self):
             return '<img src="%s"/>' % self.key_image()
 
-        def model_student_work(self):
-            return self.get_relation_type('Model Student Work')
+        def model_student_work(self, audience=1):
+            msws = self.get_relation_type('Model Student Work')
+            return [msw.content_object for msw in msws if msw.content_object.is_available_for_audience(audience)]
 
-        def pictures_of_practice(self):
-            return self.get_relation_type('Pictures of Practice')
+        def pictures_of_practice(self, audience=1):
+            pops = self.get_relation_type('Pictures of Practice')
+            return [pop.content_object for pop in pops if pop.content_object.is_available_for_audience(audience)]
 
 class Vocabulary(models.Model):
     activity = models.ForeignKey(Activity)
