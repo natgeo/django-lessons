@@ -355,6 +355,9 @@ Note that the text you input in this form serves as the default text. If you ind
         def model_student_work(self):
             return self.get_relation_type('Model Student Work')
 
+        def pictures_of_practice(self):
+            return self.get_relation_type('Pictures of Practice')
+
 class Vocabulary(models.Model):
     activity = models.ForeignKey(Activity)
     glossary_term = models.ForeignKey(GlossaryTerm)
