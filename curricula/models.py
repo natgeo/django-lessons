@@ -5,6 +5,7 @@ from django.db.models.loading import get_model
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.contrib.localflavor.us.us_states import STATE_CHOICES
+from django.core.urlresolvers import reverse
 from django.utils.html import strip_tags
 
 from settings import (ASSESSMENT_TYPES, STANDARD_TYPES,
@@ -268,6 +269,11 @@ Note that the text you input in this form serves as the default text. If you ind
         ordering = ["title"]
         verbose_name_plural = 'Activities'
 
+    def get_canonical_page(self):
+        for i in range(0, 5):
+            if self.appropriate_for.get_bit(i).is_set:
+                return '%s?ar_a=%s' % (reverse('activity-detail', args=[self.slug]), i+1)
+
     def get_grades_and_ages(self):
         grades = self.grades.all()
         return (grades.as_grade_range(), grades.as_age_range())
@@ -511,6 +517,11 @@ Note that the text you input in this form serves as the default text. If you ind
             accessibility_notes += ul_as_list(activity.accessibility_notes)
         deduped_notes = set(accessibility_notes)
         return list(deduped_notes)
+
+    def get_canonical_page(self):
+        for i in range(0, 5):
+            if self.appropriate_for.get_bit(i).is_set:
+                return '%s?ar_a=%s' % (reverse('lesson-detail', args=[self.slug]), i+1)
 
     def get_duration(self, activities=None):
         if activities is None:
