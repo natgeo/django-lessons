@@ -608,6 +608,7 @@ admin.site.register(GroupingType)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Material, TypeAdmin)
 if settings.DEBUG:
+    admin.site.register(QuestionAnswer)
     admin.site.register(Skill)
 admin.site.register(Standard, StandardAdmin)
 admin.site.register(TeachingMethodType, TypeAdmin)
