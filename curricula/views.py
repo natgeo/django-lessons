@@ -25,17 +25,10 @@ def activity_detail(request, slug, preview=False, template_name='curricula/activ
         resourceitems = [resourceitem for resourceitem in resourceitems
             if audience in resourceitem.resource.appropriate_for_audience_type_pks]
 
-    credit_details = {}
-    if activity.credit and activity.credit.credit_details:
-        for detail in activity.credit.credit_details.all():
-            if detail.credit_category not in credit_details:
-                credit_details[detail.credit_category] = []
-            credit_details[detail.credit_category].append(detail.entity)
-
     return render_to_response(template_name, {
         'activity': activity,
         'resourceitems': resourceitems,
-        'credit_details': credit_details,
+        'credit_details': activity.get_credit_details(),
         'model_student_work': activity.model_student_work(audience),
         'pictures_of_practice': activity.pictures_of_practice(audience),
         'preview': preview,

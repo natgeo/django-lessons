@@ -318,6 +318,16 @@ Note that the text you input in this form serves as the default text. If you ind
     def get_published_lessons(self):
         return [lesson for lesson in self.get_lessons() if lesson.published]
 
+    if CREDIT_MODEL:
+        def get_credit_details(self):
+            credit_details = {}
+            if self.credit and self.credit.credit_details:
+                for detail in self.credit.credit_details.all():
+                    if detail.credit_category not in credit_details:
+                        credit_details[detail.credit_category] = []
+                    credit_details[detail.credit_category].append(detail.entity)
+            return credit_details
+
     if RELATION_MODELS:
         def get_related_content_type(self, content_type):
             """
