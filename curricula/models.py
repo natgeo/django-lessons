@@ -331,7 +331,7 @@ Note that the text you input in this form serves as the default text. If you ind
             Get all relations of the specified relation type
             """
             return self.activityrelation_set.filter(
-                relation_type=relation_type)
+                relation_type__iexact=relation_type)
 
         def get_content_object(self, field):
             app_label, model = field[1].split('.')
