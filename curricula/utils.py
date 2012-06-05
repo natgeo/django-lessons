@@ -62,6 +62,7 @@ def activities_info(ids):
     act_ids = [int(x) for x in ids.split(',')]
     activities = Activity.objects.filter(id__in=act_ids) #, published=True)
     subjects = set()
+    learning_objs = set()
     teach_approach = set()
     teach_meth = set()
     skills = set()
@@ -99,6 +100,9 @@ def activities_info(ids):
         skills |= set(activity.skills.values_list('id', flat=True))
         standards |= set(activity.standards.values_list('id', flat=True))
         materials |= set(activity.materials.values_list('id', flat=True))
+
+        objectives_list = ul_as_list(activity.learning_objectives)
+        learning_objs |= set([objective.strip() for objective in objectives_list])
         
         # These lines add a significant number of queries overall due to the
         # way that the edu_core code implements audience.
@@ -129,6 +133,9 @@ def activities_info(ids):
     
     li_template = "<li>%s</li>"
     
+    output['learning_objectives'] = "".join([li_template % x for x in learning_objs])
+    if output['learning_objectives'] == "":
+        output['learning_objectives'] = li_template % "None"
     output['teaching_approaches'] = "".join([li_template % x for x in TeachingApproach.objects.filter(id__in=list(teach_approach)).values_list('name', flat=True)])
     if output['teaching_approaches'] == "":
         output['teaching_approaches'] = li_template % "None"
