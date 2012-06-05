@@ -60,10 +60,11 @@ def lesson_detail(request, slug, preview=False, template_name='curricula/lesson_
             activities = lesson.get_activities({'activity__published': True})
     #
     credit_details = {}
-    for detail in lesson.credit.credit_details.all():
-        if detail.credit_category not in credit_details:
-            credit_details[detail.credit_category] = []
-        credit_details[detail.credit_category].append(detail.entity)
+    if lesson.credit:
+        for detail in lesson.credit.credit_details.all():
+            if detail.credit_category not in credit_details:
+                credit_details[detail.credit_category] = []
+            credit_details[detail.credit_category].append(detail.entity)
     
     context = {
         'lesson': lesson,
