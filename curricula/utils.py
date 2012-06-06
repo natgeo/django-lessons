@@ -44,14 +44,14 @@ def tags_for_activities(ids):
     return Concept.objects.filter(id__in=con_ids)
 
 
-def activities_info(ids):
+def activities_info(ids, l_id=None):
     """
     De-duplicate and aggregate fields on a comma-delimited list of activity ids
     """
     from curricula.models import (Activity, TeachingApproach, TeachingMethodType, 
                                   Standard, Material, Skill, PluginType, 
                                   TechSetupType, PhysicalSpaceType, GroupingType, 
-                                  GlossaryTerm, ResourceItem, Resource)
+                                  GlossaryTerm, ResourceItem, Resource, Lesson)
     
     from concepts.models import Concept, ConceptItem
     from django.contrib.contenttypes.models import ContentType
@@ -62,7 +62,6 @@ def activities_info(ids):
     act_ids = [int(x) for x in ids.split(',')]
     activities = Activity.objects.filter(id__in=act_ids) #, published=True)
     subjects = set()
-    learning_objs = set()
     teach_approach = set()
     teach_meth = set()
     skills = set()
@@ -81,6 +80,13 @@ def activities_info(ids):
     other = [] # text fields. Can't really dedup them with sets.
     glossary = set()
     further_expl = set()
+
+    if l_id:
+        lesson = Lesson.objects.get(id=l_id) #, published=True
+        objectives_list = ul_as_list(lesson.learning_objectives)
+        learning_objs = set([objective.strip() for objective in objectives_list])
+    else:
+        learning_objs = set()
     
     # we can't get the related fields using values querysets in this version
     # of Django. Instead, we'll query them separately and replace the id
