@@ -453,7 +453,7 @@ class Lesson(models.Model): # Publish):
     assessment = models.TextField(blank=True, null=True, help_text="This field is for a new, lesson-level assessment. It is not impacted by activity-level assessments.")
 
   # Objectives
-    learning_objectives = models.TextField(blank=True, null=True, help_text='Click the "import text" link to import learning objectives from all activities in this lesson into this field and edit them. If you click "import text from activities" and revise/override the imported text, note that clicking "import text from activities" again will re-set the text back to the imported version.')
+    learning_objectives = models.TextField(blank=True, null=True, help_text="All learning objectives from the activities within the lesson will dynamically display. Only use this field if you need to add additional, lesson-level learning objectives.")
 
   # Preparation
     materials = models.ManyToManyField(Material, blank=True, null=True, help_text="This field is for additional, lesson-level materials a teacher will need to provide; for example, new materials needed in order to conduct the lesson-level assessment. Do not repeat activity-specific materials.")
@@ -465,7 +465,7 @@ class Lesson(models.Model): # Publish):
 
   # Credits, Sponsors, Partners
     if CREDIT_MODEL:
-        credit = models.ForeignKey(CreditModel, blank=True, null=True)
+        credit = models.ForeignKey(CreditModel, blank=True, null=True, help_text="All activity-level credits will dynamically display in the lesson credits, broken out by activity number. Only use this field if you need to add additional, lesson-level credits.")
 
   # Global Metadata
     appropriate_for = BitField(flags=AUDIENCE_FLAGS, help_text='''Select the audience(s) for which this content is appropriate. Selecting audiences means that a separate audience view of the page will exist for those audiences. For a lesson, the only possible choices are Teachers and Informal Educators.
