@@ -108,7 +108,7 @@ OBJ_RELS = [Q(app_label=al, model=m) for al, m in [x.split('.') for x in OBJ_REL
 obj_rel_limits = reduce(lambda x,y: x|y, OBJ_RELS)
 
 class LearningObjective(models.Model):
-    objective = models.TextField()
+    text = models.TextField()
 
 class ObjectiveRelation(models.Model):
     objective = models.ForeignKey(LearningObjective)

@@ -128,7 +128,7 @@ class ActivityForm(forms.ModelForm):
             objectiverelations = objectiverelations.filter(content_type=ctype)
             objectiverelations = objectiverelations.filter(object_id=instance.id)
             for objectiverelation in objectiverelations:
-                initial_objs += objectiverelation.objective.objective
+                initial_objs += objectiverelation.objective.text
                 initial_objs += '\r\n'
             self.fields['learning_objs'].initial = initial_objs.strip('\r\n')
 
@@ -189,7 +189,7 @@ class ActivityForm(forms.ModelForm):
 
         # create new
         for learning_objective in learning_objectives.split('\r\n'):
-            lo = LearningObjective(objective=learning_objective)
+            lo = LearningObjective(text=learning_objective)
             lo.save()
 
             o_rel = ObjectiveRelation(objective=lo, content_type=ctype,
@@ -403,6 +403,8 @@ if RELATION_MODELS:
         template = 'admin/edit_inline/ic_coll_tabular.html'
 
 class LessonForm(forms.ModelForm):
+    learning_objs = forms.CharField(required=False, widget=forms.Textarea(attrs={'cols': 128, 'rows': 5}), label='Learning objectives')
+
     class Meta:
         model = Lesson
 
@@ -414,6 +416,8 @@ class LessonForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(LessonForm, self).__init__(*args, **kwargs)
+        if kwargs.has_key('instance'):
+            instance = kwargs['instance']
 
         field_name = KEY_IMAGE[0]
         qset = get_model(*KEY_IMAGE[1].split('.')).objects.all()
@@ -425,6 +429,18 @@ class LessonForm(forms.ModelForm):
         self.fields[field_name] = forms.ModelChoiceField(queryset=qset, widget=forms.TextInput, required=False)
         self.initialize_values(kwargs, field_name)
 
+        if instance:
+            ctype = ContentType.objects.get_for_model(Lesson)
+            # [EDU-2791] Learning Objectives
+            initial_objs = ''
+            objectiverelations = ObjectiveRelation.objects.all()
+            objectiverelations = objectiverelations.filter(content_type=ctype)
+            objectiverelations = objectiverelations.filter(object_id=instance.id)
+            for objectiverelation in objectiverelations:
+                initial_objs += objectiverelation.objective.text
+                initial_objs += '\r\n'
+            self.fields['learning_objs'].initial = initial_objs.strip('\r\n')
+
     def clean(self):
         cleaned_data = super(LessonForm, self).clean()
 
@@ -433,6 +449,29 @@ class LessonForm(forms.ModelForm):
         if field_name not in self.cleaned_data:
             raise forms.ValidationError("%s is required." % field_name)
         return cleaned_data
+
+    # [EDU-2791] Learning Objectives
+    def clean_learning_objs(self):
+        learning_objectives = self.cleaned_data['learning_objs']
+        ctype = ContentType.objects.get_for_model(Lesson)
+        # clear existing
+        objectiverelations = ObjectiveRelation.objects.all()
+        objectiverelations = objectiverelations.filter(content_type=ctype)
+        objectiverelations = objectiverelations.filter(object_id=self.instance.id)
+
+        for objectiverelation in objectiverelations:
+            objectiverelation.objective.delete()
+            objectiverelation.delete()
+
+        # create new
+        for learning_objective in learning_objectives.split('\r\n'):
+            lo = LearningObjective(text=learning_objective)
+            lo.save()
+
+            o_rel = ObjectiveRelation(objective=lo, content_type=ctype,
+                                      object_id=self.instance.id)
+            o_rel.save()
+        return learning_objectives
 
 class LessonAdmin(ContentAdmin):
     date_hierarchy = 'create_date'
@@ -483,7 +522,7 @@ class LessonAdmin(ContentAdmin):
         fieldsets = [
             ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'subtitle_guiding_question', 'description', 'is_modular', 'ads_excluded', 'id_number'], 'classes': ['collapse']}), # , 'create_date', 'last_updated_date'], 'classes': ['collapse']}),
             ('Directions', {'fields': ['assessment_type', 'assessment'], 'classes': ['collapse']}),
-            ('Objectives', {'fields': ['learning_objectives'], 'classes': ['collapse']}),
+            ('Objectives', {'fields': ['learning_objs'], 'classes': ['collapse']}),
             ('Preparation', {'fields': ['materials', 'other_notes'], 'classes': ['collapse']}),
             ('Background & Vocabulary', {'fields': ['background_information', 'prior_knowledge', 'prior_activities'], 'classes': ['collapse']}),
         ]

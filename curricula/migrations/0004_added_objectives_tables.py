@@ -10,7 +10,7 @@ class Migration(SchemaMigration):
         # Adding model 'LearningObjective'
         db.create_table('curricula_learningobjective', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('objective', self.gf('django.db.models.fields.TextField')()),
+            ('text', self.gf('django.db.models.fields.TextField')()),
         ))
         db.send_create_signal('curricula', ['LearningObjective'])
 
@@ -127,7 +127,7 @@ class Migration(SchemaMigration):
         'curricula.learningobjective': {
             'Meta': {'object_name': 'LearningObjective'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'objective': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
+            'text': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
         },
         'curricula.lesson': {
             'Meta': {'ordering': "['title']", 'object_name': 'Lesson'},
