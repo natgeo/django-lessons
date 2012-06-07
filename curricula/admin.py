@@ -188,12 +188,13 @@ class ActivityForm(forms.ModelForm):
 
         # create new
         for learning_objective in learning_objectives.split('\r\n'):
-            lo = LearningObjective(text=learning_objective)
-            lo.save()
+            if learning_objective and len(learning_objective) > 0:
+                lo = LearningObjective(text=learning_objective)
+                lo.save()
 
-            o_rel = ObjectiveRelation(objective=lo, content_type=ctype,
-                                      object_id=self.instance.id)
-            o_rel.save()
+                o_rel = ObjectiveRelation(objective=lo, content_type=ctype,
+                                          object_id=self.instance.id)
+                o_rel.save()
         return learning_objectives
 
     def clean_materials(self):

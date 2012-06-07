@@ -44,7 +44,7 @@ def tags_for_activities(ids):
     return Concept.objects.filter(id__in=con_ids)
 
 
-def activities_info(ids):
+def activities_info(ids, l_id=None):
     """
     De-duplicate and aggregate fields on a comma-delimited list of activity ids
     """
@@ -58,12 +58,20 @@ def activities_info(ids):
     from django.contrib.contenttypes.models import ContentType
     from django.db.models import Avg
     
+    # [EDU-2791] Learning Objectives
+    if l_id:
+        ctype = ContentType.objects.get_for_model(Lesson)
+        objectives_list = ObjectiveRelation.objects.filter(content_type=ctype,
+                                                           object_id=l_id)
+        learning_objs = set([objrel.objective for objrel in objectives_list])
+    else:
+        learning_objs = set()
+
     ctype = ContentType.objects.get_for_model(Activity)
     
     act_ids = [int(x) for x in ids.split(',')]
     activities = Activity.objects.filter(id__in=act_ids) #, published=True)
     subjects = set()
-    learning_objs = set()
     teach_approach = set()
     teach_meth = set()
     skills = set()
@@ -101,7 +109,7 @@ def activities_info(ids):
         skills |= set(activity.skills.values_list('id', flat=True))
         standards |= set(activity.standards.values_list('id', flat=True))
         materials |= set(activity.materials.values_list('id', flat=True))
-        # [EDU-2791] Learning Objectives
+
         objectives_list = ObjectiveRelation.objects.filter(
                                     content_type=ctype, object_id=activity.id)
         learning_objs |= set([objrel.objective for objrel in objectives_list])
