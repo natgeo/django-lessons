@@ -110,6 +110,9 @@ obj_rel_limits = reduce(lambda x,y: x|y, OBJ_RELS)
 class LearningObjective(models.Model):
     text = models.TextField()
 
+    def __unicode__(self):
+        return self.text
+
 class ObjectiveRelation(models.Model):
     objective = models.ForeignKey(LearningObjective)
     content_type = models.ForeignKey(
@@ -558,16 +561,12 @@ Note that the text you input in this form serves as the default text. If you ind
     def get_glossary(self):
         pass
 
-    def get_learning_objectives(self, activities=None):
-        objectives = []
-
-        if activities is None:
-            activities = self.get_activities()
-        for activity in activities:
-            for objective in ul_as_list(activity.learning_objectives):
-                if objective.strip() not in objectives:
-                    objectives.append(objective.strip())
-        return objectives
+    def get_learning_objectives(self):
+        # [EDU-2791] Learning Objectives
+        ctype = ContentType.objects.get_for_model(Lesson)
+        objectiverelations = ObjectiveRelation.objects.filter(
+                                        content_type=ctype, object_id=self.id)
+        return [objrel.objective.text for objrel in objectiverelations]
 
     def get_background_information(self, activities=None):
         '''Used by the admin to import text'''

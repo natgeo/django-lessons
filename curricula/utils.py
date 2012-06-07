@@ -51,7 +51,8 @@ def activities_info(ids):
     from curricula.models import (Activity, TeachingApproach, TeachingMethodType, 
                                   Standard, Material, Skill, PluginType, 
                                   TechSetupType, PhysicalSpaceType, GroupingType, 
-                                  GlossaryTerm, ResourceItem, Resource, Lesson)
+                                  GlossaryTerm, ResourceItem, Resource, Lesson,
+                                  ObjectiveRelation)
     
     from concepts.models import Concept, ConceptItem
     from django.contrib.contenttypes.models import ContentType
@@ -100,9 +101,10 @@ def activities_info(ids):
         skills |= set(activity.skills.values_list('id', flat=True))
         standards |= set(activity.standards.values_list('id', flat=True))
         materials |= set(activity.materials.values_list('id', flat=True))
-
-        objectives_list = ul_as_list(activity.learning_objectives)
-        learning_objs |= set([objective.strip() for objective in objectives_list])
+        # [EDU-2791] Learning Objectives
+        objectives_list = ObjectiveRelation.objects.filter(
+                                    content_type=ctype, object_id=activity.id)
+        learning_objs |= set([objrel.objective for objrel in objectives_list])
         
         # These lines add a significant number of queries overall due to the
         # way that the edu_core code implements audience.
@@ -133,7 +135,7 @@ def activities_info(ids):
     
     li_template = "<li>%s</li>"
     
-    output['learning_objectives'] = "".join([li_template % x for x in learning_objs])
+    output['learning_objectives'] = "".join([li_template % x.text for x in learning_objs])
     if output['learning_objectives'] == "":
         output['learning_objectives'] = li_template % "None"
     output['teaching_approaches'] = "".join([li_template % x for x in TeachingApproach.objects.filter(id__in=list(teach_approach)).values_list('name', flat=True)])

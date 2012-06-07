@@ -98,23 +98,11 @@ def activity_info(request, ids):
     result = simplejson.dumps(activities_info(ids))
     return HttpResponse(result, mimetype="text/javascript")
 
-def lesson_info(request, ids, l_id):
-    result = simplejson.dumps(activities_info(ids, l_id))
-    return HttpResponse(result, mimetype="text/javascript")
-
 def background_information(request, id):
     lesson = get_object_or_404(Lesson, id=id)
 
     context = { 'background_information': lesson.get_background_information(), }
     return render_to_response('curricula/fragments/bg_info.html',
-                              context,
-                              context_instance=RequestContext(request))
-
-def learning_objectives(request, id):
-    lesson = get_object_or_404(Lesson, id=id)
-
-    context = { 'learning_objectives': lesson.get_learning_objectives(), }
-    return render_to_response('curricula/fragments/objectives.html',
                               context,
                               context_instance=RequestContext(request))
 

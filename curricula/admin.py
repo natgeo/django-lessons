@@ -124,9 +124,9 @@ class ActivityForm(forms.ModelForm):
             ctype = ContentType.objects.get_for_model(Activity)
             # [EDU-2791] Learning Objectives
             initial_objs = ''
-            objectiverelations = ObjectiveRelation.objects.all()
-            objectiverelations = objectiverelations.filter(content_type=ctype)
-            objectiverelations = objectiverelations.filter(object_id=instance.id)
+            objectiverelations = ObjectiveRelation.objects.filter(
+                                    content_type=ctype, object_id=instance.id)
+            objectiverelations = objectiverelations.filter()
             for objectiverelation in objectiverelations:
                 initial_objs += objectiverelation.objective.text
                 initial_objs += '\r\n'
@@ -179,9 +179,8 @@ class ActivityForm(forms.ModelForm):
         learning_objectives = self.cleaned_data['learning_objs']
         ctype = ContentType.objects.get_for_model(Activity)
         # clear existing
-        objectiverelations = ObjectiveRelation.objects.all()
-        objectiverelations = objectiverelations.filter(content_type=ctype)
-        objectiverelations = objectiverelations.filter(object_id=self.instance.id)
+        objectiverelations = ObjectiveRelation.objects.filter(
+                                content_type=ctype, object_id=self.instance.id)
 
         for objectiverelation in objectiverelations:
             objectiverelation.objective.delete()
@@ -433,9 +432,8 @@ class LessonForm(forms.ModelForm):
             ctype = ContentType.objects.get_for_model(Lesson)
             # [EDU-2791] Learning Objectives
             initial_objs = ''
-            objectiverelations = ObjectiveRelation.objects.all()
-            objectiverelations = objectiverelations.filter(content_type=ctype)
-            objectiverelations = objectiverelations.filter(object_id=instance.id)
+            objectiverelations = ObjectiveRelation.objects.filter(
+                                    content_type=ctype, object_id=instance.id)
             for objectiverelation in objectiverelations:
                 initial_objs += objectiverelation.objective.text
                 initial_objs += '\r\n'
@@ -455,10 +453,8 @@ class LessonForm(forms.ModelForm):
         learning_objectives = self.cleaned_data['learning_objs']
         ctype = ContentType.objects.get_for_model(Lesson)
         # clear existing
-        objectiverelations = ObjectiveRelation.objects.all()
-        objectiverelations = objectiverelations.filter(content_type=ctype)
-        objectiverelations = objectiverelations.filter(object_id=self.instance.id)
-
+        objectiverelations = ObjectiveRelation.objects.filter(
+                                content_type=ctype, object_id=self.instance.id)
         for objectiverelation in objectiverelations:
             objectiverelation.objective.delete()
             objectiverelation.delete()
@@ -686,6 +682,7 @@ admin.site.register(GroupingType)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Material, TypeAdmin)
 if settings.DEBUG:
+    admin.site.register(LearningObjective)
     admin.site.register(QuestionAnswer)
     admin.site.register(Skill)
 admin.site.register(Standard, StandardAdmin)
