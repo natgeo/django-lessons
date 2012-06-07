@@ -100,21 +100,37 @@ if RELATION_MODELS:
         template = 'admin/edit_inline/ic_coll_tabular.html'
 
 class ActivityForm(forms.ModelForm):
+    learning_objs = forms.CharField(required=False, widget=forms.Textarea(attrs={'cols': 128, 'rows': 5}), label='Learning objectives')
+
     class Meta:
         model = Activity
 
     def __init__(self, *args, **kwargs):
         super(ActivityForm, self).__init__(*args, **kwargs)
+        if kwargs.has_key('instance'):
+            instance = kwargs['instance']
         for field in ACTIVITY_FIELDS:
             field_name = field[0]
             model = get_model(*field[1].split('.'))
             # ctype = ContentType.objects.get(app_label=app_label, model=model)
             self.fields[field_name] = forms.ModelChoiceField(queryset=model.objects.all(), widget=forms.TextInput, required=False)
             # for existing lessons, initialize the fields
-            if kwargs.has_key('instance'):
-                objects = kwargs['instance'].activityrelation_set.filter(relation_type=field_name)
+            if instance:
+                objects = instance.activityrelation_set.filter(relation_type=field_name)
                 if len(objects) > 0:
                     self.fields[field_name].initial = objects[0].object_id
+
+        if instance:
+            ctype = ContentType.objects.get_for_model(Activity)
+            # [EDU-2791] Learning Objectives
+            initial_objs = ''
+            objectiverelations = ObjectiveRelation.objects.all()
+            objectiverelations = objectiverelations.filter(content_type=ctype)
+            objectiverelations = objectiverelations.filter(object_id=instance.id)
+            for objectiverelation in objectiverelations:
+                initial_objs += objectiverelation.objective.objective
+                initial_objs += '\r\n'
+            self.fields['learning_objs'].initial = initial_objs.strip('\r\n')
 
     def clean(self):
         cleaned_data = super(ActivityForm, self).clean()
@@ -157,6 +173,29 @@ class ActivityForm(forms.ModelForm):
 
     def clean_learning_objectives(self):
         return self.clean_field('learning_objectives')
+
+    # [EDU-2791] Learning Objectives
+    def clean_learning_objs(self):
+        learning_objectives = self.cleaned_data['learning_objs']
+        ctype = ContentType.objects.get_for_model(Activity)
+        # clear existing
+        objectiverelations = ObjectiveRelation.objects.all()
+        objectiverelations = objectiverelations.filter(content_type=ctype)
+        objectiverelations = objectiverelations.filter(object_id=self.instance.id)
+
+        for objectiverelation in objectiverelations:
+            objectiverelation.objective.delete()
+            objectiverelation.delete()
+
+        # create new
+        for learning_objective in learning_objectives.split('\r\n'):
+            lo = LearningObjective(objective=learning_objective)
+            lo.save()
+
+            o_rel = ObjectiveRelation(objective=lo, content_type=ctype,
+                                      object_id=self.instance.id)
+            o_rel.save()
+        return learning_objectives
 
     def clean_materials(self):
         return self.clean_field('materials')
@@ -275,7 +314,7 @@ class ActivityAdmin(ContentAdmin):
                  ],
                  'classes': ['collapse']}),
             ('Directions', {'fields': ['directions', 'assessment_type', 'assessment', 'extending_the_learning', 'tips'], 'classes': ['collapse']}),
-            ('Objectives', {'fields': ['learning_objectives', 'teaching_approaches', 'teaching_method_types', 'skills', 'standards'], 'classes': ['collapse']}),
+            ('Objectives', {'fields': ['learning_objs', 'teaching_approaches', 'teaching_method_types', 'skills', 'standards'], 'classes': ['collapse']}),
             ('Preparation',
                 {'fields': [
                     'materials', 'tech_setup_types', 'internet_access_type',

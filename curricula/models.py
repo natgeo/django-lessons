@@ -1,5 +1,6 @@
 #import datetime
 from django.db import models
+from django.db.models import Q
 from django.db.models.signals import pre_delete
 from django.db.models.loading import get_model
 from django.contrib.contenttypes.models import ContentType
@@ -100,6 +101,21 @@ class LearnerGroup(models.Model):
 
     def __unicode__(self):
         return self.name
+
+# [EDU-2791] Learning Objectives
+OBJ_REL_MODELS = ('curricula.activity', 'curricula.lesson')
+OBJ_RELS = [Q(app_label=al, model=m) for al, m in [x.split('.') for x in OBJ_REL_MODELS]]
+obj_rel_limits = reduce(lambda x,y: x|y, OBJ_RELS)
+
+class LearningObjective(models.Model):
+    objective = models.TextField()
+
+class ObjectiveRelation(models.Model):
+    objective = models.ForeignKey(LearningObjective)
+    content_type = models.ForeignKey(
+        ContentType, limit_choices_to=obj_rel_limits)
+    object_id = models.PositiveIntegerField()
+    content_object = generic.GenericForeignKey()
 
 class Material(models.Model):
     name = models.TextField()

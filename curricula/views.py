@@ -85,7 +85,7 @@ def lesson_detail(request, slug, preview=False, template_name='curricula/lesson_
             context[name] = related_ctypes[0].content_object
     
     activity_ids = ",".join([str(x.id) for x in activities])
-    activity_info = activities_info(activity_ids, lesson.id)
+    activity_info = activities_info(activity_ids)
     activity_info['tags'] = tags_for_activities(activity_ids)
     context.update(activity_info)
     return render_to_response(template_name, context, context_instance=RequestContext(request))

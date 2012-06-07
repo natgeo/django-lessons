@@ -44,7 +44,7 @@ def tags_for_activities(ids):
     return Concept.objects.filter(id__in=con_ids)
 
 
-def activities_info(ids, l_id=None):
+def activities_info(ids):
     """
     De-duplicate and aggregate fields on a comma-delimited list of activity ids
     """
@@ -62,6 +62,7 @@ def activities_info(ids, l_id=None):
     act_ids = [int(x) for x in ids.split(',')]
     activities = Activity.objects.filter(id__in=act_ids) #, published=True)
     subjects = set()
+    learning_objs = set()
     teach_approach = set()
     teach_meth = set()
     skills = set()
@@ -81,13 +82,6 @@ def activities_info(ids, l_id=None):
     glossary = set()
     further_expl = set()
 
-    if l_id:
-        lesson = Lesson.objects.get(id=l_id) #, published=True
-        objectives_list = ul_as_list(lesson.learning_objectives)
-        learning_objs = set([objective.strip() for objective in objectives_list])
-    else:
-        learning_objs = set()
-    
     # we can't get the related fields using values querysets in this version
     # of Django. Instead, we'll query them separately and replace the id
     # with the tag information we need
