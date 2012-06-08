@@ -110,6 +110,14 @@ def background_information(request, id):
                               context,
                               context_instance=RequestContext(request))
 
+def learning_objectives(request, id):
+    lesson = get_object_or_404(Lesson, id=id)
+
+    context = { 'learning_objectives': lesson.get_learning_objectives(), }
+    return render_to_response('curricula/fragments/objectives.html',
+                              context,
+                              context_instance=RequestContext(request))
+
 def get_breakout_terms(request, id):
     '''
     AJAX response for TinyMCE for Glossification.

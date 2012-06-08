@@ -171,9 +171,6 @@ class ActivityForm(forms.ModelForm):
     def clean_internet_access_type(self):
         return self.clean_field('internet_access_type')
 
-    def clean_learning_objectives(self):
-        return self.clean_field('learning_objectives')
-
     # [EDU-2791] Learning Objectives
     def clean_learning_objs(self):
         learning_objectives = self.cleaned_data['learning_objs']
@@ -199,9 +196,6 @@ class ActivityForm(forms.ModelForm):
 
     def clean_materials(self):
         return self.clean_field('materials')
-
-    def clean_prior_knowledge(self):
-        return self.clean_field('prior_knowledge')
 
   # def clean_reporting_categories(self):
   #     return self.clean_field('reporting_categories')
