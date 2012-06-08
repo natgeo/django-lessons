@@ -100,7 +100,9 @@ if RELATION_MODELS:
         template = 'admin/edit_inline/ic_coll_tabular.html'
 
 class ActivityForm(forms.ModelForm):
-    learning_objs = forms.CharField(required=False, widget=forms.Textarea(attrs={'cols': 128, 'rows': 5}), label='Learning objectives')
+    learning_objs = forms.CharField(required=False, label='Learning objectives',
+                                    widget=forms.Textarea(attrs={'cols': 128, 'rows': 5}),
+                                    help_text="Each learning objective must be separated by a carriage return. Each line displays as a bulleted list.")
 
     class Meta:
         model = Activity
@@ -397,7 +399,10 @@ if RELATION_MODELS:
         template = 'admin/edit_inline/ic_coll_tabular.html'
 
 class LessonForm(forms.ModelForm):
-    learning_objs = forms.CharField(required=False, widget=forms.Textarea(attrs={'cols': 128, 'rows': 5}), label='Learning objectives')
+    learning_objs = forms.CharField(required=False, label='Learning objectives',
+                                    widget=forms.Textarea(attrs={'cols': 128, 'rows': 5}),
+                                    help_text='''All learning objectives from the activities within the lesson will dynamically display. Only use this field if you need to add additional, lesson-level learning objectives.
+                                                 Each learning objective must be separated by a carriage return. Each line displays as a bulleted list.''')
 
     class Meta:
         model = Lesson
