@@ -460,7 +460,7 @@ class LessonForm(forms.ModelForm):
 
         # create new
         for learning_objective in learning_objectives.split('\r\n'):
-            lo = LearningObjective.objects.get_or_create(text=learning_objective)
+            lo, created = LearningObjective.objects.get_or_create(text=learning_objective)
             lo.save()
 
             o_rel = ObjectiveRelation(objective=lo, content_type=ctype,
