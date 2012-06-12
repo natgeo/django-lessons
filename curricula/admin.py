@@ -460,12 +460,13 @@ class LessonForm(forms.ModelForm):
 
         # create new
         for learning_objective in learning_objectives.split('\r\n'):
-            lo, created = LearningObjective.objects.get_or_create(text=learning_objective)
-            lo.save()
+            if learning_objective and len(learning_objective) > 0:
+                lo, created = LearningObjective.objects.get_or_create(text=learning_objective)
+                lo.save()
 
-            o_rel = ObjectiveRelation(objective=lo, content_type=ctype,
-                                      object_id=self.instance.id)
-            o_rel.save()
+                o_rel = ObjectiveRelation(objective=lo, content_type=ctype,
+                                          object_id=self.instance.id)
+                o_rel.save()
         return learning_objectives
 
 class LessonAdmin(ContentAdmin):
