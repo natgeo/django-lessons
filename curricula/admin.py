@@ -109,8 +109,10 @@ class ActivityForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ActivityForm, self).__init__(*args, **kwargs)
+        instance = None
         if kwargs.has_key('instance'):
             instance = kwargs['instance']
+
         for field in ACTIVITY_FIELDS:
             field_name = field[0]
             model = get_model(*field[1].split('.'))
@@ -414,8 +416,10 @@ class LessonForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(LessonForm, self).__init__(*args, **kwargs)
+        instance = None
         if kwargs.has_key('instance'):
             instance = kwargs['instance']
+
 
         field_name = KEY_IMAGE[0]
         qset = get_model(*KEY_IMAGE[1].split('.')).objects.all()
