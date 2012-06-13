@@ -44,34 +44,39 @@ except ImportError:
     class ResourceCarouselSlide(models.Model):
         name = models.CharField(max_length=128)
 
+def gradesDict(grades_list):
+    g = {}
+    special = {'K': 0, 'preschool': -1, 'post-secondary': 13}
+    for item in grades_list:
+        if item.isdigit():
+            g[item] = int(item)
+        else:
+            try:
+                g[item] = special[item]
+            except KeyError:
+                pass
+    return g
+
 def grades_html(grades):
     if not grades:
         return ''
 
-    def gradesDict(grades_list):
-        g = {}
-        special = {'K': 0,
-                   'preschool': -1,
-                   'post-secondary': 13}
-        for item in grades_list:
-            if item.isdigit():
-                g[item] = int(item)
-            else:
-                try:
-                    g[item] = special[item]
-                except KeyError:
-                    pass
-        return g
-
     min_age = min([grade.min_age for grade in grades])
     max_age = max([grade.max_age for grade in grades])
-    grades_grad = [x.name if x.name != u'13' else u'13+' for x in grades]
+    grades_grad = [x.name if x.name != u'13' else u'12+' for x in grades]
 
     if 'Unknown' in grades_grad:
         _grades_html = "<span class='grades'>Grades: Unknown</span><br>Ages: Unknown"
     elif 'All' in grades_grad:
         _grades_html = "Grades: All<br>Ages: All"
-    elif grades > 1:
+    elif len(grades_grad) == 1:
+        if grades_grad[0] == u'12+':
+            _grades_html = "<span class='grades'>Post-secondary</span><br/>Age %s" % (
+                min_age)
+        else:
+            _grades_html = "<span class='grades'>Grade %s</span><br/>Age %s" % (
+                grades_grad[0], min_age)
+    elif len(grades_grad) > 1:
         gradestuple = sorted(gradesDict(grades_grad).iteritems(),
                 key=lambda (k, v): (v, k))
         _grades_html = "<span class='grades'>Grades %s-%s</span><br/>Ages %s-%s" % (
@@ -306,27 +311,18 @@ Note that the text you input in this form serves as the default text. If you ind
         grades = self.grades.all()
         if not grades:
             return ''
-        def gradesDict(grades_list):
-            g = {}
-            special = {'K': 0,
-                       'preschool': -1,
-                       'post-secondary': 13}
-            for item in grades_list:
-                if item.isdigit():
-                    g[item] = int(item)
-                else:
-                    try:
-                        g[item] = special[item]
-                    except KeyError:
-                        pass
-            return g
 
         grades_grad = [x.name if x.name != u'13' else u'13+' for x in grades]
         if 'Unknown' in grades_grad:
             _grades_html = "<span class='grades'>Grades: Unknown</span>"
         elif 'All' in grades_grad:
             _grades_html = "Grades: All"
-        elif grades > 1:
+        elif len(grades_grad) == 1:
+            if grades_grad[0] == '13+':
+                _grades_html = "<span class='grades'>Post-secondary</span>"
+            else:
+                _grades_html = "<span class='grades'>Grade %s</span>" % grades_grad[0]
+        elif len(grades_grad) > 1:
             _grades_html = "<span class='grades'>Grades %s-%s</span>" % (grades_grad[0], grades_grad[-1])
         return _grades_html
 
