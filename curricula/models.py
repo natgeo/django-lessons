@@ -241,7 +241,7 @@ Note that the text you input in this form serves as the default text. If you ind
     tips = models.ManyToManyField(Tip, blank=True, null=True, verbose_name="Tips & Modifications")
 
    #Objectives
-    learning_objectives = models.TextField(blank=True, null=True, help_text="If this activity is part of an already-created lesson and you update the learning objectives, you must also also make the same change in lesson for this field.")
+    learning_objective_set = generic.GenericRelation(ObjectiveRelation)
     skills = models.ManyToManyField(Skill, blank=True, null=True, limit_choices_to={'children__isnull': True})
     teaching_approaches = models.ManyToManyField(TeachingApproach, blank=True, null=True)
     teaching_method_types = models.ManyToManyField(TeachingMethodType, blank=True, null=True)
@@ -466,9 +466,6 @@ class Lesson(models.Model): # Publish):
   # Directions
     assessment_type = models.CharField(max_length=15, blank=True, null=True, choices=ASSESSMENT_TYPES)
     assessment = models.TextField(blank=True, null=True, help_text="This field is for a new, lesson-level assessment. It is not impacted by activity-level assessments.")
-
-  # Objectives
-    learning_objectives = models.TextField(blank=True, null=True, help_text="All learning objectives from the activities within the lesson will dynamically display. Only use this field if you need to add additional, lesson-level learning objectives.")
 
   # Preparation
     materials = models.ManyToManyField(Material, blank=True, null=True, help_text="This field is for additional, lesson-level materials a teacher will need to provide; for example, new materials needed in order to conduct the lesson-level assessment. Do not repeat activity-specific materials.")
