@@ -66,7 +66,7 @@ class VocabularyInline(admin.TabularInline):
         return formfield
 
 class QuestionAnswerInline(admin.TabularInline):
-    extra = 1
+    extra = 3
     formfield_overrides = {
         BitField: {
             'choices': AUDIENCE_FLAGS,
