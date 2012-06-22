@@ -237,8 +237,9 @@ class ContentAdmin(admin.ModelAdmin):
               JAVASCRIPT_URL + 'admin.js',
               JAVASCRIPT_URL + 'sectioned_tinymce_widget.js',
               settings.STATIC_URL + 'js_scss/libs/jquery.ui.core.min.js',
-              settings.STATIC_URL + 'js_scss/libs/jquery.ui.sortable.min.js',
-              JAVASCRIPT_URL + 'dynamic_inlines_with_sort.js',)
+              # settings.STATIC_URL + 'js_scss/libs/jquery.ui.sortable.min.js',
+              # JAVASCRIPT_URL + 'dynamic_inlines_with_sort.js',
+        )
 
     def get_title(self, obj):
         return strip_tags(obj.title)
