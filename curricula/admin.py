@@ -175,28 +175,6 @@ class ActivityForm(forms.ModelForm):
     def clean_internet_access_type(self):
         return self.clean_field('internet_access_type')
 
-    # [EDU-2791] Learning Objectives
-    def clean_learning_objs(self):
-        learning_objectives = self.cleaned_data['learning_objs']
-        ctype = ContentType.objects.get_for_model(Activity)
-        # clear existing
-        objectiverelations = ObjectiveRelation.objects.filter(
-                                content_type=ctype, object_id=self.instance.id)
-
-        for objectiverelation in objectiverelations:
-            objectiverelation.objective.delete()
-            objectiverelation.delete()
-
-        # create new
-        for learning_objective in learning_objectives.split('\r\n'):
-            if learning_objective and len(learning_objective) > 0:
-                lo, created = LearningObjective.objects.get_or_create(text=learning_objective)
-
-                o_rel = ObjectiveRelation(objective=lo, content_type=ctype,
-                                          object_id=self.instance.id)
-                o_rel.save()
-        return learning_objectives
-
     # def clean_materials(self):
     #     return self.clean_field('materials')
 
@@ -358,7 +336,26 @@ class ActivityAdmin(ContentAdmin):
                     app_label, model = model.split('.')
                     ctype = ContentType.objects.get(app_label=app_label, model=model)
                     item = obj.activityrelation_set.create(relation_type=field, object_id=form[field].data, content_type_id=ctype.id)
+        
+        learning_objectives = form.cleaned_data['learning_objs']
+        ctype = ContentType.objects.get_for_model(Activity)
+        # clear existing
+        objectiverelations = ObjectiveRelation.objects.filter(
+                                content_type=ctype, object_id=obj.id)
 
+        for objectiverelation in objectiverelations:
+            objectiverelation.objective.delete()
+            objectiverelation.delete()
+
+        # create new
+        for learning_objective in learning_objectives.split('\r\n'):
+            if learning_objective and len(learning_objective) > 0:
+                lo, created = LearningObjective.objects.get_or_create(text=learning_objective)
+
+                o_rel = ObjectiveRelation(objective=lo, content_type=ctype,
+                                          object_id=obj.id)
+                o_rel.save()
+        
     def thumbnail_display(self, obj):
         return obj.thumbnail_html()
     thumbnail_display.allow_tags = True
@@ -452,27 +449,6 @@ class LessonForm(forms.ModelForm):
             raise forms.ValidationError("%s is required." % field_name)
         return cleaned_data
 
-    # [EDU-2791] Learning Objectives
-    def clean_learning_objs(self):
-        learning_objectives = self.cleaned_data['learning_objs']
-        ctype = ContentType.objects.get_for_model(Lesson)
-        # clear existing
-        objectiverelations = ObjectiveRelation.objects.filter(
-                                content_type=ctype, object_id=self.instance.id)
-        for objectiverelation in objectiverelations:
-            objectiverelation.objective.delete()
-            objectiverelation.delete()
-
-        # create new
-        for learning_objective in learning_objectives.split('\r\n'):
-            if learning_objective and len(learning_objective) > 0:
-                lo, created = LearningObjective.objects.get_or_create(text=learning_objective)
-                lo.save()
-
-                o_rel = ObjectiveRelation(objective=lo, content_type=ctype,
-                                          object_id=self.instance.id)
-                o_rel.save()
-        return learning_objectives
 
 class LessonAdmin(ContentAdmin):
     date_hierarchy = 'create_date'
@@ -599,6 +575,26 @@ class LessonAdmin(ContentAdmin):
                     app_label, model = model.split('.')
                     ctype = ContentType.objects.get(app_label=app_label, model=model)
                     item = obj.lessonrelation_set.create(relation_type=field, object_id=form[field].data, content_type_id=ctype.id)
+        
+        learning_objectives = form.cleaned_data['learning_objs']
+        ctype = ContentType.objects.get_for_model(Lesson)
+        # clear existing
+        objectiverelations = ObjectiveRelation.objects.filter(
+                                content_type=ctype, object_id=obj.id)
+
+        for objectiverelation in objectiverelations:
+            objectiverelation.objective.delete()
+            objectiverelation.delete()
+
+        # create new
+        for learning_objective in learning_objectives.split('\r\n'):
+            if learning_objective and len(learning_objective) > 0:
+                lo, created = LearningObjective.objects.get_or_create(text=learning_objective)
+
+                o_rel = ObjectiveRelation(objective=lo, content_type=ctype,
+                                          object_id=obj.id)
+                o_rel.save()
+        
 
     def thumbnail_display(self, obj):
         return obj.thumbnail_html()
