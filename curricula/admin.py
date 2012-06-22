@@ -197,11 +197,11 @@ class ActivityForm(forms.ModelForm):
                 o_rel.save()
         return learning_objectives
 
-    def clean_materials(self):
-        return self.clean_field('materials')
+    # def clean_materials(self):
+    #     return self.clean_field('materials')
 
-  # def clean_reporting_categories(self):
-  #     return self.clean_field('reporting_categories')
+    # def clean_reporting_categories(self):
+    #     return self.clean_field('reporting_categories')
 
     def clean_skills(self):
         return self.clean_field('skills')
