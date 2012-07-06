@@ -116,16 +116,19 @@ def activities_info(ids, l_id=None):
         
         # These lines add a significant number of queries overall due to the
         # way that the edu_core code implements audience.
-        bundle_id = activity.get_relation_type('resource_carousel')[0].content_object.id
-        resource_dict = gather_carousel_items(EduBundle.objects.get(id=bundle_id))
+        bundle = activity.resource_carousel()
+        # [EDU-2806] Activities are no longer required to have an rc
+        if bundle:
+            resource_dict = gather_carousel_items(EduBundle.objects.get(id=bundle.id))
         # [EDU-2783] de-dup Resources Provided
         if resources == defaultdict(list):
             pks = []
         else:
             pks = [val['pk'] for val in resources.values()[0]]
-        for key, val in resource_dict.items():
-          if val[0]['pk'] not in pks:
-                resources[key].extend(val)
+        if bundle:
+            for key, val in resource_dict.items():
+              if val[0]['pk'] not in pks:
+                    resources[key].extend(val)
         
         if activity.internet_access_type > inet_access:
             inet_access = activity.internet_access_type
