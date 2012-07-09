@@ -10,7 +10,7 @@ from django.core.urlresolvers import reverse
 from django.utils.html import strip_tags
 
 from settings import (ASSESSMENT_TYPES, STANDARD_TYPES,
-                      PEDAGOGICAL_PURPOSE_TYPE_CHOICES, RELATION_MODELS, 
+                      PEDAGOGICAL_PURPOSE_TYPE_CHOICES, RELATION_MODELS,
                       RELATIONS, CREDIT_MODEL, INTERNET_ACCESS_TYPES,
                       REPORTING_MODEL, KEY_IMAGE, RESOURCE_CAROUSEL)
 from utils import truncate, ul_as_list
@@ -37,12 +37,13 @@ except ImportError:
     # Temporary shim for testing
     class GlossaryTerm(models.Model):
         name = models.CharField(max_length=128)
-    
+
     class Resource(models.Model):
         name = models.CharField(max_length=128)
 
     class ResourceCarouselSlide(models.Model):
         name = models.CharField(max_length=128)
+
 
 def gradesDict(grades_list):
     g = {}
@@ -56,6 +57,7 @@ def gradesDict(grades_list):
             except KeyError:
                 pass
     return g
+
 
 def grades_html(grades):
     if not grades:
@@ -88,6 +90,7 @@ def grades_html(grades):
 
     return _grades_html
 
+
 class TypeModel(models.Model):
     name = models.CharField(max_length=128)
 
@@ -98,8 +101,10 @@ class TypeModel(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class GroupingType(TypeModel):
     pass
+
 
 class LearnerGroup(models.Model):
     name = models.CharField(max_length=31)
@@ -107,16 +112,17 @@ class LearnerGroup(models.Model):
     def __unicode__(self):
         return self.name
 
-# [EDU-2791] Learning Objectives
 OBJ_REL_MODELS = ('curricula.activity', 'curricula.lesson')
 OBJ_RELS = [Q(app_label=al, model=m) for al, m in [x.split('.') for x in OBJ_REL_MODELS]]
-obj_rel_limits = reduce(lambda x,y: x|y, OBJ_RELS)
+obj_rel_limits = reduce(lambda x, y: x | y, OBJ_RELS)
+
 
 class LearningObjective(models.Model):
     text = models.TextField()
 
     def __unicode__(self):
         return self.text
+
 
 class ObjectiveRelation(models.Model):
     objective = models.ForeignKey(LearningObjective)
@@ -125,37 +131,44 @@ class ObjectiveRelation(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = generic.GenericForeignKey()
 
+
 class Material(models.Model):
     name = models.TextField()
 
     def __unicode__(self):
         return self.name
-    
+
     class Meta:
         ordering = ["name"]
+
 
 class PhysicalSpaceType(TypeModel):
     is_default = models.NullBooleanField()
 
+
 class PluginType(TypeModel):
     source_url = models.CharField(max_length=128)
+
 
 class Skill(CategoryBase):
     appropriate_for = BitField(flags=AUDIENCE_FLAGS)
     url = models.CharField(max_length=128, blank=True, null=True)
 
+
 class TeachingApproach(TypeModel):
     pass
 
+
 class TeachingMethodType(TypeModel):
     pass
+
 
 class TechSetupType(models.Model):
     title = models.CharField(max_length=64)
 
     def __unicode__(self):
         return self.title
-    
+
     class Meta:
         ordering = ["title"]
 
@@ -164,11 +177,13 @@ TIP_TYPE_CHOICES = (
     (2, 'Modification'),
 )
 
+
 class TipCategory(CategoryBase):
     """
     Tip-specific categories
     """
     pass
+
 
 class Tip(models.Model):
     appropriate_for = BitField(flags=AUDIENCE_FLAGS)
@@ -188,6 +203,7 @@ class Tip(models.Model):
         else:
             return truncate(strip_tags(self.body), 71)
 
+
 class Standard(models.Model):
     definition = models.TextField('Standard text', null=True, blank=True)
     name = models.CharField(max_length=256, null=True, blank=True)
@@ -206,10 +222,12 @@ class Standard(models.Model):
     class Meta:
         ordering = ["standard_type", "name"]
 
+
 class ContentManager(models.Manager):
     def get_published(self):
         qs = self.get_query_set()
         return qs.filter(published=True)
+
 
 class Activity(models.Model):
     appropriate_for = BitField(flags=AUDIENCE_FLAGS, help_text='''Select the audience(s) for which this content is appropriate. Selecting audiences means that a separate audience view of the page will exist for those audiences.
@@ -285,10 +303,10 @@ Note that the text you input in this form serves as the default text. If you ind
     @models.permalink
     def get_absolute_url(self):
         return ('activity-detail', (), {'slug': self.slug})
-    
+
     def __unicode__(self):
         return strip_tags(self.title)
-    
+
     class Meta:
         ordering = ["title"]
         verbose_name_plural = 'Activities'
@@ -296,7 +314,7 @@ Note that the text you input in this form serves as the default text. If you ind
     def get_canonical_page(self):
         for i in range(0, 5):
             if self.appropriate_for.get_bit(i).is_set:
-                return '%s?ar_a=%s' % (reverse('activity-detail', args=[self.slug]), i+1)
+                return '%s?ar_a=%s' % (reverse('activity-detail', args=[self.slug]), i + 1)
 
     def get_grades_and_ages(self):
         grades = self.grades.all()
@@ -304,27 +322,16 @@ Note that the text you input in this form serves as the default text. If you ind
 
     @property
     def get_grades_html(self):
-        return grades_html(self.grades.all())
+        from django.template.loader import render_to_string
+        ctxt = self.grades.all().as_struct()
+        print ctxt
+        return render_to_string('curricula/grades.html', ctxt)
 
     @property
     def get_grades_range(self):
-        grades = self.grades.all()
-        if not grades:
-            return ''
-
-        grades_grad = [x.name if x.name != u'13' else u'13+' for x in grades]
-        if 'Unknown' in grades_grad:
-            _grades_html = "<span class='grades'>Grades: Unknown</span>"
-        elif 'All' in grades_grad:
-            _grades_html = "Grades: All"
-        elif len(grades_grad) == 1:
-            if grades_grad[0] == '13+':
-                _grades_html = "<span class='grades'>Post-secondary</span>"
-            else:
-                _grades_html = "<span class='grades'>Grade %s</span>" % grades_grad[0]
-        elif len(grades_grad) > 1:
-            _grades_html = "<span class='grades'>Grades %s-%s</span>" % (grades_grad[0], grades_grad[-1])
-        return _grades_html
+        from django.template.loader import render_to_string
+        ctxt = self.grades.all().as_struct()
+        return render_to_string('curricula/grades_range.html', ctxt)
 
     def get_lessons(self):
         lessonactivities = LessonActivity.objects.filter(activity=self)
@@ -499,7 +506,7 @@ Note that the text you input in this form serves as the default text. If you ind
 
     def __unicode__(self):
         return strip_tags(self.title)
-    
+
     class Meta:
         ordering = ["title"]
 
@@ -513,7 +520,7 @@ Note that the text you input in this form serves as the default text. If you ind
             """
             return self.lessonrelation_set.filter(
                 content_type__name=content_type)
-        
+
         def get_relation_type(self, relation_type):
             """
             Get all relations of the specified relation type
@@ -681,6 +688,7 @@ Note that the text you input in this form serves as the default text. If you ind
         else:
             return None
 
+
 class LessonRelation(models.Model):
     lesson = models.ForeignKey(Lesson)
     content_type = models.ForeignKey(
@@ -701,11 +709,12 @@ class LessonRelation(models.Model):
             out += " as %s" % self.relation_type
         return out
 
+
 class LessonActivity(models.Model):
     lesson = models.ForeignKey(Lesson)
     activity = models.ForeignKey(Activity)
     transition_text = models.TextField(blank=True, null=True)
-    order = models.IntegerField(blank = True, null = True)
+    order = models.IntegerField(blank=True, null=True)
 
     class Meta:
         ordering = ('order',)

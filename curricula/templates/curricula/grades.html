@@ -1,0 +1,11 @@
+{% spaceless %}
+<span class="grades">{% if grade_plural %}
+Grades: {{ grade_lower }} - {{ grade_upper }}{% else %}
+Grade: {{ grade_lower }}
+{% endif %}</span>
+<br />
+<span class="ages">{% if age_plural %}
+Ages: {{ age_lower }} - {{ age_upper }}{% else %}
+Age: {{ age_lower }}
+{% endif %}</span>
+{% endspaceless %}

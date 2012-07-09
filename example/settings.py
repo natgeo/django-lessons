@@ -2,10 +2,10 @@
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-import os, sys
+import os
+import sys
 
 ROOT_PATH = os.path.dirname(os.path.realpath(__file__))
-
 APP = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 sys.path.append(APP)
 
@@ -89,15 +89,15 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-  # 'django.contrib.messages',
-    'south',
+    # 'django.contrib.messages',
+    # 'south',
     'tinymce',
     'categories',
     'categories.editor',
     'concepts',
     'edumetadata',
-  # 'reversion',
-  # 'publisher',
+    # 'reversion',
+    # 'publisher',
     'curricula',
     'audience',
     'dummy',
@@ -112,16 +112,16 @@ TINYMCE_DEFAULT_CONFIG = {
     'theme_advanced_buttons1': "fullscreen,preview,code,print,spellchecker,|,cut,copy,paste,pastetext,pasteword,undo,redo,|,search,replace,|,rawmode",
     'theme_advanced_buttons2': "formatselect,fontselect,fontsizeselect,insertfile,insertimage,|,bold,underline,italic,strikethrough,|,link,unlink,|,numlist,bullist,|,sub,sup,charmap,insertdate,inserttime,|,outdent,indent,|,justifyleft,justifycenter,justifyright,justifyfull,|,ltr,rtl,|,backcolor,forecolor,pagebreak",
     'theme_advanced_buttons3': "",
-    'theme_advanced_disable' : 'cut,copy,paste,cite,abbr,acronym,fontselect,fontsizeselect,forecolor,backcolor,forecolorpicker,backcolorpicker,blockquote,del,ins',
+    'theme_advanced_disable': 'cut,copy,paste,cite,abbr,acronym,fontselect,fontsizeselect,forecolor,backcolor,forecolorpicker,backcolorpicker,blockquote,del,ins',
     'theme_advanced_toolbar_location': "top",
     'theme_advanced_toolbar_align': "left",
     'theme_advanced_statusbar_location': "bottom",
-    'theme_advanced_resizing' : "true",
-    'theme_advanced_resize_horizontal' : 1,
-    'theme_advanced_resizing_max_width' : "750",
-    'width' : "750",
+    'theme_advanced_resizing': "true",
+    'theme_advanced_resize_horizontal': 1,
+    'theme_advanced_resizing_max_width': "750",
+    'width': "750",
     'height': "250",
-    'entity_encoding' : 'raw',
+    'entity_encoding': 'raw',
 }
 
 TINYMCE_SPELLCHECKER = True
@@ -143,14 +143,14 @@ LESSON_SETTINGS = {
     ),
 }
 
-CATEGORIES_SETTINGS = {
-    'FK_REGISTRY': { 'curricula.Lesson': (
-        {'name': 'primary_category', 'related_name': 'primary_cat', 'blank': True, 'null': True},
-    )},
-    'M2M_REGISTRY': { 'curricula.Lesson': (
-        {'name': 'secondary_categories', 'blank': True, 'null': True },
-    )}
-}
+# CATEGORIES_SETTINGS = {
+#     'FK_REGISTRY': {'curricula.Lesson': (
+#         {'name': 'primary_category', 'related_name': 'primary_cat', 'blank': True, 'null': True},
+#     )},
+#     'M2M_REGISTRY': {'curricula.Lesson': (
+#         {'name': 'secondary_categories', 'blank': True, 'null': True},
+#     )}
+# }
 
 CONCEPTS_SETTINGS = {
     'WEIGHTS': ((0, 'Hide'), (10, 'Very Low'), (20, 'Low'), (30, 'Medium'), (40, 'High'), (50, ' Very High')),

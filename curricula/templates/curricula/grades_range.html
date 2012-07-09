@@ -1,0 +1,9 @@
+{% spaceless %}
+{% if grades %}
+    <span class="grades">Grade{{ num_grades|pluralize }}: {{ grades }}</span>
+{% endif %}
+{% if grades and ages %}<br />{% endif %}
+{% if ages %}
+    <span class="grades">Age{{ num_grades|pluralize }}: {{ ages }}</span>
+{% endif %}
+{% endspaceless %}
