@@ -114,23 +114,6 @@ def activities_info(ids, l_id=None):
         objectives_list = ObjectiveRelation.objects.filter(
                                     content_type=ctype, object_id=activity.id)
         learning_objs |= set([objrel.objective for objrel in objectives_list])
-        
-        # These lines add a significant number of queries overall due to the
-        # way that the edu_core code implements audience.
-        bundle = activity.resource_carousel()
-        # [EDU-2806] Activities are no longer required to have an rc
-        if bundle:
-            resource_dict = gather_carousel_items(EduBundle.objects.get(id=bundle.id))
-        # [EDU-2783] de-dup Resources Provided
-        if resources == defaultdict(list):
-            pks = []
-        else:
-            pks = [val['pk'] for val in resources.values()[0]]
-        if bundle:
-            for key, val in resource_dict.items():
-              if val[0]['pk'] not in pks:
-                    resources[key].extend(val)
-        
         if activity.internet_access_type > inet_access:
             inet_access = activity.internet_access_type
         plugins |= set(activity.plugin_types.values_list('id', flat=True))
@@ -183,32 +166,26 @@ def activities_info(ids, l_id=None):
     output['other_notes'] = "".join(other)
     # if output['other_notes'] == "":
     #     output['other_notes'] = "<ul><li>None</li></ul>"
-    
+
     # these are complex and require rendering
     ctxt = {'objects': Subject.objects.filter(id__in=list(subjects))}
     output['subjects'] = render_to_string('includes/tree_list.html', ctxt)
-    
+
     ctxt = {'objects': Skill.objects.filter(id__in=list(skills))}
     output['skills'] = render_to_string('includes/tree_list.html', ctxt)
-    
+
     ctxt = {'objects': Standard.objects.filter(id__in=list(standards))}
     output['standards'] = render_to_string('includes/standards.html', ctxt)
-    
-    objects = GlossaryTerm.objects.filter(id__in=list(glossary)).values('word', 'definition', 'part_of_speech', 'encyclopedic')
-    ee_ids = [x['encyclopedic'] for x in objects]
-    ees = dict([(x['id'], x) for x in EncyclopedicEntry.objects.filter(id__in=ee_ids).values('id', 'word', 'slug')])
-    ctxt = {'objects': []}
-    for item in objects:
-        if item['encyclopedic']:
-            item['encyclopedic'] = ees[item['encyclopedic']]
-        ctxt['objects'].append(item)
+
+    objects = GlossaryTerm.objects.filter(id__in=list(glossary)).values('word', 'definition', 'part_of_speech')
+    ctxt = {'objects': objects}
     output['glossary'] = render_to_string('includes/vocabulary_list.html', ctxt)
-    
+
     ctxt = {'objects': Resource.objects.select_related().filter(id__in=list(further_expl))}
     output['further_exploration'] = render_to_string('includes/further_exploration_list.html', ctxt)
     ctxt = {'key_concepts': concepts}
     output['key_concepts'] = render_to_string('includes/key_concepts_list.html', ctxt)
-    
+
     # We'll keep resources as is, and call the javascript to render it.
     output['resources'] = resources
     return output
