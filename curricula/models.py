@@ -199,7 +199,8 @@ class Tip(models.Model):
 
     def __unicode__(self):
         if self.category:
-            return '%s: %s' % (self.category.name, truncate(strip_tags(self.body), 38))
+            return '%s: %s' % (self.category.name,
+                               truncate(strip_tags(self.body), 38))
         else:
             return truncate(strip_tags(self.body), 71)
 
@@ -208,7 +209,11 @@ class Standard(models.Model):
     definition = models.TextField('Standard text', null=True, blank=True)
     name = models.CharField(max_length=256, null=True, blank=True)
     standard_type = models.IntegerField(choices=STANDARD_TYPES)
-    state = models.CharField(max_length=2, null=True, blank=True, choices=STATE_CHOICES)
+    state = models.CharField(
+        max_length=2,
+        null=True,
+        blank=True,
+        choices=STATE_CHOICES)
     thinkfinity_code = models.CharField(max_length=100, blank=True, null=True)
     url = models.CharField(max_length=256, null=True, blank=True)
     when_updated = models.DateTimeField(null=True, blank=True, auto_now=True)
@@ -230,73 +235,185 @@ class ContentManager(models.Manager):
 
 
 class Activity(models.Model):
-    appropriate_for = BitField(flags=AUDIENCE_FLAGS, help_text='''Select the audience(s) for which this content is appropriate. Selecting audiences means that a separate audience view of the page will exist for those audiences.
+    appropriate_for = BitField(
+        flags=AUDIENCE_FLAGS,
+        help_text='''Select the audience(s) for which this content is
+        appropriate. Selecting audiences means that a separate audience view of
+        the page will exist for those audiences.
 
-Note that the text you input in this form serves as the default text. If you indicate this activity is appropriate for multiple audiences, you either need to add text variations or the default text must be appropriate for those audiences.''')
-    title = models.CharField(max_length=256, help_text="GLOBAL: Use the text variations field to create versions for audiences other than the default.")
-    ads_excluded = models.BooleanField(default=True, verbose_name="Are ads excluded?", help_text="If unchecked, this field indicates that external ads are allowed.")
-    assessment = models.TextField(blank=True, null=True)
-    assessment_type = models.CharField(max_length=15, blank=True, null=True, choices=ASSESSMENT_TYPES)
+        Note that the text you input in this form serves as the default text.
+        If you indicate this activity is appropriate for multiple audiences,
+        you either need to add text variations or the default text must be
+        appropriate for those audiences.''')
+    title = models.CharField(
+        max_length=256,
+        help_text="""GLOBAL: Use the text variations field to create versions
+        for audiences other than the default.""")
+    ads_excluded = models.BooleanField(
+        default=True, verbose_name="Are ads excluded?",
+        help_text="""If unchecked, this field indicates that external ads are
+        allowed.""")
+    assessment = models.TextField(
+        blank=True,
+        null=True)
+    assessment_type = models.CharField(
+        max_length=15,
+        blank=True,
+        null=True,
+        choices=ASSESSMENT_TYPES)
     create_date = models.DateTimeField(auto_now_add=True)
     description = models.TextField()
     duration = models.IntegerField(verbose_name="Duration Minutes")
-    extending_the_learning = models.TextField(blank=True, null=True)
-    grades = models.ManyToManyField(Grade, blank=True, null=True)
-    id_number = models.CharField(max_length=10, help_text="This field is for the internal NG Education ID number. This is required for all instructional content.")
-    is_modular = models.BooleanField(default=True, help_text="If unchecked, this field indicates that this activity should not appear as stand-alone outside of a lesson view.")
-    learner_groups = models.ManyToManyField(LearnerGroup, blank=True, null=True)
-    notes_on_readability_score = models.TextField(blank=True, null=True, help_text="Use this internal-use only field to record any details related to the readability of reading passages, such as those on handouts. Include Lexile score, grade-level equivalent, and any criteria used to determine why a higher score is acceptable (proper nouns, difficult vocabulary, etc.).")
-    pedagogical_purpose_type = models.SmallIntegerField(blank=True, null=True, choices=PEDAGOGICAL_PURPOSE_TYPE_CHOICES)
+    extending_the_learning = models.TextField(
+        blank=True,
+        null=True)
+    grades = models.ManyToManyField(Grade,
+        blank=True,
+        null=True)
+    id_number = models.CharField(
+        max_length=10,
+        help_text="""This field is for the internal NG Education ID number. This
+        is required for all instructional content.""")
+    is_modular = models.BooleanField(
+        default=True,
+        help_text="""If unchecked, this field indicates that this activity
+        should not appear as stand-alone outside of a lesson view.""")
+    learner_groups = models.ManyToManyField(LearnerGroup,
+        blank=True,
+        null=True)
+    notes_on_readability_score = models.TextField(
+        blank=True,
+        null=True,
+        help_text="""Use this internal-use only field to record any details
+        related to the readability of reading passages, such as those on
+        handouts. Include Lexile score, grade-level equivalent, and any
+        criteria used to determine why a higher score is acceptable
+        (proper nouns, difficult vocabulary, etc.).""")
+    pedagogical_purpose_type = models.SmallIntegerField(
+        blank=True,
+        null=True,
+        choices=PEDAGOGICAL_PURPOSE_TYPE_CHOICES)
     published = models.BooleanField()
-    published_date = models.DateTimeField(blank=True, null=True)
-    slug = models.SlugField(unique=True, max_length=100, help_text="The URL slug is auto-generated, but producers should adjust it if: a) punctuation in the title causes display errors; and/or b) the title changes after the slug has been generated.")
-    standards = models.ManyToManyField(Standard, blank=True, null=True)
-    subjects = models.ManyToManyField(Subject, blank=True, null=True, limit_choices_to={'parent__isnull': False}, verbose_name="Subjects and Disciplines")
-    subtitle_guiding_question = models.TextField(verbose_name="Subtitle or Guiding Question")
+    published_date = models.DateTimeField(
+        blank=True,
+        null=True)
+    slug = models.SlugField(
+        unique=True,
+        max_length=100,
+        help_text="""The URL slug is auto-generated, but producers should adjust
+        it if: a) punctuation in the title causes display errors; and/or b) the
+        title changes after the slug has been generated.""")
+    standards = models.ManyToManyField(Standard,
+        blank=True,
+        null=True)
+    subjects = models.ManyToManyField(Subject,
+        blank=True,
+        null=True,
+        limit_choices_to={'parent__isnull': False},
+        verbose_name="Subjects and Disciplines")
+    subtitle_guiding_question = models.TextField(
+        verbose_name="Subtitle or Guiding Question")
 
    #Directions
-    directions = models.TextField(blank=True, null=True)
-    tips = models.ManyToManyField(Tip, blank=True, null=True, verbose_name="Tips & Modifications")
+    directions = models.TextField(
+        blank=True,
+        null=True)
+    tips = models.ManyToManyField(Tip,
+        blank=True,
+        null=True,
+        verbose_name="Tips & Modifications")
 
    #Objectives
     learning_objective_set = generic.GenericRelation(ObjectiveRelation)
-    skills = models.ManyToManyField(Skill, blank=True, null=True, limit_choices_to={'children__isnull': True})
-    teaching_approaches = models.ManyToManyField(TeachingApproach, blank=True, null=True)
-    teaching_method_types = models.ManyToManyField(TeachingMethodType, blank=True, null=True)
+    skills = models.ManyToManyField(Skill,
+        blank=True,
+        null=True,
+        limit_choices_to={'children__isnull': True})
+    teaching_approaches = models.ManyToManyField(TeachingApproach,
+        blank=True,
+        null=True)
+    teaching_method_types = models.ManyToManyField(TeachingMethodType,
+        blank=True,
+        null=True)
 
    #Preparation
-    accessibility_notes = models.TextField(blank=True, null=True)
-    materials = models.ManyToManyField(Material, blank=True, null=True)
-    grouping_types = models.ManyToManyField(GroupingType, blank=True, null=True)
-    other_notes = models.TextField(blank=True, null=True)
-    physical_space_types = models.ManyToManyField(PhysicalSpaceType, blank=True, null=True)
-    prior_activities = models.ManyToManyField('self', blank=True, null=True, verbose_name="Recommended Prior Activities")
-    setup = models.TextField(blank=True, null=True)
+    accessibility_notes = models.TextField(
+        blank=True,
+        null=True)
+    materials = models.ManyToManyField(Material,
+        blank=True,
+        null=True)
+    grouping_types = models.ManyToManyField(GroupingType,
+        blank=True,
+        null=True)
+    other_notes = models.TextField(
+        blank=True,
+        null=True)
+    physical_space_types = models.ManyToManyField(PhysicalSpaceType,
+        blank=True,
+        null=True)
+    prior_activities = models.ManyToManyField('self',
+        blank=True,
+        null=True,
+        symmetrical=False,
+        verbose_name="Recommended Prior Activities")
+    setup = models.TextField(
+        blank=True,
+        null=True)
+
    #Required Technology
-    internet_access_type = models.IntegerField(blank=True, null=True, choices=INTERNET_ACCESS_TYPES)
-    plugin_types = models.ManyToManyField(PluginType, blank=True, null=True)
-    tech_setup_types = models.ManyToManyField(TechSetupType, blank=True, null=True)
+    internet_access_type = models.IntegerField(
+        blank=True,
+        null=True,
+        choices=INTERNET_ACCESS_TYPES)
+    plugin_types = models.ManyToManyField(PluginType,
+        blank=True,
+        null=True)
+    tech_setup_types = models.ManyToManyField(TechSetupType,
+        blank=True,
+        null=True)
 
    #Background & Vocabulary
-    background_information = models.TextField(blank=True, null=True, help_text="If this activity is part of an already-created lesson and you update the background information, you must also make the same change in lesson for this field.")
-    prior_knowledge = models.TextField(blank=True, null=True)
+    background_information = models.TextField(
+        blank=True,
+        null=True,
+        help_text="""If this activity is part of an already-created lesson and
+        you update the background information, you must also make the same
+        change in lesson for this field.""")
+    prior_knowledge = models.TextField(
+        blank=True,
+        null=True)
 
   # Credits, Sponsors, Partners
     if CREDIT_MODEL:
-        credit = models.ForeignKey(CreditModel, blank=True, null=True)
+        credit = models.ForeignKey(CreditModel,
+            blank=True,
+            null=True)
 
   # Global Metadata
     if REPORTING_MODEL:
-        reporting_categories = models.ManyToManyField(ReportingModel, blank=True, null=True)
+        reporting_categories = models.ManyToManyField(ReportingModel,
+            blank=True,
+            null=True)
 
   # Content Related Metadata
-    secondary_content_types = models.ManyToManyField(AlternateType, blank=True, null=True)
+    secondary_content_types = models.ManyToManyField(AlternateType,
+        blank=True,
+        null=True)
 
   # Time and Date Metadata
-    eras = models.ManyToManyField(HistoricalEra, blank=True, null=True)
-    geologic_time = models.ForeignKey(GeologicTime, blank=True, null=True)
-    relevant_start_date = HistoricalDateField(blank=True, null=True)
-    relevant_end_date = HistoricalDateField(blank=True, null=True)
+    eras = models.ManyToManyField(HistoricalEra,
+        blank=True,
+        null=True)
+    geologic_time = models.ForeignKey(GeologicTime,
+        blank=True,
+        null=True)
+    relevant_start_date = HistoricalDateField(
+        blank=True,
+        null=True)
+    relevant_end_date = HistoricalDateField(
+        blank=True,
+        null=True)
 
     objects = ContentManager()
 
@@ -324,7 +441,6 @@ Note that the text you input in this form serves as the default text. If you ind
     def get_grades_html(self):
         from django.template.loader import render_to_string
         ctxt = self.grades.all().as_struct()
-        print ctxt
         return render_to_string('curricula/grades.html', ctxt)
 
     @property
@@ -398,6 +514,7 @@ Note that the text you input in this form serves as the default text. If you ind
             pops = self.get_relation_type('Pictures of Practice')
             return [pop.content_object for pop in pops if pop.content_object.is_available_for_audience(audience)]
 
+
 class Vocabulary(models.Model):
     activity = models.ForeignKey(Activity)
     glossary_term = models.ForeignKey(GlossaryTerm)
@@ -408,6 +525,7 @@ class Vocabulary(models.Model):
 
     def __unicode__(self):
         return self.glossary_term.__unicode__()
+
 
 class QuestionAnswer(models.Model):
     activity = models.ForeignKey(Activity)
@@ -420,11 +538,13 @@ class QuestionAnswer(models.Model):
         limit = 44
         return self.question[:limit] + (self.question[limit:] and '...')
 
+
 class ResourceItem(models.Model):
     activity = models.ForeignKey(Activity)
     resource = models.ForeignKey(Resource, related_name='instructional_resource')
 
-relation_limits = reduce(lambda x,y: x|y, RELATIONS)
+relation_limits = reduce(lambda x, y: x | y, RELATIONS)
+
 
 class RelationManager(models.Manager):
     def get_content_type(self, content_type):
@@ -434,6 +554,7 @@ class RelationManager(models.Manager):
     def get_relation_type(self, relation_type):
         qs = self.get_query_set()
         return qs.filter(relation_type=relation_type)
+
 
 class ActivityRelation(models.Model):
     activity = models.ForeignKey(Activity)
@@ -455,48 +576,124 @@ class ActivityRelation(models.Model):
             out += " as %s" % self.relation_type
         return out
 
-class Lesson(models.Model): # Publish):
-    title = models.CharField(max_length=256, help_text="GLOBAL: Use the text variations field to create versions for audiences other than the default.")
-    ads_excluded = models.BooleanField(default=True, help_text="If unchecked, this field indicates that external ads are allowed.")
+
+class Lesson(models.Model):  # Publish):
+    title = models.CharField(
+        max_length=256,
+        help_text="""GLOBAL: Use the text variations field to create versions
+        for audiences other than the default.""")
+    ads_excluded = models.BooleanField(
+        default=True,
+        help_text="""If unchecked, this field indicates that external ads are
+        allowed.""")
     create_date = models.DateTimeField(auto_now_add=True)
     description = models.TextField()
-    geologic_time = models.ForeignKey(GeologicTime, blank=True, null=True)
-    id_number = models.CharField(max_length=10, help_text="This field is for the internal NG Education ID number. This is required for all instructional content.")
-    is_modular = models.BooleanField(default=True, help_text="If unchecked, this field indicates that this lesson should NOT appear as stand-alone outside of a unit view.")
+    geologic_time = models.ForeignKey(GeologicTime,
+        blank=True,
+        null=True)
+    id_number = models.CharField(
+        max_length=10,
+        help_text="""This field is for the internal NG Education ID number.
+        This is required for all instructional content.""")
+    is_modular = models.BooleanField(
+        default=True,
+        help_text="""If unchecked, this field indicates that this lesson should
+        NOT appear as stand-alone outside of a unit view.""")
     last_updated_date = models.DateTimeField(auto_now=True)
     published = models.BooleanField()
-    published_date = models.DateTimeField(blank=True, null=True)
-    secondary_content_types = models.ManyToManyField(AlternateType, blank=True, null=True)
-    slug = models.SlugField(unique=True, help_text="The URL slug is auto-generated, but producers should adjust it if: a) punctuation in the title causes display errors; and/or b) the title changes after the slug has been generated.")
-    subtitle_guiding_question = models.TextField(verbose_name="Subtitle or Guiding Question")
+    published_date = models.DateTimeField(
+        blank=True,
+        null=True)
+    secondary_content_types = models.ManyToManyField(AlternateType,
+        blank=True,
+        null=True)
+    slug = models.SlugField(
+        unique=True,
+        help_text="""The URL slug is auto-generated, but producers should adjust
+        it if: a) punctuation in the title causes display errors; and/or b) the
+        title changes after the slug has been generated.""")
+    subtitle_guiding_question = models.TextField(
+        verbose_name="Subtitle or Guiding Question")
 
   # Directions
-    assessment_type = models.CharField(max_length=15, blank=True, null=True, choices=ASSESSMENT_TYPES)
-    assessment = models.TextField(blank=True, null=True, help_text="This field is for a new, lesson-level assessment. It is not impacted by activity-level assessments.")
+    assessment_type = models.CharField(
+        max_length=15,
+        blank=True,
+        null=True,
+        choices=ASSESSMENT_TYPES)
+    assessment = models.TextField(
+        blank=True,
+        null=True,
+        help_text="""This field is for a new, lesson-level assessment. It is
+        not impacted by activity-level assessments.""")
 
   # Preparation
-    materials = models.ManyToManyField(Material, blank=True, null=True, help_text="This field is for additional, lesson-level materials a teacher will need to provide; for example, new materials needed in order to conduct the lesson-level assessment. Do not repeat activity-specific materials.")
-    other_notes = models.TextField(blank=True, null=True, help_text="This field has multiple uses, but one possible use is to indicate the larger context into which the lesson fits. Example: This is lesson 1 in a series of 10 lessons in a unit on Europe.")
+    materials = models.ManyToManyField(Material,
+        blank=True,
+        null=True,
+        help_text="""This field is for additional, lesson-level materials a
+        teacher will need to provide; for example, new materials needed in
+        order to conduct the lesson-level assessment. Do not repeat activity-
+        specific materials.""")
+    other_notes = models.TextField(
+        blank=True,
+        null=True,
+        help_text="""This field has multiple uses, but one possible use is to
+        indicate the larger context into which the lesson fits. Example: This
+        is lesson 1 in a series of 10 lessons in a unit on Europe.""")
   # Background & Vocabulary
-    background_information = models.TextField(blank=True, null=True, help_text='Producers can either copy/paste background information into this field, or click the "import text" link to import background information from all activities in this lesson into this field and edit them. If you click "import text from activities" and revise/override the imported text, note that clicking "import text from activities" again will re-set the text back to the imported version.')
-    prior_knowledge = models.TextField(blank=True, null=True)
-    prior_activities = models.ManyToManyField(Activity, blank=True, null=True)
+    background_information = models.TextField(
+        blank=True,
+        null=True,
+        help_text="""Producers can either copy/paste background information
+        into this field, or click the "import text" link to import background
+        information from all activities in this lesson into this field and edit
+        them. If you click "import text from activities" and revise/override the
+        imported text, note that clicking "import text from activities" again
+        will re-set the text back to the imported version.""")
+    prior_knowledge = models.TextField(
+        blank=True,
+        null=True)
+    prior_activities = models.ManyToManyField(Activity,
+        blank=True,
+        null=True)
 
   # Credits, Sponsors, Partners
     if CREDIT_MODEL:
-        credit = models.ForeignKey(CreditModel, blank=True, null=True, help_text="All activity-level credits will dynamically display in the lesson credits, broken out by activity number. Only use this field if you need to add additional, lesson-level credits.")
+        credit = models.ForeignKey(CreditModel,
+            blank=True,
+            null=True,
+            help_text="""All activity-level credits will dynamically display in
+            the lesson credits, broken out by activity number. Only use this
+            field if you need to add additional, lesson-level credits.""")
 
   # Global Metadata
-    appropriate_for = BitField(flags=AUDIENCE_FLAGS, help_text='''Select the audience(s) for which this content is appropriate. Selecting audiences means that a separate audience view of the page will exist for those audiences. For a lesson, the only possible choices are Teachers and Informal Educators.
+    appropriate_for = BitField(
+        flags=AUDIENCE_FLAGS,
+        help_text='''Select the audience(s) for which this content is
+        appropriate. Selecting audiences means that a separate audience view of
+        the page will exist for those audiences. For a lesson, the only possible
+        choices are Teachers and Informal Educators.
 
-Note that the text you input in this form serves as the default text. If you indicate this activity is appropriate for both T/IE audiences, you either need to add text variations or the default text must be appropriate for for both audiences.''')
+        Note that the text you input in this form serves as the default text.
+        If you indicate this activity is appropriate for both T/IE audiences,
+        you either need to add text variations or the default text must be
+        appropriate for for both audiences.''')
     if REPORTING_MODEL:
-        reporting_categories = models.ManyToManyField(ReportingModel, blank=True, null=True)
+        reporting_categories = models.ManyToManyField(ReportingModel,
+            blank=True,
+            null=True)
 
   # Time and Date Metadata
-    eras = models.ManyToManyField(HistoricalEra, blank=True, null=True)
-    relevant_start_date = HistoricalDateField(blank=True, null=True)
-    relevant_end_date = HistoricalDateField(blank=True, null=True)
+    eras = models.ManyToManyField(HistoricalEra,
+        blank=True,
+        null=True)
+    relevant_start_date = HistoricalDateField(
+        blank=True,
+        null=True)
+    relevant_end_date = HistoricalDateField(
+        blank=True,
+        null=True)
 
     objects = ContentManager()
 
@@ -550,7 +747,7 @@ Note that the text you input in this form serves as the default text. If you ind
     def get_canonical_page(self):
         for i in range(0, 5):
             if self.appropriate_for.get_bit(i).is_set:
-                return '%s?ar_a=%s' % (reverse('lesson-detail', args=[self.slug]), i+1)
+                return '%s?ar_a=%s' % (reverse('lesson-detail', args=[self.slug]), i + 1)
 
     def get_duration(self, activities=None):
         if activities is None:
