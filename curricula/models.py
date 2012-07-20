@@ -504,7 +504,12 @@ class Activity(models.Model):
             return self.get_content_object(RESOURCE_CAROUSEL)
 
         def thumbnail_html(self):
-            return '<img src="%s"/>' % self.key_image()
+            # [EDU-2866]
+            key_image = self.key_image()
+            if key_image:
+                return '<img src="%s"/>' % self.key_image()
+            else:
+                return None
 
         def model_student_work(self, audience=1):
             msws = self.get_relation_type('Model Student Work')

@@ -223,6 +223,10 @@ class ContentAdmin(admin.ModelAdmin):
         return strip_tags(obj.title)
     get_title.short_description = 'Title'
 
+    def thumbnail_display(self, obj):
+        return obj.thumbnail_html()
+    thumbnail_display.allow_tags = True
+
 class ActivityAdmin(ContentAdmin):
     date_hierarchy = 'create_date'
     filter_horizontal = ['eras', 'grades', 'grouping_types', 'materials',
@@ -355,10 +359,6 @@ class ActivityAdmin(ContentAdmin):
                 o_rel = ObjectiveRelation(objective=lo, content_type=ctype,
                                           object_id=obj.id)
                 o_rel.save()
-        
-    def thumbnail_display(self, obj):
-        return obj.thumbnail_html()
-    thumbnail_display.allow_tags = True
 
 class ActivityInlineFormset(forms.models.BaseInlineFormSet):
     def clean(self):
@@ -594,11 +594,6 @@ class LessonAdmin(ContentAdmin):
                 o_rel = ObjectiveRelation(objective=lo, content_type=ctype,
                                           object_id=obj.id)
                 o_rel.save()
-        
-
-    def thumbnail_display(self, obj):
-        return obj.thumbnail_html()
-    thumbnail_display.allow_tags = True
 
     def update_ARs(self, obj, rcs):
         unique_indices = []
