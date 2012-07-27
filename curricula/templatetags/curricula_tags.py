@@ -37,6 +37,14 @@ def get_lesson_model(field):
 def display_required_technology(activity):
     return activity.internet_access_type != 1 or activity.tech_setup_types.all() or activity.plugin_types.all()
 
+# http://stackoverflow.com/questions/6571649/model-name-of-objects-in-django-templates
+@register.filter('to_class_name')
+def to_class_name(obj):
+    if obj.__class__.__name__ == 'MediaWrapper':
+        return 'Multimedia'
+    else:
+        return obj.__class__.__name__
+
 @register.tag('get_related_content_type')
 def do_get_related_content_type(parser, token):
     """
