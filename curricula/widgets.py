@@ -21,7 +21,7 @@ class VocabularyIdWidget(widgets.ForeignKeyRawIdWidget):
                 if encyclopedic:
                     src = settings.STATIC_URL + 'sites/education/i/ico_ee.png'
 
-                    output.append(u'<a href="/admin/edu_core/encyclopedicentry/%s/" target="_blank">' % encyclopedic.id)
+                    output.append(u'<a href="/admin/reference/genericarticle/%s/" target="_blank">' % encyclopedic.id)
                     output.append(u'<img src="%s" alt="Encyclopedic Entry available"/></a>' % src)
             except GlossaryTerm.DoesNotExist:
                 pass
