@@ -1,0 +1,10 @@
+{% spaceless %}
+    <ul>
+{% for item in objects %}
+    <li>{% if item.url %}<a href="{{ item.url }}">{% endif %}
+        {{ item }}
+        {% if item.url %}</a>{% endif %}
+    </li>
+{% endfor %}
+</ul>
+{% endspaceless %}
