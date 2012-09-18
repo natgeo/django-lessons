@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db.models import Q
-from django.core.exceptions import ImproperlyConfigured
+from django.template.defaultfilters import slugify
+
 
 DEFAULT_SETTINGS = {
     'RELATION_MODELS': [],
@@ -45,6 +46,7 @@ DEFAULT_SETTINGS = {
         (12, 'Common Core State Standards for English Language Arts & Literacy'),
         (13, 'Common Core State Standards for Mathematics'),
     ),
+    'STANDARD_TYPE_SLUGS': {},  # key => slug
     'JAVASCRIPT_URL': settings.MEDIA_URL + 'js/',
     'CREDIT_MODEL': None,
     'REPORTING_MODEL': None,
@@ -57,4 +59,15 @@ DEFAULT_SETTINGS.update(getattr(settings, 'LESSON_SETTINGS', {}))
 
 globals().update(DEFAULT_SETTINGS)
 
+## Create a mapping from a key to a dict of name and slug
+STD_TYPE_KEY_MAP = dict([
+    (key, {'name': val, 'slug': slugify(val)}) for key, val in STANDARD_TYPES
+])
+for key, val in STANDARD_TYPE_SLUGS:
+    STD_TYPE_KEY_MAP[key]['slug'] = val
+
+## Create a mapping from a slug to a dict of name and key
+STD_TYPE_SLUG_MAP = dict([
+    (val['slug'], {'name': val['name'], 'key': key}) for key, val in STD_TYPE_KEY_MAP.items()
+])
 RELATIONS = [Q(app_label=al, model=m) for al, m in [x.split('.') for x in RELATION_MODELS]]
