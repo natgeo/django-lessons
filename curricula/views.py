@@ -4,7 +4,7 @@ from django.template import RequestContext
 from django.utils import simplejson
 
 from settings import RELATION_MODELS, KEY_IMAGE, RC_SLIDE
-from curricula.models import Activity, Lesson
+from curricula.models import Activity, Lesson, Standard
 from curricula.utils import activities_info, tags_for_activities
 
 
@@ -135,3 +135,34 @@ def get_breakout_terms(request, id):
     terms = [gt.glossary_term.word.lower() for gt in breakout_terms]
     res = simplejson.dumps(terms)
     return HttpResponse(res)
+
+
+def standard_type_list(request):
+    """
+    Listing of standard types
+    """
+    from .settings import STD_TYPE_SLUG_MAP
+    context = {'standard_types': STD_TYPE_SLUG_MAP}
+    return render_to_response('curricula/standard_type_list.html',
+                               context,
+                               context_instance=RequestContext(request))
+
+
+def standard_type_detail(request, standard_type):
+    """
+    Detail of a standard types
+    """
+    from .settings import STD_TYPE_SLUG_MAP
+    context = {
+        'objects': Standard.objects.filter(
+            standard_type=STD_TYPE_SLUG_MAP[standard_type]['key']
+        ),
+        'standard_type': STD_TYPE_SLUG_MAP[standard_type]['name']
+    }
+    template = (
+        "curricula/%s_detail.html" % standard_type,
+        "curricula/standard_type_detail.html"
+    )
+    return render_to_response(template,
+                              context,
+                              context_instance=RequestContext(request))
