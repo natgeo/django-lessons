@@ -1,0 +1,7 @@
+{% spaceless %}
+<ul>
+    {% for key,val in standard_types.items %}
+        <li><a href="{% url standard-type-detail standard_type=key %}">{{ val.name }}</a></li>
+    {% endfor %}
+</ul>
+{% endspaceless %}
