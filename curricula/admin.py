@@ -39,7 +39,8 @@ if RESOURCE_CAROUSEL is not None:
 LESSON_FIELDS = (KEY_IMAGE, RC_SLIDE)
 
 try:
-    from education.edu_core.models import ResourceCarouselModuleType, ResourceCategoryType
+    from education.edu_core.models import (ResourceCarouselModuleType,
+                                            ResourceCategoryType)
 except ImportError:
     # Temporary shim for testing
     class ResourceCarouselModuleType(models.Model):

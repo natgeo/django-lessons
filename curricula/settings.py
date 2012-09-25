@@ -49,6 +49,8 @@ DEFAULT_SETTINGS = {
     'STANDARD_TYPE_SLUGS': {},  # key => slug
     'JAVASCRIPT_URL': settings.MEDIA_URL + 'js/',
     'CREDIT_MODEL': None,
+    'GLOSSARY_MODEL': None,
+    'RESOURCE_MODEL': None,
     'REPORTING_MODEL': None,
 }
 

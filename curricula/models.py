@@ -12,7 +12,8 @@ from django.utils.html import strip_tags
 from settings import (ASSESSMENT_TYPES, STANDARD_TYPES,
                       PEDAGOGICAL_PURPOSE_TYPE_CHOICES, RELATION_MODELS,
                       RELATIONS, CREDIT_MODEL, INTERNET_ACCESS_TYPES,
-                      REPORTING_MODEL, KEY_IMAGE, RESOURCE_CAROUSEL)
+                      REPORTING_MODEL, KEY_IMAGE, RESOURCE_CAROUSEL,
+                      GLOSSARY_MODEL, RESOURCE_MODEL)
 from utils import truncate, ul_as_list
 
 from audience.models import AUDIENCE_FLAGS
@@ -32,15 +33,9 @@ if REPORTING_MODEL is not None:
 
 
 try:
-    from education.edu_core.models import GlossaryTerm, Resource, ResourceCarouselSlide
+    from education.edu_core.models import ResourceCarouselSlide
 except ImportError:
     # Temporary shim for testing
-    class GlossaryTerm(models.Model):
-        name = models.CharField(max_length=128)
-
-    class Resource(models.Model):
-        name = models.CharField(max_length=128)
-
     class ResourceCarouselSlide(models.Model):
         name = models.CharField(max_length=128)
 
@@ -526,7 +521,7 @@ class Activity(models.Model):
 
 class Vocabulary(models.Model):
     activity = models.ForeignKey(Activity)
-    glossary_term = models.ForeignKey(GlossaryTerm)
+    glossary_term = models.ForeignKey(GLOSSARY_MODEL)
 
     class Meta:
         ordering = ["glossary_term"]
@@ -550,7 +545,7 @@ class QuestionAnswer(models.Model):
 
 class ResourceItem(models.Model):
     activity = models.ForeignKey(Activity)
-    resource = models.ForeignKey(Resource, related_name='instructional_resource')
+    resource = models.ForeignKey(RESOURCE_MODEL, related_name='instructional_resource')
 
 relation_limits = reduce(lambda x, y: x | y, RELATIONS)
 
