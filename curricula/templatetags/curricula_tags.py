@@ -89,10 +89,7 @@ class RelatedNode(template.Node):
         try:
             the_obj = self.object.resolve(context)
             if self.content_type:
-                try:
-                    context[self.var_name] = the_obj.get_related_content_type(self.content_type)
-                except AttributeError:
-                    pass # fail quietly, for now
+                context[self.var_name] = the_obj.get_related_content_type(self.content_type)
             elif self.relation_type:
                 context[self.var_name] = the_obj.get_relation_type(self.relation_type)
             else:

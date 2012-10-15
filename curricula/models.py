@@ -433,7 +433,11 @@ class Activity(models.Model):
         # [EDU-2876] Related Materials module - inconsistent spacing in grades
         grade_lower = grades.as_struct()['grade_lower']
         grades_upper = grades.as_struct()['grade_upper']
-        grade_range = '%s-%s' % (grade_lower, grades_upper)
+        if grades_upper == '13':
+            # [EDU-3142] Education website - standardize display of grades and ages
+            grade_range = '%s-12+' % grade_lower
+        else:
+            grade_range = '%s-%s' % (grade_lower, grades_upper)
         return (grade_range, grades.as_age_range())
 
     @property
