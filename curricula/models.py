@@ -429,16 +429,7 @@ class Activity(models.Model):
                 return '%s?ar_a=%s' % (reverse('activity-detail', args=[self.slug]), i + 1)
 
     def get_grades_and_ages(self):
-        grades = self.grades.all()
-        # [EDU-2876] Related Materials module - inconsistent spacing in grades
-        grade_lower = grades.as_struct()['grade_lower']
-        grades_upper = grades.as_struct()['grade_upper']
-        if grades_upper == '13':
-            # [EDU-3142] Education website - standardize display of grades and ages
-            grade_range = '%s-12+' % grade_lower
-        else:
-            grade_range = '%s-%s' % (grade_lower, grades_upper)
-        return (grade_range, grades.as_age_range())
+        return self.grades.all().as_grade_age_range()
 
     @property
     def get_grades_html(self):
