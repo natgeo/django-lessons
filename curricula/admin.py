@@ -8,7 +8,10 @@ from django.utils.html import strip_tags
 
 from genericcollection import GenericCollectionInlineModelAdmin
 
-from models import *
+from models import (Activity, ActivityRelation, GroupingType,
+                     LearningObjective, Lesson, LessonActivity, LessonRelation,
+                     Material, ObjectiveRelation, QuestionAnswer, ResourceItem,
+                     Skill, Standard, TeachingMethodType, Tip, Vocabulary)
 from settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
                       RESOURCE_CAROUSEL, RC_SLIDE, CREDIT_MODEL,
                       REPORTING_MODEL)
