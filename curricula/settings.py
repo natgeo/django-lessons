@@ -50,6 +50,7 @@ DEFAULT_SETTINGS = {
     'JAVASCRIPT_URL': settings.MEDIA_URL + 'js/',
     'CREDIT_MODEL': None,
     'GLOSSARY_MODEL': None,
+    'RCS_MODEL': None,
     'RESOURCE_MODEL': None,
     'REPORTING_MODEL': None,
 }
