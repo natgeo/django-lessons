@@ -31,15 +31,6 @@ if CREDIT_MODEL is not None:
 if REPORTING_MODEL is not None:
     ReportingModel = get_model(*REPORTING_MODEL.split('.'))
 
-
-try:
-    from education.edu_core.models import ResourceCarouselSlide
-except ImportError:
-    # Temporary shim for testing
-    class ResourceCarouselSlide(models.Model):
-        name = models.CharField(max_length=128)
-
-
 def gradesDict(grades_list):
     g = {}
     special = {'K': 0, 'preschool': -1, 'post-secondary': 13}

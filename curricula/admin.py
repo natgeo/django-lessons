@@ -14,7 +14,7 @@ from models import (Activity, ActivityRelation, GroupingType,
                      Skill, Standard, TeachingMethodType, Tip, Vocabulary)
 from settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
                       RESOURCE_CAROUSEL, RC_SLIDE, CREDIT_MODEL,
-                      REPORTING_MODEL)
+                      REPORTING_MODEL, RCS_MODEL)
 from utils import truncate, ul_as_list, get_audience_indices
 from widgets import VocabularyIdWidget
 
@@ -40,6 +40,9 @@ if KEY_IMAGE is not None:
 if RESOURCE_CAROUSEL is not None:
     ACTIVITY_FIELDS.append(RESOURCE_CAROUSEL)
 LESSON_FIELDS = (KEY_IMAGE, RC_SLIDE)
+
+if RCS_MODEL is not None:
+    RCSModel = get_model(*RCS_MODEL.split('.'))
 
 try:
     from education.edu_core.models import (ResourceCarouselModuleType,
@@ -555,7 +558,7 @@ class LessonAdmin(ContentAdmin):
                     rcs_type = ResourceCarouselModuleType.objects.get(name="Overview Module")
                     _rctype = ResourceCategoryType.objects.get(name="Websites")
 
-                    new_rcs = ResourceCarouselSlide.objects.create(
+                    new_rcs = RCSModel.objects.create(
                             name=rcs_name(obj.title),
                             title="Lesson Overview",
                             resource_carousel_module_type=rcs_type,
