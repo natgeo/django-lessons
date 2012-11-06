@@ -11,6 +11,7 @@ DEFAULT_SETTINGS = {
     'ASSESSMENT_TYPES': (
         ('alternative', 'Alternative Assessment'),
         ('authentic', 'Authentic Assessment'),
+        ('formal', 'Formal Assessment'),
         ('formative', 'Formative Assessment'),
         ('informal', 'Informal Assessment'),
         ('observation', 'Observation'),
