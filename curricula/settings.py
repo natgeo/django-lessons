@@ -53,6 +53,7 @@ DEFAULT_SETTINGS = {
     'RCS_MODEL': None,
     'RESOURCE_MODEL': None,
     'REPORTING_MODEL': None,
+    'RELATION_TYPES': None,
 }
 
 DEFAULT_SETTINGS.update(getattr(settings, 'LESSON_SETTINGS', {}))

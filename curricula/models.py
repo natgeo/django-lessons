@@ -13,7 +13,7 @@ from settings import (ASSESSMENT_TYPES, STANDARD_TYPES,
                       PEDAGOGICAL_PURPOSE_TYPE_CHOICES, RELATION_MODELS,
                       RELATIONS, CREDIT_MODEL, INTERNET_ACCESS_TYPES,
                       REPORTING_MODEL, KEY_IMAGE, RESOURCE_CAROUSEL,
-                      GLOSSARY_MODEL, RESOURCE_MODEL)
+                      GLOSSARY_MODEL, RESOURCE_MODEL, RELATION_TYPES)
 from utils import truncate, ul_as_list
 
 from audience.models import AUDIENCE_FLAGS
@@ -556,6 +556,7 @@ class ActivityRelation(models.Model):
         max_length="200",
         blank=True,
         null=True,
+        choices=RELATION_TYPES,
         help_text="A generic text field to tag a relation, like 'primaryphoto'.")
 
     objects = RelationManager()
@@ -886,6 +887,7 @@ class LessonRelation(models.Model):
         max_length="200",
         blank=True,
         null=True,
+        choices=RELATION_TYPES,
         help_text="A generic text field to tag a relation, like 'primaryphoto'.")
 
     objects = RelationManager()
