@@ -485,9 +485,6 @@ class Activity(models.Model):
             else:
                 return None
 
-        def resource_carousel(self):
-            return self.get_content_object(RESOURCE_CAROUSEL)
-
         def thumbnail_html(self):
             # [EDU-2866]
             key_image = self.key_image()
@@ -495,14 +492,6 @@ class Activity(models.Model):
                 return '<img src="%s"/>' % self.key_image()
             else:
                 return None
-
-        def model_student_work(self, audience=1):
-            msws = self.get_relation_type('Model Student Work')
-            return [msw.content_object for msw in msws if msw.content_object.is_available_for_audience(audience)]
-
-        def pictures_of_practice(self, audience=1):
-            pops = self.get_relation_type('Pictures of Practice')
-            return [pop.content_object for pop in pops if pop.content_object.is_available_for_audience(audience)]
 
 
 class Vocabulary(models.Model):

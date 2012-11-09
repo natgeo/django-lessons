@@ -23,6 +23,14 @@ from audience.models import AUDIENCE_FLAGS
 from audience.widgets import AdminBitFieldWidget, bitfield_display, VariationWidgetWrapper
 from bitfield import BitField
 from concepts.admin import ConceptItemInline
+from contentrelations.admin import RelatedInline
+
+
+class ResourceCarouselInline(RelatedInline):
+    rel_name = 'resources'
+    verbose_name_plural = "Resource Carousel"
+    exclude = ('source_type', 'source_id', 'relation_type')
+
 
 TINYMCE_FIELDS = ('description', 'assessment', 'learning_objectives', 'other_notes', 'background_information')
 ACTIVITY_TINYMCE_FIELDS = TINYMCE_FIELDS + ('extending_the_learning', 'setup', 'accessibility_notes', 'prior_knowledge')
@@ -246,7 +254,8 @@ class ActivityAdmin(ContentAdmin):
         filter_horizontal += ['reporting_categories']
     filter_vertical = ['standards', ]
     form = ActivityForm
-    inlines = [TagInline, VocabularyInline, ResourceInline, QuestionAnswerInline]
+    inlines = [ResourceCarouselInline, TagInline, VocabularyInline,
+               ResourceInline, QuestionAnswerInline]
     if RELATION_MODELS:
         inlines.append(InlineActivityRelation)
 
@@ -328,10 +337,10 @@ class ActivityAdmin(ContentAdmin):
 
     def grade_levels(self, obj):
         return obj.grades.all().as_grade_range()
-    
+
     def save_model(self, request, obj, form, change, *args, **kwargs):
         super(ActivityAdmin, self).save_model(request, obj, form, change, *args, **kwargs)
-        
+
         for field, model in ACTIVITY_FIELDS:
             if form[field].data == None or form[field].data == '':
                 # user cleared the field
@@ -347,7 +356,7 @@ class ActivityAdmin(ContentAdmin):
                     app_label, model = model.split('.')
                     ctype = ContentType.objects.get(app_label=app_label, model=model)
                     item = obj.activityrelation_set.create(relation_type=field, object_id=form[field].data, content_type_id=ctype.id)
-        
+
         learning_objectives = form.cleaned_data['learning_objs']
         ctype = ContentType.objects.get_for_model(Activity)
         # clear existing
@@ -464,9 +473,9 @@ class LessonAdmin(ContentAdmin):
         filter_horizontal += ['reporting_categories']
     form = LessonForm
     if RELATION_MODELS:
-        inlines = [ActivityInline, TagInline, InlineLessonRelation,]
+        inlines = [ResourceCarouselInline, ActivityInline, TagInline, InlineLessonRelation,]
     else:
-        inlines = [ActivityInline,]
+        inlines = [ResourceCarouselInline, ActivityInline,]
     list_display = ('get_title', 'thumbnail_display', 'get_description', 'appropriate_display', 'published_date')
     list_filter = ('published_date', 'published')
     object_name = 'lesson'
@@ -582,7 +591,7 @@ class LessonAdmin(ContentAdmin):
                     app_label, model = model.split('.')
                     ctype = ContentType.objects.get(app_label=app_label, model=model)
                     item = obj.lessonrelation_set.create(relation_type=field, object_id=form[field].data, content_type_id=ctype.id)
-        
+
         learning_objectives = form.cleaned_data['learning_objs']
         ctype = ContentType.objects.get_for_model(Lesson)
         # clear existing

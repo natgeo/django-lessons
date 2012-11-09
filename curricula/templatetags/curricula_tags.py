@@ -40,18 +40,15 @@ def display_required_technology(activity):
 # http://stackoverflow.com/questions/6571649/model-name-of-objects-in-django-templates
 @register.filter('to_class_name')
 def to_class_name(obj):
-    if obj.__class__.__name__ == 'MediaWrapper':
-        return 'Multimedia'
-    else:
-        return obj.__class__.__name__
+    return obj.__class__.__name__
 
 @register.tag('get_related_content_type')
 def do_get_related_content_type(parser, token):
     """
     Gets relations to a story based on the content type
-    
+
     {% get_related_content_type item content_type as var_name %}
-    
+
     {% get_related_content_type object Image as photo %}
     """
     try:
@@ -65,9 +62,9 @@ def do_get_related_content_type(parser, token):
 def do_get_relation_type(parser, token):
     """
     Gets the relations to a story based on the relation type
-    
+
     {% get_relation_type item relation_type as var_name %}
-    
+
     {% get_relation_type object leadphoto as leadphoto %}
     """
     try:
@@ -76,7 +73,7 @@ def do_get_relation_type(parser, token):
     except ValueError:
         raise template.TemplateSyntaxError("'get_relation_type' requires an object, relation_type and a variable name.")
     return RelatedNode(obj, var, relation_type=relation_type)
-    
+
 
 class RelatedNode(template.Node):
     def __init__(self, object, var_name, content_type=None, relation_type=None):
@@ -84,7 +81,7 @@ class RelatedNode(template.Node):
         self.relation_type = relation_type
         self.object = template.Variable(object)
         self.var_name = var_name
-        
+
     def render(self, context):
         try:
             the_obj = self.object.resolve(context)
