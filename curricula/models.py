@@ -185,7 +185,7 @@ class Tip(models.Model):
 
     def __unicode__(self):
         if self.category:
-            return '%s: %s' % (self.category.name,
+            return u'%s: %s' % (self.category.name,
                                truncate(strip_tags(self.body), 38))
         else:
             return truncate(strip_tags(self.body), 71)
@@ -206,7 +206,7 @@ class Standard(models.Model):
     grades = models.ManyToManyField(Grade)
 
     def __unicode__(self):
-        return "%s: %s: %s" % (truncate(self.get_standard_type_display(), 50),
+        return u"%s: %s: %s" % (truncate(self.get_standard_type_display(), 50),
                                truncate(self.name, 40),
                                truncate(strip_tags(self.definition), 50))
 
@@ -515,7 +515,7 @@ class QuestionAnswer(models.Model):
     def __unicode__(self):
         # truncate
         limit = 44
-        return self.question[:limit] + (self.question[limit:] and '...')
+        return self.question[:limit] + (self.question[limit:] and u'...')
 
 
 class ResourceItem(models.Model):
@@ -551,9 +551,9 @@ class ActivityRelation(models.Model):
     objects = RelationManager()
 
     def __unicode__(self):
-        out = "%s related to %s" % (self.content_object, self.activity)
+        out = u"%s related to %s" % (self.content_object, self.activity)
         if self.relation_type:
-            out += " as %s" % self.relation_type
+            out += u" as %s" % self.relation_type
         return out
 
 
@@ -882,9 +882,9 @@ class LessonRelation(models.Model):
     objects = RelationManager()
 
     def __unicode__(self):
-        out = "%s related to %s" % (self.content_object, self.lesson)
+        out = u"%s related to %s" % (self.content_object, self.lesson)
         if self.relation_type:
-            out += " as %s" % self.relation_type
+            out += u" as %s" % self.relation_type
         return out
 
 
