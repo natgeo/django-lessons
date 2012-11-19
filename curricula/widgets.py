@@ -2,22 +2,20 @@ from django.conf import settings
 from django.contrib.admin import widgets
 from django.utils.safestring import mark_safe
 
-try:
-    from education.edu_core.models import GlossaryTerm
-except ImportError:
-    from .models import GlossaryTerm
+from education.edu_core.models import GlossaryTerm
+
 
 class VocabularyIdWidget(widgets.ForeignKeyRawIdWidget):
-    def __init__(self, rel, attrs=None):
+    def __init__(self, *args, **kwargs):
         self.widget = widgets.ForeignKeyRawIdWidget
-        super(VocabularyIdWidget, self).__init__(rel, attrs)
+        super(VocabularyIdWidget, self).__init__(*args, **kwargs)
 
     def render(self, name, value, attrs=None):
         output = [super(VocabularyIdWidget, self).render(name, value, attrs)]
 
         if value:
             try:
-                encyclopedic = GlossaryTerm.objects.get(id=value).encyclopedic
+                encyclopedic = GlossaryTerm.objects.get(id=value).generic_article
                 if encyclopedic:
                     src = settings.STATIC_URL + 'sites/education/i/ico_ee.png'
 

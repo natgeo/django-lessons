@@ -2,7 +2,6 @@ from django import forms
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
 from django.db.models.loading import get_model
 from django.utils.html import strip_tags
 
@@ -15,7 +14,7 @@ from models import (Activity, ActivityRelation, GroupingType,
 from settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
                       RESOURCE_CAROUSEL, RC_SLIDE, CREDIT_MODEL,
                       REPORTING_MODEL, RCS_MODEL)
-from utils import truncate, ul_as_list, get_audience_indices
+from utils import truncate, get_audience_indices
 from widgets import VocabularyIdWidget
 
 from tinymce.widgets import TinyMCE
@@ -77,7 +76,7 @@ class VocabularyInline(admin.TabularInline):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(VocabularyInline, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name == 'glossary_term':
-            formfield.widget = VocabularyIdWidget(Vocabulary._meta.get_field('glossary_term').rel)
+            formfield.widget = VocabularyIdWidget(Vocabulary._meta.get_field('glossary_term').rel, self.admin_site)
         return formfield
 
 class QuestionAnswerInline(admin.TabularInline):
