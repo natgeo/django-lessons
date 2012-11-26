@@ -6,10 +6,6 @@ from education.edu_core.models import GlossaryTerm
 
 
 class VocabularyIdWidget(widgets.ForeignKeyRawIdWidget):
-    def __init__(self, *args, **kwargs):
-        self.widget = widgets.ForeignKeyRawIdWidget
-        super(VocabularyIdWidget, self).__init__(*args, **kwargs)
-
     def render(self, name, value, attrs=None):
         output = [super(VocabularyIdWidget, self).render(name, value, attrs)]
 

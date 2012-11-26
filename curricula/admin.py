@@ -169,7 +169,7 @@ class ActivityForm(forms.ModelForm):
 
     def clean_field(self, name):
         field = self.cleaned_data[name]
-        if self.cleaned_data['published'] and not field:
+        if 'published' in self.cleaned_data and self.cleaned_data['published'] and not field:
             raise forms.ValidationError("This field is required, for published activities.")
 
         return field
