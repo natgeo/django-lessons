@@ -221,17 +221,9 @@ class ContentAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title",)}
 
     class Media:
-        css = {'all': (settings.STATIC_URL + 'audience/bitfield.css',
-                       settings.STATIC_URL + 'css/dynamic_inlines_with_sort.css')}
-        js = ('/media/static/audience/bitfield.js',
-              JAVASCRIPT_URL + 'jquery-1.7.1.min.js',
-              JAVASCRIPT_URL + 'genericcollections.js',
-              JAVASCRIPT_URL + 'admin.js',
-              JAVASCRIPT_URL + 'sectioned_tinymce_widget.js',
-              settings.STATIC_URL + 'js_scss/libs/jquery.ui.core.min.js',
-              # settings.STATIC_URL + 'js_scss/libs/jquery.ui.sortable.min.js',
-              # JAVASCRIPT_URL + 'dynamic_inlines_with_sort.js',
-        )
+        css = {'all': (
+            "css/glossary_term.css",
+        )}
 
     def get_title(self, obj):
         return strip_tags(obj.title)
@@ -240,6 +232,7 @@ class ContentAdmin(admin.ModelAdmin):
     def thumbnail_display(self, obj):
         return obj.thumbnail_html()
     thumbnail_display.allow_tags = True
+
 
 class ActivityAdmin(ContentAdmin):
     date_hierarchy = 'create_date'
@@ -279,7 +272,6 @@ class ActivityAdmin(ContentAdmin):
             })
         elif db_field.name == 'directions':
             formfield.widget = TinyMCE(mce_attrs={
-                "content_css": "/media/static/sites/education/c/glossary_term.css",
                 'theme_advanced_buttons1': 'glossify, fullscreen,preview,code,print,spellchecker,|,cut,copy,paste,pastetext,pasteword,undo,redo,|,search,replace,|,rawmode',
                 'setup': 'add_button_callback',
             })
