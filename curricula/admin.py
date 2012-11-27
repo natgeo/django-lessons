@@ -62,14 +62,17 @@ except ImportError:
     class ResourceCategoryType(models.Model):
         name = models.CharField(max_length=128)
 
+
 def rcs_name(title):
     return truncate("Lesson Overview - %s" % title, 47)
 
+
 class TagInline(ConceptItemInline):
-    extra = 10
+    extra = 1
+
 
 class VocabularyInline(admin.TabularInline):
-    extra = 10
+    extra = 1
     model = Vocabulary
     raw_id_fields = ('glossary_term',)
 
@@ -78,6 +81,7 @@ class VocabularyInline(admin.TabularInline):
         if db_field.name == 'glossary_term':
             formfield.widget = VocabularyIdWidget(Vocabulary._meta.get_field('glossary_term').rel, self.admin_site)
         return formfield
+
 
 class QuestionAnswerInline(admin.TabularInline):
     extra = 3
@@ -96,22 +100,17 @@ class QuestionAnswerInline(admin.TabularInline):
             return db_field.formfield(widget=TinyMCE(mce_attrs={'theme': "simple", 'width': 30, 'height': 5}))
         return super(QuestionAnswerInline, self).formfield_for_dbfield(db_field, **kwargs)
 
+
 class ResourceInline(admin.TabularInline):
     model = ResourceItem
     raw_id_fields = ('resource',)
 
 if RELATION_MODELS:
-    class ActivityFormSet(forms.models.BaseInlineFormSet):
-        def get_queryset(self):
-            'Returns all LessonRelation objects which point to our Lesson'
-            return [x for x in super(ActivityFormSet, self).get_queryset()
-                if x.content_type.app_label + '.' + x.content_type.model in RELATION_MODELS]
-
     class InlineActivityRelation(GenericCollectionInlineModelAdmin):
         extra = 7
         model = ActivityRelation
-        formset = ActivityFormSet
         template = 'admin/edit_inline/ic_coll_tabular.html'
+
 
 class ActivityForm(forms.ModelForm):
     learning_objs = forms.CharField(required=False, label='Learning objectives',
@@ -367,6 +366,7 @@ class ActivityAdmin(ContentAdmin):
                                           object_id=obj.id)
                 o_rel.save()
 
+
 class ActivityInlineFormset(forms.models.BaseInlineFormSet):
     def clean(self):
         super(ActivityInlineFormset, self).clean()
@@ -381,6 +381,7 @@ class ActivityInlineFormset(forms.models.BaseInlineFormSet):
             if 'published' in self.data and activity and not activity.published:
                 raise forms.ValidationError('Please publish all associated activities, before publishing this lesson.')
 
+
 class ActivityInline(admin.TabularInline):
     formset = ActivityInlineFormset
     model = LessonActivity
@@ -392,17 +393,11 @@ class ActivityInline(admin.TabularInline):
         return super(ActivityInline, self).formfield_for_dbfield(db_field, **kwargs)
 
 if RELATION_MODELS:
-    class LessonFormSet(forms.models.BaseInlineFormSet):
-        def get_queryset(self):
-            'Returns all LessonRelation objects which point to our Lesson'
-            return [x for x in super(LessonFormSet, self).get_queryset()
-                if x.content_type.app_label + '.' + x.content_type.model in RELATION_MODELS]
-
     class InlineLessonRelation(GenericCollectionInlineModelAdmin):
         extra = 7
         model = LessonRelation
-        formset = LessonFormSet
         template = 'admin/edit_inline/ic_coll_tabular.html'
+
 
 class LessonForm(forms.ModelForm):
     learning_objs = forms.CharField(required=False, label='Learning objectives',
@@ -424,7 +419,6 @@ class LessonForm(forms.ModelForm):
         instance = None
         if kwargs.has_key('instance'):
             instance = kwargs['instance']
-
 
         field_name = KEY_IMAGE[0]
         qset = get_model(*KEY_IMAGE[1].split('.')).objects.all()
@@ -464,9 +458,9 @@ class LessonAdmin(ContentAdmin):
         filter_horizontal += ['reporting_categories']
     form = LessonForm
     if RELATION_MODELS:
-        inlines = [ResourceCarouselInline, ActivityInline, TagInline, InlineLessonRelation,]
+        inlines = [ResourceCarouselInline, ActivityInline, TagInline, InlineLessonRelation, ]
     else:
-        inlines = [ResourceCarouselInline, ActivityInline,]
+        inlines = [ResourceCarouselInline, ActivityInline, ]
     list_display = ('get_title', 'thumbnail_display', 'get_description', 'appropriate_display', 'published_date')
     list_filter = ('published_date', 'published')
     object_name = 'lesson'
@@ -622,8 +616,10 @@ class LessonAdmin(ContentAdmin):
             rcs.body.create_ARs('%s-[6]' % indices, obj.description)
         rcs.body.save()
 
+
 class TypeAdmin(admin.ModelAdmin):
     search_fields = ['name']
+
 
 class StandardAdmin(admin.ModelAdmin):
     filter_horizontal = ['grades']
@@ -634,6 +630,7 @@ class StandardAdmin(admin.ModelAdmin):
     def grade_levels(self, obj):
         return obj.grades.all().as_grade_range()
     grade_levels.short_description = 'Grades'
+
 
 class TipAdmin(admin.ModelAdmin):
     formfield_overrides = {
