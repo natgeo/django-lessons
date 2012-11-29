@@ -29,8 +29,10 @@ DEFAULT_SETTINGS = {
     ),
     'PEDAGOGICAL_PURPOSE_TYPE_CHOICES': (
         (1, 'apply'),
+        (4, 'assess'),
         (2, 'develop'),
         (3, 'engage'),
+        (5, 'inquiry'),
     ),
     'STANDARD_TYPES': (
         (1, 'Energy Literacy Essential Principles and Fundamental Concepts'),
