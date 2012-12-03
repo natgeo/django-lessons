@@ -66,11 +66,11 @@ def rcs_name(title):
 
 
 class TagInline(ConceptItemInline):
-    extra = 1
+    extra = 10
 
 
 class VocabularyInline(admin.TabularInline):
-    extra = 1
+    extra = 10
     model = Vocabulary
     raw_id_fields = ('glossary_term',)
 
