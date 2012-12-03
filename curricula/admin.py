@@ -11,6 +11,8 @@ from models import (Activity, ActivityRelation, GroupingType,
                      LearningObjective, Lesson, LessonActivity, LessonRelation,
                      Material, ObjectiveRelation, QuestionAnswer, ResourceItem,
                      Skill, Standard, TeachingMethodType, Tip, Vocabulary)
+if settings.DEBUG:
+    from models import PluginType
 from settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
                       RESOURCE_CAROUSEL, RC_SLIDE, CREDIT_MODEL,
                       REPORTING_MODEL, RCS_MODEL)
@@ -681,6 +683,7 @@ admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Material, TypeAdmin)
 if settings.DEBUG:
     admin.site.register(LearningObjective)
+    admin.site.register(PluginType)
     admin.site.register(QuestionAnswer)
     admin.site.register(Skill)
 admin.site.register(Standard, StandardAdmin)
