@@ -234,6 +234,18 @@ class ActivityForm(forms.ModelForm):
 
 
 class ContentAdmin(admin.ModelAdmin):
+    tabs = {
+        'Overview': 0,
+        'Directions': 0,
+        'Objectives': 0,
+        'Background & Vocabulary': 0,
+        'Credits, Sponsors, Partners': 0,
+        'Global Metadata': 1,
+        'Content Related Metadata': 1,
+        'Time and Date Metadata': 1,
+        'Publishing': 2,
+    }
+
     formfield_overrides = {
         BitField: {
             'choices': AUDIENCE_FLAGS,
