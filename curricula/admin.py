@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
 from django.db.models.loading import get_model
 from django.utils.html import strip_tags
+from django.utils.safestring import mark_safe
 
 from genericcollection import GenericCollectionInlineModelAdmin
 
@@ -50,6 +51,12 @@ LESSON_FIELDS = (KEY_IMAGE, )
 
 if RCS_MODEL is not None:
     RCSModel = get_model(*RCS_MODEL.split('.'))
+
+try:
+    from django.contrib.admin.templatetags.admin_static import static
+except ImportError:
+    def static(somestring):
+        return "%s%s" % (settings.ADMIN_MEDIA_PREFIX, somestring)
 
 try:
     from education.edu_core.models import (ResourceCarouselModuleType,
@@ -106,10 +113,36 @@ class ResourceInline(admin.TabularInline):
     raw_id_fields = ('resource',)
 
 if RELATION_MODELS:
+    class ActivityFormSet(forms.models.BaseInlineFormSet):
+        def get_queryset(self):
+            'Returns all ActivityRelation objects which point to our Lesson'
+            return super(ActivityFormSet, self).get_queryset().exclude(relation_type__in=dict(ACTIVITY_FIELDS).keys())
+
     class InlineActivityRelation(GenericCollectionInlineModelAdmin):
         extra = 7
         model = ActivityRelation
+        formset = ActivityFormSet
         template = 'admin/edit_inline/ic_coll_tabular.html'
+
+
+class SpecificGenericRawIdWidget(forms.TextInput):
+    def __init__(self, rel, attrs=None):
+        self.rel = rel
+        super(SpecificGenericRawIdWidget, self).__init__(attrs)
+
+    def render(self, name, value, attrs=None):
+        if attrs is None:
+            attrs = {}
+        # if 'class' not in attrs:
+        #     attrs['class'] = 'vGenericRawIdAdminField'  # The JavaScript looks for this hook.
+        output = [super(SpecificGenericRawIdWidget, self).render(name, value, attrs)]
+        output.append('<a id="lookup_id_%(name)s" class="related-lookup" onclick="return showGenericRequiredModelLookupPopup(this, \'%(rel)s\');" href="#">' %
+            {'name': name, 'rel': self.rel})
+        output.append('&nbsp;<img src="%s" width="16" height="16" alt="%s" /></a>' % (static('admin/img/selector-search.gif'), 'Lookup'))
+        return mark_safe(u''.join(output))
+
+    class Media:
+        js = ('js/genericcollections.js', )
 
 
 class ActivityForm(forms.ModelForm):
@@ -122,16 +155,13 @@ class ActivityForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ActivityForm, self).__init__(*args, **kwargs)
-        instance = None
-        if kwargs.has_key('instance'):
-            instance = kwargs['instance']
+        instance = kwargs.get('instance', None)
 
         for field in ACTIVITY_FIELDS:
             field_name = field[0]
             model = get_model(*field[1].split('.'))
-            # ctype = ContentType.objects.get(app_label=app_label, model=model)
-            self.fields[field_name] = forms.ModelChoiceField(queryset=model.objects.all(), widget=forms.TextInput, required=False)
-            # for existing lessons, initialize the fields
+            self.fields[field_name] = forms.ModelChoiceField(queryset=model.objects.all(), widget=SpecificGenericRawIdWidget(rel=field[1]), required=False)
+            # for existing records, initialize the fields
             if instance:
                 objects = instance.activityrelation_set.filter(relation_type=field_name)
                 if len(objects) > 0:
@@ -139,7 +169,6 @@ class ActivityForm(forms.ModelForm):
 
         if instance:
             ctype = ContentType.objects.get_for_model(Activity)
-            # [EDU-2791] Learning Objectives
             initial_objs = ''
             objectiverelations = ObjectiveRelation.objects.filter(
                                     content_type=ctype, object_id=instance.id)
@@ -188,12 +217,6 @@ class ActivityForm(forms.ModelForm):
     def clean_internet_access_type(self):
         return self.clean_field('internet_access_type')
 
-    # def clean_materials(self):
-    #     return self.clean_field('materials')
-
-    # def clean_reporting_categories(self):
-    #     return self.clean_field('reporting_categories')
-
     def clean_skills(self):
         return self.clean_field('skills')
 
@@ -208,6 +231,7 @@ class ActivityForm(forms.ModelForm):
 
     def clean_teaching_method_types(self):
         return self.clean_field('teaching_method_types')
+
 
 class ContentAdmin(admin.ModelAdmin):
     formfield_overrides = {
@@ -254,7 +278,8 @@ class ActivityAdmin(ContentAdmin):
     list_filter = ('pedagogical_purpose_type', 'published', 'published_date')
     object_name = 'activity'
     if CREDIT_MODEL is not None:
-        raw_id_fields = ("credit",)
+        raw_id_fields = ("credit", )
+
     search_fields = ['title', 'subtitle_guiding_question', 'description', 'id_number']
     varying_fields = ('assessment', 'background_information', 'description', 'extending_the_learning', 'subtitle_guiding_question', 'title', 'directions', 'learning_objectives', 'prior_knowledge')
 
@@ -274,7 +299,6 @@ class ActivityAdmin(ContentAdmin):
                 'theme_advanced_buttons1': 'glossify, fullscreen,preview,code,print,spellchecker,|,cut,copy,paste,pastetext,pasteword,undo,redo,|,search,replace,|,rawmode',
                 'setup': 'add_button_callback',
             })
-
         if db_field.name in self.varying_fields:
             request = kwargs.get('request', None)
             if request:
@@ -299,8 +323,18 @@ class ActivityAdmin(ContentAdmin):
                     'ads_excluded', 'id_number', 'notes_on_readability_score'
                  ],
                  'classes': ['collapse']}),
-            ('Directions', {'fields': ['directions', 'assessment_type', 'assessment', 'extending_the_learning', 'tips'], 'classes': ['collapse']}),
-            ('Objectives', {'fields': ['learning_objs', 'teaching_approaches', 'teaching_method_types', 'skills', 'standards'], 'classes': ['collapse']}),
+            ('Directions',
+                {'fields': [
+                    'directions', 'assessment_type', 'assessment',
+                    'extending_the_learning', 'tips'
+                ],
+                'classes': ['collapse']}),
+            ('Objectives',
+                {'fields': [
+                    'learning_objs', 'teaching_approaches',
+                    'teaching_method_types', 'skills', 'standards'
+                ],
+                'classes': ['collapse']}),
             ('Preparation',
                 {'fields': [
                     'materials', 'tech_setup_types', 'internet_access_type',
@@ -308,7 +342,12 @@ class ActivityAdmin(ContentAdmin):
                     'grouping_types', 'accessibility_notes', 'other_notes'
                  ],
                  'classes': ['collapse']}),
-            ('Background & Vocabulary', {'fields': ['background_information', 'prior_knowledge', 'prior_activities'], 'classes': ['collapse']}),
+            ('Background & Vocabulary',
+                {'fields': [
+                    'background_information', 'prior_knowledge',
+                    'prior_activities'
+                ],
+                'classes': ['collapse']}),
         ]
         if CREDIT_MODEL is not None:
             fieldsets.append(('Credits, Sponsors, Partners', {'fields': ['credit'], 'classes': ['collapse']}))
