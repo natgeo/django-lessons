@@ -15,8 +15,7 @@ from models import (Activity, ActivityRelation, GroupingType,
 if settings.DEBUG:
     from models import PluginType
 from settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
-                      RESOURCE_CAROUSEL, RC_SLIDE, CREDIT_MODEL,
-                      REPORTING_MODEL, RCS_MODEL)
+                      CREDIT_MODEL, REPORTING_MODEL, RCS_MODEL)
 from utils import truncate, get_audience_indices
 from widgets import VocabularyIdWidget
 
@@ -476,14 +475,8 @@ class LessonForm(forms.ModelForm):
         self.fields[field_name] = forms.ModelChoiceField(queryset=qset, widget=forms.TextInput)
         self.initialize_values(kwargs, field_name)
 
-        field_name = RC_SLIDE[0]
-        qset = get_model(*RC_SLIDE[1].split('.')).objects.all()
-        self.fields[field_name] = forms.ModelChoiceField(queryset=qset, widget=forms.TextInput, required=False)
-        self.initialize_values(kwargs, field_name)
-
         if instance:
             ctype = ContentType.objects.get_for_model(Lesson)
-            # [EDU-2791] Learning Objectives
             initial_objs = ''
             objectiverelations = ObjectiveRelation.objects.filter(
                                     content_type=ctype, object_id=instance.id)
@@ -567,17 +560,6 @@ class LessonAdmin(ContentAdmin):
         ]
         fieldsets[0][1]['fields'].insert(4, KEY_IMAGE[0])
         return fieldsets
-
-    def save_formset(self, request, form, formset, change):
-        super(LessonAdmin, self).save_formset(request, form, formset, change)
-
-        if formset.model == LessonActivity:
-            lesson_relations = formset.instance.lessonrelation_set
-            item = lesson_relations.get(relation_type=RC_SLIDE[0])
-
-            rcs = item.content_object
-            rcs.duration_minutes = formset.instance.get_duration()
-            rcs.save()
 
     def save_model(self, request, obj, form, change, *args, **kwargs):
         super(LessonAdmin, self).save_model(request, obj, form, change, *args, **kwargs)
