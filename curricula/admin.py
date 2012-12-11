@@ -193,8 +193,9 @@ class ActivityForm(forms.ModelForm):
     # def clean_materials(self):
     #     return self.clean_field('materials')
 
-    # def clean_reporting_categories(self):
-    #     return self.clean_field('reporting_categories')
+    # EDU-3361
+    def clean_reporting_categories(self):
+        return self.clean_field('reporting_categories')
 
     def clean_skills(self):
         return self.clean_field('skills')
@@ -465,6 +466,15 @@ class LessonForm(forms.ModelForm):
             raise forms.ValidationError("%s is required." % field_name)
         return cleaned_data
 
+    # EDU-3361
+    def clean_reporting_categories(self):
+        reporting_categories = self.cleaned_data['reporting_categories']
+
+        if self.cleaned_data['published'] and not reporting_categories:
+            if len(reporting_categories) == 0:
+                raise forms.ValidationError("Reporting Categories is required for published content.")
+
+        return reporting_categories
 
 class LessonAdmin(ContentAdmin):
     date_hierarchy = 'create_date'
