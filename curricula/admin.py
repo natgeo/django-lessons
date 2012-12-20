@@ -15,7 +15,7 @@ from models import (Activity, ActivityRelation, GroupingType,
 if settings.DEBUG:
     from models import PluginType
 from settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
-                      CREDIT_MODEL, REPORTING_MODEL, RCS_MODEL)
+                      CREDIT_MODEL, REPORTING_MODEL)
 from utils import truncate, get_audience_indices
 from widgets import VocabularyIdWidget
 
@@ -46,27 +46,12 @@ MCE_SIMPLE_ATTRS = {
 ACTIVITY_FIELDS = []
 if KEY_IMAGE is not None:
     ACTIVITY_FIELDS.append(KEY_IMAGE)
-LESSON_FIELDS = (KEY_IMAGE, )
-
-if RCS_MODEL is not None:
-    RCSModel = get_model(*RCS_MODEL.split('.'))
 
 try:
     from django.contrib.admin.templatetags.admin_static import static
 except ImportError:
     def static(somestring):
         return "%s%s" % (settings.ADMIN_MEDIA_PREFIX, somestring)
-
-try:
-    from education.edu_core.models import (ResourceCarouselModuleType,
-                                            ResourceCategoryType)
-except ImportError:
-    # Temporary shim for testing
-    class ResourceCarouselModuleType(models.Model):
-        name = models.CharField(max_length=128)
-
-    class ResourceCategoryType(models.Model):
-        name = models.CharField(max_length=128)
 
 
 def rcs_name(title):
@@ -580,51 +565,16 @@ class LessonAdmin(ContentAdmin):
     def save_model(self, request, obj, form, change, *args, **kwargs):
         super(LessonAdmin, self).save_model(request, obj, form, change, *args, **kwargs)
 
-        for field, model in LESSON_FIELDS:
-            if form[field].data == None or form[field].data == '':
-                # (EDU-2469) Lesson - User should not need to enter RC slide but
-                # the system should generate one and associate with the Lesson
-                try:
-                    item = obj.lessonrelation_set.get(relation_type=field)
-
-                    rcs = item.content_object
-                    rcs.name = rcs_name(obj.title)
-
-                    self.update_ARs(obj, rcs)
-
-                    rcs.save()
-                except LessonRelation.DoesNotExist:
-                    app_label, model = model.split('.')
-                    # following code is, unfortunately, copied from education.edu_core.models - raj
-                    ctype = ContentType.objects.get(app_label=app_label, model=model)
-
-                    rcs_type = ResourceCarouselModuleType.objects.get(name="Overview Module")
-                    _rctype = ResourceCategoryType.objects.get(name="Websites")
-
-                    new_rcs = RCSModel.objects.create(
-                            name=rcs_name(obj.title),
-                            title="Lesson Overview",
-                            resource_carousel_module_type=rcs_type,
-                            resource_category_type=_rctype,
-                            label="Lesson OVERVIEW",
-                            duration_minutes=obj.get_duration())
-
-                    self.update_ARs(obj, new_rcs)
-
-                    new_rcs.save()
-
-                    item = obj.lessonrelation_set.create(
-                        relation_type=field, object_id=new_rcs.id,
-                        content_type_id=ctype.id)
-            else:
-                try:
-                    item = obj.lessonrelation_set.get(relation_type=field)
-                    item.object_id = form[field].data
-                    item.save()
-                except LessonRelation.DoesNotExist:
-                    app_label, model = model.split('.')
-                    ctype = ContentType.objects.get(app_label=app_label, model=model)
-                    item = obj.lessonrelation_set.create(relation_type=field, object_id=form[field].data, content_type_id=ctype.id)
+        field, model = KEY_IMAGE
+        if form[field].data != None and form[field].data != '':
+            try:
+                item = obj.lessonrelation_set.get(relation_type=field)
+                item.object_id = form[field].data
+                item.save()
+            except LessonRelation.DoesNotExist:
+                app_label, model = model.split('.')
+                ctype = ContentType.objects.get(app_label=app_label, model=model)
+                item = obj.lessonrelation_set.create(relation_type=field, object_id=form[field].data, content_type_id=ctype.id)
 
         learning_objectives = form.cleaned_data['learning_objs']
         ctype = ContentType.objects.get_for_model(Lesson)
