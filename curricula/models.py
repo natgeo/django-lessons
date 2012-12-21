@@ -7,6 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.contrib.localflavor.us.us_states import STATE_CHOICES
 from django.core.urlresolvers import reverse
+from django.utils.datastructures import SortedDict
 from django.utils.html import strip_tags
 
 from settings import (ASSESSMENT_TYPES, STANDARD_TYPES,
@@ -443,9 +444,10 @@ class Activity(models.Model):
 
     if CREDIT_MODEL:
         def get_credit_details(self):
-            credit_details = {}
+            # [EDU-3431] Credit Category display order not working
+            credit_details = SortedDict()
             if self.credit and self.credit.credit_details:
-                for detail in self.credit.credit_details.all():
+                for detail in self.credit.credit_details.order_by('credit_category__order'):
                     if detail.credit_category not in credit_details:
                         credit_details[detail.credit_category] = []
                     credit_details[detail.credit_category].append(detail.entity)
