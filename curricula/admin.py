@@ -459,13 +459,11 @@ class LessonForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(LessonForm, self).__init__(*args, **kwargs)
-        instance = None
-        if kwargs.has_key('instance'):
-            instance = kwargs['instance']
+        instance = kwargs.get('instance', None)
 
         field_name = KEY_IMAGE[0]
         qset = get_model(*KEY_IMAGE[1].split('.')).objects.all()
-        self.fields[field_name] = forms.ModelChoiceField(queryset=qset, widget=forms.TextInput)
+        self.fields[field_name] = forms.ModelChoiceField(queryset=qset, widget=SpecificGenericRawIdWidget(rel=KEY_IMAGE[1]))
         self.initialize_values(kwargs, field_name)
 
         if instance:

@@ -4,7 +4,7 @@ django-lessons
 __version_info__ = {
     'major': 1,
     'minor': 7,
-    'micro': 6,
+    'micro': 7,
     'releaselevel': 'final',
     'serial': 1,
 }
