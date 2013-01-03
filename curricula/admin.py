@@ -47,6 +47,9 @@ ACTIVITY_FIELDS = []
 if KEY_IMAGE is not None:
     ACTIVITY_FIELDS.append(KEY_IMAGE)
 
+LESSON_FIELDS = []
+if KEY_IMAGE is not None:
+    LESSON_FIELDS.append(KEY_IMAGE)
 try:
     from django.contrib.admin.templatetags.admin_static import static
 except ImportError:
@@ -460,11 +463,11 @@ class LessonForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(LessonForm, self).__init__(*args, **kwargs)
         instance = kwargs.get('instance', None)
-
-        field_name = KEY_IMAGE[0]
-        qset = get_model(*KEY_IMAGE[1].split('.')).objects.all()
-        self.fields[field_name] = forms.ModelChoiceField(queryset=qset, widget=SpecificGenericRawIdWidget(rel=KEY_IMAGE[1]))
-        self.initialize_values(kwargs, field_name)
+        for field in LESSON_FIELDS:
+            field_name = field[0]
+            qset = get_model(*field[1].split('.')).objects.all()
+            self.fields[field_name] = forms.ModelChoiceField(queryset=qset, widget=SpecificGenericRawIdWidget(rel=field[1]))
+            self.initialize_values(kwargs, field_name)
 
         if instance:
             ctype = ContentType.objects.get_for_model(Lesson)
