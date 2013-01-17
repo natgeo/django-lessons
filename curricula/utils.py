@@ -1,5 +1,6 @@
 from collections import defaultdict
 
+from django.db.models.loading import get_model
 from django.conf import settings
 from django.template.loader import render_to_string
 
@@ -49,15 +50,21 @@ def activities_info(ids, l_id=None):
     """
     De-duplicate and aggregate fields on a comma-delimited list of activity ids
     """
+    from settings import GLOSSARY_MODEL, RESOURCE_MODEL
     from curricula.models import (Activity, TeachingApproach, TeachingMethodType,
                                   Standard, Material, Skill, PluginType,
                                   TechSetupType, PhysicalSpaceType, GroupingType,
-                                  GlossaryTerm, ResourceItem, Resource, Lesson,
+                                  ResourceItem, Lesson,
                                   ObjectiveRelation)
 
     from concepts.models import Concept, ConceptItem
     from django.contrib.contenttypes.models import ContentType
     from django.db.models import Avg
+
+    if GLOSSARY_MODEL is not None:
+        GlossaryModel = get_model(*GLOSSARY_MODEL.split('.'))
+    if RESOURCE_MODEL is not None:
+        ResourceModel = get_model(*RESOURCE_MODEL.split('.'))
 
     # [EDU-2791] Learning Objectives
     if l_id:
@@ -177,12 +184,14 @@ def activities_info(ids, l_id=None):
     ctxt = {'objects': Standard.objects.filter(id__in=list(standards))}
     output['standards'] = render_to_string('includes/standards.html', ctxt)
 
-    objects = GlossaryTerm.objects.filter(id__in=list(glossary)).values('word', 'definition', 'part_of_speech')
-    ctxt = {'objects': objects}
-    output['glossary'] = render_to_string('includes/vocabulary_list.html', ctxt)
+    if GLOSSARY_MODEL:
+        objects = GlossaryModel.objects.filter(id__in=list(glossary)).values('word', 'definition', 'part_of_speech')
+        ctxt = {'objects': objects}
+        output['glossary'] = render_to_string('includes/vocabulary_list.html', ctxt)
 
-    ctxt = {'objects': Resource.objects.select_related().filter(id__in=list(further_expl))}
-    output['further_exploration'] = render_to_string('includes/further_exploration_list.html', ctxt)
+    if RESOURCE_MODEL:
+        ctxt = {'objects': ResourceModel.objects.select_related().filter(id__in=list(further_expl))}
+        output['further_exploration'] = render_to_string('includes/further_exploration_list.html', ctxt)
     ctxt = {'key_concepts': concepts}
     output['key_concepts'] = render_to_string('includes/key_concepts_list.html', ctxt)
 
