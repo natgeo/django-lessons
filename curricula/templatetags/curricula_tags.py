@@ -92,3 +92,8 @@ class RelatedNode(template.Node):
             return ''
         except template.VariableDoesNotExist:
             return ''
+
+@register.filter(name='get_tips')
+def get_tips(activity, audience):
+    return [tip for tip in activity.tips.all()
+        if tip.appropriate_for.get_bit(audience - 1).is_set]
