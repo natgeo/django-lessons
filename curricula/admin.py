@@ -11,7 +11,8 @@ from genericcollection import GenericCollectionInlineModelAdmin
 from models import (Activity, ActivityRelation, GroupingType,
                      LearningObjective, Lesson, LessonActivity, LessonRelation,
                      Material, ObjectiveRelation, QuestionAnswer, ResourceItem,
-                     Skill, Standard, TeachingMethodType, Tip, Vocabulary)
+                     Skill, Standard, TeachingApproach, TeachingMethodType,
+                     Tip, Vocabulary)
 if settings.DEBUG:
     from models import PluginType
 from settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
@@ -687,6 +688,7 @@ if settings.DEBUG:
     admin.site.register(PluginType)
     admin.site.register(QuestionAnswer)
     admin.site.register(Skill)
+    admin.site.register(TeachingApproach)
 admin.site.register(Standard, StandardAdmin)
 admin.site.register(TeachingMethodType, TypeAdmin)
 admin.site.register(Tip, TipAdmin)
