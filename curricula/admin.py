@@ -401,7 +401,10 @@ class ActivityAdmin(ContentAdmin):
                                 content_type=ctype, object_id=obj.id)
 
         for objectiverelation in objectiverelations:
-            objectiverelation.objective.delete()
+            try:
+                objectiverelation.objective.delete()
+            except LearningObjective.DoesNotExist:
+                pass
             objectiverelation.delete()
 
         # create new
