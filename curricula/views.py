@@ -102,11 +102,6 @@ def activity_info(request, ids):
     return HttpResponse(result, mimetype="text/javascript")
 
 
-def lesson_info(request, ids, l_id):
-    result = simplejson.dumps(activities_info(ids, l_id))
-    return HttpResponse(result, mimetype="text/javascript")
-
-
 def background_information(request, id):
     lesson = get_object_or_404(Lesson, id=id)
 
