@@ -267,14 +267,14 @@ class ContentAdmin(admin.ModelAdmin):
 class ActivityAdmin(ContentAdmin):
     date_hierarchy = 'create_date'
     filter_horizontal = ['eras', 'grades', 'grouping_types', 'materials',
-                         'physical_space_types', 'prior_activities', 'skills',
+                         'physical_space_types', 'prior_activities',
                          'subjects', 'teaching_method_types',
                          'tech_setup_types', 'tips', 'teaching_approaches',
                          'secondary_content_types', 'learner_groups',
                          'plugin_types']
     if REPORTING_MODEL:
         filter_horizontal += ['reporting_categories']
-    filter_vertical = ['standards', ]
+    filter_vertical = ['standards', 'skills']
     form = ActivityForm
     inlines = [ResourceCarouselInline, TagInline, VocabularyInline,
                ResourceInline, QuestionAnswerInline]
