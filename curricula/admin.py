@@ -138,6 +138,14 @@ class ActivityForm(forms.ModelForm):
                                     widget=forms.Textarea(attrs={'cols': 128, 'rows': 5}),
                                     help_text="Each learning objective must be separated by a carriage return. Each line displays as a bulleted list.")
 
+    class Media:
+        js = (
+            settings.STATIC_URL + 'js/jquery-1.7.1.js',
+            settings.STATIC_URL + 'js/jquery/ui.core.js',
+            settings.STATIC_URL + 'js/jquery/ui.sortable.js',
+            settings.STATIC_URL + 'js/menu-sort.js',
+        )
+
     class Meta:
         model = Activity
 
