@@ -463,6 +463,14 @@ class LessonForm(forms.ModelForm):
                                     help_text='''All learning objectives from the activities within the lesson will dynamically display. Only use this field if you need to add additional, lesson-level learning objectives.
                                                  Each learning objective must be separated by a carriage return. Each line displays as a bulleted list.''')
 
+    class Media:
+        js = (
+            settings.STATIC_URL + 'js/jquery-1.7.1.js',
+            settings.STATIC_URL + 'js/jquery/ui.core.js',
+            settings.STATIC_URL + 'js/jquery/ui.sortable.js',
+            settings.STATIC_URL + 'js/menu-sort.js',
+        )
+
     class Meta:
         model = Lesson
 
