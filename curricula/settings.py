@@ -55,6 +55,7 @@ DEFAULT_SETTINGS = {
     'GLOSSARY_MODEL': None,
     'RESOURCE_MODEL': None,
     'REPORTING_MODEL': None,
+    'DEFAULT_LICENSE': 23,
     'RELATION_TYPES': None,
 }
 

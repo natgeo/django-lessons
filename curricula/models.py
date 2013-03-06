@@ -14,19 +14,26 @@ from settings import (ASSESSMENT_TYPES, STANDARD_TYPES,
                       PEDAGOGICAL_PURPOSE_TYPE_CHOICES, RELATION_MODELS,
                       RELATIONS, CREDIT_MODEL, INTERNET_ACCESS_TYPES,
                       REPORTING_MODEL, KEY_IMAGE, RESOURCE_CAROUSEL,
-                      GLOSSARY_MODEL, RESOURCE_MODEL, RELATION_TYPES)
+                      GLOSSARY_MODEL, RESOURCE_MODEL, RELATION_TYPES,
+                      DEFAULT_LICENSE)
 from utils import truncate, ul_as_list
 
 from audience.models import AUDIENCE_FLAGS
+from audience.widgets import bitfield_display
 from bitfield import BitField
 from categories.models import CategoryBase
 from concepts.models import delete_listener
 
-from edumetadata.models import *
+from edumetadata.models import (AlternateType, GeologicTime, Grade,
+                                 HistoricalEra, Subject)
 from edumetadata.fields import HistoricalDateField
+from licensing.models import GrantedLicense
 #from publisher import register
 #from publisher.models import Publish
+from resource_carousel.models import ResourceCategory
 
+if len(KEY_IMAGE) > 0:
+    KeyImageModel = KEY_IMAGE[1]
 if CREDIT_MODEL is not None:
     CreditModel = get_model(*CREDIT_MODEL.split('.'))
 if REPORTING_MODEL is not None:
@@ -470,7 +477,7 @@ class Activity(models.Model):
 
         def get_content_object(self, field):
             app_label, model = field[1].split('.')
-            ctype = ContentType.objects.get(app_label=app_label, model=model)
+            ctype = ContentType.objects.get(app_label=app_label, model=model.lower())
             ar = self.get_related_content_type(ctype.name)
             if len(ar) > 0:
                 return ar[0].content_object
@@ -537,8 +544,7 @@ class RelationManager(models.Manager):
         return qs.filter(relation_type=relation_type)
 
 
-class ActivityRelation(models.Model):
-    activity = models.ForeignKey(Activity)
+class ModelRelation(models.Model):
     content_type = models.ForeignKey(
         ContentType, limit_choices_to=relation_limits)
     object_id = models.PositiveIntegerField()
@@ -551,6 +557,13 @@ class ActivityRelation(models.Model):
         help_text="A generic text field to tag a relation, like 'primaryphoto'.")
 
     objects = RelationManager()
+
+    class Meta:
+        abstract = True
+
+
+class ActivityRelation(ModelRelation):
+    activity = models.ForeignKey(Activity)
 
     def __unicode__(self):
         out = u"%s related to %s" % (self.content_object, self.activity)
@@ -868,20 +881,8 @@ class Lesson(models.Model):  # Publish):
             return None
 
 
-class LessonRelation(models.Model):
+class LessonRelation(ModelRelation):
     lesson = models.ForeignKey(Lesson)
-    content_type = models.ForeignKey(
-        ContentType, limit_choices_to=relation_limits)
-    object_id = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey()
-    relation_type = models.CharField("Relation Type",
-        max_length="200",
-        blank=True,
-        null=True,
-        choices=RELATION_TYPES,
-        help_text="A generic text field to tag a relation, like 'primaryphoto'.")
-
-    objects = RelationManager()
 
     def __unicode__(self):
         out = u"%s related to %s" % (self.content_object, self.lesson)
@@ -899,6 +900,138 @@ class LessonActivity(models.Model):
     class Meta:
         ordering = ('order',)
         verbose_name_plural = 'Activities'
+
+
+class IdeaCategory(models.Model):
+    """
+    Idea-specific categories
+    """
+    create_date = models.DateTimeField(auto_now_add=True)
+    last_updated_date = models.DateTimeField(auto_now=True)
+    # Overview
+    appropriate_for = BitField(
+        flags=AUDIENCE_FLAGS,
+        help_text='''Select the audience(s) for which this content is
+        appropriate.''')
+    title = models.CharField(
+        max_length=256)
+    slug = models.SlugField(
+        unique=True,
+        help_text="""The URL slug is auto-generated, but producers should adjust
+        it if: a) punctuation in the title causes display errors; and/or b) the
+        title changes after the slug has been generated.""")
+    subtitle_guiding_question = models.TextField(
+        verbose_name="Subtitle or Guiding Question")
+    if KeyImageModel:
+        key_image = models.ForeignKey(KeyImageModel)
+    description = models.TextField()
+    category = models.ForeignKey(ResourceCategory, null=True)
+    # Content Detail
+    content_body = models.TextField()
+    # Credits, Sponsors, Partners
+    if CREDIT_MODEL:
+        credit = models.ForeignKey(CreditModel,
+            null=True)
+    # Licensing
+    license_name = models.ForeignKey(GrantedLicense,
+        null=True,
+        default=DEFAULT_LICENSE)
+    # Global Metadata
+    secondary_content_types = models.ManyToManyField(AlternateType,
+        blank=True,
+        null=True)
+    if REPORTING_MODEL:
+        reporting_categories = models.ManyToManyField(ReportingModel,
+            blank=True,
+            null=True)
+    # Content Related Metadata
+    subjects = models.ManyToManyField(Subject,
+        blank=True,
+        null=True,
+        limit_choices_to={'parent__isnull': False},
+        verbose_name="Subjects and Disciplines")
+    grades = models.ManyToManyField(Grade,
+        blank=True,
+        null=True)
+    # Time and Date Metadata
+    eras = models.ManyToManyField(HistoricalEra,
+        blank=True,
+        null=True)
+    geologic_time = models.ForeignKey(GeologicTime,
+        blank=True,
+        null=True)
+    relevant_start_date = HistoricalDateField(
+        blank=True,
+        null=True)
+    relevant_end_date = HistoricalDateField(
+        blank=True,
+        null=True)
+    # Schedule
+    published = models.BooleanField()
+    published_date = models.DateTimeField(
+        blank=True,
+        null=True)
+
+    objects = ContentManager()
+
+    class Meta:
+        verbose_name_plural = 'Idea categories'
+
+    def __unicode__(self):
+        return self.title
+
+    def appropriate_display(self):
+        return bitfield_display(self.appropriate_for)
+    appropriate_display.allow_tags = True
+
+    def thumbnail_html(self):
+        if self.key_image:
+            return '<img src="%s"/>' % self.key_image.thumbnail_url()
+        else:
+            return None
+
+
+class Idea(models.Model):
+    create_date = models.DateTimeField(auto_now_add=True)
+    last_updated_date = models.DateTimeField(auto_now=True)
+    # Overview
+    appropriate_for = BitField(
+        flags=AUDIENCE_FLAGS,
+        help_text='''Select the audience(s) for which this content is
+        appropriate.''')
+    if KeyImageModel:
+        key_image = models.ForeignKey(KeyImageModel)
+    # Content Detail
+    content_body = models.TextField()
+
+    def appropriate_display(self):
+        return bitfield_display(self.appropriate_for)
+    appropriate_display.allow_tags = True
+
+    def get_categories(self):
+        return [ci.category.title for ci in CategoryIdea.objects.filter(idea=self)]
+
+    def thumbnail_html(self):
+        if self.key_image:
+            return '<img src="%s"/>' % self.key_image.thumbnail_url()
+        else:
+            return None
+
+
+class CategoryIdea(models.Model):
+    category = models.ForeignKey(IdeaCategory, null=True)
+    idea = models.ForeignKey(Idea, null=True)
+
+
+class IdeaCategoryRelation(ModelRelation):
+    idea_category = models.ForeignKey(IdeaCategory)
+
+    def __unicode__(self):
+        out = u"%s related to %s" % (self.content_object, self.idea_category)
+        if self.relation_type:
+            out += u" as %s" % self.relation_type
+        return out
+
 
 pre_delete.connect(delete_listener, sender=Activity)
 

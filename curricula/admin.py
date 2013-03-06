@@ -12,7 +12,7 @@ from models import (Activity, ActivityRelation, GroupingType,
                      LearningObjective, Lesson, LessonActivity, LessonRelation,
                      Material, ObjectiveRelation, QuestionAnswer, ResourceItem,
                      Skill, Standard, TeachingApproach, TeachingMethodType,
-                     Tip, Vocabulary)
+                     Tip, Vocabulary, Idea, IdeaCategory, CategoryIdea)
 if settings.DEBUG:
     from models import PluginType
 from settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
@@ -36,6 +36,7 @@ class ResourceCarouselInline(RelatedInline):
 
 TINYMCE_FIELDS = ('description', 'assessment', 'learning_objectives', 'other_notes', 'background_information')
 ACTIVITY_TINYMCE_FIELDS = TINYMCE_FIELDS + ('extending_the_learning', 'setup', 'accessibility_notes', 'prior_knowledge')
+IDEACATEGORY_TINYMCE_FIELDS = ('content_body', 'description', 'subtitle_guiding_question')
 LESSON_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle_guiding_question', 'prior_knowledge')
 
 MCE_SIMPLE_ATTRS = {
@@ -57,6 +58,7 @@ except ImportError:
     def static(somestring):
         return "%s%s" % (settings.ADMIN_MEDIA_PREFIX, somestring)
 
+JAVASCRIPT_URL = settings.STATIC_URL + 'js/'
 
 def rcs_name(title):
     return truncate("Lesson Overview - %s" % title, 47)
@@ -237,6 +239,7 @@ class ActivityForm(forms.ModelForm):
 
 
 class ContentAdmin(admin.ModelAdmin):
+    date_hierarchy = 'create_date'
     tabs = {
         'Overview': 0,
         'Directions': 0,
@@ -273,7 +276,6 @@ class ContentAdmin(admin.ModelAdmin):
 
 
 class ActivityAdmin(ContentAdmin):
-    date_hierarchy = 'create_date'
     filter_horizontal = ['eras', 'grades', 'grouping_types', 'materials',
                          'physical_space_types', 'prior_activities',
                          'subjects', 'teaching_method_types',
@@ -450,6 +452,104 @@ class ActivityInline(admin.TabularInline):
             return db_field.formfield(widget=TinyMCE(mce_attrs={'theme': "simple", 'height': 5}))
         return super(ActivityInline, self).formfield_for_dbfield(db_field, **kwargs)
 
+
+class IdeaAdmin(admin.ModelAdmin):
+    date_hierarchy = 'create_date'
+    formfield_overrides = {
+        BitField: {
+            'choices': AUDIENCE_FLAGS,
+            'initial': 1,
+            'widget': AdminBitFieldWidget()
+        }
+    }
+    inlines = [TagInline, ]
+    list_display = ('content_body', 'thumbnail_display', 'categories_display', 'appropriate_display')
+    if KEY_IMAGE:
+        raw_id_fields = ("key_image", )
+
+    class Media:
+        css = {'all': (settings.STATIC_URL + 'audience/bitfield.css', )}
+        js = ('/media/static/audience/bitfield.js',
+              JAVASCRIPT_URL + 'jquery-1.7.1.min.js',
+              JAVASCRIPT_URL + 'genericcollections.js',
+              JAVASCRIPT_URL + 'admin.js',
+              JAVASCRIPT_URL + 'reference_tinymce_widget.js',
+              settings.STATIC_URL + 'js_scss/libs/jquery.ui.core.min.js',
+        )
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super(IdeaAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == 'content_body':
+            formfield.widget = TinyMCE(mce_attrs=MCE_SIMPLE_ATTRS)
+
+        return formfield
+
+    def categories_display(self, obj):
+        return (',').join(obj.get_categories())
+
+    def thumbnail_display(self, obj):
+        return obj.thumbnail_html()
+    thumbnail_display.allow_tags = True
+
+
+class IdeaInline(admin.TabularInline):
+    model = CategoryIdea
+    raw_id_fields = ('idea', )
+
+
+class IdeaCategoryAdmin(ContentAdmin):
+    filter_horizontal = ['eras', 'grades', 'secondary_content_types', 'subjects', ]
+    if REPORTING_MODEL:
+        filter_horizontal += ['reporting_categories']
+    list_display = ('title', 'content_body', 'thumbnail_display', 'category', 'appropriate_display', 'grade_levels', 'published_date')
+    inlines = [TagInline, IdeaInline]
+    raw_id_fields = ("category", "geologic_time", "license_name")
+    if CREDIT_MODEL:
+        raw_id_fields += ("credit", )
+    if KEY_IMAGE:
+        raw_id_fields += ("key_image", )
+
+    class Media:
+        css = {'all': (settings.STATIC_URL + 'audience/bitfield.css', )}
+        js = ('/media/static/audience/bitfield.js',
+              JAVASCRIPT_URL + 'jquery-1.7.1.min.js',
+              JAVASCRIPT_URL + 'genericcollections.js',
+              JAVASCRIPT_URL + 'admin.js',
+              JAVASCRIPT_URL + 'reference_tinymce_widget.js',
+              settings.STATIC_URL + 'js_scss/libs/jquery.ui.core.min.js',
+        )
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super(IdeaCategoryAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name in IDEACATEGORY_TINYMCE_FIELDS:
+            formfield.widget = TinyMCE(mce_attrs=MCE_SIMPLE_ATTRS)
+
+        return formfield
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = [
+            ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'subtitle_guiding_question', 'description', 'category', ], 'classes': ['collapse']}),
+            ('Content Detail', {'fields': ['content_body', ], 'classes': ['collapse']}),
+        ]
+        if CREDIT_MODEL is not None:
+            fieldsets.append(('Credits, Sponsors, Partners', {'fields': ['credit', ], 'classes': ['collapse']}))
+        fieldsets.append(('Licensing', {'fields': ['license_name', ], 'classes': ['collapse']}))
+        if REPORTING_MODEL is None:
+            fieldsets.append(('Global Metadata', {'fields': ['secondary_content_types'], 'classes': ['collapse']}))
+        else:
+            fieldsets.append(('Global Metadata', {'fields': ['secondary_content_types', 'reporting_categories'], 'classes': ['collapse']}))
+        fieldsets += [
+            ('Content Related Metadata', {'fields': ['subjects', 'grades'], 'classes': ['collapse']}),
+            ('Time and Date Metadata', {'fields': ['eras', 'geologic_time', 'relevant_start_date', 'relevant_end_date'], 'classes': ['collapse']}),
+            ('Publishing', {'fields': ['published', 'published_date'], 'classes': ['collapse']}),
+        ]
+        fieldsets[0][1]['fields'].insert(4, KEY_IMAGE[0])
+        return fieldsets
+
+    def grade_levels(self, obj):
+        return obj.grades.all().as_grade_range()
+
+
 if RELATION_MODELS:
     class InlineLessonRelation(GenericCollectionInlineModelAdmin):
         extra = 7
@@ -519,7 +619,6 @@ class LessonForm(forms.ModelForm):
         return reporting_categories
 
 class LessonAdmin(ContentAdmin):
-    date_hierarchy = 'create_date'
     filter_horizontal = ['eras', 'materials', 'secondary_content_types', 'prior_activities']
     if REPORTING_MODEL:
         filter_horizontal += ['reporting_categories']
@@ -700,6 +799,8 @@ class TipAdmin(admin.ModelAdmin):
 
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(GroupingType)
+admin.site.register(Idea, IdeaAdmin)
+admin.site.register(IdeaCategory, IdeaCategoryAdmin)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Material, TypeAdmin)
 if settings.DEBUG:

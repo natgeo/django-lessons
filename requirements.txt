@@ -4,5 +4,7 @@ django-audience>=0.5.3
 django-categories>=1.0.2
 django-concepts>=0.3.5
 django-edumetadata>=0.6
+django-licensing>=0.3
 # django-publisher==0.1
+django-resourcecarousel>=1.0.1
 django-tinymce
