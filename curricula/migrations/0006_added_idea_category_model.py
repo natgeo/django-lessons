@@ -39,7 +39,7 @@ class Migration(SchemaMigration):
         db.create_table('curricula_ideacategoryrelation', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('content_type', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['contenttypes.ContentType'])),
-            ('ideacategory', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['curricula.IdeaCategory'])),
+            ('idea_category', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['curricula.IdeaCategory'])),
             ('object_id', self.gf('django.db.models.fields.PositiveIntegerField')()),
             ('relation_type', self.gf('django.db.models.fields.CharField')(max_length='200', null=True, blank=True)),
         ))
@@ -326,6 +326,14 @@ class Migration(SchemaMigration):
             'subjects': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['edumetadata.Subject']", 'null': 'True', 'blank': 'True'}),
             'subtitle_guiding_question': ('django.db.models.fields.TextField', [], {}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '256'})
+        },
+        'curricula.ideacategoryrelation': {
+            'Meta': {'object_name': 'IdeaCategoryRelation'},
+            'idea_category': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['curricula.IdeaCategory']"}),
+            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['contenttypes.ContentType']"}),
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'object_id': ('django.db.models.fields.PositiveIntegerField', [], {}),
+            'relation_type': ('django.db.models.fields.CharField', [], {'max_length': "'200'", 'null': 'True', 'blank': 'True'})
         },
         'curricula.learnergroup': {
             'Meta': {'object_name': 'LearnerGroup'},
