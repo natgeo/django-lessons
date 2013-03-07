@@ -515,6 +515,7 @@ class IdeaCategoryAdmin(ContentAdmin):
     if REPORTING_MODEL:
         filter_horizontal += ['reporting_categories']
     list_display = ('title', 'content_body', 'thumbnail_display', 'category', 'appropriate_display', 'grade_levels', 'published_date')
+    list_filter = ('grades', 'published', 'published_date')
     inlines = [TagInline, IdeaInline]
     if RELATION_MODELS:
         inlines.append(InlineIdeaCategoryRelation)
