@@ -12,7 +12,8 @@ from models import (Activity, ActivityRelation, GroupingType,
                      LearningObjective, Lesson, LessonActivity, LessonRelation,
                      Material, ObjectiveRelation, QuestionAnswer, ResourceItem,
                      Skill, Standard, TeachingApproach, TeachingMethodType,
-                     Tip, Vocabulary, Idea, IdeaCategory, CategoryIdea)
+                     Tip, Vocabulary, Idea, IdeaCategory, CategoryIdea,
+                     IdeaCategoryRelation)
 if settings.DEBUG:
     from models import PluginType
 from settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
@@ -453,6 +454,18 @@ class ActivityInline(admin.TabularInline):
         return super(ActivityInline, self).formfield_for_dbfield(db_field, **kwargs)
 
 
+if RELATION_MODELS:
+    class InlineIdeaCategoryRelation(GenericCollectionInlineModelAdmin):
+        extra = 7
+        model = IdeaCategoryRelation
+        template = 'admin/edit_inline/ic_coll_tabular.html'
+
+
+class IdeaCategoryInline(admin.TabularInline):
+    model = CategoryIdea
+    raw_id_fields = ('category', )
+
+
 class IdeaAdmin(admin.ModelAdmin):
     date_hierarchy = 'create_date'
     formfield_overrides = {
@@ -462,7 +475,7 @@ class IdeaAdmin(admin.ModelAdmin):
             'widget': AdminBitFieldWidget()
         }
     }
-    inlines = [TagInline, ]
+    inlines = [TagInline, IdeaCategoryInline]
     list_display = ('content_body', 'thumbnail_display', 'categories_display', 'appropriate_display')
     if KEY_IMAGE:
         raw_id_fields = ("key_image", )
@@ -503,6 +516,8 @@ class IdeaCategoryAdmin(ContentAdmin):
         filter_horizontal += ['reporting_categories']
     list_display = ('title', 'content_body', 'thumbnail_display', 'category', 'appropriate_display', 'grade_levels', 'published_date')
     inlines = [TagInline, IdeaInline]
+    if RELATION_MODELS:
+        inlines.append(InlineIdeaCategoryRelation)
     raw_id_fields = ("category", "geologic_time", "license_name")
     if CREDIT_MODEL:
         raw_id_fields += ("credit", )
