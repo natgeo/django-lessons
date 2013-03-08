@@ -510,10 +510,33 @@ class IdeaInline(admin.TabularInline):
     raw_id_fields = ('idea', )
 
 
+class IdeaCategoryForm(forms.ModelForm):
+    class Meta:
+        model = IdeaCategory
+
+    def clean(self):
+        cleaned_data = super(IdeaCategoryForm, self).clean()
+
+        if CREDIT_MODEL:
+            self.clean_field('credit')
+        self.clean_field('grades')
+        self.clean_field('license_name')
+        self.clean_field('subjects')
+
+        return cleaned_data
+
+    def clean_field(self, name):
+        field = self.cleaned_data[name]
+        if 'published' in self.cleaned_data:
+            if self.cleaned_data['published'] and not field:
+                raise forms.ValidationError("%s is required, for published activities." % name.capitalize())
+
+
 class IdeaCategoryAdmin(ContentAdmin):
     filter_horizontal = ['eras', 'grades', 'secondary_content_types', 'subjects', ]
     if REPORTING_MODEL:
         filter_horizontal += ['reporting_categories']
+    form = IdeaCategoryForm
     list_display = ('title', 'content_body', 'thumbnail_display', 'category', 'appropriate_display', 'grade_levels', 'published_date')
     list_filter = ('grades', 'published', 'published_date')
     inlines = [TagInline, IdeaInline]

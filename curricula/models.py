@@ -931,9 +931,11 @@ class IdeaCategory(models.Model):
     # Credits, Sponsors, Partners
     if CREDIT_MODEL:
         credit = models.ForeignKey(CreditModel,
+            blank=True,
             null=True)
     # Licensing
     license_name = models.ForeignKey(GrantedLicense,
+        blank=True,
         null=True,
         default=DEFAULT_LICENSE)
     # Global Metadata
