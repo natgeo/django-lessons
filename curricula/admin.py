@@ -508,6 +508,8 @@ class IdeaAdmin(admin.ModelAdmin):
 class IdeaInline(admin.TabularInline):
     model = CategoryIdea
     raw_id_fields = ('idea', )
+    verbose_name = "Idea"
+    verbose_name_plural = "Ideas"
 
 
 class IdeaCategoryForm(forms.ModelForm):
