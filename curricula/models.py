@@ -30,7 +30,6 @@ from edumetadata.fields import HistoricalDateField
 from licensing.models import GrantedLicense
 #from publisher import register
 #from publisher.models import Publish
-from resource_carousel.models import ResourceCategory
 
 if len(KEY_IMAGE) > 0:
     KeyImageModel = KEY_IMAGE[1]
@@ -925,7 +924,6 @@ class IdeaCategory(models.Model):
     if KeyImageModel:
         key_image = models.ForeignKey(KeyImageModel)
     description = models.TextField()
-    category = models.ForeignKey(ResourceCategory, null=True)
     # Content Detail
     content_body = models.TextField()
     # Credits, Sponsors, Partners

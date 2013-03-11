@@ -16,7 +16,6 @@ class Migration(SchemaMigration):
         db.create_table('curricula_ideacategory', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('appropriate_for', self.gf('edumetadata.fields.BigIntegerField')()),
-            ('category', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['resource_carousel.ResourceCategory'])),
             ('content_body', self.gf('django.db.models.fields.TextField')()),
             ('create_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('credit', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['credits.CreditGroup'], null=True, blank=True)),
@@ -310,7 +309,6 @@ class Migration(SchemaMigration):
         'curricula.ideacategory': {
             'Meta': {'ordering': "['title']", 'object_name': 'IdeaCategory'},
             'appropriate_for': ('edumetadata.fields.BigIntegerField', [], {}),
-            'category': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['resource_carousel.ResourceCategory']"}),
             'content_body': ('django.db.models.fields.TextField', [], {}),
             'create_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {}),

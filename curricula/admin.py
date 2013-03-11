@@ -537,12 +537,12 @@ class IdeaCategoryAdmin(ContentAdmin):
     if REPORTING_MODEL:
         filter_horizontal += ['reporting_categories']
     form = IdeaCategoryForm
-    list_display = ('title', 'content_body', 'thumbnail_display', 'category', 'appropriate_display', 'grade_levels', 'published_date')
+    list_display = ('title', 'content_body', 'thumbnail_display', 'appropriate_display', 'grade_levels', 'published_date')
     list_filter = ('grades', 'published', 'published_date')
     inlines = [TagInline, IdeaInline]
     if RELATION_MODELS:
         inlines.append(InlineIdeaCategoryRelation)
-    raw_id_fields = ("category", "geologic_time", "license_name")
+    raw_id_fields = ("geologic_time", "license_name")
     if CREDIT_MODEL:
         raw_id_fields += ("credit", )
     if KEY_IMAGE:
@@ -567,7 +567,7 @@ class IdeaCategoryAdmin(ContentAdmin):
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = [
-            ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'subtitle_guiding_question', 'description', 'category', ], 'classes': ['collapse']}),
+            ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'subtitle_guiding_question', 'description', ], 'classes': ['collapse']}),
             ('Content Detail', {'fields': ['content_body', ], 'classes': ['collapse']}),
         ]
         if CREDIT_MODEL is not None:
