@@ -464,6 +464,8 @@ if RELATION_MODELS:
 class IdeaCategoryInline(admin.TabularInline):
     model = CategoryIdea
     raw_id_fields = ('category', )
+    verbose_name = "Idea Category"
+    verbose_name_plural = "Idea Categories"
 
 
 class IdeaAdmin(admin.ModelAdmin):
