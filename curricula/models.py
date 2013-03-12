@@ -1022,6 +1022,9 @@ class CategoryIdea(models.Model):
     category = models.ForeignKey(IdeaCategory, null=True)
     idea = models.ForeignKey(Idea, null=True)
 
+    def __unicode__(self):
+        return self.category.title
+
 
 class IdeaCategoryRelation(ModelRelation):
     idea_category = models.ForeignKey(IdeaCategory)
