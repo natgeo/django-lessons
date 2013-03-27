@@ -571,7 +571,7 @@ class IdeaCategoryAdmin(ContentAdmin):
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = [
-            ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'description', ], 'classes': ['collapse']}),
+            ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'description', 'id_number'], 'classes': ['collapse']}),
             ('Content Detail', {'fields': ['content_body', ], 'classes': ['collapse']}),
         ]
         if CREDIT_MODEL is not None:

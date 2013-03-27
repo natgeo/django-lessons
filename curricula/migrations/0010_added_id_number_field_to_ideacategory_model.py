@@ -12,12 +12,12 @@ from curricula.utils import ul_as_list
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'Idea.id_number
-        db.add_column('curricula_idea', 'id_number', self.gf('django.db.models.fields.CharField')(max_length=10, null=True), keep_default=False)
+        # Adding field 'IdeaCategory.id_number
+        db.add_column('curricula_ideacategory', 'id_number', self.gf('django.db.models.fields.CharField')(max_length=10, null=True), keep_default=False)
 
     def backwards(self, orm):
-        # Deleting field 'Idea.id_number'
-        db.delete_column('curricula_idea', 'id_number')
+        # Deleting field 'IdeaCategory.id_number'
+        db.delete_column('curricula_ideacategory', 'id_number')
 
     models = {
         'categories.category': {
@@ -213,6 +213,7 @@ class Migration(SchemaMigration):
             'description': ('django.db.models.fields.TextField', [], {}),
             'grades': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['edumetadata.Grade']", 'null': 'True', 'blank': 'True'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'id_number': ('django.db.models.fields.CharField', [], {'max_length': '10', 'null': 'True'}),
             'key_image': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['core_media.NGPhoto']", 'null': 'True', 'blank': 'True'}),
             'last_updated_date': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'license_name': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'null': 'True', 'to': "orm['licensing.GrantedLicense']"}),
