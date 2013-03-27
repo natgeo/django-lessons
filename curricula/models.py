@@ -1006,6 +1006,11 @@ class Idea(models.Model):
         null=True)
     if KeyImageModel:
         key_image = models.ForeignKey(KeyImageModel)
+    id_number = models.CharField(
+        max_length=10,
+        null=True,
+        help_text="""This field is for the internal NG Education ID number. This
+        is required for all instructional content.""")
     # Content Detail
     content_body = models.TextField()
 
