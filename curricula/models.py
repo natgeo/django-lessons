@@ -920,7 +920,9 @@ class IdeaCategory(models.Model):
         it if: a) punctuation in the title causes display errors; and/or b) the
         title changes after the slug has been generated.""")
     subtitle_guiding_question = models.TextField(
-        verbose_name="Subtitle or Guiding Question")
+        verbose_name="Subtitle or Guiding Question",
+        blank=True,
+        null=True)
     if KeyImageModel:
         key_image = models.ForeignKey(KeyImageModel)
     description = models.TextField()

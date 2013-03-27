@@ -37,7 +37,7 @@ class ResourceCarouselInline(RelatedInline):
 
 TINYMCE_FIELDS = ('description', 'assessment', 'learning_objectives', 'other_notes', 'background_information')
 ACTIVITY_TINYMCE_FIELDS = TINYMCE_FIELDS + ('extending_the_learning', 'setup', 'accessibility_notes', 'prior_knowledge')
-IDEACATEGORY_TINYMCE_FIELDS = ('content_body', 'description', 'subtitle_guiding_question')
+IDEACATEGORY_TINYMCE_FIELDS = ('content_body', 'description')
 LESSON_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle_guiding_question', 'prior_knowledge')
 
 MCE_SIMPLE_ATTRS = {
@@ -571,7 +571,7 @@ class IdeaCategoryAdmin(ContentAdmin):
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = [
-            ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'subtitle_guiding_question', 'description', ], 'classes': ['collapse']}),
+            ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'description', ], 'classes': ['collapse']}),
             ('Content Detail', {'fields': ['content_body', ], 'classes': ['collapse']}),
         ]
         if CREDIT_MODEL is not None:
