@@ -999,6 +999,9 @@ class Idea(models.Model):
         flags=AUDIENCE_FLAGS,
         help_text='''Select the audience(s) for which this content is
         appropriate.''')
+    title = models.CharField(
+        max_length=256,
+        null=True)
     if KeyImageModel:
         key_image = models.ForeignKey(KeyImageModel)
     # Content Detail
