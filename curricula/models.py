@@ -1019,6 +1019,9 @@ class Idea(models.Model):
     # Content Detail
     content_body = models.TextField()
 
+    def __unicode__(self):
+        return self.title
+
     def appropriate_display(self):
         return bitfield_display(self.appropriate_for)
     appropriate_display.allow_tags = True
