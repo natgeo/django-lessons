@@ -481,6 +481,7 @@ class IdeaAdmin(admin.ModelAdmin):
     list_display = ('content_body', 'thumbnail_display', 'categories_display', 'appropriate_display')
     if KEY_IMAGE:
         raw_id_fields = ("key_image", )
+    search_fields = ['title', 'content_body']
 
     class Media:
         css = {'all': (settings.STATIC_URL + 'audience/bitfield.css', )}
@@ -551,6 +552,7 @@ class IdeaCategoryAdmin(ContentAdmin):
         raw_id_fields += ("credit", )
     if KEY_IMAGE:
         raw_id_fields += ("key_image", )
+    search_fields = ['title', 'content_body']
 
     class Media:
         css = {'all': (settings.STATIC_URL + 'audience/bitfield.css', )}
