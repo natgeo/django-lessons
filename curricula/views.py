@@ -4,7 +4,7 @@ from django.template import RequestContext
 from django.utils import simplejson
 
 from settings import RELATION_MODELS, KEY_IMAGE, RC_SLIDE
-from curricula.models import Activity, Lesson, Standard
+from curricula.models import Activity, Lesson, Standard, IdeaCategory
 from curricula.utils import activities_info, tags_for_activities
 
 
@@ -91,6 +91,32 @@ def lesson_detail(request, slug, preview=False, template_name='curricula/lesson_
     activity_info['tags'] = tags_for_activities(activity_ids)
     context.update(activity_info)
     return render_to_response(template_name, context, context_instance=RequestContext(request))
+
+
+def idea_category(request, slug, preview=False, template_name='curricula/idea_category.html'):
+    if preview:
+        category = get_object_or_404(IdeaCategory, slug=slug)
+    else:
+        category = get_object_or_404(IdeaCategory, slug=slug, published=True)
+
+    audience = None
+    getvars = request.GET.copy()
+    if 'ar_a' in getvars:
+        audience = int(getvars['ar_a'])
+
+    credit_details = {}
+    if category.credit:
+        for detail in category.credit.credit_details.all():
+            if detail.credit_category not in credit_details:
+                credit_details[detail.credit_category] = []
+            credit_details[detail.credit_category].append(detail.entity)
+
+    return render_to_response(template_name, {
+        'category': category,
+        'ideas': [ci.idea for ci in category.categoryidea_set.all()],
+        'credit_details': credit_details,
+        'preview': preview,
+    }, context_instance=RequestContext(request))
 
 
 def activity_info(request, ids):

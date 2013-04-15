@@ -16,13 +16,13 @@ from settings import (ASSESSMENT_TYPES, STANDARD_TYPES,
                       REPORTING_MODEL, KEY_IMAGE, RESOURCE_CAROUSEL,
                       GLOSSARY_MODEL, RESOURCE_MODEL, RELATION_TYPES,
                       DEFAULT_LICENSE)
-from utils import truncate, ul_as_list
+from utils import truncate, ul_as_list, get_audience_indices
 
 from audience.models import AUDIENCE_FLAGS
 from audience.widgets import bitfield_display
 from bitfield import BitField
 from categories.models import CategoryBase
-from concepts.models import delete_listener
+from concepts.models import delete_listener, ConceptItem
 
 from edumetadata.models import (AlternateType, GeologicTime, Grade,
                                  HistoricalEra, Subject)
@@ -82,6 +82,23 @@ def grades_html(grades):
                     (gradestuple[0][0], min_age)
 
     return _grades_html
+
+
+def tags_for_object(obj):
+    ctype = ContentType.objects.get_for_model(obj)
+    tagitems = ConceptItem.objects.filter(
+        content_type=ctype,
+        object_id=obj.pk).exclude(tag__name='')
+    return [x.tag for x in tagitems]
+
+
+def keyword_wrapper(obj, model, ar_a=1, tags=None):
+    tags = tags or tags_for_object(obj)
+    ctype = ContentType.objects.get_for_model(model)
+    concept_items = ConceptItem.objects.filter(content_type=ctype, tag__in=tags)
+    ids = [ci.object_id for ci in concept_items.exclude(object_id=obj.id)]
+
+    return model.objects.filter(id__in=set(ids))
 
 
 class TypeModel(models.Model):
@@ -990,6 +1007,38 @@ class IdeaCategory(models.Model):
     def appropriate_display(self):
         return bitfield_display(self.appropriate_for)
     appropriate_display.allow_tags = True
+
+
+    def get_concepts(self):
+        ctype = ContentType.objects.get_for_model(self)
+        return ConceptItem.objects.filter(
+            object_id=self.pk,
+            content_type=ctype)
+
+
+    if RELATION_MODELS:
+        def get_related_content_type(self, content_type):
+            """
+            Get all related items of the specified content type
+            """
+            return self.ideacategoryrelation_set.filter(
+                content_type__name=content_type)
+
+
+        def get_relation_type(self, relation_type):
+            """
+            Get all relations of the specified relation type
+            """
+            return self.ideacategoryrelation_set.filter(
+                relation_type__iexact=relation_type)
+
+
+    def more_like_this(self, ar_a):
+        objects = keyword_wrapper(self, IdeaCategory, ar_a)
+
+        return [obj for obj in objects
+               if ar_a in get_audience_indices(obj.appropriate_for.items())]
+
 
     def thumbnail_html(self):
         if self.key_image:
