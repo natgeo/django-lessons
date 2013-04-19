@@ -1008,6 +1008,9 @@ class IdeaCategory(models.Model):
         return bitfield_display(self.appropriate_for)
     appropriate_display.allow_tags = True
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('idea-detail', (), {'slug': self.slug})
 
     def get_concepts(self):
         ctype = ContentType.objects.get_for_model(self)
