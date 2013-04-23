@@ -1062,7 +1062,9 @@ class Idea(models.Model):
         max_length=256,
         null=True)
     if KeyImageModel:
-        key_image = models.ForeignKey(KeyImageModel)
+        key_image = models.ForeignKey(KeyImageModel,
+            blank=True,
+            null=True)
     id_number = models.CharField(
         max_length=10,
         null=True,
