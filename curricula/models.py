@@ -1110,6 +1110,7 @@ class IdeaCategoryRelation(ModelRelation):
 
 pre_delete.connect(delete_listener, sender=Activity)
 pre_delete.connect(delete_listener, sender=Lesson)
+pre_delete.connect(delete_listener, sender=IdeaCategory)
 
 #register(Activity)
 #register(Lesson)
