@@ -1,6 +1,6 @@
 #import datetime
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, Avg
 from django.db.models.signals import pre_delete
 from django.db.models.loading import get_model
 from django.contrib.contenttypes.models import ContentType
@@ -22,7 +22,7 @@ from audience.models import AUDIENCE_FLAGS
 from audience.widgets import bitfield_display
 from bitfield import BitField
 from categories.models import CategoryBase
-from concepts.models import delete_listener, ConceptItem
+from concepts.models import delete_listener, Concept, ConceptItem
 
 from edumetadata.models import (AlternateType, GeologicTime, Grade,
                                  HistoricalEra, Subject)
@@ -1013,11 +1013,23 @@ class IdeaCategory(models.Model):
         return ('idea-detail', (), {'slug': self.slug})
 
     def get_concepts(self):
-        ctype = ContentType.objects.get_for_model(self)
-        return ConceptItem.objects.filter(
-            object_id=self.pk,
-            content_type=ctype)
+        idea_ids = [c.idea.id for c in CategoryIdea.objects.filter(category=self)]
+        ct1 = ContentType.objects.get_for_model(self)
+        ct2 = ContentType.objects.get_for_model(Idea)
 
+        q1 = Q(content_type=ct1, object_id=self.id)
+        q2 = Q(content_type=ct2, object_id__in=idea_ids)
+
+        items = ConceptItem.objects.filter(q1 | q2).filter(weight__gt=0)
+        concepts = list(items.values('tag').annotate(avg_weight=Avg('weight')).order_by('tag').distinct())
+        con_ids = [x['tag'] for x in concepts]
+        tags = Concept.objects.filter(id__in=con_ids).values('id', 'name', 'url')
+        tag_dict = dict((x['id'], x) for x in tags)
+        for tag in concepts:
+            tag['tag'] = tag_dict[tag['tag']]
+            tag['weight'] = int(round(tag['avg_weight'] / 5.0) * 5)
+
+        return concepts
 
     if RELATION_MODELS:
         def get_related_content_type(self, content_type):
