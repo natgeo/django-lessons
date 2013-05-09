@@ -1012,7 +1012,7 @@ class IdeaCategory(models.Model):
     def get_absolute_url(self):
         return ('idea-detail', (), {'slug': self.slug})
 
-    def get_concepts(self):
+    def _concept_items(self):
         idea_ids = [c.idea.id for c in CategoryIdea.objects.filter(category=self)]
         ct1 = ContentType.objects.get_for_model(self)
         ct2 = ContentType.objects.get_for_model(Idea)
@@ -1020,7 +1020,11 @@ class IdeaCategory(models.Model):
         q1 = Q(content_type=ct1, object_id=self.id)
         q2 = Q(content_type=ct2, object_id__in=idea_ids)
 
-        items = ConceptItem.objects.filter(q1 | q2).filter(weight__gt=0)
+        return ConceptItem.objects.filter(q1 | q2).filter(weight__gt=0)
+
+    def get_concepts(self):
+        items = self._concept_items()
+
         concepts = list(items.values('tag').annotate(avg_weight=Avg('weight')).order_by('tag').distinct())
         con_ids = [x['tag'] for x in concepts]
         tags = Concept.objects.filter(id__in=con_ids).values('id', 'name', 'url')
@@ -1049,11 +1053,17 @@ class IdeaCategory(models.Model):
 
 
     def more_like_this(self, ar_a):
-        objects = keyword_wrapper(self, IdeaCategory, ar_a)
+        concepts = set([item.tag for item in self._concept_items()])
+        objects = keyword_wrapper(self, IdeaCategory, ar_a, concepts)
 
         return [obj for obj in objects
                if ar_a in get_audience_indices(obj.appropriate_for.items())]
 
+    @property
+    def tags(self):
+        item_ids = self._concept_items().values_list('tag', flat=True)
+
+        return Concept.objects.filter(id__in=item_ids)
 
     def thumbnail_html(self):
         if self.key_image:
