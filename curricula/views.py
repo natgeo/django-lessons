@@ -113,7 +113,7 @@ def idea_category(request, slug, preview=False, template_name='curricula/idea_ca
 
     return render_to_response(template_name, {
         'category': category,
-        'ideas': [ci.idea for ci in category.categoryidea_set.all()],
+        'ideas': [ci.idea for ci in category.categoryidea_set.all() if audience in ci.idea.appropriate_for.get_set_bits()],
         'credit_details': credit_details,
         'preview': preview,
     }, context_instance=RequestContext(request))
