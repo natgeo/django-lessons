@@ -5,7 +5,7 @@ __version_info__ = {
     'major': 1,
     'minor': 9,
     'micro': 8,
-    'releaselevel': 'final',
+    'releaselevel': 'beta',
     'serial': 1,
 }
 
