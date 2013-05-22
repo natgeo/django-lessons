@@ -1053,11 +1053,23 @@ class IdeaCategory(models.Model):
 
 
     def more_like_this(self, ar_a):
-        concepts = set([item.tag for item in self._concept_items()])
-        objects = keyword_wrapper(self, IdeaCategory, ar_a, concepts)
+        ct1 = ContentType.objects.get_for_model(self)
+        ct2 = ContentType.objects.get_for_model(Idea)
 
-        return [obj for obj in objects
-               if ar_a in get_audience_indices(obj.appropriate_for.items())]
+        q1 = Q(content_type=ct1)
+        q2 = Q(content_type=ct2)
+        concepts = self.tags
+
+        items = ConceptItem.objects.filter(q1 | q2)
+        items = items.filter(tag__in=concepts, weight__gt=0)
+        categories = list(items.filter(content_type=ct1))
+        for item in items.filter(content_type=ct2):
+            categories += item.content_object._get_categories()
+
+        categories = list(set(categories))
+        categories.remove(self)
+        return [category for category in categories
+                if ar_a in get_audience_indices(category.appropriate_for.items())]
 
     @property
     def tags(self):
@@ -1098,12 +1110,15 @@ class Idea(models.Model):
     def __unicode__(self):
         return self.title
 
+    def _get_categories(self):
+        return [ci.category for ci in CategoryIdea.objects.filter(idea=self)]
+
     def appropriate_display(self):
         return bitfield_display(self.appropriate_for)
     appropriate_display.allow_tags = True
 
     def get_categories(self):
-        return [ci.category.title for ci in CategoryIdea.objects.filter(idea=self)]
+        return [ic.title for ic in self._get_categories()]
 
     def thumbnail_html(self):
         if self.key_image:
