@@ -664,7 +664,7 @@ class LessonForm(forms.ModelForm):
         return reporting_categories
 
 class LessonAdmin(ContentAdmin):
-    filter_horizontal = ['eras', 'materials', 'secondary_content_types', 'prior_activities']
+    filter_horizontal = ['eras', 'materials', 'secondary_content_types', 'prior_lessons']
     if REPORTING_MODEL:
         filter_horizontal += ['reporting_categories']
     form = LessonForm
@@ -713,7 +713,7 @@ class LessonAdmin(ContentAdmin):
             ('Directions', {'fields': ['assessment_type', 'assessment'], 'classes': ['collapse']}),
             ('Objectives', {'fields': ['learning_objs'], 'classes': ['collapse']}),
             ('Preparation', {'fields': ['materials', 'other_notes'], 'classes': ['collapse']}),
-            ('Background & Vocabulary', {'fields': ['background_information', 'prior_knowledge', 'prior_activities'], 'classes': ['collapse']}),
+            ('Background & Vocabulary', {'fields': ['background_information', 'prior_knowledge', 'prior_lessons'], 'classes': ['collapse']}),
         ]
         if CREDIT_MODEL is not None:
             fieldsets.append(('Credits, Sponsors, Partners', {'fields': ['credit'], 'classes': ['collapse']}))

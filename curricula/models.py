@@ -665,7 +665,7 @@ class Lesson(models.Model):  # Publish):
     prior_knowledge = models.TextField(
         blank=True,
         null=True)
-    prior_activities = models.ManyToManyField(Activity,
+    prior_lessons = models.ManyToManyField('self',
         blank=True,
         null=True)
 
