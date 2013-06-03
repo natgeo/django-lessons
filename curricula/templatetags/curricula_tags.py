@@ -97,3 +97,8 @@ class RelatedNode(template.Node):
 def get_tips(activity, audience):
     return [tip for tip in activity.tips.all()
         if tip.appropriate_for.get_bit(audience - 1).is_set]
+
+@register.filter(name='prior_lessons')
+def prior_lessons(lesson, audience):
+    return [l for l in lesson.prior_lessons.get_published()
+        if l.appropriate_for.get_bit(audience - 1).is_set]
