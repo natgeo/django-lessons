@@ -1062,9 +1062,10 @@ class IdeaCategory(models.Model):
 
         items = ConceptItem.objects.filter(q1 | q2)
         items = items.filter(tag__in=concepts, weight__gt=0)
-        categories = list(items.filter(content_type=ct1))
+        categories = [item.content_object for item in items.filter(content_type=ct1)]
         for item in items.filter(content_type=ct2):
-            categories += item.content_object._get_categories()
+            if item.content_object:
+                categories += item.content_object._get_categories()
 
         categories = list(set(categories))
         categories.remove(self)
