@@ -788,7 +788,7 @@ class TypeAdmin(admin.ModelAdmin):
 
 class StandardAdmin(admin.ModelAdmin):
     filter_horizontal = ['grades']
-    list_display = ('standard_type', 'name', 'grade_levels')
+    list_display = ('standard_type', 'name', 'definition', 'grade_levels')
     list_filter = ('standard_type', 'state', 'grades')
     search_fields = ['name', 'definition']
 

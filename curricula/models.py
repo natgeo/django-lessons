@@ -666,6 +666,7 @@ class Lesson(models.Model):  # Publish):
         blank=True,
         null=True)
     prior_lessons = models.ManyToManyField('self',
+        symmetrical=False,
         blank=True,
         null=True)
 
