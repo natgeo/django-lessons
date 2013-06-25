@@ -262,11 +262,6 @@ class ContentAdmin(admin.ModelAdmin):
     }
     prepopulated_fields = {"slug": ("title",)}
 
-    class Media:
-        css = {'all': (
-            "css/glossary_term.css",
-        )}
-
     def get_title(self, obj):
         return strip_tags(obj.title)
     get_title.short_description = 'Title'
@@ -300,6 +295,11 @@ class ActivityAdmin(ContentAdmin):
 
     search_fields = ['title', 'subtitle_guiding_question', 'description', 'id_number']
     varying_fields = ('assessment', 'background_information', 'description', 'extending_the_learning', 'subtitle_guiding_question', 'title', 'directions', 'learning_objectives', 'prior_knowledge')
+
+    class Media:
+        css = {'all': (
+            "css/glossary_term.css",
+        )}
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(ActivityAdmin, self).formfield_for_dbfield(db_field, **kwargs)
@@ -680,8 +680,23 @@ class LessonAdmin(ContentAdmin):
     search_fields = ['title', 'description', 'id_number']
     varying_fields = ('title', 'subtitle_guiding_question', 'description', 'directions', 'assessment', 'learning_objectives', 'background_information', 'prior_knowledge')
 
+    class Media:
+        css = {'all': (
+            "css/glossary_term.css",
+            settings.STATIC_URL + 'audience/bitfield.css'
+        )}
+
     def appropriate_display(self, obj):
-        return bitfield_display(obj.appropriate_for)
+        activities = obj.get_activities()
+        if len(activities) > 0:
+            appropriate_for = activities[0].appropriate_for
+            if len(activities) > 1:
+                for i in range(1, len(activities)):
+                    appropriate_for |= activities[i].appropriate_for
+            return bitfield_display(appropriate_for)
+        else:
+            return ''
+
     appropriate_display.short_description = 'Appropriate For'
     appropriate_display.allow_tags = True
 
