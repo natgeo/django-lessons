@@ -687,16 +687,7 @@ class LessonAdmin(ContentAdmin):
         )}
 
     def appropriate_display(self, obj):
-        activities = obj.get_activities()
-        if len(activities) > 0:
-            appropriate_for = activities[0].appropriate_for
-            if len(activities) > 1:
-                for i in range(1, len(activities)):
-                    appropriate_for |= activities[i].appropriate_for
-            return bitfield_display(appropriate_for)
-        else:
-            return ''
-
+        return bitfield_display(obj.appropriate_for)
     appropriate_display.short_description = 'Appropriate For'
     appropriate_display.allow_tags = True
 
