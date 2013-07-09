@@ -1147,6 +1147,111 @@ class IdeaCategoryRelation(ModelRelation):
         return out
 
 
+class Unit(models.Model):
+    # Global Metadata
+    appropriate_for = BitField(
+        flags=AUDIENCE_FLAGS,
+        help_text='''Select the audience(s) for which this content is
+        appropriate. Selecting audiences means that a separate audience view of
+        the page will exist for those audiences.
+
+        Note that the text you input in this form serves as the default text.
+        If you indicate this unit is appropriate for multiple audiences,
+        you either need to add text variations or the default text must be
+        appropriate for those audiences.''')
+    slug = models.SlugField(
+        unique=True,
+        max_length=100,
+        help_text="""The URL slug is auto-generated, but producers should adjust
+        it if: a) punctuation in the title causes display errors; and/or b) the
+        title changes after the slug has been generated.""")
+    title = models.CharField(
+        max_length=256,
+        verbose_name="Unit Title",
+        help_text="""GLOBAL: Use the text variations field to create versions
+        for audiences other than the default.""")
+    subtitle = models.TextField()
+    if KeyImageModel:
+        key_image = models.ForeignKey(KeyImageModel)
+    description = models.TextField()
+    overview = models.TextField()
+    id_number = models.CharField(
+        max_length=10,
+        help_text="""This field is for the internal NG Education ID number.
+        This is required for all instructional content.""")
+    grades = models.ManyToManyField(Grade,
+        blank=True,
+        null=True)
+    subjects = models.ManyToManyField(Subject,
+        blank=True,
+        null=True,
+        limit_choices_to={'parent__isnull': False})
+    # Credits, Sponsors, Partners
+    if CREDIT_MODEL:
+        credit = models.ForeignKey(CreditModel,
+            blank=True,
+            null=True)
+    # Time and Date Metadata
+    eras = models.ManyToManyField(HistoricalEra,
+        blank=True,
+        null=True)
+    geologic_time = models.ForeignKey(GeologicTime,
+        blank=True,
+        null=True)
+    relevant_start_date = HistoricalDateField(
+        blank=True,
+        null=True)
+    relevant_end_date = HistoricalDateField(
+        blank=True,
+        null=True)
+    # Schedule Metadata
+    published = models.BooleanField()
+    published_date = models.DateTimeField(
+        blank=True,
+        null=True)
+
+    objects = ContentManager()
+
+    def __unicode__(self):
+        return strip_tags(self.title)
+
+    if RELATION_MODELS:
+        def get_related_content_type(self, content_type):
+            """
+            Get all related items of the specified content type
+            """
+            return self.unitrelation_set.filter(
+                content_type__name=content_type)
+
+        def get_relation_type(self, relation_type):
+            """
+            Get all relations of the specified relation type
+            """
+            return self.unitrelation_set.filter(
+                relation_type__iexact=relation_type)
+
+
+class UnitRelation(ModelRelation):
+    unit = models.ForeignKey(Unit)
+
+    def __unicode__(self):
+        out = u"%s related to %s" % (self.content_object, self.unit)
+        if self.relation_type:
+            out += u" as %s" % self.relation_type
+        return out
+
+
+class UnitLesson(models.Model):
+    unit = models.ForeignKey(Unit)
+    lesson = models.ForeignKey(Lesson)
+    transition_text = models.TextField(blank=True, null=True)
+    order = models.IntegerField(blank=True, null=True) #, verbose_name='Sort Order')
+
+    class Meta:
+        ordering = ('order', )
+        verbose_name_plural = 'Lessons'
+
+
 pre_delete.connect(delete_listener, sender=Activity)
 pre_delete.connect(delete_listener, sender=Lesson)
 pre_delete.connect(delete_listener, sender=IdeaCategory)

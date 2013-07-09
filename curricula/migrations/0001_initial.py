@@ -163,7 +163,7 @@ class Migration(SchemaMigration):
             ('background_information', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('prior_knowledge', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
             ('credit', self.gf('django.db.models.fields.related.ForeignKey')(null=True, blank=True)),
-            ('geologic_time', self.gf('django.db.models.fields.related.ForeignKey')(null=True, blank=True)),
+            ('geologic_time', self.gf('django.db.models.fields.related.ForeignKey')(null=True, blank=True, to=orm['edumetadata.GeologicTime'])),
             ('relevant_start_date', self.gf('edumetadata.fields.HistoricalDateField')(null=True, blank=True)),
             ('relevant_end_date', self.gf('edumetadata.fields.HistoricalDateField')(null=True, blank=True)),
         ))
@@ -348,7 +348,7 @@ class Migration(SchemaMigration):
             ('ads_excluded', self.gf('django.db.models.fields.BooleanField')(default=True)),
             ('create_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('description', self.gf('django.db.models.fields.TextField')()),
-            ('geologic_time', self.gf('django.db.models.fields.related.ForeignKey')(null=True, blank=True)),
+            ('geologic_time', self.gf('django.db.models.fields.related.ForeignKey')(null=True, blank=True, to=orm['edumetadata.GeologicTime'])),
             ('id_number', self.gf('django.db.models.fields.CharField')(max_length=10)),
             ('is_modular', self.gf('django.db.models.fields.BooleanField')(default=True)),
             ('last_updated_date', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),

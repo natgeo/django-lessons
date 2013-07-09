@@ -13,7 +13,7 @@ from models import (Activity, ActivityRelation, GroupingType,
                      Material, ObjectiveRelation, QuestionAnswer, ResourceItem,
                      Skill, Standard, TeachingApproach, TeachingMethodType,
                      Tip, Vocabulary, Idea, IdeaCategory, CategoryIdea,
-                     IdeaCategoryRelation)
+                     IdeaCategoryRelation, Unit, UnitLesson, UnitRelation)
 if settings.DEBUG:
     from models import PluginType
 from settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
@@ -26,6 +26,7 @@ from audience.models import AUDIENCE_FLAGS
 from audience.widgets import AdminBitFieldWidget, bitfield_display, VariationWidgetWrapper
 from bitfield import BitField
 from concepts.admin import ConceptItemInline
+from concepts.models import ConceptItem
 from contentrelations.admin import RelatedInline
 
 
@@ -39,6 +40,7 @@ TINYMCE_FIELDS = ('description', 'assessment', 'learning_objectives', 'other_not
 ACTIVITY_TINYMCE_FIELDS = TINYMCE_FIELDS + ('extending_the_learning', 'setup', 'accessibility_notes', 'prior_knowledge')
 IDEACATEGORY_TINYMCE_FIELDS = ('content_body', 'description')
 LESSON_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle_guiding_question', 'prior_knowledge')
+UNIT_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle', )
 
 MCE_SIMPLE_ATTRS = {
     'plugins': "rawmode,paste",
@@ -294,7 +296,7 @@ class ActivityAdmin(ContentAdmin):
         raw_id_fields = ("credit", )
 
     search_fields = ['title', 'subtitle_guiding_question', 'description', 'id_number']
-    varying_fields = ('assessment', 'background_information', 'description', 'extending_the_learning', 'subtitle_guiding_question', 'title', 'directions', 'learning_objectives', 'prior_knowledge')
+    varying_fields = settings.AUDIENCE_SETTINGS['CURRICULA_FIELDS']['curricula.Activity']
 
     class Media:
         css = {'all': (
@@ -466,6 +468,30 @@ class IdeaCategoryInline(admin.TabularInline):
     raw_id_fields = ('category', )
     verbose_name = "Idea Category"
     verbose_name_plural = "Idea Categories"
+
+
+class LessonInlineFormset(forms.models.BaseInlineFormSet):
+    def clean(self):
+        super(LessonInlineFormset, self).clean()
+
+        count = 0
+        for form in self.forms:
+            if form.cleaned_data != {} and form.cleaned_data['DELETE'] == False:
+                count += 1
+        if count <= 0:
+            if 'published' in self.data:
+                raise forms.ValidationError('Please include at least one lesson, before publishing this unit.')
+
+
+class LessonInline(admin.TabularInline):
+    formset = LessonInlineFormset
+    model = UnitLesson
+    raw_id_fields = ('lesson', )
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        if db_field.name == 'transition_text':
+            return db_field.formfield(widget=TinyMCE(mce_attrs={'theme': "simple", 'height': 5}))
+        return super(LessonInline, self).formfield_for_dbfield(db_field, **kwargs)
 
 
 class IdeaAdmin(admin.ModelAdmin):
@@ -678,7 +704,7 @@ class LessonAdmin(ContentAdmin):
     if CREDIT_MODEL is not None:
         raw_id_fields = ("credit",)
     search_fields = ['title', 'description', 'id_number']
-    varying_fields = ('title', 'subtitle_guiding_question', 'description', 'directions', 'assessment', 'learning_objectives', 'background_information', 'prior_knowledge')
+    varying_fields = settings.AUDIENCE_SETTINGS['CURRICULA_FIELDS']['curricula.Lesson']
 
     class Media:
         css = {'all': (
@@ -848,6 +874,93 @@ class TipAdmin(admin.ModelAdmin):
 
         return formfield
 
+
+class UnitForm(forms.ModelForm):
+    class Media:
+        js = (
+            settings.STATIC_URL + 'js/jquery-1.7.1.js',
+            settings.STATIC_URL + 'js/jquery/ui.core.js',
+            settings.STATIC_URL + 'js/jquery/ui.sortable.js',
+            settings.STATIC_URL + 'js/menu-sort.js',
+        )
+
+    class Meta:
+        model = Unit
+
+    def clean(self):
+        cleaned_data = super(UnitForm, self).clean()
+
+        if cleaned_data['published']:
+            if cleaned_data['credit'] is None:
+                raise forms.ValidationError("Credit is required for published units.")
+            for field in ['grades', 'subjects']:
+                if not cleaned_data[field]:
+                    raise forms.ValidationError("%s is required for published units." % field.replace('_', ' ').capitalize())
+
+            content_type = ContentType.objects.get_for_model(Unit)
+            concept_items = ConceptItem.objects.filter(content_type=content_type,
+                                                       object_id=self.instance.id,
+                                                       weight__gt=0)
+            if len(concept_items) <= 0:
+                raise forms.ValidationError("Please uncheck Publish, create at least one tag with weight greater than zero, and then save, before attempting to mark this object as published.")
+        return cleaned_data
+
+
+class UnitAdmin(admin.ModelAdmin):
+    filter_horizontal = ['eras', 'grades', 'subjects']
+    form = UnitForm
+    formfield_overrides = {
+        BitField: {
+            'choices': AUDIENCE_FLAGS,
+            'initial': 1,
+            'widget': AdminBitFieldWidget()
+        }
+    }
+    inlines = [LessonInline, TagInline]
+    prepopulated_fields = {"slug": ("title",)}
+    raw_id_fields = ("key_image", )
+    if CREDIT_MODEL is not None:
+        raw_id_fields += ("credit", )
+    tabs = {
+        'Overview': 0,
+        'Credits, Sponsors, Partners': 0,
+        'Content Related Metadata': 1,
+        'Time and Date Metadata': 1,
+        'Publishing': 2,
+    }
+    varying_fields = settings.AUDIENCE_SETTINGS['CURRICULA_FIELDS']['curricula.Unit']
+
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super(UnitAdmin, self).formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name in UNIT_TINYMCE_FIELDS:
+            formfield.widget = TinyMCE(mce_attrs=MCE_SIMPLE_ATTRS)
+        if db_field.name in self.varying_fields:
+            request = kwargs.get('request', None)
+            if request:
+                obj_id = request.path.split('/')[-2]
+                if not obj_id.isdigit():
+                    obj_id = None
+            else:
+                obj_id = None
+            formfield.widget = VariationWidgetWrapper(formfield.widget,
+                self.admin_site, obj_id=obj_id, field=db_field.name,
+                object_name=self.object_name)
+
+        return formfield
+
+    def get_fieldsets(self, request, obj=None):
+        fieldsets = [
+            ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'subtitle', 'key_image', 'description', 'overview', 'id_number'], 'classes': ['collapse']}),
+        ]
+        if CREDIT_MODEL is not None:
+            fieldsets.append(('Credits, Sponsors, Partners', {'fields': ['credit'], 'classes': ['collapse']}))
+        fieldsets += [
+            ('Content Related Metadata', {'fields': ['subjects', 'grades'], 'classes': ['collapse']}),
+            ('Time and Date Metadata', {'fields': ['eras', 'geologic_time', 'relevant_start_date', 'relevant_end_date'], 'classes': ['collapse']}),
+            ('Publishing', {'fields': ['published', 'published_date'], 'classes': ['collapse']}),
+        ]
+        return fieldsets
+
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(GroupingType)
 admin.site.register(Idea, IdeaAdmin)
@@ -863,3 +976,4 @@ if settings.DEBUG:
 admin.site.register(Standard, StandardAdmin)
 admin.site.register(TeachingMethodType, TypeAdmin)
 admin.site.register(Tip, TipAdmin)
+admin.site.register(Unit, UnitAdmin)
