@@ -875,6 +875,13 @@ class TipAdmin(admin.ModelAdmin):
         return formfield
 
 
+if RELATION_MODELS:
+    class InlineUnitRelation(GenericCollectionInlineModelAdmin):
+        extra = 7
+        model = UnitRelation
+        template = 'admin/edit_inline/ic_coll_tabular.html'
+
+
 class UnitForm(forms.ModelForm):
     class Media:
         js = (
@@ -917,6 +924,8 @@ class UnitAdmin(admin.ModelAdmin):
         }
     }
     inlines = [LessonInline, TagInline]
+    if RELATION_MODELS:
+        inlines += [InlineUnitRelation, ]
     prepopulated_fields = {"slug": ("title",)}
     raw_id_fields = ("key_image", )
     if CREDIT_MODEL is not None:
