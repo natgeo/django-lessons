@@ -40,7 +40,7 @@ TINYMCE_FIELDS = ('description', 'assessment', 'learning_objectives', 'other_not
 ACTIVITY_TINYMCE_FIELDS = TINYMCE_FIELDS + ('extending_the_learning', 'setup', 'accessibility_notes', 'prior_knowledge')
 IDEACATEGORY_TINYMCE_FIELDS = ('content_body', 'description')
 LESSON_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle_guiding_question', 'prior_knowledge')
-UNIT_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle', )
+UNIT_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle', 'overview')
 
 MCE_SIMPLE_ATTRS = {
     'plugins': "rawmode,paste",
@@ -911,6 +911,13 @@ class UnitForm(forms.ModelForm):
             if len(concept_items) <= 0:
                 raise forms.ValidationError("Please uncheck Publish, create at least one tag with weight greater than zero, and then save, before attempting to mark this object as published.")
         return cleaned_data
+
+    def clean_appropriate_for(self):
+        appropriate_for = self.cleaned_data['appropriate_for']
+        if appropriate_for == 0:
+            raise forms.ValidationError("Appropriate for field is required, for published units.")
+
+        return appropriate_for
 
 
 class UnitAdmin(admin.ModelAdmin):
