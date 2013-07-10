@@ -1170,7 +1170,9 @@ class Unit(models.Model):
         verbose_name="Unit Title",
         help_text="""GLOBAL: Use the text variations field to create versions
         for audiences other than the default.""")
-    subtitle = models.TextField()
+    subtitle = models.TextField(
+        blank=True,
+        null=True)
     if KeyImageModel:
         key_image = models.ForeignKey(KeyImageModel)
     description = models.TextField()
