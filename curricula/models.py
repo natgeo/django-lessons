@@ -1159,6 +1159,7 @@ class Unit(models.Model):
         If you indicate this unit is appropriate for multiple audiences,
         you either need to add text variations or the default text must be
         appropriate for those audiences.''')
+    create_date = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(
         unique=True,
         max_length=100,

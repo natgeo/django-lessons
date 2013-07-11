@@ -14,6 +14,7 @@ class Migration(SchemaMigration):
         db.create_table('curricula_unit', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('appropriate_for', self.gf('edumetadata.fields.BigIntegerField')()),
+            ('create_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('credit', self.gf('django.db.models.fields.related.ForeignKey')(null=True, blank=True, to=orm['credits.CreditGroup'])),
             ('description', self.gf('django.db.models.fields.TextField')()),
             ('geologic_time', self.gf('django.db.models.fields.related.ForeignKey')(null=True, blank=True, to=orm['edumetadata.GeologicTime'])),
@@ -79,9 +80,12 @@ class Migration(SchemaMigration):
         db.delete_table('curricula_unit')
 
         # Removing M2M tables
+        db.delete_table('curricula_unit_eras')
+        db.delete_table('curricula_unit_grades')
         db.delete_table('curricula_unit_subjects')
 
         # Deleting models
+        db.delete_table('curricula_unitrelation')
         db.delete_table('curricula_unitlesson')
 
     models = {
@@ -465,6 +469,7 @@ class Migration(SchemaMigration):
         'curricula.unit': {
             'Meta': {'ordering': "['title']", 'object_name': 'Unit'},
             'appropriate_for': ('edumetadata.fields.BigIntegerField', [], {}),
+            'create_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'id_number': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
