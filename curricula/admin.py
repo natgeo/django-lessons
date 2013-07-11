@@ -884,6 +884,9 @@ if RELATION_MODELS:
 
 class UnitForm(forms.ModelForm):
     class Media:
+        css = {
+            'all': (settings.STATIC_URL + 'audience/bitfield.css',),
+        }
         js = (
             settings.STATIC_URL + 'js/jquery-1.7.1.js',
             settings.STATIC_URL + 'js/jquery/ui.core.js',
@@ -921,6 +924,7 @@ class UnitForm(forms.ModelForm):
 
 
 class UnitAdmin(admin.ModelAdmin):
+    date_hierarchy = 'create_date'
     filter_horizontal = ['eras', 'grades', 'subjects']
     form = UnitForm
     formfield_overrides = {
@@ -933,6 +937,8 @@ class UnitAdmin(admin.ModelAdmin):
     inlines = [LessonInline, TagInline]
     if RELATION_MODELS:
         inlines += [InlineUnitRelation, ]
+    list_display = ('title', 'thumbnail_display', 'overview_display', 'appropriate_display', 'published_date')
+    list_filter = ('published_date', 'published')
     prepopulated_fields = {"slug": ("title",)}
     raw_id_fields = ("key_image", )
     if CREDIT_MODEL is not None:
@@ -945,6 +951,19 @@ class UnitAdmin(admin.ModelAdmin):
         'Publishing': 2,
     }
     varying_fields = settings.AUDIENCE_SETTINGS['CURRICULA_FIELDS']['curricula.Unit']
+
+    class Media:
+        css = {
+            'all': (settings.STATIC_URL + 'audience/bitfield.css',),
+        }
+
+    def appropriate_display(self, obj):
+        return bitfield_display(obj.appropriate_for)
+    appropriate_display.short_description = 'Appropriate For'
+    appropriate_display.allow_tags = True
+
+    def overview_display(self, obj):
+        return strip_tags(obj.overview)
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(UnitAdmin, self).formfield_for_dbfield(db_field, **kwargs)
@@ -976,6 +995,10 @@ class UnitAdmin(admin.ModelAdmin):
             ('Publishing', {'fields': ['published', 'published_date'], 'classes': ['collapse']}),
         ]
         return fieldsets
+
+    def thumbnail_display(self, obj):
+        return '<img src="%s"/>' % obj.key_image.thumbnail_url()
+    thumbnail_display.allow_tags = True
 
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(GroupingType)
