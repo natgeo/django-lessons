@@ -918,7 +918,7 @@ class UnitForm(forms.ModelForm):
     def clean_appropriate_for(self):
         appropriate_for = self.cleaned_data['appropriate_for']
         if appropriate_for == 0:
-            raise forms.ValidationError("Appropriate for field is required, for published units.")
+            raise forms.ValidationError("Appropriate for is a required field for units.")
 
         return appropriate_for
 
