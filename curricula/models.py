@@ -1218,6 +1218,19 @@ class Unit(models.Model):
     def __unicode__(self):
         return strip_tags(self.title)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('unit-detail', (), {'slug': self.slug})
+
+    def get_activities(self):
+        activities = set()
+        for lesson in self.get_lessons():
+            activities |= set(lesson.get_activities())
+        return activities
+
+    def get_lessons(self):
+        return [unitlesson.lesson for unitlesson in self.unitlesson_set.all()]
+
     if RELATION_MODELS:
         def get_related_content_type(self, content_type):
             """
@@ -1232,6 +1245,12 @@ class Unit(models.Model):
             """
             return self.unitrelation_set.filter(
                 relation_type__iexact=relation_type)
+
+    def get_vocabulary(self):
+        glossary = set()
+        for activity in self.get_activities():
+            glossary |= set(activity.vocabulary_set.values_list('glossary_term__id', flat=True))
+        return glossary
 
 
 class UnitRelation(ModelRelation):
