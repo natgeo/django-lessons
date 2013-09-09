@@ -1223,13 +1223,12 @@ class Unit(models.Model):
         return ('unit-detail', (), {'slug': self.slug})
 
     def get_activities(self):
-        activities = set()
-        for lesson in self.get_lessons():
-            activities |= set(lesson.get_activities())
-        return activities
+        pks = [unitlesson.lesson.pk for unitlesson in self.unitlesson_set.all()]
 
-    def get_lessons(self):
-        return [unitlesson.lesson for unitlesson in self.unitlesson_set.all()]
+        return [lessonactivity.activity for lessonactivity in LessonActivity.objects.filter(lesson__pk__in=pks)]
+
+    def get_grades_and_ages(self):
+        return self.grades.all().as_grade_age_range()
 
     if RELATION_MODELS:
         def get_related_content_type(self, content_type):
@@ -1250,6 +1249,7 @@ class Unit(models.Model):
         glossary = set()
         for activity in self.get_activities():
             glossary |= set(activity.vocabulary_set.values_list('glossary_term__id', flat=True))
+
         return glossary
 
 
