@@ -242,7 +242,7 @@ class ActivityForm(forms.ModelForm):
 
 
 class ContentAdmin(admin.ModelAdmin):
-    date_hierarchy = 'create_date'
+    date_hierarchy = 'published_date'
     tabs = {
         'Overview': 0,
         'Directions': 0,
@@ -924,7 +924,7 @@ class UnitForm(forms.ModelForm):
 
 
 class UnitAdmin(admin.ModelAdmin):
-    date_hierarchy = 'create_date'
+    date_hierarchy = 'published_date'
     filter_horizontal = ['eras', 'grades', 'subjects']
     form = UnitForm
     formfield_overrides = {
