@@ -13,7 +13,7 @@ from django.utils.html import strip_tags
 from settings import (ASSESSMENT_TYPES, STANDARD_TYPES,
                       PEDAGOGICAL_PURPOSE_TYPE_CHOICES, RELATION_MODELS,
                       RELATIONS, CREDIT_MODEL, INTERNET_ACCESS_TYPES,
-                      REPORTING_MODEL, KEY_IMAGE, RESOURCE_CAROUSEL,
+                      REPORTING_MODEL, KEY_IMAGE,
                       GLOSSARY_MODEL, RESOURCE_MODEL, RELATION_TYPES,
                       DEFAULT_LICENSE)
 from utils import truncate, ul_as_list, get_audience_indices
@@ -882,6 +882,18 @@ class Lesson(models.Model):  # Publish):
             return lr[0].content_object
         else:
             return None
+
+    def get_units(self, filter=None):
+        """
+        filter should be a dictionary for lookups
+        """
+        units = UnitLesson.objects.filter(lesson=self)
+        if filter is not None:
+            units = units.filter(**filter)
+        return units
+
+    def get_published_units(self):
+        return self.get_units({'lesson__published': True})
 
     def key_image(self):
         image = self.get_key_image()
