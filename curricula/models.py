@@ -424,7 +424,8 @@ class Activity(models.Model):
     relevant_end_date = HistoricalDateField(
         blank=True,
         null=True)
-
+    vocabulary = models.ManyToManyField('reference.GlossaryTerm',
+        through='curricula.Vocabulary')
     objects = ContentManager()
 
     @models.permalink
@@ -520,7 +521,7 @@ class Activity(models.Model):
 
 
 class Vocabulary(models.Model):
-    activity = models.ForeignKey(Activity)
+    activity = models.ForeignKey(Activity, related_name="+")
     glossary_term = models.ForeignKey(GLOSSARY_MODEL)
 
     class Meta:
