@@ -151,7 +151,7 @@ def get_breakout_terms(request, id):
     AJAX response for TinyMCE for Glossification.
     '''
     activity = get_object_or_404(Activity, id=id)
-    breakout_terms = activity.vocabulary_set.all()
+    breakout_terms = activity.vocabulary.all()
     # user lower case terms
     terms = [gt.glossary_term.word.lower() for gt in breakout_terms]
     res = simplejson.dumps(terms)
