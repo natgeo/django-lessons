@@ -152,8 +152,7 @@ def get_breakout_terms(request, id):
     '''
     activity = get_object_or_404(Activity, id=id)
     breakout_terms = activity.vocabulary.all()
-    # user lower case terms
-    terms = [gt.glossary_term.word.lower() for gt in breakout_terms]
+    terms = [gt.word_lower for gt in breakout_terms]
     res = simplejson.dumps(terms)
     return HttpResponse(res)
 
