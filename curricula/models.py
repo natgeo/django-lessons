@@ -1027,7 +1027,8 @@ class IdeaCategory(models.Model):
         return ('idea-detail', (), {'slug': self.slug})
 
     def _concept_items(self):
-        idea_ids = [c.idea.id for c in CategoryIdea.objects.filter(category=self)]
+        # idea_ids = [c.idea.id for c in CategoryIdea.objects.filter(category=self)]
+        idea_ids = self.ideas.all().values_list('id', flat=True)
         ct1 = ContentType.objects.get_for_model(self)
         ct2 = ContentType.objects.get_for_model(Idea)
 
@@ -1057,14 +1058,12 @@ class IdeaCategory(models.Model):
             return self.ideacategoryrelation_set.filter(
                 content_type__name=content_type)
 
-
         def get_relation_type(self, relation_type):
             """
             Get all relations of the specified relation type
             """
             return self.ideacategoryrelation_set.filter(
                 relation_type__iexact=relation_type)
-
 
     def more_like_this(self, ar_a):
         ct1 = ContentType.objects.get_for_model(self)
@@ -1121,6 +1120,9 @@ class Idea(models.Model):
         is required for all instructional content.""")
     # Content Detail
     content_body = models.TextField()
+    categories = models.ManyToManyField(IdeaCategory,
+        through='CategoryIdea',
+        related_name='ideas')
 
     def __unicode__(self):
         return self.title

@@ -27,6 +27,7 @@ def activity_detail(request, slug, preview=False, template_name='curricula/activ
 
     return render_to_response(template_name, {
         'activity': activity,
+        'object': activity,
         'resourceitems': resourceitems,
         'credit_details': activity.get_credit_details(),
         'model_student_work': activity.model_student_work(audience),
@@ -42,7 +43,8 @@ def activity_list(request, preview=False, template_name='curricula/activity_list
         activities = Activity.objects.filter(published=True)
 
     return render_to_response(template_name, {
-        'activity_list': activities
+        'activity_list': activities,
+        'object_list': activities,
     }, context_instance=RequestContext(request))
 
 
@@ -70,6 +72,7 @@ def lesson_detail(request, slug, preview=False, template_name='curricula/lesson_
 
     context = {
         'lesson': lesson,
+        'object': lesson,
         'activities': activities,
         'credit_details': credit_details,
         'preview': preview,
@@ -113,7 +116,8 @@ def idea_category(request, slug, preview=False, template_name='curricula/idea_ca
 
     return render_to_response(template_name, {
         'category': category,
-        'ideas': [ci.idea for ci in category.categoryidea_set.all() if audience in ci.idea.appropriate_for.get_set_bits()],
+        'object': category,
+        'ideas': [ci for ci in category.ideas.all() if audience in ci.appropriate_for.get_set_bits()],
         'credit_details': credit_details,
         'preview': preview,
     }, context_instance=RequestContext(request))
