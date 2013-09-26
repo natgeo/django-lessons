@@ -48,54 +48,6 @@ def activity_list(request, preview=False, template_name='curricula/activity_list
     }, context_instance=RequestContext(request))
 
 
-def lesson_detail(request, slug, preview=False, template_name='curricula/lesson_detail.html'):
-    if preview:
-        lesson = get_object_or_404(Lesson, slug=slug)
-    else:
-        lesson = get_object_or_404(Lesson, slug=slug, published=True)
-
-    getvars = request.GET.copy()
-    if 'activities' in getvars:
-        activities = getvars['activities']
-    else:
-        if preview:
-            activities = lesson.get_activities()
-        else:
-            activities = lesson.get_activities({'activity__published': True})
-
-    credit_details = {}
-    if lesson.credit:
-        for detail in lesson.credit.credit_details.all():
-            if detail.credit_category not in credit_details:
-                credit_details[detail.credit_category] = []
-            credit_details[detail.credit_category].append(detail.entity)
-
-    context = {
-        'lesson': lesson,
-        'object': lesson,
-        'activities': activities,
-        'credit_details': credit_details,
-        'preview': preview,
-    }
-
-    for field in (KEY_IMAGE, RC_SLIDE):
-        related_ctypes = lesson.get_related_content_type(field[0])
-        if len(related_ctypes) > 0:
-            context[field[0]] = related_ctypes[0].content_object
-
-    for model in RELATION_MODELS:
-        name = model.split('.')[1]
-        related_ctypes = lesson.get_related_content_type(name)
-        if len(related_ctypes) > 0:
-            context[name] = related_ctypes[0].content_object
-
-    activity_ids = ",".join([str(x.id) for x in activities])
-    activity_info = activities_info(activity_ids, lesson.id)
-    activity_info['tags'] = tags_for_activities(activity_ids)
-    context.update(activity_info)
-    return render_to_response(template_name, context, context_instance=RequestContext(request))
-
-
 def idea_category(request, slug, preview=False, template_name='curricula/idea_category.html'):
     if preview:
         category = get_object_or_404(IdeaCategory, slug=slug)

@@ -1,33 +1,10 @@
 from collections import defaultdict
 
 from django.db.models.loading import get_model
-from django.conf import settings
 from django.template.loader import render_to_string
-
-from BeautifulSoup import BeautifulSoup
 
 from curricula.settings import INTERNET_ACCESS_TYPES
 from edumetadata.models import Subject
-
-
-def truncate(string, limit=44):
-    return string[:limit] + (string[limit:] and '...')
-
-
-def ul_as_list(html):
-    soup = BeautifulSoup(html)
-    return [li.contents[0] for li in soup('li')]
-
-
-def get_audience_index(key):
-    for i in range(1, 6):
-        if settings.AUDIENCE_SETTINGS['AUDIENCE_TYPES'][i]['name'] == key:
-            return i
-    return 0
-
-
-def get_audience_indices(items):
-    return [get_audience_index(item[0]) for item in items if item[1]]
 
 
 def tags_for_activities(ids):
@@ -54,8 +31,7 @@ def activities_info(ids, l_id=None):
     from curricula.models import (Activity, TeachingApproach, TeachingMethodType,
                                   Standard, Material, Skill, PluginType,
                                   TechSetupType, PhysicalSpaceType, GroupingType,
-                                  ResourceItem, Lesson,
-                                  ObjectiveRelation)
+                                  Lesson, ObjectiveRelation)
 
     from concepts.models import Concept, ConceptItem
     from django.contrib.contenttypes.models import ContentType

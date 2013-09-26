@@ -1,11 +1,8 @@
 # encoding: utf-8
-import datetime
 from django.db import models
 
 from south.db import db
 from south.v2 import SchemaMigration
-
-from curricula.models import Activity, Lesson
 
 class Migration(SchemaMigration):
 

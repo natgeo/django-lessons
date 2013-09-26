@@ -13,12 +13,12 @@ from models import (Activity, ActivityRelation, GroupingType,
                      Material, ObjectiveRelation, QuestionAnswer, ResourceItem,
                      Skill, Standard, TeachingApproach, TeachingMethodType,
                      Tip, Vocabulary, Idea, IdeaCategory, CategoryIdea,
-                     IdeaCategoryRelation, Unit, UnitLesson, UnitRelation)
+                     IdeaCategoryRelation, Unit, UnitLesson, UnitRelation,
+                     get_audience_indices, truncate)
 if settings.DEBUG:
     from models import PluginType
 from settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
                       CREDIT_MODEL, REPORTING_MODEL)
-from utils import truncate, get_audience_indices
 from widgets import VocabularyIdWidget
 
 from tinymce.widgets import TinyMCE
@@ -60,11 +60,6 @@ try:
 except ImportError:
     def static(somestring):
         return "%s%s" % (settings.ADMIN_MEDIA_PREFIX, somestring)
-
-JAVASCRIPT_URL = settings.STATIC_URL + 'js/'
-
-def rcs_name(title):
-    return truncate("Lesson Overview - %s" % title, 47)
 
 
 class TagInline(ConceptItemInline):
@@ -435,10 +430,12 @@ class ActivityInlineFormset(forms.models.BaseInlineFormSet):
         super(ActivityInlineFormset, self).clean()
 
         for form in self.forms:
-            if form.instance:
-                model_instance = form.instance
-            else:
-                model_instance = form.save(commit=False)
+            if not form.instance:
+                form.save(commit=False)
+
+            order = form.cleaned_data.get('order')
+            if not order:
+                pass
 
             activity = form.cleaned_data.get('activity')
             if 'published' in self.data and activity and not activity.published:

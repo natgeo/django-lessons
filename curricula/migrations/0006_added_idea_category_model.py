@@ -1,13 +1,8 @@
 # encoding: utf-8
-import datetime
-from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 from south.db import db
 from south.v2 import SchemaMigration
-
-from curricula.models import Activity, LearningObjective, ObjectiveRelation
-from curricula.utils import ul_as_list
 
 class Migration(SchemaMigration):
 

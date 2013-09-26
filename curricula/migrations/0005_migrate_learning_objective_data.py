@@ -1,13 +1,10 @@
 # encoding: utf-8
-import datetime
 from django.contrib.contenttypes.models import ContentType
-from django.db import models
 
-from south.db import db
 from south.v2 import SchemaMigration
 
-from curricula.models import Activity, LearningObjective, ObjectiveRelation
-from curricula.utils import ul_as_list
+from curricula.models import (Activity, LearningObjective, ObjectiveRelation,
+                               ul_as_list)
 
 class Migration(SchemaMigration):
 
@@ -17,7 +14,7 @@ class Migration(SchemaMigration):
             if activity.learning_objectives:
                 for li in ul_as_list(activity.learning_objectives):
                     lo, created = LearningObjective.objects.get_or_create(text=li)
-                    o_rel = ObjectiveRelation.objects.get_or_create(
+                    ObjectiveRelation.objects.get_or_create(
                         objective=lo, object_id=activity.id, content_type=ctype)
 
     def backwards(self, orm):

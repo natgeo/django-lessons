@@ -1,4 +1,5 @@
 #import datetime
+from django.conf import settings
 from django.db import models
 from django.db.models import Q, Avg
 from django.db.models.signals import pre_delete
@@ -10,13 +11,14 @@ from django.core.urlresolvers import reverse
 from django.utils.datastructures import SortedDict
 from django.utils.html import strip_tags
 
+from BeautifulSoup import BeautifulSoup
+
 from settings import (ASSESSMENT_TYPES, STANDARD_TYPES,
                       PEDAGOGICAL_PURPOSE_TYPE_CHOICES, RELATION_MODELS,
                       RELATIONS, CREDIT_MODEL, INTERNET_ACCESS_TYPES,
                       REPORTING_MODEL, KEY_IMAGE,
                       GLOSSARY_MODEL, RESOURCE_MODEL, RELATION_TYPES,
                       DEFAULT_LICENSE)
-from utils import truncate, ul_as_list, get_audience_indices
 
 from audience.models import AUDIENCE_FLAGS
 from audience.widgets import bitfield_display
@@ -37,6 +39,18 @@ if CREDIT_MODEL is not None:
     CreditModel = get_model(*CREDIT_MODEL.split('.'))
 if REPORTING_MODEL is not None:
     ReportingModel = get_model(*REPORTING_MODEL.split('.'))
+
+
+def get_audience_index(key):
+    for i in range(1, 6):
+        if settings.AUDIENCE_SETTINGS['AUDIENCE_TYPES'][i]['name'] == key:
+            return i
+    return 0
+
+
+def get_audience_indices(items):
+    return [get_audience_index(item[0]) for item in items if item[1]]
+
 
 def gradesDict(grades_list):
     g = {}
@@ -90,6 +104,15 @@ def tags_for_object(obj):
         content_type=ctype,
         object_id=obj.pk).exclude(tag__name='')
     return [x.tag for x in tagitems]
+
+
+def truncate(string, limit=44):
+    return string[:limit] + (string[limit:] and '...')
+
+
+def ul_as_list(html):
+    soup = BeautifulSoup(html)
+    return [li.contents[0] for li in soup('li')]
 
 
 def keyword_wrapper(obj, model, ar_a=1, tags=None):
@@ -1263,7 +1286,7 @@ class Unit(models.Model):
     def get_vocabulary(self):
         glossary = set()
         for activity in self.get_activities():
-            glossary |= set(activity.vocabulary_set.values_list('glossary_term__id', flat=True))
+            glossary |= set(activity.vocabulary.values_list('id', flat=True))
 
         return glossary
 
@@ -1291,6 +1314,7 @@ class UnitLesson(models.Model):
 
 pre_delete.connect(delete_listener, sender=Activity)
 pre_delete.connect(delete_listener, sender=Lesson)
+pre_delete.connect(delete_listener, sender=Unit)
 pre_delete.connect(delete_listener, sender=IdeaCategory)
 
 #register(Activity)
