@@ -4,6 +4,9 @@ from django.conf import settings
 from django.contrib import admin
 admin.autodiscover()
 
+import contentrelations
+contentrelations.autodiscover()
+
 urlpatterns = patterns('',
     (r'^curricula/', include('curricula.urls')),
     (r'^concepts/', include('concepts.urls')),

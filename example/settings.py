@@ -15,12 +15,16 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-DATABASE_ENGINE = 'sqlite3'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'dev.db'             # Or path to database file if using sqlite3.
-DATABASE_USER = ''             # Not used with sqlite3.
-DATABASE_PASSWORD = ''         # Not used with sqlite3.
-DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'dev.db',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+    }
+}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -101,6 +105,11 @@ INSTALLED_APPS = (
     'curricula',
     'audience',
     'dummy',
+    'reference',
+    'licensing',
+    'contentrelations',
+    'resource_carousel',
+    'quotations',
 )
 
 TINYMCE_JS_URL = "%sjs/tiny_mce/tiny_mce_src.js" % MEDIA_URL
@@ -121,7 +130,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'theme_advanced_resizing_max_width': "750",
     'width': "750",
     'height': "250",
-    'entity_encoding': 'raw',
+    'entity_encoding': 'numeric',
 }
 
 TINYMCE_SPELLCHECKER = True
@@ -155,6 +164,30 @@ LESSON_SETTINGS = {
 CONCEPTS_SETTINGS = {
     'WEIGHTS': ((0, 'Hide'), (10, 'Very Low'), (20, 'Low'), (30, 'Medium'), (40, 'High'), (50, ' Very High')),
 }
+
+CONTENTRELATIONS_SETTINGS = {
+    'SETUP_RESOURCES': [
+        'curricula.Activity.resources',
+        'curricula.Lesson.resources',
+    ],
+    'JS_PREFIX': '',
+}
+
+RESOURCECAROUSEL_SETTINGS = {
+    'RESOURCE_TYPE_CHOICES': None,
+    'KEY_IMAGE_MODEL': None,
+    'SLIDE_TYPE_CHOICES': None,
+    'RESOURCE_SLIDE_MAP': None,
+    'SPONSOR_MODEL': None,
+    'REPORTING_MODEL': None,
+    'TINYMCE_CONFIG': {
+        'plugins': "rawmode,paste",
+        'theme_advanced_buttons1': "pasteword,|,bold,underline,italic,strikethrough,|,link,unlink,|,numlist,bullist,|,charmap,|,rawmode",
+        'theme_advanced_buttons2': "",
+    },
+    'INTERNALRESOURCE_APPS': [],
+}
+
 
 try:
     from local_settings import *

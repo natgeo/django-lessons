@@ -1,0 +1,45 @@
+div.bitfield span.bit {
+	display: inline-block;
+	padding: 2px;
+	border: 1px #CCCCCC solid;
+	width: 12px;
+	height: 12px;
+	background-image: url(tifsk.png);
+	background-repeat: no-repeat;
+	background-position: -5px -32px;
+}
+div.bitfield span.bit.flag1.on {
+	background-position: -5px -5px;
+	border: 1px #000000 solid;
+}
+div.bitfield span.bit.flag2 {
+	background-position: -28px -32px;
+}
+div.bitfield span.bit.flag2.on {
+	background-position: -28px -5px;
+	border: 1px #000000 solid;
+}
+div.bitfield span.bit.flag3 {
+	background-position: -52px -32px;
+}
+div.bitfield span.bit.flag3.on {
+	background-position: -52px -5px;
+	border: 1px #000000 solid;
+}
+div.bitfield span.bit.flag4 {
+	background-position: -75px -32px;
+}
+div.bitfield span.bit.flag4.on {
+	background-position: -75px -5px;
+	border: 1px #000000 solid;
+}
+div.bitfield span.bit.flag5 {
+	background-position: -98px -32px;
+}
+div.bitfield span.bit.flag5.on {
+	background-position: -98px -5px;
+	border: 1px #000000 solid;
+}
+div.bitfield span.bit:hover {
+	cursor: arrow;
+}
