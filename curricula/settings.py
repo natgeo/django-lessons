@@ -1,11 +1,33 @@
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
 from django.db.models import Q
 from django.template.defaultfilters import slugify
 
+DEFAULT_MCE_ATTRS = {
+    'plugins': "rawmode,paste",
+    'theme_advanced_buttons1': "pasteword,|,bold,underline,italic,strikethrough,|,link,unlink,|,numlist,bullist,|,charmap,|,rawmode",
+    'theme_advanced_buttons2': "",
+    'entity_encoding': 'numeric',
+}
+
+SUBTITLE_MCE_ATTRS = {
+    'plugins': "rawmode,paste",
+    'theme_advanced_buttons1': "pasteword,|,bold,underline,italic,strikethrough,|,link,unlink,|,numlist,bullist,|,charmap,|,rawmode",
+    'theme_advanced_buttons2': "",
+    'height': "150",
+    'entity_encoding': 'numeric',
+}
+
+DIRECTIONS_MCE_ATTRS = {
+    'content_css' : settings.STATIC_URL + "css/glossary_term.css",
+    'theme_advanced_buttons1': 'glossify, fullscreen,preview,code,print,spellchecker,|,cut,copy,paste,pastetext,pasteword,undo,redo,|,search,replace,|,rawmode',
+    'setup': 'add_button_callback',
+    'entity_encoding': 'numeric',
+}
 
 DEFAULT_SETTINGS = {
     'RELATION_MODELS': [],
-    'KEY_IMAGE': None,
+    'KEY_IMAGE': None,  # ('field_name', 'applabel.model')
     'RESOURCE_CAROUSEL': None,
     'RC_SLIDE': None,
     'ASSESSMENT_TYPES': (
@@ -52,19 +74,54 @@ DEFAULT_SETTINGS = {
     'STANDARD_TYPE_SLUGS': {},  # key => slug
     'JAVASCRIPT_URL': settings.MEDIA_URL + 'js/',
     'CREDIT_MODEL': None,
-    'GLOSSARY_MODEL': None,
-    'RESOURCE_MODEL': None,
+    'GLOSSARY_MODEL': 'reference.GlossaryTerm',
+    'RESOURCE_MODEL': 'resource_carousel.ExternalResource',
     'REPORTING_MODEL': None,
     'DEFAULT_LICENSE': 23,
     'RELATION_TYPES': None,
+    'TIP_TYPE_CHOICES': (
+        (1, 'Tip'),
+        (2, 'Modification'),
+    ),
+    'MCE_ATTRS': None
 }
 
 DEFAULT_SETTINGS.update(getattr(settings, 'LESSON_SETTINGS', {}))
 
 # if DEFAULT_SETTINGS['KEY_IMAGE'] is None:
 #     raise ImproperlyConfigured("The KEY_IMAGE setting for curricula is not set.")
+if DEFAULT_SETTINGS['MCE_ATTRS']:
+    if isinstance(DEFAULT_SETTINGS['MCE_ATTRS'], dict):
+        if not isinstance(DEFAULT_SETTINGS['MCE_ATTRS'].values()[0], dict):
+            # If the values aren't a dict, then they passed in a TinyMCE config
+            # for all fields. Convert it to {'default': }
+            DEFAULT_SETTINGS['MCE_ATTRS'] = {'default': DEFAULT_SETTINGS['MCE_ATTRS'].copy()}
+        elif 'default' not in DEFAULT_SETTINGS['MCE_ATTRS']:
+            DEFAULT_SETTINGS['MCE_ATTRS']['default'] = DEFAULT_MCE_ATTRS
+    else:
+        raise ImproperlyConfigured("The MCE_ATTRS setting must be either a dict containing one TinyMCE configuration or a dict formatted as {'field': tinymce_dict}")
+else:
+    DEFAULT_SETTINGS['MCE_ATTRS'] = {
+        'default': DEFAULT_MCE_ATTRS,
+        'subtitle_guiding_question': SUBTITLE_MCE_ATTRS,
+        'directions': DIRECTIONS_MCE_ATTRS
+    }
+
+TINYMCE_FIELDS = ('description', 'assessment', 'learning_objectives',
+                  'other_notes', 'background_information')
+ACTIVITY_TINYMCE_FIELDS = TINYMCE_FIELDS + ('extending_the_learning',
+                'setup', 'accessibility_notes', 'prior_knowledge')
+IDEACATEGORY_TINYMCE_FIELDS = ('content_body', 'description')
+LESSON_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle_guiding_question', 'prior_knowledge')
+UNIT_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle', 'overview')
 
 globals().update(DEFAULT_SETTINGS)
+
+ACTIVITY_FIELDS = []
+LESSON_FIELDS = []
+if DEFAULT_SETTINGS['KEY_IMAGE'] is not None:
+    ACTIVITY_FIELDS.append(DEFAULT_SETTINGS['KEY_IMAGE'])
+    LESSON_FIELDS.append(DEFAULT_SETTINGS['KEY_IMAGE'])
 
 ## Create a mapping from a key to a dict of name and slug
 STD_TYPE_KEY_MAP = dict([
