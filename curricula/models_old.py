@@ -545,7 +545,7 @@ class Activity(models.Model):
 
 class Vocabulary(models.Model):
     activity = models.ForeignKey(Activity, related_name="+")
-    glossary_term = models.ForeignKey(GLOSSARY_MODEL)
+    glossary_term = models.ForeignKey('reference.GlossaryTerm')
 
     class Meta:
         ordering = ["glossary_term"]
