@@ -534,15 +534,14 @@ class LessonAdmin(ContentAdmin):
         rcs.body.delete_ARs()
 
         for lessonvariation in obj.variations.filter(field='description'):
-            a_items = lessonvariation.audience.items()
-            audience_indices = get_audience_indices(a_items)
+            audience_indices = lessonvariation.audience.get_set_bits()
             unique_indices = list(set(unique_indices + audience_indices))
             # reading level/ text difficulty 6 = Not Applicable
             rcs.body.create_ARs(
                 '%s-[6]' % audience_indices,
                 lessonvariation.variation)
         # default
-        audience_indices = get_audience_indices(obj.appropriate_for.items())
+        audience_indices = obj.appropriate_for.get_set_bits()
         indices = [i for i in audience_indices if i not in unique_indices]
         if indices:
             rcs.body.create_ARs('%s-[6]' % indices, obj.description)
