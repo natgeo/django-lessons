@@ -230,18 +230,18 @@ class ActivityAdmin(ContentAdmin):
         for field, model in ACTIVITY_FIELDS:
             if form[field].data == None or form[field].data == '':
                 # user cleared the field
-                items = obj.activityrelation_set.filter(relation_type=field)
+                items = obj.relations.filter(relation_type=field)
                 if len(items) > 0:
                     items[0].delete()
             else:
                 try:
-                    item = obj.activityrelation_set.get(relation_type=field)
+                    item = obj.relations.get(relation_type=field)
                     item.object_id = form[field].data
                     item.save()
                 except ActivityRelation.DoesNotExist:
                     app_label, model = model.split('.')
                     ctype = ContentType.objects.get(app_label=app_label, model=model)
-                    item = obj.activityrelation_set.create(relation_type=field, object_id=form[field].data, content_type_id=ctype.id)
+                    item = obj.relations.create(relation_type=field, object_id=form[field].data, content_type_id=ctype.id)
 
         learning_objectives = form.cleaned_data['learning_objs']
         ctype = ContentType.objects.get_for_model(Activity)
