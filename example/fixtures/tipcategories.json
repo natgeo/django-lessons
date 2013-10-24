@@ -1,0 +1,92 @@
+[{
+    "pk": 3,
+    "model": "curricula.tipcategory",
+    "fields": {
+        "rght": 2,
+        "name": "English Language Learners (ELL)",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "tree_id": 1,
+        "active": true,
+        "slug": "english-language-learners-ell"
+    }
+}, {
+    "pk": 5,
+    "model": "curricula.tipcategory",
+    "fields": {
+        "rght": 2,
+        "name": "Going Green",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "tree_id": 2,
+        "active": true,
+        "slug": "going-green"
+    }
+}, {
+    "pk": 1,
+    "model": "curricula.tipcategory",
+    "fields": {
+        "rght": 2,
+        "name": "Interactive Map",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "tree_id": 3,
+        "active": true,
+        "slug": "interactive-map"
+    }
+}, {
+    "pk": 4,
+    "model": "curricula.tipcategory",
+    "fields": {
+        "rght": 2,
+        "name": "Mapping",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "tree_id": 4,
+        "active": true,
+        "slug": "mapping"
+    }
+}, {
+    "pk": 7,
+    "model": "curricula.tipcategory",
+    "fields": {
+        "rght": 2,
+        "name": "Professional Development",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "tree_id": 5,
+        "active": true,
+        "slug": "professional-development"
+    }
+}, {
+    "pk": 6,
+    "model": "curricula.tipcategory",
+    "fields": {
+        "rght": 2,
+        "name": "Safety",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "tree_id": 6,
+        "active": true,
+        "slug": "safety"
+    }
+}, {
+    "pk": 2,
+    "model": "curricula.tipcategory",
+    "fields": {
+        "rght": 2,
+        "name": "Teacher Tip",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "tree_id": 7,
+        "active": true,
+        "slug": "teacher-tip"
+    }
+}]

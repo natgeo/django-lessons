@@ -1,0 +1,7048 @@
+[{
+    "pk": 16,
+    "model": "edumetadata.grade",
+    "fields": {
+        "max_age": 5,
+        "name": "preK",
+        "slug": "preK",
+        "min_age": 0,
+        "order": 1
+    }
+}, {
+    "pk": 2,
+    "model": "edumetadata.grade",
+    "fields": {
+        "max_age": 6,
+        "name": "K",
+        "slug": "k",
+        "min_age": 5,
+        "order": 2
+    }
+}, {
+    "pk": 3,
+    "model": "edumetadata.grade",
+    "fields": {
+        "max_age": 7,
+        "name": "1",
+        "slug": "1",
+        "min_age": 6,
+        "order": 3
+    }
+}, {
+    "pk": 4,
+    "model": "edumetadata.grade",
+    "fields": {
+        "max_age": 8,
+        "name": "2",
+        "slug": "2",
+        "min_age": 7,
+        "order": 4
+    }
+}, {
+    "pk": 5,
+    "model": "edumetadata.grade",
+    "fields": {
+        "max_age": 9,
+        "name": "3",
+        "slug": "3",
+        "min_age": 8,
+        "order": 5
+    }
+}, {
+    "pk": 6,
+    "model": "edumetadata.grade",
+    "fields": {
+        "max_age": 10,
+        "name": "4",
+        "slug": "4",
+        "min_age": 9,
+        "order": 6
+    }
+}, {
+    "pk": 7,
+    "model": "edumetadata.grade",
+    "fields": {
+        "max_age": 11,
+        "name": "5",
+        "slug": "5",
+        "min_age": 10,
+        "order": 7
+    }
+}, {
+    "pk": 8,
+    "model": "edumetadata.grade",
+    "fields": {
+        "max_age": 12,
+        "name": "6",
+        "slug": "6",
+        "min_age": 11,
+        "order": 8
+    }
+}, {
+    "pk": 9,
+    "model": "edumetadata.grade",
+    "fields": {
+        "max_age": 13,
+        "name": "7",
+        "slug": "7",
+        "min_age": 12,
+        "order": 9
+    }
+}, {
+    "pk": 10,
+    "model": "edumetadata.grade",
+    "fields": {
+        "max_age": 14,
+        "name": "8",
+        "slug": "8",
+        "min_age": 13,
+        "order": 10
+    }
+}, {
+    "pk": 11,
+    "model": "edumetadata.grade",
+    "fields": {
+        "max_age": 15,
+        "name": "9",
+        "slug": "9",
+        "min_age": 14,
+        "order": 11
+    }
+}, {
+    "pk": 12,
+    "model": "edumetadata.grade",
+    "fields": {
+        "max_age": 16,
+        "name": "10",
+        "slug": "10",
+        "min_age": 15,
+        "order": 12
+    }
+}, {
+    "pk": 13,
+    "model": "edumetadata.grade",
+    "fields": {
+        "max_age": 17,
+        "name": "11",
+        "slug": "11",
+        "min_age": 16,
+        "order": 13
+    }
+}, {
+    "pk": 14,
+    "model": "edumetadata.grade",
+    "fields": {
+        "max_age": 18,
+        "name": "12",
+        "slug": "12",
+        "min_age": 17,
+        "order": 14
+    }
+}, {
+    "pk": 19,
+    "model": "edumetadata.grade",
+    "fields": {
+        "max_age": 99,
+        "name": "13",
+        "slug": "13",
+        "min_age": 18,
+        "order": 15
+    }
+}, {
+    "pk": 1,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 34,
+        "name": "Adult and Family Literacy",
+        "parent": null,
+        "level": 0,
+        "more_info_url": null,
+        "lft": 1,
+        "tree_id": 1,
+        "active": true,
+        "slug": "adult-and-family-literacy"
+    }
+}, {
+    "pk": 18,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 3,
+        "name": "Adult & Child development",
+        "parent": 1,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 2,
+        "tree_id": 1,
+        "active": true,
+        "slug": "adult-child-development"
+    }
+}, {
+    "pk": 19,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 5,
+        "name": "Advocacy",
+        "parent": 1,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 4,
+        "tree_id": 1,
+        "active": true,
+        "slug": "advocacy"
+    }
+}, {
+    "pk": 20,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 7,
+        "name": "Citizenship",
+        "parent": 1,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 6,
+        "tree_id": 1,
+        "active": true,
+        "slug": "citizenship"
+    }
+}, {
+    "pk": 21,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 9,
+        "name": "Community Involvement",
+        "parent": 1,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 8,
+        "tree_id": 1,
+        "active": true,
+        "slug": "community-involvement"
+    }
+}, {
+    "pk": 22,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 11,
+        "name": "English-language Learning",
+        "parent": 1,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 10,
+        "tree_id": 1,
+        "active": true,
+        "slug": "english-language-learning"
+    }
+}, {
+    "pk": 23,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 13,
+        "name": "GED preparation",
+        "parent": 1,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 12,
+        "tree_id": 1,
+        "active": true,
+        "slug": "ged-preparation"
+    }
+}, {
+    "pk": 24,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 15,
+        "name": "Learning disabilities",
+        "parent": 1,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 14,
+        "tree_id": 1,
+        "active": true,
+        "slug": "learning-disabilities"
+    }
+}, {
+    "pk": 25,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 17,
+        "name": "Learning to Learn",
+        "parent": 1,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 16,
+        "tree_id": 1,
+        "active": true,
+        "slug": "learning-to-learn"
+    }
+}, {
+    "pk": 26,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 19,
+        "name": "Leveraging Technology",
+        "parent": 1,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 18,
+        "tree_id": 1,
+        "active": true,
+        "slug": "leveraging-technology"
+    }
+}, {
+    "pk": 27,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 21,
+        "name": "Lifeskills ",
+        "parent": 1,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 20,
+        "tree_id": 1,
+        "active": true,
+        "slug": "lifeskills"
+    }
+}, {
+    "pk": 28,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 23,
+        "name": "Numeracy",
+        "parent": 1,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 22,
+        "tree_id": 1,
+        "active": true,
+        "slug": "numeracy"
+    }
+}, {
+    "pk": 29,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 25,
+        "name": "Parent education",
+        "parent": 1,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 24,
+        "tree_id": 1,
+        "active": true,
+        "slug": "parent-education"
+    }
+}, {
+    "pk": 30,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 27,
+        "name": "Program Management",
+        "parent": 1,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 26,
+        "tree_id": 1,
+        "active": true,
+        "slug": "program-management"
+    }
+}, {
+    "pk": 31,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 29,
+        "name": "Reading",
+        "parent": 1,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 28,
+        "tree_id": 1,
+        "active": true,
+        "slug": "reading"
+    }
+}, {
+    "pk": 32,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 31,
+        "name": "Volunteering",
+        "parent": 1,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 30,
+        "tree_id": 1,
+        "active": true,
+        "slug": "volunteering"
+    }
+}, {
+    "pk": 33,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 33,
+        "name": "Writing",
+        "parent": 1,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 32,
+        "tree_id": 1,
+        "active": true,
+        "slug": "writing"
+    }
+}, {
+    "pk": 2,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 110,
+        "name": "Arts",
+        "parent": null,
+        "level": 0,
+        "more_info_url": null,
+        "lft": 1,
+        "tree_id": 2,
+        "active": true,
+        "slug": "arts"
+    }
+}, {
+    "pk": 34,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 3,
+        "name": "Acting",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 2,
+        "tree_id": 2,
+        "active": true,
+        "slug": "acting"
+    }
+}, {
+    "pk": 35,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 5,
+        "name": "Animation",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 4,
+        "tree_id": 2,
+        "active": true,
+        "slug": "animation"
+    }
+}, {
+    "pk": 36,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 7,
+        "name": "Architecture",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 6,
+        "tree_id": 2,
+        "active": true,
+        "slug": "architecture"
+    }
+}, {
+    "pk": 37,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 9,
+        "name": "Art History",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 8,
+        "tree_id": 2,
+        "active": true,
+        "slug": "art-history"
+    }
+}, {
+    "pk": 38,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 11,
+        "name": "Art Therapy",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 10,
+        "tree_id": 2,
+        "active": true,
+        "slug": "art-therapy"
+    }
+}, {
+    "pk": 39,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 13,
+        "name": "Ballet",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 12,
+        "tree_id": 2,
+        "active": true,
+        "slug": "ballet"
+    }
+}, {
+    "pk": 40,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 15,
+        "name": "Band",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 14,
+        "tree_id": 2,
+        "active": true,
+        "slug": "band"
+    }
+}, {
+    "pk": 41,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 17,
+        "name": "Ceramics",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 16,
+        "tree_id": 2,
+        "active": true,
+        "slug": "ceramics"
+    }
+}, {
+    "pk": 42,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 19,
+        "name": "Chorus",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 18,
+        "tree_id": 2,
+        "active": true,
+        "slug": "chorus"
+    }
+}, {
+    "pk": 43,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 21,
+        "name": "Communication Arts",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 20,
+        "tree_id": 2,
+        "active": true,
+        "slug": "communication-arts"
+    }
+}, {
+    "pk": 44,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 23,
+        "name": "Computers in Art / Computer Art",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 22,
+        "tree_id": 2,
+        "active": true,
+        "slug": "computers-in-art-computer-art"
+    }
+}, {
+    "pk": 45,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 25,
+        "name": "Creative Movement",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 24,
+        "tree_id": 2,
+        "active": true,
+        "slug": "creative-movement"
+    }
+}, {
+    "pk": 46,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 27,
+        "name": "Dance",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 26,
+        "tree_id": 2,
+        "active": true,
+        "slug": "dance"
+    }
+}, {
+    "pk": 47,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 29,
+        "name": "Decorative Arts",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 28,
+        "tree_id": 2,
+        "active": true,
+        "slug": "decorative-arts"
+    }
+}, {
+    "pk": 48,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 31,
+        "name": "Directing",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 30,
+        "tree_id": 2,
+        "active": true,
+        "slug": "directing"
+    }
+}, {
+    "pk": 49,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 33,
+        "name": "Drama",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 32,
+        "tree_id": 2,
+        "active": true,
+        "slug": "drama"
+    }
+}, {
+    "pk": 50,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 35,
+        "name": "Drawing",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 34,
+        "tree_id": 2,
+        "active": true,
+        "slug": "drawing"
+    }
+}, {
+    "pk": 51,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 37,
+        "name": "Filmmaking",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 36,
+        "tree_id": 2,
+        "active": true,
+        "slug": "filmmaking"
+    }
+}, {
+    "pk": 52,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 39,
+        "name": "Glass",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 38,
+        "tree_id": 2,
+        "active": true,
+        "slug": "glass"
+    }
+}, {
+    "pk": 53,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 41,
+        "name": "Graphic Design",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 40,
+        "tree_id": 2,
+        "active": true,
+        "slug": "graphic-design"
+    }
+}, {
+    "pk": 54,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 43,
+        "name": "History",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 42,
+        "tree_id": 2,
+        "active": true,
+        "slug": "history"
+    }
+}, {
+    "pk": 55,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 45,
+        "name": "Illustration",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 44,
+        "tree_id": 2,
+        "active": true,
+        "slug": "illustration"
+    }
+}, {
+    "pk": 56,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 47,
+        "name": "Instrumental Music",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 46,
+        "tree_id": 2,
+        "active": true,
+        "slug": "instrumental-music"
+    }
+}, {
+    "pk": 57,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 49,
+        "name": "Jazz",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 48,
+        "tree_id": 2,
+        "active": true,
+        "slug": "jazz"
+    }
+}, {
+    "pk": 58,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 51,
+        "name": "Land Art",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 50,
+        "tree_id": 2,
+        "active": true,
+        "slug": "land-art"
+    }
+}, {
+    "pk": 59,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 53,
+        "name": "Mass Media Design",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 52,
+        "tree_id": 2,
+        "active": true,
+        "slug": "mass-media-design"
+    }
+}, {
+    "pk": 60,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 55,
+        "name": "Media Arts",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 54,
+        "tree_id": 2,
+        "active": true,
+        "slug": "media-arts"
+    }
+}, {
+    "pk": 61,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 57,
+        "name": "Metalworking",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 56,
+        "tree_id": 2,
+        "active": true,
+        "slug": "metalworking"
+    }
+}, {
+    "pk": 62,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 59,
+        "name": "Modern",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 58,
+        "tree_id": 2,
+        "active": true,
+        "slug": "modern"
+    }
+}, {
+    "pk": 63,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 61,
+        "name": "Mosaic",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 60,
+        "tree_id": 2,
+        "active": true,
+        "slug": "mosaic"
+    }
+}, {
+    "pk": 64,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 63,
+        "name": "Multimedia",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 62,
+        "tree_id": 2,
+        "active": true,
+        "slug": "multimedia"
+    }
+}, {
+    "pk": 65,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 65,
+        "name": "Music",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 64,
+        "tree_id": 2,
+        "active": true,
+        "slug": "music"
+    }
+}, {
+    "pk": 66,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 67,
+        "name": "Musical Theater",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 66,
+        "tree_id": 2,
+        "active": true,
+        "slug": "musical-theater"
+    }
+}, {
+    "pk": 67,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 69,
+        "name": "Orchestra",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 68,
+        "tree_id": 2,
+        "active": true,
+        "slug": "orchestra"
+    }
+}, {
+    "pk": 68,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 71,
+        "name": "Painting",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 70,
+        "tree_id": 2,
+        "active": true,
+        "slug": "painting"
+    }
+}, {
+    "pk": 69,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 73,
+        "name": "Paper Art",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 72,
+        "tree_id": 2,
+        "active": true,
+        "slug": "paper-art"
+    }
+}, {
+    "pk": 70,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 75,
+        "name": "Photography",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 74,
+        "tree_id": 2,
+        "active": true,
+        "slug": "photography"
+    }
+}, {
+    "pk": 71,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 77,
+        "name": "Playwriting",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 76,
+        "tree_id": 2,
+        "active": true,
+        "slug": "playwriting"
+    }
+}, {
+    "pk": 72,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 79,
+        "name": "Popular",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 78,
+        "tree_id": 2,
+        "active": true,
+        "slug": "popular"
+    }
+}, {
+    "pk": 73,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 81,
+        "name": "Printmaking",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 80,
+        "tree_id": 2,
+        "active": true,
+        "slug": "printmaking"
+    }
+}, {
+    "pk": 74,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 83,
+        "name": "Puppetry",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 82,
+        "tree_id": 2,
+        "active": true,
+        "slug": "puppetry"
+    }
+}, {
+    "pk": 75,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 85,
+        "name": "Reader's Theater",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 84,
+        "tree_id": 2,
+        "active": true,
+        "slug": "readers-theater"
+    }
+}, {
+    "pk": 76,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 87,
+        "name": "Sculpture",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 86,
+        "tree_id": 2,
+        "active": true,
+        "slug": "sculpture"
+    }
+}, {
+    "pk": 77,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 89,
+        "name": "Stone Carving",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 88,
+        "tree_id": 2,
+        "active": true,
+        "slug": "stone-carving"
+    }
+}, {
+    "pk": 78,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 91,
+        "name": "Storytelling",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 90,
+        "tree_id": 2,
+        "active": true,
+        "slug": "storytelling"
+    }
+}, {
+    "pk": 79,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 93,
+        "name": "Street / Circus Arts",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 92,
+        "tree_id": 2,
+        "active": true,
+        "slug": "street-circus-arts"
+    }
+}, {
+    "pk": 80,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 95,
+        "name": "Technical Theater",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 94,
+        "tree_id": 2,
+        "active": true,
+        "slug": "technical-theater"
+    }
+}, {
+    "pk": 81,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 97,
+        "name": "Textile Art",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 96,
+        "tree_id": 2,
+        "active": true,
+        "slug": "textile-art"
+    }
+}, {
+    "pk": 82,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 99,
+        "name": "Theater",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 98,
+        "tree_id": 2,
+        "active": true,
+        "slug": "theater"
+    }
+}, {
+    "pk": 83,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 101,
+        "name": "Theory and Composition",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 100,
+        "tree_id": 2,
+        "active": true,
+        "slug": "theory-and-composition"
+    }
+}, {
+    "pk": 84,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 103,
+        "name": "Traditional",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 102,
+        "tree_id": 2,
+        "active": true,
+        "slug": "traditional"
+    }
+}, {
+    "pk": 85,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 105,
+        "name": "Visual Arts",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 104,
+        "tree_id": 2,
+        "active": true,
+        "slug": "visual-arts"
+    }
+}, {
+    "pk": 86,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 107,
+        "name": "Vocal Music",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 106,
+        "tree_id": 2,
+        "active": true,
+        "slug": "vocal-music"
+    }
+}, {
+    "pk": 87,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 109,
+        "name": "Woodworking",
+        "parent": 2,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 108,
+        "tree_id": 2,
+        "active": true,
+        "slug": "woodworking"
+    }
+}, {
+    "pk": 17,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 18,
+        "name": "Cross-Disciplinary",
+        "parent": null,
+        "level": 0,
+        "more_info_url": null,
+        "lft": 1,
+        "tree_id": 3,
+        "active": true,
+        "slug": "cross-disciplinary"
+    }
+}, {
+    "pk": 88,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 3,
+        "name": "Careers",
+        "parent": 17,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 2,
+        "tree_id": 3,
+        "active": true,
+        "slug": "careers"
+    }
+}, {
+    "pk": 89,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 5,
+        "name": "Forestry",
+        "parent": 17,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 4,
+        "tree_id": 3,
+        "active": true,
+        "slug": "forestry"
+    }
+}, {
+    "pk": 90,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 7,
+        "name": "History",
+        "parent": 17,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 6,
+        "tree_id": 3,
+        "active": true,
+        "slug": "history"
+    }
+}, {
+    "pk": 91,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 9,
+        "name": "Informal  Education",
+        "parent": 17,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 8,
+        "tree_id": 3,
+        "active": true,
+        "slug": "informal-education"
+    }
+}, {
+    "pk": 92,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 11,
+        "name": "Mining",
+        "parent": 17,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 10,
+        "tree_id": 3,
+        "active": true,
+        "slug": "mining"
+    }
+}, {
+    "pk": 93,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 13,
+        "name": "Popular Culture",
+        "parent": 17,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 12,
+        "tree_id": 3,
+        "active": true,
+        "slug": "popular-culture"
+    }
+}, {
+    "pk": 94,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 15,
+        "name": "Process Skills",
+        "parent": 17,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 14,
+        "tree_id": 3,
+        "active": true,
+        "slug": "process-skills"
+    }
+}, {
+    "pk": 95,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 17,
+        "name": "Technology",
+        "parent": 17,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 16,
+        "tree_id": 3,
+        "active": true,
+        "slug": "technology"
+    }
+}, {
+    "pk": 3,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 16,
+        "name": "Educational Technology",
+        "parent": null,
+        "level": 0,
+        "more_info_url": null,
+        "lft": 1,
+        "tree_id": 4,
+        "active": true,
+        "slug": "educational-technology"
+    }
+}, {
+    "pk": 96,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 3,
+        "name": "Audio-visual equipment",
+        "parent": 3,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 2,
+        "tree_id": 4,
+        "active": true,
+        "slug": "audio-visual-equipment"
+    }
+}, {
+    "pk": 97,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 5,
+        "name": "Educational media",
+        "parent": 3,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 4,
+        "tree_id": 4,
+        "active": true,
+        "slug": "educational-media"
+    }
+}, {
+    "pk": 98,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 7,
+        "name": "Integrating technology into the classroom",
+        "parent": 3,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 6,
+        "tree_id": 4,
+        "active": true,
+        "slug": "integrating-technology-into-the-classroom"
+    }
+}, {
+    "pk": 99,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 9,
+        "name": "Language laboratories",
+        "parent": 3,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 8,
+        "tree_id": 4,
+        "active": true,
+        "slug": "language-laboratories"
+    }
+}, {
+    "pk": 100,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 11,
+        "name": "Multimedia education",
+        "parent": 3,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 10,
+        "tree_id": 4,
+        "active": true,
+        "slug": "multimedia-education"
+    }
+}, {
+    "pk": 101,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 13,
+        "name": "Staff inservice",
+        "parent": 3,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 12,
+        "tree_id": 4,
+        "active": true,
+        "slug": "staff-inservice"
+    }
+}, {
+    "pk": 102,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 15,
+        "name": "Technology planning",
+        "parent": 3,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 14,
+        "tree_id": 4,
+        "active": true,
+        "slug": "technology-planning"
+    }
+}, {
+    "pk": 4,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 24,
+        "name": "Foreign Languages",
+        "parent": null,
+        "level": 0,
+        "more_info_url": null,
+        "lft": 1,
+        "tree_id": 5,
+        "active": true,
+        "slug": "foreign-languages"
+    }
+}, {
+    "pk": 103,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 3,
+        "name": "Alphabet",
+        "parent": 4,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 2,
+        "tree_id": 5,
+        "active": true,
+        "slug": "alphabet"
+    }
+}, {
+    "pk": 104,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 5,
+        "name": "Bilingualism",
+        "parent": 4,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 4,
+        "tree_id": 5,
+        "active": true,
+        "slug": "bilingualism"
+    }
+}, {
+    "pk": 105,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 7,
+        "name": "Cultural awareness",
+        "parent": 4,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 6,
+        "tree_id": 5,
+        "active": true,
+        "slug": "cultural-awareness"
+    }
+}, {
+    "pk": 106,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 9,
+        "name": "Grammar",
+        "parent": 4,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 8,
+        "tree_id": 5,
+        "active": true,
+        "slug": "grammar"
+    }
+}, {
+    "pk": 107,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 11,
+        "name": "Linguistics",
+        "parent": 4,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 10,
+        "tree_id": 5,
+        "active": true,
+        "slug": "linguistics"
+    }
+}, {
+    "pk": 108,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 13,
+        "name": "Listening comprehension",
+        "parent": 4,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 12,
+        "tree_id": 5,
+        "active": true,
+        "slug": "listening-comprehension"
+    }
+}, {
+    "pk": 109,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 15,
+        "name": "Reading",
+        "parent": 4,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 14,
+        "tree_id": 5,
+        "active": true,
+        "slug": "reading"
+    }
+}, {
+    "pk": 110,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 17,
+        "name": "Speaking",
+        "parent": 4,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 16,
+        "tree_id": 5,
+        "active": true,
+        "slug": "speaking"
+    }
+}, {
+    "pk": 111,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 19,
+        "name": "Spelling",
+        "parent": 4,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 18,
+        "tree_id": 5,
+        "active": true,
+        "slug": "spelling"
+    }
+}, {
+    "pk": 112,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 21,
+        "name": "Vocabulary",
+        "parent": 4,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 20,
+        "tree_id": 5,
+        "active": true,
+        "slug": "vocabulary"
+    }
+}, {
+    "pk": 113,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 23,
+        "name": "Writing",
+        "parent": 4,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 22,
+        "tree_id": 5,
+        "active": true,
+        "slug": "writing"
+    }
+}, {
+    "pk": 5,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 12,
+        "name": "Geography",
+        "parent": null,
+        "level": 0,
+        "more_info_url": null,
+        "lft": 1,
+        "tree_id": 6,
+        "active": true,
+        "slug": "geography"
+    }
+}, {
+    "pk": 114,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 3,
+        "name": "Cartography",
+        "parent": 5,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 2,
+        "tree_id": 6,
+        "active": true,
+        "slug": "cartography"
+    }
+}, {
+    "pk": 115,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 5,
+        "name": "General",
+        "parent": 5,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 4,
+        "tree_id": 6,
+        "active": true,
+        "slug": "general"
+    }
+}, {
+    "pk": 116,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 7,
+        "name": "Geographic Information Systems (GIS)",
+        "parent": 5,
+        "level": 1,
+        "more_info_url": "http://education.nationalgeographic.com/education/encyclopedia/geographic-information-system-gis/?ar_a=1",
+        "lft": 6,
+        "tree_id": 6,
+        "active": true,
+        "slug": "geographic-information-systems-gis"
+    }
+}, {
+    "pk": 117,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 9,
+        "name": "Human Geography",
+        "parent": 5,
+        "level": 1,
+        "more_info_url": "http://education.nationalgeographic.com/education/encyclopedia/geography/?ar_a=1",
+        "lft": 8,
+        "tree_id": 6,
+        "active": true,
+        "slug": "human-geography"
+    }
+}, {
+    "pk": 118,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 11,
+        "name": "Physical Geography",
+        "parent": 5,
+        "level": 1,
+        "more_info_url": "http://education.nationalgeographic.com/education/encyclopedia/geography/?ar_a=1",
+        "lft": 10,
+        "tree_id": 6,
+        "active": true,
+        "slug": "physical-geography"
+    }
+}, {
+    "pk": 6,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 34,
+        "name": "Health",
+        "parent": null,
+        "level": 0,
+        "more_info_url": null,
+        "lft": 1,
+        "tree_id": 7,
+        "active": true,
+        "slug": "health"
+    }
+}, {
+    "pk": 119,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 3,
+        "name": "Aging",
+        "parent": 6,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 2,
+        "tree_id": 7,
+        "active": true,
+        "slug": "aging"
+    }
+}, {
+    "pk": 120,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 5,
+        "name": "Body systems and senses",
+        "parent": 6,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 4,
+        "tree_id": 7,
+        "active": true,
+        "slug": "body-systems-and-senses"
+    }
+}, {
+    "pk": 121,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 7,
+        "name": "Chronic conditions",
+        "parent": 6,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 6,
+        "tree_id": 7,
+        "active": true,
+        "slug": "chronic-conditions"
+    }
+}, {
+    "pk": 122,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 9,
+        "name": "Consumer health",
+        "parent": 6,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 8,
+        "tree_id": 7,
+        "active": true,
+        "slug": "consumer-health"
+    }
+}, {
+    "pk": 123,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 11,
+        "name": "Death and dying",
+        "parent": 6,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 10,
+        "tree_id": 7,
+        "active": true,
+        "slug": "death-and-dying"
+    }
+}, {
+    "pk": 124,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 13,
+        "name": "Disease",
+        "parent": 6,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 12,
+        "tree_id": 7,
+        "active": true,
+        "slug": "disease"
+    }
+}, {
+    "pk": 125,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 15,
+        "name": "Environmental health",
+        "parent": 6,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 14,
+        "tree_id": 7,
+        "active": true,
+        "slug": "environmental-health"
+    }
+}, {
+    "pk": 126,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 17,
+        "name": "Family life",
+        "parent": 6,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 16,
+        "tree_id": 7,
+        "active": true,
+        "slug": "family-life"
+    }
+}, {
+    "pk": 127,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 19,
+        "name": "Human sexuality",
+        "parent": 6,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 18,
+        "tree_id": 7,
+        "active": true,
+        "slug": "human-sexuality"
+    }
+}, {
+    "pk": 128,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 21,
+        "name": "Mental/emotional health",
+        "parent": 6,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 20,
+        "tree_id": 7,
+        "active": true,
+        "slug": "mentalemotional-health"
+    }
+}, {
+    "pk": 129,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 23,
+        "name": "Nutrition",
+        "parent": 6,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 22,
+        "tree_id": 7,
+        "active": true,
+        "slug": "nutrition"
+    }
+}, {
+    "pk": 130,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 25,
+        "name": "Preventative Health",
+        "parent": 6,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 24,
+        "tree_id": 7,
+        "active": true,
+        "slug": "preventative-health"
+    }
+}, {
+    "pk": 131,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 27,
+        "name": "Research",
+        "parent": 6,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 26,
+        "tree_id": 7,
+        "active": true,
+        "slug": "research"
+    }
+}, {
+    "pk": 132,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 29,
+        "name": "Safety",
+        "parent": 6,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 28,
+        "tree_id": 7,
+        "active": true,
+        "slug": "safety"
+    }
+}, {
+    "pk": 133,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 31,
+        "name": "Smoking",
+        "parent": 6,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 30,
+        "tree_id": 7,
+        "active": true,
+        "slug": "smoking"
+    }
+}, {
+    "pk": 134,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 33,
+        "name": "Substance abuse prevention",
+        "parent": 6,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 32,
+        "tree_id": 7,
+        "active": true,
+        "slug": "substance-abuse-prevention"
+    }
+}, {
+    "pk": 7,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 30,
+        "name": "Informal Education",
+        "parent": null,
+        "level": 0,
+        "more_info_url": null,
+        "lft": 1,
+        "tree_id": 8,
+        "active": true,
+        "slug": "informal-education"
+    }
+}, {
+    "pk": 135,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 3,
+        "name": "Academic Enrichment ",
+        "parent": 7,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 2,
+        "tree_id": 8,
+        "active": true,
+        "slug": "academic-enrichment"
+    }
+}, {
+    "pk": 136,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 5,
+        "name": "Arts and Crafts",
+        "parent": 7,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 4,
+        "tree_id": 8,
+        "active": true,
+        "slug": "arts-and-crafts"
+    }
+}, {
+    "pk": 137,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 7,
+        "name": "Business/Entrepreneurship training",
+        "parent": 7,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 6,
+        "tree_id": 8,
+        "active": true,
+        "slug": "businessentrepreneurship-training"
+    }
+}, {
+    "pk": 138,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 9,
+        "name": "Community service/Leadership/Team-building",
+        "parent": 7,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 8,
+        "tree_id": 8,
+        "active": true,
+        "slug": "community-serviceleadershipteam-building"
+    }
+}, {
+    "pk": 139,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 11,
+        "name": "Drama and Puppets",
+        "parent": 7,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 10,
+        "tree_id": 8,
+        "active": true,
+        "slug": "drama-and-puppets"
+    }
+}, {
+    "pk": 140,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 13,
+        "name": "Environmental Education",
+        "parent": 7,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 12,
+        "tree_id": 8,
+        "active": true,
+        "slug": "environmental-education"
+    }
+}, {
+    "pk": 141,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 15,
+        "name": "Health/Wellness/Nutrition/Cooking",
+        "parent": 7,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 14,
+        "tree_id": 8,
+        "active": true,
+        "slug": "healthwellnessnutritioncooking"
+    }
+}, {
+    "pk": 142,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 17,
+        "name": "Homework Help/Tutoring",
+        "parent": 7,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 16,
+        "tree_id": 8,
+        "active": true,
+        "slug": "homework-helptutoring"
+    }
+}, {
+    "pk": 143,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 19,
+        "name": "Movement and Music",
+        "parent": 7,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 18,
+        "tree_id": 8,
+        "active": true,
+        "slug": "movement-and-music"
+    }
+}, {
+    "pk": 144,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 21,
+        "name": "Photography/Digital Arts",
+        "parent": 7,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 20,
+        "tree_id": 8,
+        "active": true,
+        "slug": "photographydigital-arts"
+    }
+}, {
+    "pk": 145,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 23,
+        "name": "School to Career Experience",
+        "parent": 7,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 22,
+        "tree_id": 8,
+        "active": true,
+        "slug": "school-to-career-experience"
+    }
+}, {
+    "pk": 146,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 25,
+        "name": "Sports/Fitness/Recreation",
+        "parent": 7,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 24,
+        "tree_id": 8,
+        "active": true,
+        "slug": "sportsfitnessrecreation"
+    }
+}, {
+    "pk": 147,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 27,
+        "name": "Technology Training ",
+        "parent": 7,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 26,
+        "tree_id": 8,
+        "active": true,
+        "slug": "technology-training"
+    }
+}, {
+    "pk": 148,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 29,
+        "name": "Zoo/Aquarium/Nature Center Education",
+        "parent": 7,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 28,
+        "tree_id": 8,
+        "active": true,
+        "slug": "zooaquariumnature-center-education"
+    }
+}, {
+    "pk": 8,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 36,
+        "name": "Language Arts",
+        "parent": null,
+        "level": 0,
+        "more_info_url": null,
+        "lft": 1,
+        "tree_id": 9,
+        "active": true,
+        "slug": "language-arts"
+    }
+}, {
+    "pk": 149,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 3,
+        "name": "Alphabet",
+        "parent": 8,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 2,
+        "tree_id": 9,
+        "active": true,
+        "slug": "alphabet"
+    }
+}, {
+    "pk": 150,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 5,
+        "name": "Debate",
+        "parent": 8,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 4,
+        "tree_id": 9,
+        "active": true,
+        "slug": "debate"
+    }
+}, {
+    "pk": 151,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 7,
+        "name": "Grammar",
+        "parent": 8,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 6,
+        "tree_id": 9,
+        "active": true,
+        "slug": "grammar"
+    }
+}, {
+    "pk": 152,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 9,
+        "name": "Handwriting",
+        "parent": 8,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 8,
+        "tree_id": 9,
+        "active": true,
+        "slug": "handwriting"
+    }
+}, {
+    "pk": 153,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 11,
+        "name": "Journalism",
+        "parent": 8,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 10,
+        "tree_id": 9,
+        "active": true,
+        "slug": "journalism"
+    }
+}, {
+    "pk": 154,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 13,
+        "name": "Listening comprehension",
+        "parent": 8,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 12,
+        "tree_id": 9,
+        "active": true,
+        "slug": "listening-comprehension"
+    }
+}, {
+    "pk": 155,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 15,
+        "name": "Literature",
+        "parent": 8,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 14,
+        "tree_id": 9,
+        "active": true,
+        "slug": "literature"
+    }
+}, {
+    "pk": 156,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 17,
+        "name": "Mechanics",
+        "parent": 8,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 16,
+        "tree_id": 9,
+        "active": true,
+        "slug": "mechanics"
+    }
+}, {
+    "pk": 157,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 19,
+        "name": "Phonics",
+        "parent": 8,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 18,
+        "tree_id": 9,
+        "active": true,
+        "slug": "phonics"
+    }
+}, {
+    "pk": 158,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 21,
+        "name": "Reading",
+        "parent": 8,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 20,
+        "tree_id": 9,
+        "active": true,
+        "slug": "reading"
+    }
+}, {
+    "pk": 159,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 23,
+        "name": "Reading aloud",
+        "parent": 8,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 22,
+        "tree_id": 9,
+        "active": true,
+        "slug": "reading-aloud"
+    }
+}, {
+    "pk": 160,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 25,
+        "name": "Speech",
+        "parent": 8,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 24,
+        "tree_id": 9,
+        "active": true,
+        "slug": "speech"
+    }
+}, {
+    "pk": 161,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 27,
+        "name": "Spelling",
+        "parent": 8,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 26,
+        "tree_id": 9,
+        "active": true,
+        "slug": "spelling"
+    }
+}, {
+    "pk": 162,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 29,
+        "name": "Storytelling",
+        "parent": 8,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 28,
+        "tree_id": 9,
+        "active": true,
+        "slug": "storytelling"
+    }
+}, {
+    "pk": 163,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 31,
+        "name": "Vocabulary",
+        "parent": 8,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 30,
+        "tree_id": 9,
+        "active": true,
+        "slug": "vocabulary"
+    }
+}, {
+    "pk": 164,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 33,
+        "name": "Whole language",
+        "parent": 8,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 32,
+        "tree_id": 9,
+        "active": true,
+        "slug": "whole-language"
+    }
+}, {
+    "pk": 165,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 35,
+        "name": "Writing (composition)",
+        "parent": 8,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 34,
+        "tree_id": 9,
+        "active": true,
+        "slug": "writing-composition"
+    }
+}, {
+    "pk": 9,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 30,
+        "name": "Mathematics",
+        "parent": null,
+        "level": 0,
+        "more_info_url": null,
+        "lft": 1,
+        "tree_id": 10,
+        "active": true,
+        "slug": "mathematics"
+    }
+}, {
+    "pk": 166,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 3,
+        "name": "Algebra",
+        "parent": 9,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 2,
+        "tree_id": 10,
+        "active": true,
+        "slug": "algebra"
+    }
+}, {
+    "pk": 167,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 5,
+        "name": "Applied mathematics",
+        "parent": 9,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 4,
+        "tree_id": 10,
+        "active": true,
+        "slug": "applied-mathematics"
+    }
+}, {
+    "pk": 168,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 7,
+        "name": "Arithmetic",
+        "parent": 9,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 6,
+        "tree_id": 10,
+        "active": true,
+        "slug": "arithmetic"
+    }
+}, {
+    "pk": 169,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 9,
+        "name": "Calculus",
+        "parent": 9,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 8,
+        "tree_id": 10,
+        "active": true,
+        "slug": "calculus"
+    }
+}, {
+    "pk": 170,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 11,
+        "name": "Discrete mathematics",
+        "parent": 9,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 10,
+        "tree_id": 10,
+        "active": true,
+        "slug": "discrete-mathematics"
+    }
+}, {
+    "pk": 171,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 13,
+        "name": "Functions",
+        "parent": 9,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 12,
+        "tree_id": 10,
+        "active": true,
+        "slug": "functions"
+    }
+}, {
+    "pk": 172,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 15,
+        "name": "Geometry",
+        "parent": 9,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 14,
+        "tree_id": 10,
+        "active": true,
+        "slug": "geometry"
+    }
+}, {
+    "pk": 173,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 17,
+        "name": "Measurement",
+        "parent": 9,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 16,
+        "tree_id": 10,
+        "active": true,
+        "slug": "measurement"
+    }
+}, {
+    "pk": 174,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 19,
+        "name": "Number sense",
+        "parent": 9,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 18,
+        "tree_id": 10,
+        "active": true,
+        "slug": "number-sense"
+    }
+}, {
+    "pk": 175,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 21,
+        "name": "Number theory",
+        "parent": 9,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 20,
+        "tree_id": 10,
+        "active": true,
+        "slug": "number-theory"
+    }
+}, {
+    "pk": 176,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 23,
+        "name": "Patterns",
+        "parent": 9,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 22,
+        "tree_id": 10,
+        "active": true,
+        "slug": "patterns"
+    }
+}, {
+    "pk": 177,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 25,
+        "name": "Probability",
+        "parent": 9,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 24,
+        "tree_id": 10,
+        "active": true,
+        "slug": "probability"
+    }
+}, {
+    "pk": 178,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 27,
+        "name": "Statistics",
+        "parent": 9,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 26,
+        "tree_id": 10,
+        "active": true,
+        "slug": "statistics"
+    }
+}, {
+    "pk": 179,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 29,
+        "name": "Trigonometry",
+        "parent": 9,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 28,
+        "tree_id": 10,
+        "active": true,
+        "slug": "trigonometry"
+    }
+}, {
+    "pk": 10,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 24,
+        "name": "Philosophy",
+        "parent": null,
+        "level": 0,
+        "more_info_url": null,
+        "lft": 1,
+        "tree_id": 11,
+        "active": true,
+        "slug": "philosophy"
+    }
+}, {
+    "pk": 180,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 3,
+        "name": "Aesthetics",
+        "parent": 10,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 2,
+        "tree_id": 11,
+        "active": true,
+        "slug": "aesthetics"
+    }
+}, {
+    "pk": 181,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 5,
+        "name": "Educational Philosophy",
+        "parent": 10,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 4,
+        "tree_id": 11,
+        "active": true,
+        "slug": "educational-philosophy"
+    }
+}, {
+    "pk": 182,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 7,
+        "name": "Epistemology",
+        "parent": 10,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 6,
+        "tree_id": 11,
+        "active": true,
+        "slug": "epistemology"
+    }
+}, {
+    "pk": 183,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 9,
+        "name": "Ethics",
+        "parent": 10,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 8,
+        "tree_id": 11,
+        "active": true,
+        "slug": "ethics"
+    }
+}, {
+    "pk": 184,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 11,
+        "name": "Existentialism",
+        "parent": 10,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 10,
+        "tree_id": 11,
+        "active": true,
+        "slug": "existentialism"
+    }
+}, {
+    "pk": 185,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 13,
+        "name": "Hermeneutics",
+        "parent": 10,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 12,
+        "tree_id": 11,
+        "active": true,
+        "slug": "hermeneutics"
+    }
+}, {
+    "pk": 186,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 15,
+        "name": "Logic",
+        "parent": 10,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 14,
+        "tree_id": 11,
+        "active": true,
+        "slug": "logic"
+    }
+}, {
+    "pk": 187,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 17,
+        "name": "Marxism",
+        "parent": 10,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 16,
+        "tree_id": 11,
+        "active": true,
+        "slug": "marxism"
+    }
+}, {
+    "pk": 188,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 19,
+        "name": "Phenomenology",
+        "parent": 10,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 18,
+        "tree_id": 11,
+        "active": true,
+        "slug": "phenomenology"
+    }
+}, {
+    "pk": 189,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 21,
+        "name": "Platonism",
+        "parent": 10,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 20,
+        "tree_id": 11,
+        "active": true,
+        "slug": "platonism"
+    }
+}, {
+    "pk": 190,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 23,
+        "name": "Semiotics",
+        "parent": 10,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 22,
+        "tree_id": 11,
+        "active": true,
+        "slug": "semiotics"
+    }
+}, {
+    "pk": 11,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 22,
+        "name": "Physical Education",
+        "parent": null,
+        "level": 0,
+        "more_info_url": null,
+        "lft": 1,
+        "tree_id": 12,
+        "active": true,
+        "slug": "physical-education"
+    }
+}, {
+    "pk": 191,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 3,
+        "name": "Adventure and risk challenge activities",
+        "parent": 11,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 2,
+        "tree_id": 12,
+        "active": true,
+        "slug": "adventure-and-risk-challenge-activities"
+    }
+}, {
+    "pk": 192,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 5,
+        "name": "Aquatics",
+        "parent": 11,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 4,
+        "tree_id": 12,
+        "active": true,
+        "slug": "aquatics"
+    }
+}, {
+    "pk": 193,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 7,
+        "name": "Games (educational)",
+        "parent": 11,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 6,
+        "tree_id": 12,
+        "active": true,
+        "slug": "games-educational"
+    }
+}, {
+    "pk": 194,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 9,
+        "name": "Gymnastics (educational)",
+        "parent": 11,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 8,
+        "tree_id": 12,
+        "active": true,
+        "slug": "gymnastics-educational"
+    }
+}, {
+    "pk": 195,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 11,
+        "name": "Individual sports",
+        "parent": 11,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 10,
+        "tree_id": 12,
+        "active": true,
+        "slug": "individual-sports"
+    }
+}, {
+    "pk": 196,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 13,
+        "name": "Motor/movement skills",
+        "parent": 11,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 12,
+        "tree_id": 12,
+        "active": true,
+        "slug": "motormovement-skills"
+    }
+}, {
+    "pk": 197,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 15,
+        "name": "Outdoor education",
+        "parent": 11,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 14,
+        "tree_id": 12,
+        "active": true,
+        "slug": "outdoor-education"
+    }
+}, {
+    "pk": 198,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 17,
+        "name": "Rhythms and dance",
+        "parent": 11,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 16,
+        "tree_id": 12,
+        "active": true,
+        "slug": "rhythms-and-dance"
+    }
+}, {
+    "pk": 199,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 19,
+        "name": "Skill-related fitness",
+        "parent": 11,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 18,
+        "tree_id": 12,
+        "active": true,
+        "slug": "skill-related-fitness"
+    }
+}, {
+    "pk": 200,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 21,
+        "name": "Team sports",
+        "parent": 11,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 20,
+        "tree_id": 12,
+        "active": true,
+        "slug": "team-sports"
+    }
+}, {
+    "pk": 16,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 4,
+        "name": "Professional Development",
+        "parent": null,
+        "level": 0,
+        "more_info_url": null,
+        "lft": 1,
+        "tree_id": 13,
+        "active": true,
+        "slug": "professional-development"
+    }
+}, {
+    "pk": 201,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 3,
+        "name": "Instructional Issues",
+        "parent": 16,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 2,
+        "tree_id": 13,
+        "active": true,
+        "slug": "instructional-issues"
+    }
+}, {
+    "pk": 12,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 20,
+        "name": "Religion",
+        "parent": null,
+        "level": 0,
+        "more_info_url": null,
+        "lft": 1,
+        "tree_id": 14,
+        "active": true,
+        "slug": "religion"
+    }
+}, {
+    "pk": 202,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 3,
+        "name": "Buddhism",
+        "parent": 12,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 2,
+        "tree_id": 14,
+        "active": true,
+        "slug": "buddhism"
+    }
+}, {
+    "pk": 203,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 5,
+        "name": "Christianity",
+        "parent": 12,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 4,
+        "tree_id": 14,
+        "active": true,
+        "slug": "christianity"
+    }
+}, {
+    "pk": 204,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 7,
+        "name": "Confucianism",
+        "parent": 12,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 6,
+        "tree_id": 14,
+        "active": true,
+        "slug": "confucianism"
+    }
+}, {
+    "pk": 205,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 9,
+        "name": "Hindu",
+        "parent": 12,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 8,
+        "tree_id": 14,
+        "active": true,
+        "slug": "hindu"
+    }
+}, {
+    "pk": 206,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 11,
+        "name": "Islam",
+        "parent": 12,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 10,
+        "tree_id": 14,
+        "active": true,
+        "slug": "islam"
+    }
+}, {
+    "pk": 207,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 13,
+        "name": "Judaism",
+        "parent": 12,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 12,
+        "tree_id": 14,
+        "active": true,
+        "slug": "judaism"
+    }
+}, {
+    "pk": 208,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 15,
+        "name": "Shinto",
+        "parent": 12,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 14,
+        "tree_id": 14,
+        "active": true,
+        "slug": "shinto"
+    }
+}, {
+    "pk": 269,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 17,
+        "name": "Sikhism",
+        "parent": 12,
+        "level": 1,
+        "more_info_url": "",
+        "lft": 16,
+        "tree_id": 14,
+        "active": true,
+        "slug": "sikhism"
+    }
+}, {
+    "pk": 209,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 19,
+        "name": "Taoism",
+        "parent": 12,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 18,
+        "tree_id": 14,
+        "active": true,
+        "slug": "taoism"
+    }
+}, {
+    "pk": 13,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 60,
+        "name": "Science",
+        "parent": null,
+        "level": 0,
+        "more_info_url": null,
+        "lft": 1,
+        "tree_id": 15,
+        "active": true,
+        "slug": "science"
+    }
+}, {
+    "pk": 210,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 3,
+        "name": "Agriculture",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": "http://education.nationalgeographic.com/education/encyclopedia/agriculture/?ar_a=1",
+        "lft": 2,
+        "tree_id": 15,
+        "active": true,
+        "slug": "agriculture"
+    }
+}, {
+    "pk": 211,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 5,
+        "name": "Astronomy",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 4,
+        "tree_id": 15,
+        "active": true,
+        "slug": "astronomy"
+    }
+}, {
+    "pk": 212,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 7,
+        "name": "Biological and life sciences",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 6,
+        "tree_id": 15,
+        "active": true,
+        "slug": "biological-and-life-sciences"
+    }
+}, {
+    "pk": 213,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 9,
+        "name": "Biology",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 8,
+        "tree_id": 15,
+        "active": true,
+        "slug": "biology"
+    }
+}, {
+    "pk": 214,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 11,
+        "name": "Botany",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 10,
+        "tree_id": 15,
+        "active": true,
+        "slug": "botany"
+    }
+}, {
+    "pk": 215,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 13,
+        "name": "Chemistry",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 12,
+        "tree_id": 15,
+        "active": true,
+        "slug": "chemistry"
+    }
+}, {
+    "pk": 216,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 15,
+        "name": "Earth science",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 14,
+        "tree_id": 15,
+        "active": true,
+        "slug": "earth-science"
+    }
+}, {
+    "pk": 217,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 17,
+        "name": "Ecology",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": "http://education.nationalgeographic.com/education/encyclopedia/ecology/?ar_a=1",
+        "lft": 16,
+        "tree_id": 15,
+        "active": true,
+        "slug": "ecology"
+    }
+}, {
+    "pk": 218,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 19,
+        "name": "Embryology",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 18,
+        "tree_id": 15,
+        "active": true,
+        "slug": "embryology"
+    }
+}, {
+    "pk": 219,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 21,
+        "name": "Engineering",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 20,
+        "tree_id": 15,
+        "active": true,
+        "slug": "engineering"
+    }
+}, {
+    "pk": 220,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 23,
+        "name": "Entomology",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 22,
+        "tree_id": 15,
+        "active": true,
+        "slug": "entomology"
+    }
+}, {
+    "pk": 221,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 25,
+        "name": "Environmental",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 24,
+        "tree_id": 15,
+        "active": true,
+        "slug": "environmental"
+    }
+}, {
+    "pk": 222,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 27,
+        "name": "General science",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 26,
+        "tree_id": 15,
+        "active": true,
+        "slug": "general-science"
+    }
+}, {
+    "pk": 223,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 29,
+        "name": "Geology",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 28,
+        "tree_id": 15,
+        "active": true,
+        "slug": "geology"
+    }
+}, {
+    "pk": 224,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 31,
+        "name": "Histology",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 30,
+        "tree_id": 15,
+        "active": true,
+        "slug": "histology"
+    }
+}, {
+    "pk": 225,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 33,
+        "name": "Linguistics",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 32,
+        "tree_id": 15,
+        "active": true,
+        "slug": "linguistics"
+    }
+}, {
+    "pk": 226,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 35,
+        "name": "Medicine",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 34,
+        "tree_id": 15,
+        "active": true,
+        "slug": "medicine"
+    }
+}, {
+    "pk": 227,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 37,
+        "name": "Metallurgy",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 36,
+        "tree_id": 15,
+        "active": true,
+        "slug": "metallurgy"
+    }
+}, {
+    "pk": 228,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 39,
+        "name": "Meteorology",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": "http://education.nationalgeographic.com/education/encyclopedia/meteorology/?ar_a=1",
+        "lft": 38,
+        "tree_id": 15,
+        "active": true,
+        "slug": "meteorology"
+    }
+}, {
+    "pk": 229,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 41,
+        "name": "Microbiology",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 40,
+        "tree_id": 15,
+        "active": true,
+        "slug": "microbiology"
+    }
+}, {
+    "pk": 230,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 43,
+        "name": "Nanotechnology",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 42,
+        "tree_id": 15,
+        "active": true,
+        "slug": "nanotechnology"
+    }
+}, {
+    "pk": 231,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 45,
+        "name": "Natural history",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 44,
+        "tree_id": 15,
+        "active": true,
+        "slug": "natural-history"
+    }
+}, {
+    "pk": 232,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 47,
+        "name": "Oceanography",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": "http://education.nationalgeographic.com/education/encyclopedia/oceanography/?ar_a=1",
+        "lft": 46,
+        "tree_id": 15,
+        "active": true,
+        "slug": "oceanography"
+    }
+}, {
+    "pk": 233,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 49,
+        "name": "Paleontology",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": "http://education.nationalgeographic.com/education/encyclopedia/paleontology/?ar_a=1",
+        "lft": 48,
+        "tree_id": 15,
+        "active": true,
+        "slug": "paleontology"
+    }
+}, {
+    "pk": 234,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 51,
+        "name": "Pharmacology",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 50,
+        "tree_id": 15,
+        "active": true,
+        "slug": "pharmacology"
+    }
+}, {
+    "pk": 235,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 53,
+        "name": "Physical sciences",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 52,
+        "tree_id": 15,
+        "active": true,
+        "slug": "physical-sciences"
+    }
+}, {
+    "pk": 236,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 55,
+        "name": "Physics",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 54,
+        "tree_id": 15,
+        "active": true,
+        "slug": "physics"
+    }
+}, {
+    "pk": 237,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 57,
+        "name": "Space sciences",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 56,
+        "tree_id": 15,
+        "active": true,
+        "slug": "space-sciences"
+    }
+}, {
+    "pk": 238,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 59,
+        "name": "Zoology",
+        "parent": 13,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 58,
+        "tree_id": 15,
+        "active": true,
+        "slug": "zoology"
+    }
+}, {
+    "pk": 14,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 42,
+        "name": "Social Studies",
+        "parent": null,
+        "level": 0,
+        "more_info_url": null,
+        "lft": 1,
+        "tree_id": 16,
+        "active": true,
+        "slug": "social-studies"
+    }
+}, {
+    "pk": 239,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 3,
+        "name": "Anthropology",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": "http://education.nationalgeographic.com/education/encyclopedia/anthropology/?ar_a=1",
+        "lft": 2,
+        "tree_id": 16,
+        "active": true,
+        "slug": "anthropology"
+    }
+}, {
+    "pk": 268,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 5,
+        "name": "Archaeology",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": "http://education.nationalgeographic.com/education/encyclopedia/archaeology/?ar_a=1",
+        "lft": 4,
+        "tree_id": 16,
+        "active": true,
+        "slug": "archaeology"
+    }
+}, {
+    "pk": 240,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 7,
+        "name": "Civics",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 6,
+        "tree_id": 16,
+        "active": true,
+        "slug": "civics"
+    }
+}, {
+    "pk": 241,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 9,
+        "name": "Comparative political systems",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 8,
+        "tree_id": 16,
+        "active": true,
+        "slug": "comparative-political-systems"
+    }
+}, {
+    "pk": 242,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 11,
+        "name": "Criminology",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 10,
+        "tree_id": 16,
+        "active": true,
+        "slug": "criminology"
+    }
+}, {
+    "pk": 243,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 13,
+        "name": "Current events/issues",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 12,
+        "tree_id": 16,
+        "active": true,
+        "slug": "current-eventsissues"
+    }
+}, {
+    "pk": 244,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 15,
+        "name": "Economics",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 14,
+        "tree_id": 16,
+        "active": true,
+        "slug": "economics"
+    }
+}, {
+    "pk": 245,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 17,
+        "name": "Gerontology",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 16,
+        "tree_id": 16,
+        "active": true,
+        "slug": "gerontology"
+    }
+}, {
+    "pk": 246,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 19,
+        "name": "Human behavior",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 18,
+        "tree_id": 16,
+        "active": true,
+        "slug": "human-behavior"
+    }
+}, {
+    "pk": 247,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 21,
+        "name": "Human relations",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 20,
+        "tree_id": 16,
+        "active": true,
+        "slug": "human-relations"
+    }
+}, {
+    "pk": 248,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 23,
+        "name": "Psychology",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 22,
+        "tree_id": 16,
+        "active": true,
+        "slug": "psychology"
+    }
+}, {
+    "pk": 249,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 25,
+        "name": "Social work",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 24,
+        "tree_id": 16,
+        "active": true,
+        "slug": "social-work"
+    }
+}, {
+    "pk": 250,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 27,
+        "name": "Sociology",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 26,
+        "tree_id": 16,
+        "active": true,
+        "slug": "sociology"
+    }
+}, {
+    "pk": 251,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 29,
+        "name": "State history",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 28,
+        "tree_id": 16,
+        "active": true,
+        "slug": "state-history"
+    }
+}, {
+    "pk": 252,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 31,
+        "name": "Technology and civilization",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 30,
+        "tree_id": 16,
+        "active": true,
+        "slug": "technology-and-civilization"
+    }
+}, {
+    "pk": 253,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 33,
+        "name": "United States Constitution",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 32,
+        "tree_id": 16,
+        "active": true,
+        "slug": "united-states-constitution"
+    }
+}, {
+    "pk": 254,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 35,
+        "name": "United States History",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 34,
+        "tree_id": 16,
+        "active": true,
+        "slug": "united-states-history"
+    }
+}, {
+    "pk": 255,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 37,
+        "name": "United States government",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 36,
+        "tree_id": 16,
+        "active": true,
+        "slug": "united-states-government"
+    }
+}, {
+    "pk": 256,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 39,
+        "name": "Urban studies",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 38,
+        "tree_id": 16,
+        "active": true,
+        "slug": "urban-studies"
+    }
+}, {
+    "pk": 257,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 41,
+        "name": "World history",
+        "parent": 14,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 40,
+        "tree_id": 16,
+        "active": true,
+        "slug": "world-history"
+    }
+}, {
+    "pk": 15,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 22,
+        "name": "Vocational Education",
+        "parent": null,
+        "level": 0,
+        "more_info_url": null,
+        "lft": 1,
+        "tree_id": 17,
+        "active": true,
+        "slug": "vocational-education"
+    }
+}, {
+    "pk": 258,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 3,
+        "name": "Agriculture",
+        "parent": 15,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 2,
+        "tree_id": 17,
+        "active": true,
+        "slug": "agriculture"
+    }
+}, {
+    "pk": 259,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 5,
+        "name": "Allied health occupations",
+        "parent": 15,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 4,
+        "tree_id": 17,
+        "active": true,
+        "slug": "allied-health-occupations"
+    }
+}, {
+    "pk": 260,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 7,
+        "name": "Business",
+        "parent": 15,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 6,
+        "tree_id": 17,
+        "active": true,
+        "slug": "business"
+    }
+}, {
+    "pk": 261,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 9,
+        "name": "Cooperative education",
+        "parent": 15,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 8,
+        "tree_id": 17,
+        "active": true,
+        "slug": "cooperative-education"
+    }
+}, {
+    "pk": 262,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 11,
+        "name": "Distributive",
+        "parent": 15,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 10,
+        "tree_id": 17,
+        "active": true,
+        "slug": "distributive"
+    }
+}, {
+    "pk": 263,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 13,
+        "name": "Occupational home economics",
+        "parent": 15,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 12,
+        "tree_id": 17,
+        "active": true,
+        "slug": "occupational-home-economics"
+    }
+}, {
+    "pk": 264,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 15,
+        "name": "School-to-work",
+        "parent": 15,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 14,
+        "tree_id": 17,
+        "active": true,
+        "slug": "school-to-work"
+    }
+}, {
+    "pk": 265,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 17,
+        "name": "Tech prep",
+        "parent": 15,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 16,
+        "tree_id": 17,
+        "active": true,
+        "slug": "tech-prep"
+    }
+}, {
+    "pk": 266,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 19,
+        "name": "Technical",
+        "parent": 15,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 18,
+        "tree_id": 17,
+        "active": true,
+        "slug": "technical"
+    }
+}, {
+    "pk": 267,
+    "model": "edumetadata.subject",
+    "fields": {
+        "rght": 21,
+        "name": "Trade and industrial",
+        "parent": 15,
+        "level": 1,
+        "more_info_url": null,
+        "lft": 20,
+        "tree_id": 17,
+        "active": true,
+        "slug": "trade-and-industrial"
+    }
+}, {
+    "pk": 102,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 14,
+        "name": "About Us",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "resource_type": null,
+        "tree_id": 1,
+        "active": true,
+        "slug": "about-us",
+        "alternate_name": null
+    }
+}, {
+    "pk": 104,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 3,
+        "name": "About the Website",
+        "parent": 102,
+        "level": 1,
+        "lft": 2,
+        "resource_type": null,
+        "tree_id": 1,
+        "active": true,
+        "slug": "about-the-website",
+        "alternate_name": null
+    }
+}, {
+    "pk": 107,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 5,
+        "name": "Contact Us",
+        "parent": 102,
+        "level": 1,
+        "lft": 4,
+        "resource_type": null,
+        "tree_id": 1,
+        "active": true,
+        "slug": "contact-us",
+        "alternate_name": null
+    }
+}, {
+    "pk": 103,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 7,
+        "name": "Education Department",
+        "parent": 102,
+        "level": 1,
+        "lft": 6,
+        "resource_type": null,
+        "tree_id": 1,
+        "active": true,
+        "slug": "education-department",
+        "alternate_name": null
+    }
+}, {
+    "pk": 105,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 9,
+        "name": "Education Foundation",
+        "parent": 102,
+        "level": 1,
+        "lft": 8,
+        "resource_type": null,
+        "tree_id": 1,
+        "active": true,
+        "slug": "education-foundation",
+        "alternate_name": null
+    }
+}, {
+    "pk": 149,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 11,
+        "name": "FAQ",
+        "parent": 102,
+        "level": 1,
+        "lft": 10,
+        "resource_type": "",
+        "tree_id": 1,
+        "active": true,
+        "slug": "faq",
+        "alternate_name": ""
+    }
+}, {
+    "pk": 106,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 13,
+        "name": "Thinkfinity",
+        "parent": 102,
+        "level": 1,
+        "lft": 12,
+        "resource_type": null,
+        "tree_id": 1,
+        "active": true,
+        "slug": "thinkfinity",
+        "alternate_name": null
+    }
+}, {
+    "pk": 109,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 10,
+        "name": "Archive",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "resource_type": null,
+        "tree_id": 2,
+        "active": true,
+        "slug": "archive",
+        "alternate_name": null
+    }
+}, {
+    "pk": 111,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 3,
+        "name": "GAW",
+        "parent": 109,
+        "level": 1,
+        "lft": 2,
+        "resource_type": null,
+        "tree_id": 2,
+        "active": true,
+        "slug": "gaw",
+        "alternate_name": null
+    }
+}, {
+    "pk": 110,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 5,
+        "name": "Interactives",
+        "parent": 109,
+        "level": 1,
+        "lft": 4,
+        "resource_type": null,
+        "tree_id": 2,
+        "active": true,
+        "slug": "interactives",
+        "alternate_name": null
+    }
+}, {
+    "pk": 117,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 7,
+        "name": "Xpedition Activities",
+        "parent": 109,
+        "level": 1,
+        "lft": 6,
+        "resource_type": null,
+        "tree_id": 2,
+        "active": true,
+        "slug": "xpedition-activities",
+        "alternate_name": null
+    }
+}, {
+    "pk": 112,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 9,
+        "name": "Xpedition Lessons",
+        "parent": 109,
+        "level": 1,
+        "lft": 8,
+        "resource_type": null,
+        "tree_id": 2,
+        "active": true,
+        "slug": "xpedition-lessons",
+        "alternate_name": null
+    }
+}, {
+    "pk": 70,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 2,
+        "name": "Collections",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "resource_type": null,
+        "tree_id": 3,
+        "active": true,
+        "slug": "collections",
+        "alternate_name": null
+    }
+}, {
+    "pk": 108,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 2,
+        "name": "Geo-literacy",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "resource_type": null,
+        "tree_id": 4,
+        "active": true,
+        "slug": "geo-literacy",
+        "alternate_name": null
+    }
+}, {
+    "pk": 80,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 46,
+        "name": "Get Involved",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "get-involved",
+        "alternate_name": null
+    }
+}, {
+    "pk": 96,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 5,
+        "name": "Calendar",
+        "parent": 80,
+        "level": 1,
+        "lft": 2,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "calendar",
+        "alternate_name": null
+    }
+}, {
+    "pk": 97,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 4,
+        "name": "Events",
+        "parent": 96,
+        "level": 2,
+        "lft": 3,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "events",
+        "alternate_name": null
+    }
+}, {
+    "pk": 81,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 7,
+        "name": "Citizen Science",
+        "parent": 80,
+        "level": 1,
+        "lft": 6,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "citizen-science",
+        "alternate_name": null
+    }
+}, {
+    "pk": 89,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 21,
+        "name": "Connect with Us",
+        "parent": 80,
+        "level": 1,
+        "lft": 8,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "connect-with-us",
+        "alternate_name": null
+    }
+}, {
+    "pk": 92,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 10,
+        "name": "Blog",
+        "parent": 89,
+        "level": 2,
+        "lft": 9,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "blog",
+        "alternate_name": null
+    }
+}, {
+    "pk": 91,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 12,
+        "name": "Contact Us",
+        "parent": 89,
+        "level": 2,
+        "lft": 11,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "contact-us",
+        "alternate_name": null
+    }
+}, {
+    "pk": 94,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 14,
+        "name": "Feedback",
+        "parent": 89,
+        "level": 2,
+        "lft": 13,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "feedback",
+        "alternate_name": null
+    }
+}, {
+    "pk": 93,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 16,
+        "name": "Newsletter",
+        "parent": 89,
+        "level": 2,
+        "lft": 15,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "newsletter",
+        "alternate_name": null
+    }
+}, {
+    "pk": 95,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 18,
+        "name": "RSS",
+        "parent": 89,
+        "level": 2,
+        "lft": 17,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "rss",
+        "alternate_name": null
+    }
+}, {
+    "pk": 90,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 20,
+        "name": "Social Media",
+        "parent": 89,
+        "level": 2,
+        "lft": 19,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "social-media",
+        "alternate_name": null
+    }
+}, {
+    "pk": 100,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 23,
+        "name": "Contests",
+        "parent": 80,
+        "level": 1,
+        "lft": 22,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "contests",
+        "alternate_name": null
+    }
+}, {
+    "pk": 98,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 25,
+        "name": "Donate",
+        "parent": 80,
+        "level": 1,
+        "lft": 24,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "donate",
+        "alternate_name": null
+    }
+}, {
+    "pk": 85,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 27,
+        "name": "Environmental Education",
+        "parent": 80,
+        "level": 1,
+        "lft": 26,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "environmental-education",
+        "alternate_name": null
+    }
+}, {
+    "pk": 101,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 29,
+        "name": "Events",
+        "parent": 80,
+        "level": 1,
+        "lft": 28,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "events",
+        "alternate_name": null
+    }
+}, {
+    "pk": 87,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 31,
+        "name": "Geographic Alliance Network",
+        "parent": 80,
+        "level": 1,
+        "lft": 30,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "geographic-alliance-network",
+        "alternate_name": null
+    }
+}, {
+    "pk": 86,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 33,
+        "name": "Geography Awareness Week",
+        "parent": 80,
+        "level": 1,
+        "lft": 32,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "geography-awareness-week",
+        "alternate_name": null
+    }
+}, {
+    "pk": 83,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 35,
+        "name": "Intern Program",
+        "parent": 80,
+        "level": 1,
+        "lft": 34,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "intern-program",
+        "alternate_name": null
+    }
+}, {
+    "pk": 84,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 37,
+        "name": "NG in your Classroom",
+        "parent": 80,
+        "level": 1,
+        "lft": 36,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "ng-in-your-classroom",
+        "alternate_name": null
+    }
+}, {
+    "pk": 82,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 39,
+        "name": "Professional Development",
+        "parent": 80,
+        "level": 1,
+        "lft": 38,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "professional-development",
+        "alternate_name": null
+    }
+}, {
+    "pk": 116,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 41,
+        "name": "Programs",
+        "parent": 80,
+        "level": 1,
+        "lft": 40,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "programs",
+        "alternate_name": null
+    }
+}, {
+    "pk": 88,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 43,
+        "name": "Research",
+        "parent": 80,
+        "level": 1,
+        "lft": 42,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "research",
+        "alternate_name": null
+    }
+}, {
+    "pk": 99,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 45,
+        "name": "Speak Up for Geography",
+        "parent": 80,
+        "level": 1,
+        "lft": 44,
+        "resource_type": null,
+        "tree_id": 5,
+        "active": true,
+        "slug": "speak-up-for-geography",
+        "alternate_name": null
+    }
+}, {
+    "pk": 71,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 20,
+        "name": "Interactives",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "resource_type": "interactive",
+        "tree_id": 7,
+        "active": true,
+        "slug": "interactives",
+        "alternate_name": null
+    }
+}, {
+    "pk": 72,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 5,
+        "name": "Games",
+        "parent": 71,
+        "level": 1,
+        "lft": 2,
+        "resource_type": "interactive",
+        "tree_id": 7,
+        "active": true,
+        "slug": "games",
+        "alternate_name": null
+    }
+}, {
+    "pk": 113,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 4,
+        "name": "Map Game",
+        "parent": 72,
+        "level": 2,
+        "lft": 3,
+        "resource_type": "interactive",
+        "tree_id": 7,
+        "active": true,
+        "slug": "map-game",
+        "alternate_name": null
+    }
+}, {
+    "pk": 76,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 13,
+        "name": "Interactive Maps",
+        "parent": 71,
+        "level": 1,
+        "lft": 6,
+        "resource_type": "interactive",
+        "tree_id": 7,
+        "active": true,
+        "slug": "interactive-maps",
+        "alternate_name": null
+    }
+}, {
+    "pk": 79,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 8,
+        "name": "FieldScope",
+        "parent": 76,
+        "level": 2,
+        "lft": 7,
+        "resource_type": "interactive",
+        "tree_id": 7,
+        "active": true,
+        "slug": "fieldscope",
+        "alternate_name": null
+    }
+}, {
+    "pk": 78,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 10,
+        "name": "GeoQuiz",
+        "parent": 76,
+        "level": 2,
+        "lft": 9,
+        "resource_type": "interactive",
+        "tree_id": 7,
+        "active": true,
+        "slug": "geoquiz",
+        "alternate_name": null
+    }
+}, {
+    "pk": 77,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 12,
+        "name": "GeoTour",
+        "parent": 76,
+        "level": 2,
+        "lft": 11,
+        "resource_type": "interactive",
+        "tree_id": 7,
+        "active": true,
+        "slug": "geotour",
+        "alternate_name": null
+    }
+}, {
+    "pk": 73,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 15,
+        "name": "Polls",
+        "parent": 71,
+        "level": 1,
+        "lft": 14,
+        "resource_type": "interactive",
+        "tree_id": 7,
+        "active": true,
+        "slug": "polls",
+        "alternate_name": null
+    }
+}, {
+    "pk": 74,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 17,
+        "name": "Quizzes",
+        "parent": 71,
+        "level": 1,
+        "lft": 16,
+        "resource_type": "interactive",
+        "tree_id": 7,
+        "active": true,
+        "slug": "quizzes",
+        "alternate_name": null
+    }
+}, {
+    "pk": 75,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 19,
+        "name": "Tools",
+        "parent": 71,
+        "level": 1,
+        "lft": 18,
+        "resource_type": "interactive",
+        "tree_id": 7,
+        "active": true,
+        "slug": "tools",
+        "alternate_name": null
+    }
+}, {
+    "pk": 49,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 20,
+        "name": "Maps",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "resource_type": "map",
+        "tree_id": 8,
+        "active": true,
+        "slug": "maps",
+        "alternate_name": null
+    }
+}, {
+    "pk": 55,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 3,
+        "name": "1-Page Maps",
+        "parent": 49,
+        "level": 1,
+        "lft": 2,
+        "resource_type": "map",
+        "tree_id": 8,
+        "active": true,
+        "slug": "1-page-maps",
+        "alternate_name": null
+    }
+}, {
+    "pk": 56,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 5,
+        "name": "GeoStory",
+        "parent": 49,
+        "level": 1,
+        "lft": 4,
+        "resource_type": "map",
+        "tree_id": 8,
+        "active": true,
+        "slug": "geostory",
+        "alternate_name": null
+    }
+}, {
+    "pk": 59,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 7,
+        "name": "MapMaker Kits",
+        "parent": 49,
+        "level": 1,
+        "lft": 6,
+        "resource_type": "map",
+        "tree_id": 8,
+        "active": true,
+        "slug": "mapmaker-kits",
+        "alternate_name": null
+    }
+}, {
+    "pk": 60,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 9,
+        "name": "Map Skills",
+        "parent": 49,
+        "level": 1,
+        "lft": 8,
+        "resource_type": "map",
+        "tree_id": 8,
+        "active": true,
+        "slug": "map-skills",
+        "alternate_name": null
+    }
+}, {
+    "pk": 53,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 11,
+        "name": "Historical Maps",
+        "parent": 49,
+        "level": 1,
+        "lft": 10,
+        "resource_type": "map",
+        "tree_id": 8,
+        "active": true,
+        "slug": "historical-maps",
+        "alternate_name": null
+    }
+}, {
+    "pk": 54,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 13,
+        "name": "MapMaker Interactive",
+        "parent": 49,
+        "level": 1,
+        "lft": 12,
+        "resource_type": "map",
+        "tree_id": 8,
+        "active": true,
+        "slug": "mapmaker-interactive",
+        "alternate_name": null
+    }
+}, {
+    "pk": 50,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 15,
+        "name": "Physical Maps",
+        "parent": 49,
+        "level": 1,
+        "lft": 14,
+        "resource_type": "map",
+        "tree_id": 8,
+        "active": true,
+        "slug": "physical-maps",
+        "alternate_name": null
+    }
+}, {
+    "pk": 51,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 17,
+        "name": "Political Maps",
+        "parent": 49,
+        "level": 1,
+        "lft": 16,
+        "resource_type": "map",
+        "tree_id": 8,
+        "active": true,
+        "slug": "political-maps",
+        "alternate_name": null
+    }
+}, {
+    "pk": 52,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 19,
+        "name": "Thematic Maps",
+        "parent": 49,
+        "level": 1,
+        "lft": 18,
+        "resource_type": "map",
+        "tree_id": 8,
+        "active": true,
+        "slug": "thematic-maps",
+        "alternate_name": null
+    }
+}, {
+    "pk": 61,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 82,
+        "name": "Multimedia",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "resource_type": "audiovideo",
+        "tree_id": 9,
+        "active": true,
+        "slug": "multimedia",
+        "alternate_name": null
+    }
+}, {
+    "pk": 68,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 3,
+        "name": "Audio",
+        "parent": 61,
+        "level": 1,
+        "lft": 2,
+        "resource_type": null,
+        "tree_id": 9,
+        "active": true,
+        "slug": "audio",
+        "alternate_name": null
+    }
+}, {
+    "pk": 69,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 5,
+        "name": "Documents",
+        "parent": 61,
+        "level": 1,
+        "lft": 4,
+        "resource_type": null,
+        "tree_id": 9,
+        "active": true,
+        "slug": "documents",
+        "alternate_name": null
+    }
+}, {
+    "pk": 115,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 19,
+        "name": "Galleries",
+        "parent": 61,
+        "level": 1,
+        "lft": 6,
+        "resource_type": null,
+        "tree_id": 9,
+        "active": true,
+        "slug": "galleries",
+        "alternate_name": null
+    }
+}, {
+    "pk": 143,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 8,
+        "name": "Documents",
+        "parent": 115,
+        "level": 2,
+        "lft": 7,
+        "resource_type": null,
+        "tree_id": 9,
+        "active": true,
+        "slug": "documents",
+        "alternate_name": null
+    }
+}, {
+    "pk": 142,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 10,
+        "name": "Illustrations",
+        "parent": 115,
+        "level": 2,
+        "lft": 9,
+        "resource_type": null,
+        "tree_id": 9,
+        "active": true,
+        "slug": "illustrations",
+        "alternate_name": null
+    }
+}, {
+    "pk": 141,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 12,
+        "name": "Maps",
+        "parent": 115,
+        "level": 2,
+        "lft": 11,
+        "resource_type": null,
+        "tree_id": 9,
+        "active": true,
+        "slug": "maps",
+        "alternate_name": null
+    }
+}, {
+    "pk": 138,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 14,
+        "name": "Media",
+        "parent": 115,
+        "level": 2,
+        "lft": 13,
+        "resource_type": null,
+        "tree_id": 9,
+        "active": true,
+        "slug": "media",
+        "alternate_name": null
+    }
+}, {
+    "pk": 139,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 16,
+        "name": "Photos",
+        "parent": 115,
+        "level": 2,
+        "lft": 15,
+        "resource_type": null,
+        "tree_id": 9,
+        "active": true,
+        "slug": "photos",
+        "alternate_name": null
+    }
+}, {
+    "pk": 140,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 18,
+        "name": "Videos",
+        "parent": 115,
+        "level": 2,
+        "lft": 17,
+        "resource_type": null,
+        "tree_id": 9,
+        "active": true,
+        "slug": "videos",
+        "alternate_name": null
+    }
+}, {
+    "pk": 67,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 21,
+        "name": "Graphics",
+        "parent": 61,
+        "level": 1,
+        "lft": 20,
+        "resource_type": null,
+        "tree_id": 9,
+        "active": true,
+        "slug": "graphics",
+        "alternate_name": null
+    }
+}, {
+    "pk": 64,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 27,
+        "name": "Illustrations",
+        "parent": 61,
+        "level": 1,
+        "lft": 22,
+        "resource_type": null,
+        "tree_id": 9,
+        "active": true,
+        "slug": "illustrations",
+        "alternate_name": null
+    }
+}, {
+    "pk": 65,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 24,
+        "name": "Cartoons",
+        "parent": 64,
+        "level": 2,
+        "lft": 23,
+        "resource_type": null,
+        "tree_id": 9,
+        "active": true,
+        "slug": "cartoons",
+        "alternate_name": null
+    }
+}, {
+    "pk": 66,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 26,
+        "name": "Coloring pages",
+        "parent": 64,
+        "level": 2,
+        "lft": 25,
+        "resource_type": null,
+        "tree_id": 9,
+        "active": true,
+        "slug": "coloring-pages",
+        "alternate_name": null
+    }
+}, {
+    "pk": 62,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 29,
+        "name": "Photos",
+        "parent": 61,
+        "level": 1,
+        "lft": 28,
+        "resource_type": null,
+        "tree_id": 9,
+        "active": true,
+        "slug": "photos",
+        "alternate_name": null
+    }
+}, {
+    "pk": 114,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 79,
+        "name": "Spotlights",
+        "parent": 61,
+        "level": 1,
+        "lft": 30,
+        "resource_type": null,
+        "tree_id": 9,
+        "active": true,
+        "slug": "spotlights",
+        "alternate_name": null
+    }
+}, {
+    "pk": 119,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 32,
+        "name": "Assessment Tool",
+        "parent": 114,
+        "level": 2,
+        "lft": 31,
+        "resource_type": "resource",
+        "tree_id": 9,
+        "active": true,
+        "slug": "assessment-tool",
+        "alternate_name": null
+    }
+}, {
+    "pk": 120,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 34,
+        "name": "Audio",
+        "parent": 114,
+        "level": 2,
+        "lft": 33,
+        "resource_type": "audiovideo",
+        "tree_id": 9,
+        "active": true,
+        "slug": "audio",
+        "alternate_name": null
+    }
+}, {
+    "pk": 121,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 36,
+        "name": "Cartoon",
+        "parent": 114,
+        "level": 2,
+        "lft": 35,
+        "resource_type": "image",
+        "tree_id": 9,
+        "active": true,
+        "slug": "cartoon",
+        "alternate_name": null
+    }
+}, {
+    "pk": 122,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 38,
+        "name": "Coloring Page",
+        "parent": 114,
+        "level": 2,
+        "lft": 37,
+        "resource_type": "image",
+        "tree_id": 9,
+        "active": true,
+        "slug": "coloring-page",
+        "alternate_name": null
+    }
+}, {
+    "pk": 123,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 40,
+        "name": "Current Event Connections",
+        "parent": 114,
+        "level": 2,
+        "lft": 39,
+        "resource_type": "article",
+        "tree_id": 9,
+        "active": true,
+        "slug": "current-event-connections",
+        "alternate_name": null
+    }
+}, {
+    "pk": 124,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 42,
+        "name": "Documents",
+        "parent": 114,
+        "level": 2,
+        "lft": 41,
+        "resource_type": "reference",
+        "tree_id": 9,
+        "active": true,
+        "slug": "documents",
+        "alternate_name": null
+    }
+}, {
+    "pk": 125,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 44,
+        "name": "Games",
+        "parent": 114,
+        "level": 2,
+        "lft": 43,
+        "resource_type": "interactive",
+        "tree_id": 9,
+        "active": true,
+        "slug": "games",
+        "alternate_name": null
+    }
+}, {
+    "pk": 126,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 46,
+        "name": "GeoStories",
+        "parent": 114,
+        "level": 2,
+        "lft": 45,
+        "resource_type": "article",
+        "tree_id": 9,
+        "active": true,
+        "slug": "geostories",
+        "alternate_name": null
+    }
+}, {
+    "pk": 127,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 48,
+        "name": "Graphics",
+        "parent": 114,
+        "level": 2,
+        "lft": 47,
+        "resource_type": "image",
+        "tree_id": 9,
+        "active": true,
+        "slug": "graphics",
+        "alternate_name": null
+    }
+}, {
+    "pk": 128,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 50,
+        "name": "Illustrations",
+        "parent": 114,
+        "level": 2,
+        "lft": 49,
+        "resource_type": "image",
+        "tree_id": 9,
+        "active": true,
+        "slug": "illustrations",
+        "alternate_name": null
+    }
+}, {
+    "pk": 129,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 52,
+        "name": "Interactives",
+        "parent": 114,
+        "level": 2,
+        "lft": 51,
+        "resource_type": "interactive",
+        "tree_id": 9,
+        "active": true,
+        "slug": "interactives",
+        "alternate_name": null
+    }
+}, {
+    "pk": 130,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 54,
+        "name": "Interactive Whiteboards",
+        "parent": 114,
+        "level": 2,
+        "lft": 53,
+        "resource_type": "instructional",
+        "tree_id": 9,
+        "active": true,
+        "slug": "interactive-whiteboards",
+        "alternate_name": null
+    }
+}, {
+    "pk": 131,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 56,
+        "name": "Media",
+        "parent": 114,
+        "level": 2,
+        "lft": 55,
+        "resource_type": "instructional",
+        "tree_id": 9,
+        "active": true,
+        "slug": "media",
+        "alternate_name": null
+    }
+}, {
+    "pk": 144,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 66,
+        "name": "Partner Spotlight",
+        "parent": 114,
+        "level": 2,
+        "lft": 57,
+        "resource_type": "instructional",
+        "tree_id": 9,
+        "active": true,
+        "slug": "partner-spotlight",
+        "alternate_name": null
+    }
+}, {
+    "pk": 145,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 59,
+        "name": "Activities",
+        "parent": 144,
+        "level": 3,
+        "lft": 58,
+        "resource_type": "instructional",
+        "tree_id": 9,
+        "active": true,
+        "slug": "activities",
+        "alternate_name": null
+    }
+}, {
+    "pk": 148,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 61,
+        "name": "Curricula",
+        "parent": 144,
+        "level": 3,
+        "lft": 60,
+        "resource_type": "instructional",
+        "tree_id": 9,
+        "active": true,
+        "slug": "curricula",
+        "alternate_name": null
+    }
+}, {
+    "pk": 146,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 63,
+        "name": "Lessons",
+        "parent": 144,
+        "level": 3,
+        "lft": 62,
+        "resource_type": "instructional",
+        "tree_id": 9,
+        "active": true,
+        "slug": "lessons",
+        "alternate_name": null
+    }
+}, {
+    "pk": 147,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 65,
+        "name": "Units",
+        "parent": 144,
+        "level": 3,
+        "lft": 64,
+        "resource_type": "instructional",
+        "tree_id": 9,
+        "active": true,
+        "slug": "units",
+        "alternate_name": null
+    }
+}, {
+    "pk": 132,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 68,
+        "name": "Photos",
+        "parent": 114,
+        "level": 2,
+        "lft": 67,
+        "resource_type": "image",
+        "tree_id": 9,
+        "active": true,
+        "slug": "photos",
+        "alternate_name": null
+    }
+}, {
+    "pk": 133,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 70,
+        "name": "Special Collections",
+        "parent": 114,
+        "level": 2,
+        "lft": 69,
+        "resource_type": "map",
+        "tree_id": 9,
+        "active": true,
+        "slug": "special-collections",
+        "alternate_name": null
+    }
+}, {
+    "pk": 134,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 72,
+        "name": "Teacher Guide",
+        "parent": 114,
+        "level": 2,
+        "lft": 71,
+        "resource_type": "interactive",
+        "tree_id": 9,
+        "active": true,
+        "slug": "teacher-guide",
+        "alternate_name": null
+    }
+}, {
+    "pk": 135,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 74,
+        "name": "Timeline",
+        "parent": 114,
+        "level": 2,
+        "lft": 73,
+        "resource_type": "instructional",
+        "tree_id": 9,
+        "active": true,
+        "slug": "timeline",
+        "alternate_name": null
+    }
+}, {
+    "pk": 136,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 76,
+        "name": "Videos",
+        "parent": 114,
+        "level": 2,
+        "lft": 75,
+        "resource_type": "audiovideo",
+        "tree_id": 9,
+        "active": true,
+        "slug": "videos",
+        "alternate_name": null
+    }
+}, {
+    "pk": 137,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 78,
+        "name": "Worksheets",
+        "parent": 114,
+        "level": 2,
+        "lft": 77,
+        "resource_type": "resource",
+        "tree_id": 9,
+        "active": true,
+        "slug": "worksheets",
+        "alternate_name": null
+    }
+}, {
+    "pk": 63,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 81,
+        "name": "Videos",
+        "parent": 61,
+        "level": 1,
+        "lft": 80,
+        "resource_type": "audiovideo",
+        "tree_id": 9,
+        "active": true,
+        "slug": "videos",
+        "alternate_name": null
+    }
+}, {
+    "pk": 25,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 38,
+        "name": "Reference",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "resource_type": null,
+        "tree_id": 10,
+        "active": true,
+        "slug": "reference",
+        "alternate_name": null
+    }
+}, {
+    "pk": 29,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 11,
+        "name": "Article",
+        "parent": 25,
+        "level": 1,
+        "lft": 2,
+        "resource_type": "article",
+        "tree_id": 10,
+        "active": true,
+        "slug": "article",
+        "alternate_name": null
+    }
+}, {
+    "pk": 33,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 4,
+        "name": "Analysis",
+        "parent": 29,
+        "level": 2,
+        "lft": 3,
+        "resource_type": "article",
+        "tree_id": 10,
+        "active": true,
+        "slug": "analysis",
+        "alternate_name": null
+    }
+}, {
+    "pk": 32,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 6,
+        "name": "Case Studies",
+        "parent": 29,
+        "level": 2,
+        "lft": 5,
+        "resource_type": null,
+        "tree_id": 10,
+        "active": true,
+        "slug": "case-studies",
+        "alternate_name": null
+    }
+}, {
+    "pk": 31,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 8,
+        "name": "Press Release",
+        "parent": 29,
+        "level": 2,
+        "lft": 7,
+        "resource_type": "article",
+        "tree_id": 10,
+        "active": true,
+        "slug": "press-release",
+        "alternate_name": null
+    }
+}, {
+    "pk": 30,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 10,
+        "name": "Profile",
+        "parent": 29,
+        "level": 2,
+        "lft": 9,
+        "resource_type": "article",
+        "tree_id": 10,
+        "active": true,
+        "slug": "profile",
+        "alternate_name": null
+    }
+}, {
+    "pk": 43,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 21,
+        "name": "Daily Content",
+        "parent": 25,
+        "level": 1,
+        "lft": 12,
+        "resource_type": null,
+        "tree_id": 10,
+        "active": true,
+        "slug": "daily-content",
+        "alternate_name": null
+    }
+}, {
+    "pk": 47,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 14,
+        "name": "Geography Terms ",
+        "parent": 43,
+        "level": 2,
+        "lft": 13,
+        "resource_type": null,
+        "tree_id": 10,
+        "active": true,
+        "slug": "geography-terms",
+        "alternate_name": null
+    }
+}, {
+    "pk": 46,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 16,
+        "name": "Mapping Terms",
+        "parent": 43,
+        "level": 2,
+        "lft": 15,
+        "resource_type": null,
+        "tree_id": 10,
+        "active": true,
+        "slug": "mapping-terms",
+        "alternate_name": null
+    }
+}, {
+    "pk": 44,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 18,
+        "name": "Quote of the Day",
+        "parent": 43,
+        "level": 2,
+        "lft": 17,
+        "resource_type": null,
+        "tree_id": 10,
+        "active": true,
+        "slug": "quote-of-the-day",
+        "alternate_name": null
+    }
+}, {
+    "pk": 45,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 20,
+        "name": "This Day in Geographic History",
+        "parent": 43,
+        "level": 2,
+        "lft": 19,
+        "resource_type": null,
+        "tree_id": 10,
+        "active": true,
+        "slug": "this-day-in-geographic-history",
+        "alternate_name": null
+    }
+}, {
+    "pk": 34,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 23,
+        "name": "Encyclopedic Entry",
+        "parent": 25,
+        "level": 1,
+        "lft": 22,
+        "resource_type": "reference",
+        "tree_id": 10,
+        "active": true,
+        "slug": "encyclopedic-entry",
+        "alternate_name": null
+    }
+}, {
+    "pk": 41,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 25,
+        "name": "Fast Facts\n\n",
+        "parent": 25,
+        "level": 1,
+        "lft": 24,
+        "resource_type": null,
+        "tree_id": 10,
+        "active": true,
+        "slug": "fast-facts",
+        "alternate_name": null
+    }
+}, {
+    "pk": 35,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 31,
+        "name": "Glossary",
+        "parent": 25,
+        "level": 1,
+        "lft": 26,
+        "resource_type": null,
+        "tree_id": 10,
+        "active": true,
+        "slug": "glossary",
+        "alternate_name": null
+    }
+}, {
+    "pk": 37,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 28,
+        "name": "Geography Terms ",
+        "parent": 35,
+        "level": 2,
+        "lft": 27,
+        "resource_type": null,
+        "tree_id": 10,
+        "active": true,
+        "slug": "geography-terms",
+        "alternate_name": null
+    }
+}, {
+    "pk": 36,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 30,
+        "name": "Mapping Terms",
+        "parent": 35,
+        "level": 2,
+        "lft": 29,
+        "resource_type": null,
+        "tree_id": 10,
+        "active": true,
+        "slug": "mapping-terms",
+        "alternate_name": null
+    }
+}, {
+    "pk": 40,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 33,
+        "name": "Recommended Resources",
+        "parent": 25,
+        "level": 1,
+        "lft": 32,
+        "resource_type": null,
+        "tree_id": 10,
+        "active": true,
+        "slug": "recommended-resources",
+        "alternate_name": null
+    }
+}, {
+    "pk": 38,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 37,
+        "name": "Timeline",
+        "parent": 25,
+        "level": 1,
+        "lft": 34,
+        "resource_type": null,
+        "tree_id": 10,
+        "active": true,
+        "slug": "timeline",
+        "alternate_name": null
+    }
+}, {
+    "pk": 39,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 36,
+        "name": "Point of Interest",
+        "parent": 38,
+        "level": 2,
+        "lft": 35,
+        "resource_type": null,
+        "tree_id": 10,
+        "active": true,
+        "slug": "point-of-interest",
+        "alternate_name": null
+    }
+}, {
+    "pk": 1,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 48,
+        "name": "Teaching Resources",
+        "parent": null,
+        "level": 0,
+        "lft": 1,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "teaching-resources",
+        "alternate_name": null
+    }
+}, {
+    "pk": 5,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 3,
+        "name": "Activities",
+        "parent": 1,
+        "level": 1,
+        "lft": 2,
+        "resource_type": "instructional",
+        "tree_id": 11,
+        "active": true,
+        "slug": "activities",
+        "alternate_name": null
+    }
+}, {
+    "pk": 9,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 5,
+        "name": "Assessment Tools",
+        "parent": 1,
+        "level": 1,
+        "lft": 4,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "assessment-tools",
+        "alternate_name": null
+    }
+}, {
+    "pk": 2,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 7,
+        "name": "Curricula",
+        "parent": 1,
+        "level": 1,
+        "lft": 6,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "curricula",
+        "alternate_name": null
+    }
+}, {
+    "pk": 20,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 9,
+        "name": "Geographic Skills",
+        "parent": 1,
+        "level": 1,
+        "lft": 8,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "geographic-skills",
+        "alternate_name": null
+    }
+}, {
+    "pk": 8,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 11,
+        "name": "Handouts",
+        "parent": 1,
+        "level": 1,
+        "lft": 10,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "handouts",
+        "alternate_name": null
+    }
+}, {
+    "pk": 12,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 13,
+        "name": "Ideas",
+        "parent": 1,
+        "level": 1,
+        "lft": 12,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "ideas",
+        "alternate_name": null
+    }
+}, {
+    "pk": 11,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 15,
+        "name": "Interactive Whiteboard",
+        "parent": 1,
+        "level": 1,
+        "lft": 14,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "interactive-whiteboard",
+        "alternate_name": null
+    }
+}, {
+    "pk": 4,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 17,
+        "name": "Lessons",
+        "parent": 1,
+        "level": 1,
+        "lft": 16,
+        "resource_type": "instructional",
+        "tree_id": 11,
+        "active": true,
+        "slug": "lessons",
+        "alternate_name": null
+    }
+}, {
+    "pk": 21,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 25,
+        "name": "Models",
+        "parent": 1,
+        "level": 1,
+        "lft": 18,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "models",
+        "alternate_name": null
+    }
+}, {
+    "pk": 22,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 20,
+        "name": "Model Student Work",
+        "parent": 21,
+        "level": 2,
+        "lft": 19,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "model-student-work",
+        "alternate_name": null
+    }
+}, {
+    "pk": 23,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 22,
+        "name": "Model Teacher Work",
+        "parent": 21,
+        "level": 2,
+        "lft": 21,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "model-teacher-work",
+        "alternate_name": null
+    }
+}, {
+    "pk": 24,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 24,
+        "name": "Pictures of Practice",
+        "parent": 21,
+        "level": 2,
+        "lft": 23,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "pictures-of-practice",
+        "alternate_name": null
+    }
+}, {
+    "pk": 18,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 27,
+        "name": "National Geography Standards",
+        "parent": 1,
+        "level": 1,
+        "lft": 26,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "national-geography-standards",
+        "alternate_name": null
+    }
+}, {
+    "pk": 10,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 29,
+        "name": "Presentations",
+        "parent": 1,
+        "level": 1,
+        "lft": 28,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "presentations",
+        "alternate_name": null
+    }
+}, {
+    "pk": 14,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 37,
+        "name": "Professional Development",
+        "parent": 1,
+        "level": 1,
+        "lft": 30,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "professional-development",
+        "alternate_name": null
+    }
+}, {
+    "pk": 17,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 32,
+        "name": "Course",
+        "parent": 14,
+        "level": 2,
+        "lft": 31,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "course",
+        "alternate_name": null
+    }
+}, {
+    "pk": 15,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 34,
+        "name": "Nuggets",
+        "parent": 14,
+        "level": 2,
+        "lft": 33,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "nuggets",
+        "alternate_name": null
+    }
+}, {
+    "pk": 16,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 36,
+        "name": "Workshop",
+        "parent": 14,
+        "level": 2,
+        "lft": 35,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "workshop",
+        "alternate_name": null
+    }
+}, {
+    "pk": 6,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 39,
+        "name": "Projects",
+        "parent": 1,
+        "level": 1,
+        "lft": 38,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "projects",
+        "alternate_name": null
+    }
+}, {
+    "pk": 118,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 41,
+        "name": "Teacher Guides",
+        "parent": 1,
+        "level": 1,
+        "lft": 40,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "teacher-guides",
+        "alternate_name": null
+    }
+}, {
+    "pk": 13,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 43,
+        "name": "Tips",
+        "parent": 1,
+        "level": 1,
+        "lft": 42,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "tips",
+        "alternate_name": null
+    }
+}, {
+    "pk": 3,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 45,
+        "name": "Units",
+        "parent": 1,
+        "level": 1,
+        "lft": 44,
+        "resource_type": "instructional",
+        "tree_id": 11,
+        "active": true,
+        "slug": "units",
+        "alternate_name": null
+    }
+}, {
+    "pk": 7,
+    "model": "edumetadata.alternatetype",
+    "fields": {
+        "rght": 47,
+        "name": "Worksheets & Answer Keys",
+        "parent": 1,
+        "level": 1,
+        "lft": 46,
+        "resource_type": null,
+        "tree_id": 11,
+        "active": true,
+        "slug": "worksheets-answer-keys",
+        "alternate_name": null
+    }
+}, {
+    "pk": 1,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 8,
+        "end": -542000000,
+        "name": "Precambrian Time",
+        "parent": null,
+        "level": 0,
+        "start": -4500170000,
+        "start_label": "4,500 mya",
+        "lft": 1,
+        "end_label": "542 mya",
+        "tree_id": 1,
+        "active": true,
+        "slug": "precambrian-time"
+    }
+}, {
+    "pk": 5,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 3,
+        "end": -3800000000,
+        "name": "Hadean Eon",
+        "parent": 1,
+        "level": 1,
+        "start": -4567170000,
+        "start_label": "? mya",
+        "lft": 2,
+        "end_label": "? mya",
+        "tree_id": 1,
+        "active": true,
+        "slug": "hadean-eon"
+    }
+}, {
+    "pk": 4,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 5,
+        "end": -2500000000,
+        "name": "Archean Eon",
+        "parent": 1,
+        "level": 1,
+        "start": -3800000000,
+        "start_label": "3,800 mya",
+        "lft": 4,
+        "end_label": "2,500 mya",
+        "tree_id": 1,
+        "active": true,
+        "slug": "archean-eon"
+    }
+}, {
+    "pk": 2,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 7,
+        "end": -542000000,
+        "name": "Proterozoic Eon",
+        "parent": 1,
+        "level": 1,
+        "start": -2500000000,
+        "start_label": "2,500 mya",
+        "lft": 6,
+        "end_label": "542 mya",
+        "tree_id": 1,
+        "active": true,
+        "slug": "proterozoic-eon"
+    }
+}, {
+    "pk": 3,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 48,
+        "end": 0,
+        "name": "Phanerozoic Eon",
+        "parent": null,
+        "level": 0,
+        "start": -542000000,
+        "start_label": "542 mya",
+        "lft": 1,
+        "end_label": "present",
+        "tree_id": 2,
+        "active": true,
+        "slug": "phanerozoic-eon"
+    }
+}, {
+    "pk": 8,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 19,
+        "end": -251000000,
+        "name": "Paleozoic Era",
+        "parent": 3,
+        "level": 1,
+        "start": -542000000,
+        "start_label": "542 mya",
+        "lft": 2,
+        "end_label": "251 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "paleozoic-era"
+    }
+}, {
+    "pk": 19,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 4,
+        "end": -488300000,
+        "name": "Cambrian Period",
+        "parent": 8,
+        "level": 2,
+        "start": -542000000,
+        "start_label": "542 mya",
+        "lft": 3,
+        "end_label": "488.3 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "cambrian-period"
+    }
+}, {
+    "pk": 18,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 6,
+        "end": -443700000,
+        "name": "Ordovician Period",
+        "parent": 8,
+        "level": 2,
+        "start": -488300000,
+        "start_label": "488.3 mya",
+        "lft": 5,
+        "end_label": "443.7 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "ordovician-period"
+    }
+}, {
+    "pk": 17,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 8,
+        "end": -416000000,
+        "name": "Silurian Period",
+        "parent": 8,
+        "level": 2,
+        "start": -443700000,
+        "start_label": "443.7 mya",
+        "lft": 7,
+        "end_label": "416 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "silurian-period"
+    }
+}, {
+    "pk": 16,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 10,
+        "end": -359200000,
+        "name": "Devonian Period",
+        "parent": 8,
+        "level": 2,
+        "start": -416000000,
+        "start_label": "416 mya",
+        "lft": 9,
+        "end_label": "359.2 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "devonian-period"
+    }
+}, {
+    "pk": 15,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 16,
+        "end": -299000000,
+        "name": "Carboniferous Period",
+        "parent": 8,
+        "level": 2,
+        "start": -359200000,
+        "start_label": "359.2 mya",
+        "lft": 11,
+        "end_label": "299 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "carboniferous-period"
+    }
+}, {
+    "pk": 28,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 13,
+        "end": -318100000,
+        "name": "Mississippian Epoch",
+        "parent": 15,
+        "level": 3,
+        "start": -359200000,
+        "start_label": "359.2 mya",
+        "lft": 12,
+        "end_label": "318.1 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "mississippian-epoch"
+    }
+}, {
+    "pk": 27,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 15,
+        "end": -299000000,
+        "name": "Pennsylvanian Epoch",
+        "parent": 15,
+        "level": 3,
+        "start": -318100000,
+        "start_label": "318.1 mya",
+        "lft": 14,
+        "end_label": "299 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "pennsylvanian-epoch"
+    }
+}, {
+    "pk": 14,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 18,
+        "end": -251000000,
+        "name": "Permian Period",
+        "parent": 8,
+        "level": 2,
+        "start": -299000000,
+        "start_label": "299 mya",
+        "lft": 17,
+        "end_label": "251 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "permian-period"
+    }
+}, {
+    "pk": 7,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 27,
+        "end": -65500000,
+        "name": "Mesozoic Era",
+        "parent": 3,
+        "level": 1,
+        "start": -251000000,
+        "start_label": "251 mya",
+        "lft": 20,
+        "end_label": "65.5 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "mesozoic-era"
+    }
+}, {
+    "pk": 13,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 22,
+        "end": -199600000,
+        "name": "Triassic Period",
+        "parent": 7,
+        "level": 2,
+        "start": -251000000,
+        "start_label": "251 mya",
+        "lft": 21,
+        "end_label": "199.6 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "triassic-period"
+    }
+}, {
+    "pk": 12,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 24,
+        "end": -145500000,
+        "name": "Jurassic Period",
+        "parent": 7,
+        "level": 2,
+        "start": -199600000,
+        "start_label": "199.6 mya",
+        "lft": 23,
+        "end_label": "145.5 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "jurassic-period"
+    }
+}, {
+    "pk": 11,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 26,
+        "end": -65500000,
+        "name": "Cretaceous Period",
+        "parent": 7,
+        "level": 2,
+        "start": -145500000,
+        "start_label": "145.5 mya",
+        "lft": 25,
+        "end_label": "65.5 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "cretaceous-period"
+    }
+}, {
+    "pk": 6,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 47,
+        "end": 0,
+        "name": "Cenozoic Era",
+        "parent": 3,
+        "level": 1,
+        "start": -65500000,
+        "start_label": "65.5 mya",
+        "lft": 28,
+        "end_label": "present",
+        "tree_id": 2,
+        "active": true,
+        "slug": "cenozoic-era"
+    }
+}, {
+    "pk": 10,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 36,
+        "end": -23030000,
+        "name": "Paleogene Period",
+        "parent": 6,
+        "level": 2,
+        "start": -65500000,
+        "start_label": "65.5 mya",
+        "lft": 29,
+        "end_label": "23.03 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "paleogene-period"
+    }
+}, {
+    "pk": 26,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 31,
+        "end": -55800000,
+        "name": "Paleocene Epoch",
+        "parent": 10,
+        "level": 3,
+        "start": -65500000,
+        "start_label": "65.5 mya",
+        "lft": 30,
+        "end_label": "55.8 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "paleocene-epoch"
+    }
+}, {
+    "pk": 25,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 33,
+        "end": -33900000,
+        "name": "Eocene Epoch",
+        "parent": 10,
+        "level": 3,
+        "start": -55800000,
+        "start_label": "55.8 mya",
+        "lft": 32,
+        "end_label": "33.9 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "eocene-epoch"
+    }
+}, {
+    "pk": 24,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 35,
+        "end": -23030000,
+        "name": "Oligocene Epoch",
+        "parent": 10,
+        "level": 3,
+        "start": -33900000,
+        "start_label": "33.9 mya",
+        "lft": 34,
+        "end_label": "23.03 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "oligocene-epoch"
+    }
+}, {
+    "pk": 9,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 46,
+        "end": 0,
+        "name": "Neogene Period",
+        "parent": 6,
+        "level": 2,
+        "start": -23030000,
+        "start_label": "23.03 mya",
+        "lft": 37,
+        "end_label": "present",
+        "tree_id": 2,
+        "active": true,
+        "slug": "neogene-period"
+    }
+}, {
+    "pk": 23,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 39,
+        "end": -5332000,
+        "name": "Miocene Epoch",
+        "parent": 9,
+        "level": 3,
+        "start": -23030000,
+        "start_label": "23.03 mya",
+        "lft": 38,
+        "end_label": "5.33 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "miocene-epoch"
+    }
+}, {
+    "pk": 22,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 41,
+        "end": -1804000,
+        "name": "Pliocene Epoch",
+        "parent": 9,
+        "level": 3,
+        "start": -5332000,
+        "start_label": "5.33 mya",
+        "lft": 40,
+        "end_label": "1.8 mya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "pliocene-epoch"
+    }
+}, {
+    "pk": 21,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 43,
+        "end": -11500,
+        "name": "Pleistocene Epoch",
+        "parent": 9,
+        "level": 3,
+        "start": -1804000,
+        "start_label": "1.8 mya",
+        "lft": 42,
+        "end_label": "11,500 ya",
+        "tree_id": 2,
+        "active": true,
+        "slug": "pleistocene-epoch"
+    }
+}, {
+    "pk": 20,
+    "model": "edumetadata.geologictime",
+    "fields": {
+        "rght": 45,
+        "end": 0,
+        "name": "Holocene Epoch",
+        "parent": 9,
+        "level": 3,
+        "start": -11500,
+        "start_label": "11,500 ya",
+        "lft": 44,
+        "end_label": "present",
+        "tree_id": 2,
+        "active": true,
+        "slug": "holocene-epoch"
+    }
+}, {
+    "pk": 1,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": -400000000,
+        "end": 16200000,
+        "name": "U.S. Era 1: Three Worlds Meet (Beginnings to 1620)",
+        "era_type": 1
+    }
+}, {
+    "pk": 2,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": 15850000,
+        "end": 17630000,
+        "name": "U.S. Era 2: Colonization and Settlement",
+        "era_type": 1
+    }
+}, {
+    "pk": 3,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": 17540000,
+        "end": 18200000,
+        "name": "U.S. Era 3: Revolution and the New Nation (1754-1820s)",
+        "era_type": 1
+    }
+}, {
+    "pk": 4,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": 18010000,
+        "end": 18610000,
+        "name": "U.S. Era 4: Expansion and Reform",
+        "era_type": 1
+    }
+}, {
+    "pk": 5,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": 18500000,
+        "end": 18770000,
+        "name": "U.S. Era 5: Civil War and Reconstruction",
+        "era_type": 1
+    }
+}, {
+    "pk": 6,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": 18700000,
+        "end": 19000000,
+        "name": "U.S. Era 6: The Development of the Industrial United States",
+        "era_type": 1
+    }
+}, {
+    "pk": 7,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": 18900000,
+        "end": 19300000,
+        "name": "U.S. Era 7: The Emergence of Modern America",
+        "era_type": 1
+    }
+}, {
+    "pk": 8,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": 19290000,
+        "end": 19450000,
+        "name": "U.S. Era 8: The Great Depression and World War II",
+        "era_type": 1
+    }
+}, {
+    "pk": 9,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": 19450000,
+        "end": 19720000,
+        "name": "U.S. Era 9: Postwar United States (1945 to early 1970s)",
+        "era_type": 1
+    }
+}, {
+    "pk": 10,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": 19680000,
+        "end": null,
+        "name": "U.S. Era 10: Contemporary United States",
+        "era_type": 1
+    }
+}, {
+    "pk": 11,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": -400000000,
+        "end": -20000000,
+        "name": "World Era 1: The Beginnings of Human Society (prehistory to 2000 BCE)",
+        "era_type": 2
+    }
+}, {
+    "pk": 12,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": -40000000,
+        "end": -10000000,
+        "name": "World Era 2: Early Civilizations and the Emergence of Pastoral Peoples (4000-1000 BCE)",
+        "era_type": 2
+    }
+}, {
+    "pk": 13,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": -10000000,
+        "end": 3000000,
+        "name": "World Era 3: Classical Traditions, Major Religions, and Giant Empires (1000 BCE-300 CE)",
+        "era_type": 2
+    }
+}, {
+    "pk": 14,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": 3000000,
+        "end": 10000000,
+        "name": "World Era 4: Expanding Zones of Exchange and Encounter (300-1000 CE)",
+        "era_type": 2
+    }
+}, {
+    "pk": 15,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": 10000000,
+        "end": 15000000,
+        "name": "World Era 5: Intensified Hemispheric Interactions (1000-1500 CE)",
+        "era_type": 2
+    }
+}, {
+    "pk": 16,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": 14500000,
+        "end": 17700000,
+        "name": "World Era 6: The Emergence of the First Global Age (1450-1770)",
+        "era_type": 2
+    }
+}, {
+    "pk": 17,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": 17500000,
+        "end": 19140000,
+        "name": "World Era 7: An Age of Revolutions (1750-1914)",
+        "era_type": 2
+    }
+}, {
+    "pk": 18,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": 19000000,
+        "end": 19450000,
+        "name": "World Era 8: A Half-Century of Crisis and Achievement (1900-1945)",
+        "era_type": 2
+    }
+}, {
+    "pk": 19,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": 19450000,
+        "end": null,
+        "name": "World Era 9: The 20th Century Since 1945\u2014Promises and Paradoxes",
+        "era_type": 2
+    }
+}, {
+    "pk": 20,
+    "model": "edumetadata.historicalera",
+    "fields": {
+        "start": -400000000,
+        "end": null,
+        "name": "World Era 10: World History Across the Eras",
+        "era_type": 2
+    }
+}, {
+    "pk": 18,
+    "model": "curricula.teachingapproach",
+    "fields": {
+        "name": "Application: Coach"
+    }
+}, {
+    "pk": 16,
+    "model": "curricula.teachingapproach",
+    "fields": {
+        "name": "Application: Establish a Problem"
+    }
+}, {
+    "pk": 19,
+    "model": "curricula.teachingapproach",
+    "fields": {
+        "name": "Application: Fade"
+    }
+}, {
+    "pk": 20,
+    "model": "curricula.teachingapproach",
+    "fields": {
+        "name": "Application: Maintain"
+    }
+}, {
+    "pk": 17,
+    "model": "curricula.teachingapproach",
+    "fields": {
+        "name": "Application: Model"
+    }
+}, {
+    "pk": 13,
+    "model": "curricula.teachingapproach",
+    "fields": {
+        "name": "Constructivist"
+    }
+}, {
+    "pk": 24,
+    "model": "curricula.teachingapproach",
+    "fields": {
+        "name": "Foundational Knowledge and Practice"
+    }
+}, {
+    "pk": 6,
+    "model": "curricula.teachingapproach",
+    "fields": {
+        "name": "Inquiry-based learning"
+    }
+}, {
+    "pk": 23,
+    "model": "curricula.teachingapproach",
+    "fields": {
+        "name": "Inquiry: Explain"
+    }
+}, {
+    "pk": 22,
+    "model": "curricula.teachingapproach",
+    "fields": {
+        "name": "Inquiry: Observe"
+    }
+}, {
+    "pk": 21,
+    "model": "curricula.teachingapproach",
+    "fields": {
+        "name": "Inquiry: Predict and Explain"
+    }
+}, {
+    "pk": 1,
+    "model": "curricula.teachingapproach",
+    "fields": {
+        "name": "Interdisciplinary"
+    }
+}, {
+    "pk": 7,
+    "model": "curricula.teachingapproach",
+    "fields": {
+        "name": "Learning-for-use"
+    }
+}, {
+    "pk": 2,
+    "model": "curricula.teachingapproach",
+    "fields": {
+        "name": "Montessori"
+    }
+}, {
+    "pk": 3,
+    "model": "curricula.teachingapproach",
+    "fields": {
+        "name": "Object-based learning"
+    }
+}, {
+    "pk": 4,
+    "model": "curricula.teachingapproach",
+    "fields": {
+        "name": "Project-based learning"
+    }
+}, {
+    "pk": 5,
+    "model": "curricula.teachingapproach",
+    "fields": {
+        "name": "Thematic approach"
+    }
+}, {
+    "pk": 30,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Assessment"
+    }
+}, {
+    "pk": 1,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Brainstorming"
+    }
+}, {
+    "pk": 2,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Cooperative learning"
+    }
+}, {
+    "pk": 31,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Decision-making"
+    }
+}, {
+    "pk": 3,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Demonstrations"
+    }
+}, {
+    "pk": 4,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Discovery learning "
+    }
+}, {
+    "pk": 5,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Discussions"
+    }
+}, {
+    "pk": 18,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Drill"
+    }
+}, {
+    "pk": 33,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Evaluating"
+    }
+}, {
+    "pk": 6,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Experiential learning"
+    }
+}, {
+    "pk": 29,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Formative Assessment"
+    }
+}, {
+    "pk": 23,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Guided listening"
+    }
+}, {
+    "pk": 7,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Hands-on learning"
+    }
+}, {
+    "pk": 19,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Information organization"
+    }
+}, {
+    "pk": 26,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Inquiry"
+    }
+}, {
+    "pk": 32,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Issue analysis"
+    }
+}, {
+    "pk": 27,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Jigsaw"
+    }
+}, {
+    "pk": 8,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Lab procedures"
+    }
+}, {
+    "pk": 9,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Lecture"
+    }
+}, {
+    "pk": 22,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Modeling"
+    }
+}, {
+    "pk": 10,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Multimedia instruction"
+    }
+}, {
+    "pk": 11,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Peer tutoring"
+    }
+}, {
+    "pk": 12,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Programmed instruction"
+    }
+}, {
+    "pk": 25,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Reading"
+    }
+}, {
+    "pk": 20,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Reflection"
+    }
+}, {
+    "pk": 24,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Research"
+    }
+}, {
+    "pk": 13,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Role playing"
+    }
+}, {
+    "pk": 14,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Self-directed learning"
+    }
+}, {
+    "pk": 15,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Self-paced learning"
+    }
+}, {
+    "pk": 16,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Simulations and games"
+    }
+}, {
+    "pk": 17,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Visual instruction"
+    }
+}, {
+    "pk": 28,
+    "model": "curricula.teachingmethodtype",
+    "fields": {
+        "name": "Writing"
+    }
+}, {
+    "pk": 4,
+    "model": "curricula.groupingtype",
+    "fields": {
+        "name": "Cross-age teaching"
+    }
+}, {
+    "pk": 1,
+    "model": "curricula.groupingtype",
+    "fields": {
+        "name": "Heterogeneous grouping"
+    }
+}, {
+    "pk": 2,
+    "model": "curricula.groupingtype",
+    "fields": {
+        "name": "Homogeneous grouping"
+    }
+}, {
+    "pk": 5,
+    "model": "curricula.groupingtype",
+    "fields": {
+        "name": "Individualized instruction"
+    }
+}, {
+    "pk": 9,
+    "model": "curricula.groupingtype",
+    "fields": {
+        "name": "Jigsaw grouping"
+    }
+}, {
+    "pk": 7,
+    "model": "curricula.groupingtype",
+    "fields": {
+        "name": "Large-group instruction"
+    }
+}, {
+    "pk": 10,
+    "model": "curricula.groupingtype",
+    "fields": {
+        "name": "Multi-level instruction"
+    }
+}, {
+    "pk": 3,
+    "model": "curricula.groupingtype",
+    "fields": {
+        "name": "Non-graded instructional grouping"
+    }
+}, {
+    "pk": 8,
+    "model": "curricula.groupingtype",
+    "fields": {
+        "name": "One-to-one tutoring"
+    }
+}, {
+    "pk": 6,
+    "model": "curricula.groupingtype",
+    "fields": {
+        "name": "Small-group instruction"
+    }
+}, {
+    "pk": 11,
+    "model": "curricula.groupingtype",
+    "fields": {
+        "name": "Small-group work"
+    }
+}]

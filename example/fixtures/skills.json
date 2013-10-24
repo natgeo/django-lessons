@@ -1,0 +1,646 @@
+[{
+    "pk": 64,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 30,
+        "name": "21st Century Skills",
+        "parent": null,
+        "level": 0,
+        "url": null,
+        "lft": 1,
+        "tree_id": 1,
+        "active": true,
+        "slug": "21st-century-skills",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 69,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 9,
+        "name": "Information, Media, and Technology Skills",
+        "parent": 64,
+        "level": 1,
+        "url": null,
+        "lft": 2,
+        "tree_id": 1,
+        "active": true,
+        "slug": "information-media-and-technology-skills",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 70,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 4,
+        "name": "Information Literacy",
+        "parent": 69,
+        "level": 2,
+        "url": "http://www.p21.org/index.php?option=com_content&task=view&id=264&Itemid=120",
+        "lft": 3,
+        "tree_id": 1,
+        "active": true,
+        "slug": "information-literacy",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 79,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 6,
+        "name": "Information, Communications, and Technology Literacy",
+        "parent": 69,
+        "level": 2,
+        "url": "http://www.p21.org/index.php?option=com_content&task=view&id=350&Itemid=120",
+        "lft": 5,
+        "tree_id": 1,
+        "active": true,
+        "slug": "information-communications-and-technology-literacy",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 72,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 8,
+        "name": "Media Literacy",
+        "parent": 69,
+        "level": 2,
+        "url": "http://www.p21.org/index.php?option=com_content&task=view&id=349&Itemid=120",
+        "lft": 7,
+        "tree_id": 1,
+        "active": true,
+        "slug": "media-literacy",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 65,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 17,
+        "name": "Learning and Innovation Skills",
+        "parent": 64,
+        "level": 1,
+        "url": null,
+        "lft": 10,
+        "tree_id": 1,
+        "active": true,
+        "slug": "learning-and-innovation-skills",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 66,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 12,
+        "name": "Communication and Collaboration",
+        "parent": 65,
+        "level": 2,
+        "url": "http://www.p21.org/index.php?option=com_content&task=view&id=261&Itemid=120",
+        "lft": 11,
+        "tree_id": 1,
+        "active": true,
+        "slug": "communication-and-collaboration",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 67,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 14,
+        "name": "Creativity and Innovation",
+        "parent": 65,
+        "level": 2,
+        "url": "http://www.p21.org/index.php?option=com_content&task=view&id=262&Itemid=120",
+        "lft": 13,
+        "tree_id": 1,
+        "active": true,
+        "slug": "creativity-and-innovation",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 68,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 16,
+        "name": "Critical Thinking and Problem Solving",
+        "parent": 65,
+        "level": 2,
+        "url": "http://www.p21.org/index.php?option=com_content&task=view&id=260&Itemid=120",
+        "lft": 15,
+        "tree_id": 1,
+        "active": true,
+        "slug": "critical-thinking-and-problem-solving",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 73,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 29,
+        "name": "Life and Career Skills",
+        "parent": 64,
+        "level": 1,
+        "url": null,
+        "lft": 18,
+        "tree_id": 1,
+        "active": true,
+        "slug": "life-and-career-skills",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 74,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 20,
+        "name": "Flexibility and Adaptability",
+        "parent": 73,
+        "level": 2,
+        "url": "http://www.p21.org/index.php?option=com_content&task=view&id=266&Itemid=120",
+        "lft": 19,
+        "tree_id": 1,
+        "active": true,
+        "slug": "flexibility-and-adaptability",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 75,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 22,
+        "name": "Initiative and Self-Direction",
+        "parent": 73,
+        "level": 2,
+        "url": "http://www.p21.org/index.php?option=com_content&task=view&id=266&Itemid=120",
+        "lft": 21,
+        "tree_id": 1,
+        "active": true,
+        "slug": "initiative-and-self-direction",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 76,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 24,
+        "name": "Leadership and Responsibility",
+        "parent": 73,
+        "level": 2,
+        "url": "http://www.p21.org/index.php?option=com_content&task=view&id=266&Itemid=120",
+        "lft": 23,
+        "tree_id": 1,
+        "active": true,
+        "slug": "leadership-and-responsibility",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 77,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 26,
+        "name": "Productivity and Accountability",
+        "parent": 73,
+        "level": 2,
+        "url": "http://www.p21.org/index.php?option=com_content&task=view&id=266&Itemid=120",
+        "lft": 25,
+        "tree_id": 1,
+        "active": true,
+        "slug": "productivity-and-accountability",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 78,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 28,
+        "name": "Social and Cross-Cultural Skills",
+        "parent": 73,
+        "level": 2,
+        "url": "http://www.p21.org/index.php?option=com_content&task=view&id=266&Itemid=120",
+        "lft": 27,
+        "tree_id": 1,
+        "active": true,
+        "slug": "social-and-cross-cultural-skills",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 46,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 12,
+        "name": "21st Century Themes",
+        "parent": null,
+        "level": 0,
+        "url": null,
+        "lft": 1,
+        "tree_id": 2,
+        "active": true,
+        "slug": "21st-century-themes",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 47,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 3,
+        "name": "Civic Literacy",
+        "parent": 46,
+        "level": 1,
+        "url": "http://www.p21.org/index.php?option=com_content&task=view&id=258&Itemid=120",
+        "lft": 2,
+        "tree_id": 2,
+        "active": true,
+        "slug": "civic-literacy",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 82,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 5,
+        "name": "Environmental Literacy",
+        "parent": 46,
+        "level": 1,
+        "url": "http://www.p21.org/index.php?option=com_content&task=view&id=830&Itemid=120",
+        "lft": 4,
+        "tree_id": 2,
+        "active": true,
+        "slug": "environmental-literacy",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 80,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 7,
+        "name": "Financial, Economic, Business, and Entrepreneurial Literacy",
+        "parent": 46,
+        "level": 1,
+        "url": "http://www.p21.org/index.php?option=com_content&task=view&id=257&Itemid=120",
+        "lft": 6,
+        "tree_id": 2,
+        "active": true,
+        "slug": "financial-economic-business-and-entrepreneurial-li",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 49,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 9,
+        "name": "Global Awareness",
+        "parent": 46,
+        "level": 1,
+        "url": "http://www.p21.org/index.php?option=com_content&task=view&id=256&Itemid=120",
+        "lft": 8,
+        "tree_id": 2,
+        "active": true,
+        "slug": "global-awareness",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 50,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 11,
+        "name": "Health Literacy",
+        "parent": 46,
+        "level": 1,
+        "url": "http://www.p21.org/index.php?option=com_content&task=view&id=259&Itemid=120",
+        "lft": 10,
+        "tree_id": 2,
+        "active": true,
+        "slug": "health-literacy",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 86,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 12,
+        "name": "Account Practices",
+        "parent": null,
+        "level": 0,
+        "url": "",
+        "lft": 1,
+        "tree_id": 3,
+        "active": true,
+        "slug": "account-practices",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 87,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 3,
+        "name": "Explaining Materials and How They Change",
+        "parent": 86,
+        "level": 1,
+        "url": "",
+        "lft": 2,
+        "tree_id": 3,
+        "active": true,
+        "slug": "explaining-materials-and-how-they-change",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 92,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 5,
+        "name": "Tracing Atoms",
+        "parent": 86,
+        "level": 1,
+        "url": null,
+        "lft": 4,
+        "tree_id": 3,
+        "active": true,
+        "slug": "tracing-atoms",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 93,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 7,
+        "name": "Tracing Carbon Atoms",
+        "parent": 86,
+        "level": 1,
+        "url": null,
+        "lft": 6,
+        "tree_id": 3,
+        "active": true,
+        "slug": "tracing-carbon-atoms",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 94,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 9,
+        "name": "Tracing Chemical Energy",
+        "parent": 86,
+        "level": 1,
+        "url": null,
+        "lft": 8,
+        "tree_id": 3,
+        "active": true,
+        "slug": "tracing-chemical-energy",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 91,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 11,
+        "name": "Tracing Energy Through Processes",
+        "parent": 86,
+        "level": 1,
+        "url": "",
+        "lft": 10,
+        "tree_id": 3,
+        "active": true,
+        "slug": "tracing-energy-through-processes",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 39,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 14,
+        "name": "Critical Thinking Skills",
+        "parent": null,
+        "level": 0,
+        "url": null,
+        "lft": 1,
+        "tree_id": 17,
+        "active": true,
+        "slug": "critical-thinking-skills",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 43,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 3,
+        "name": "Analyzing",
+        "parent": 39,
+        "level": 1,
+        "url": null,
+        "lft": 2,
+        "tree_id": 17,
+        "active": true,
+        "slug": "analyzing",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 42,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 5,
+        "name": "Applying",
+        "parent": 39,
+        "level": 1,
+        "url": null,
+        "lft": 4,
+        "tree_id": 17,
+        "active": true,
+        "slug": "applying",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 45,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 7,
+        "name": "Creating",
+        "parent": 39,
+        "level": 1,
+        "url": null,
+        "lft": 6,
+        "tree_id": 17,
+        "active": true,
+        "slug": "creating",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 44,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 9,
+        "name": "Evaluating",
+        "parent": 39,
+        "level": 1,
+        "url": null,
+        "lft": 8,
+        "tree_id": 17,
+        "active": true,
+        "slug": "evaluating",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 40,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 11,
+        "name": "Remembering",
+        "parent": 39,
+        "level": 1,
+        "url": null,
+        "lft": 10,
+        "tree_id": 17,
+        "active": true,
+        "slug": "remembering",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 41,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 13,
+        "name": "Understanding",
+        "parent": 39,
+        "level": 1,
+        "url": null,
+        "lft": 12,
+        "tree_id": 17,
+        "active": true,
+        "slug": "understanding",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 51,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 12,
+        "name": "Geographic Skills",
+        "parent": null,
+        "level": 0,
+        "url": null,
+        "lft": 1,
+        "tree_id": 27,
+        "active": true,
+        "slug": "geographic-skills",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 52,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 3,
+        "name": "Acquiring Geographic Information",
+        "parent": 51,
+        "level": 1,
+        "url": null,
+        "lft": 2,
+        "tree_id": 27,
+        "active": true,
+        "slug": "acquiring-geographic-information",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 53,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 5,
+        "name": "Analyzing Geographic Information",
+        "parent": 51,
+        "level": 1,
+        "url": null,
+        "lft": 4,
+        "tree_id": 27,
+        "active": true,
+        "slug": "analyzing-geographic-information",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 54,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 7,
+        "name": "Answering Geographic Questions",
+        "parent": 51,
+        "level": 1,
+        "url": null,
+        "lft": 6,
+        "tree_id": 27,
+        "active": true,
+        "slug": "answering-geographic-questions",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 55,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 9,
+        "name": "Asking Geographic Questions",
+        "parent": 51,
+        "level": 1,
+        "url": null,
+        "lft": 8,
+        "tree_id": 27,
+        "active": true,
+        "slug": "asking-geographic-questions",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 56,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 11,
+        "name": "Organizing Geographic Information",
+        "parent": 51,
+        "level": 1,
+        "url": null,
+        "lft": 10,
+        "tree_id": 27,
+        "active": true,
+        "slug": "organizing-geographic-information",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 83,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 6,
+        "name": "Inquiry Practices",
+        "parent": null,
+        "level": 0,
+        "url": "",
+        "lft": 1,
+        "tree_id": 34,
+        "active": true,
+        "slug": "inquiry-practices",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 85,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 3,
+        "name": "Arguments from Evidence",
+        "parent": 83,
+        "level": 1,
+        "url": "",
+        "lft": 2,
+        "tree_id": 34,
+        "active": true,
+        "slug": "arguments-from-evidence",
+        "appropriate_for": "0"
+    }
+}, {
+    "pk": 84,
+    "model": "curricula.skill",
+    "fields": {
+        "rght": 5,
+        "name": "Measurement",
+        "parent": 83,
+        "level": 1,
+        "url": "",
+        "lft": 4,
+        "tree_id": 34,
+        "active": true,
+        "slug": "measurement",
+        "appropriate_for": "0"
+    }
+}]
