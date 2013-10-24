@@ -16,10 +16,14 @@ from models import (Activity, ActivityRelation, GroupingType,
                      IdeaCategoryRelation, Unit, UnitLesson, UnitRelation,
                      get_audience_indices, truncate)
 if settings.DEBUG:
-    from models import PluginType
-from settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
-                      CREDIT_MODEL, REPORTING_MODEL)
-from widgets import VocabularyIdWidget
+    from .models import PluginType
+from .settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
+                      CREDIT_MODEL, REPORTING_MODEL, ACTIVITY_FIELDS,
+                      MCE_ATTRS, ACTIVITY_TINYMCE_FIELDS,
+                      IDEACATEGORY_TINYMCE_FIELDS, LESSON_TINYMCE_FIELDS,
+                      UNIT_TINYMCE_FIELDS)
+from .utils import truncate
+from .widgets import VocabularyIdWidget
 
 from tinymce.widgets import TinyMCE
 from audience.models import AUDIENCE_FLAGS
@@ -34,32 +38,6 @@ class ResourceCarouselInline(RelatedInline):
     rel_name = 'resources'
     verbose_name_plural = "Resource Carousel"
     exclude = ('source_type', 'source_id', 'relation_type')
-
-
-TINYMCE_FIELDS = ('description', 'assessment', 'learning_objectives', 'other_notes', 'background_information')
-ACTIVITY_TINYMCE_FIELDS = TINYMCE_FIELDS + ('extending_the_learning', 'setup', 'accessibility_notes', 'prior_knowledge')
-IDEACATEGORY_TINYMCE_FIELDS = ('content_body', 'description')
-LESSON_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle_guiding_question', 'prior_knowledge')
-UNIT_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle', 'overview')
-
-MCE_SIMPLE_ATTRS = {
-    'plugins': "rawmode,paste",
-    'theme_advanced_buttons1': "pasteword,|,bold,underline,italic,strikethrough,|,link,unlink,|,numlist,bullist,|,charmap,|,rawmode",
-    'theme_advanced_buttons2': "",
-}
-
-ACTIVITY_FIELDS = []
-if KEY_IMAGE is not None:
-    ACTIVITY_FIELDS.append(KEY_IMAGE)
-
-LESSON_FIELDS = []
-if KEY_IMAGE is not None:
-    LESSON_FIELDS.append(KEY_IMAGE)
-try:
-    from django.contrib.admin.templatetags.admin_static import static
-except ImportError:
-    def static(somestring):
-        return "%s%s" % (settings.ADMIN_MEDIA_PREFIX, somestring)
 
 
 class TagInline(ConceptItemInline):
@@ -301,20 +279,10 @@ class ActivityAdmin(ContentAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(ActivityAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name in ACTIVITY_TINYMCE_FIELDS:
-            formfield.widget = TinyMCE(mce_attrs=MCE_SIMPLE_ATTRS)
-        elif db_field.name == 'subtitle_guiding_question':
-            formfield.widget = TinyMCE(mce_attrs={
-               'plugins': "rawmode,paste",
-               'theme_advanced_buttons1': "pasteword,|,bold,underline,italic,strikethrough,|,link,unlink,|,numlist,bullist,|,charmap,|,rawmode",
-               'theme_advanced_buttons2': "",
-               'height': "150",
-            })
-        elif db_field.name == 'directions':
-            formfield.widget = TinyMCE(mce_attrs={
-                'content_css' : settings.STATIC_URL + "css/glossary_term.css",
-                'theme_advanced_buttons1': 'glossify, fullscreen,preview,code,print,spellchecker,|,cut,copy,paste,pastetext,pasteword,undo,redo,|,search,replace,|,rawmode',
-                'setup': 'add_button_callback',
-            })
+            if db_field.name in MCE_ATTRS:
+                formfield.widget = TinyMCE(mce_attrs=MCE_ATTRS[db_field.name])
+            else:
+                formfield.widget = TinyMCE(mce_attrs=MCE_ATTRS['default'])
         if db_field.name in self.varying_fields:
             request = kwargs.get('request', None)
             if request:
@@ -519,7 +487,7 @@ class IdeaAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(IdeaAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name == 'content_body':
-            formfield.widget = TinyMCE(mce_attrs=MCE_SIMPLE_ATTRS)
+            formfield.widget = TinyMCE(mce_attrs=MCE_ATTRS['default'])
 
         return formfield
 
@@ -590,7 +558,7 @@ class IdeaCategoryAdmin(ContentAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(IdeaCategoryAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name in IDEACATEGORY_TINYMCE_FIELDS:
-            formfield.widget = TinyMCE(mce_attrs=MCE_SIMPLE_ATTRS)
+            formfield.widget = TinyMCE(mce_attrs=MCE_ATTRS['default'])
 
         return formfield
 
@@ -717,7 +685,7 @@ class LessonAdmin(ContentAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(LessonAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name in LESSON_TINYMCE_FIELDS:
-            formfield.widget = TinyMCE(mce_attrs=MCE_SIMPLE_ATTRS)
+            formfield.widget = TinyMCE(mce_attrs=MCE_ATTRS['default'])
         if db_field.name in self.varying_fields:
             request = kwargs.get('request', None)
             if request:
@@ -965,7 +933,7 @@ class UnitAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(UnitAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name in UNIT_TINYMCE_FIELDS:
-            formfield.widget = TinyMCE(mce_attrs=MCE_SIMPLE_ATTRS)
+            formfield.widget = TinyMCE(mce_attrs=MCE_ATTRS['default'])
         if db_field.name in self.varying_fields:
             request = kwargs.get('request', None)
             if request:
