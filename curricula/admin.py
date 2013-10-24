@@ -1,21 +1,26 @@
-from django import forms
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
-from django.db.models.loading import get_model
 from django.utils.html import strip_tags
-from django.utils.safestring import mark_safe
 
+from audience.models import AUDIENCE_FLAGS
+from audience.settings import AUDIENCE_FIELDS
+from audience.widgets import AdminBitFieldWidget, bitfield_display, VariationWidgetWrapper
+from bitfield import BitField
+from concepts.admin import ConceptItemInline
+from concepts.models import ConceptItem
+from contentrelations.admin import RelatedInline
 from genericcollection import GenericCollectionInlineModelAdmin
+from tinymce.widgets import TinyMCE
 
-from models import (Activity, ActivityRelation, GroupingType,
 from .forms import ActivityForm, ActivityInlineFormset, LessonInlineFormset, LessonForm, IdeaCategoryForm, UnitForm
+from .models import (Activity, ActivityRelation, GroupingType,
                      LearningObjective, Lesson, LessonActivity, LessonRelation,
                      Material, ObjectiveRelation, QuestionAnswer, ResourceItem,
                      Skill, Standard, TeachingApproach, TeachingMethodType,
                      Tip, Vocabulary, Idea, IdeaCategory, CategoryIdea,
                      IdeaCategoryRelation, Unit, UnitLesson, UnitRelation,
-                     get_audience_indices, truncate)
+                     )
 if settings.DEBUG:
     from .models import PluginType
 from .settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
@@ -26,13 +31,6 @@ from .settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
 from .utils import truncate
 from .widgets import VocabularyIdWidget
 
-from tinymce.widgets import TinyMCE
-from audience.models import AUDIENCE_FLAGS
-from audience.widgets import AdminBitFieldWidget, bitfield_display, VariationWidgetWrapper
-from bitfield import BitField
-from concepts.admin import ConceptItemInline
-from concepts.models import ConceptItem
-from contentrelations.admin import RelatedInline
 
 
 class ResourceCarouselInline(RelatedInline):
