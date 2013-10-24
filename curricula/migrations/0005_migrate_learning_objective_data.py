@@ -3,8 +3,8 @@ from django.contrib.contenttypes.models import ContentType
 
 from south.v2 import SchemaMigration
 
-from curricula.models import (Activity, LearningObjective, ObjectiveRelation,
-                               ul_as_list)
+from curricula.models import Activity, LearningObjective, ObjectiveRelation
+from curricula.utils import ul_as_list
 
 class Migration(SchemaMigration):
 

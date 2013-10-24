@@ -3,8 +3,26 @@ from collections import defaultdict
 from django.db.models.loading import get_model
 from django.template.loader import render_to_string
 
+from BeautifulSoup import BeautifulSoup
+
 from curricula.settings import INTERNET_ACCESS_TYPES
 from edumetadata.models import Subject
+
+
+def ul_as_list(html):
+    soup = BeautifulSoup(html)
+    return [li.contents[0] for li in soup('li')]
+
+
+def truncate(string, limit=48, fill="..."):
+    """
+    Truncate string to limit. If greater than limit,
+    truncate to the length fill and add fill string
+    """
+    if len(string) <= limit:
+        return string
+    trunc_limit = limit - len(fill)
+    return u"%s%s" % (string[:trunc_limit], fill)
 
 
 def tags_for_activities(ids):
@@ -23,11 +41,35 @@ def tags_for_activities(ids):
     return Concept.objects.filter(id__in=con_ids)
 
 
+def tags_for_object(obj):
+    from concepts.models import Concept, ConceptItem
+    from django.contrib.contenttypes.models import ContentType
+
+    ctype = ContentType.objects.get_for_model(obj)
+    tagitems = ConceptItem.objects.filter(
+        content_type=ctype,
+        object_id=obj.pk).exclude(tag__name='')
+    return [x.tag for x in tagitems]
+
+
+def keyword_wrapper(obj, model, ar_a=1, tags=None):
+    from concepts.models import Concept, ConceptItem
+    from django.contrib.contenttypes.models import ContentType
+
+    tags = tags or tags_for_object(obj)
+    ctype = ContentType.objects.get_for_model(model)
+    concept_items = ConceptItem.objects.filter(content_type=ctype, tag__in=tags)
+    ids = [ci.object_id for ci in concept_items.exclude(object_id=obj.id)]
+
+    return model.objects.filter(id__in=set(ids))
+
+
 def activities_info(ids, l_id=None):
     """
     De-duplicate and aggregate fields on a comma-delimited list of activity ids
     """
-    from settings import GLOSSARY_MODEL, RESOURCE_MODEL
+    from resourcecarousel.models import ExternalResource as ResourceModel
+    from reference.models import GlossaryTerm
     from curricula.models import (Activity, TeachingApproach, TeachingMethodType,
                                   Standard, Material, Skill, PluginType,
                                   TechSetupType, PhysicalSpaceType, GroupingType,
@@ -37,12 +79,6 @@ def activities_info(ids, l_id=None):
     from django.contrib.contenttypes.models import ContentType
     from django.db.models import Avg
 
-    if GLOSSARY_MODEL is not None:
-        GlossaryModel = get_model(*GLOSSARY_MODEL.split('.'))
-    if RESOURCE_MODEL is not None:
-        ResourceModel = get_model(*RESOURCE_MODEL.split('.'))
-
-    # [EDU-2791] Learning Objectives
     if l_id:
         ctype = ContentType.objects.get_for_model(Lesson)
         objectives_list = ObjectiveRelation.objects.filter(content_type=ctype,
@@ -160,14 +196,12 @@ def activities_info(ids, l_id=None):
     ctxt = {'objects': Standard.objects.filter(id__in=list(standards))}
     output['standards'] = render_to_string('includes/standards.html', ctxt)
 
-    if GLOSSARY_MODEL:
-        objects = GlossaryModel.objects.filter(id__in=list(glossary)).values('word', 'definition', 'part_of_speech')
-        ctxt = {'objects': objects}
-        output['glossary'] = render_to_string('includes/vocabulary_list.html', ctxt)
+    objects = GlossaryTerm.objects.filter(id__in=list(glossary)).values('word', 'definition', 'part_of_speech')
+    ctxt = {'objects': objects}
+    output['glossary'] = render_to_string('includes/vocabulary_list.html', ctxt)
 
-    if RESOURCE_MODEL:
-        ctxt = {'objects': ResourceModel.objects.select_related().filter(id__in=list(further_expl))}
-        output['further_exploration'] = render_to_string('includes/further_exploration_list.html', ctxt)
+    ctxt = {'objects': ResourceModel.objects.select_related().filter(id__in=list(further_expl))}
+    output['further_exploration'] = render_to_string('includes/further_exploration_list.html', ctxt)
     ctxt = {'key_concepts': concepts}
     output['key_concepts'] = render_to_string('includes/key_concepts_list.html', ctxt)
 
