@@ -1,8 +1,15 @@
 from django.conf import settings
 from django.contrib.admin import widgets
 from django.utils.safestring import mark_safe
+from django import forms
 
-from education.edu_core.models import GlossaryTerm
+try:
+    from django.contrib.admin.templatetags.admin_static import static
+except ImportError:
+    def static(somestring):
+        return "%s%s" % (settings.ADMIN_MEDIA_PREFIX, somestring)
+
+from reference.models import GlossaryTerm
 
 
 class VocabularyIdWidget(widgets.ForeignKeyRawIdWidget):
@@ -20,3 +27,23 @@ class VocabularyIdWidget(widgets.ForeignKeyRawIdWidget):
             except GlossaryTerm.DoesNotExist:
                 pass
         return mark_safe(u''.join(output))
+
+
+class SpecificGenericRawIdWidget(forms.TextInput):
+    def __init__(self, rel, attrs=None):
+        self.rel = rel
+        super(SpecificGenericRawIdWidget, self).__init__(attrs)
+
+    def render(self, name, value, attrs=None):
+        if attrs is None:
+            attrs = {}
+        # if 'class' not in attrs:
+        #     attrs['class'] = 'vGenericRawIdAdminField'  # The JavaScript looks for this hook.
+        output = [super(SpecificGenericRawIdWidget, self).render(name, value, attrs)]
+        output.append('<a id="lookup_id_%(name)s" class="related-lookup" onclick="return showGenericRequiredModelLookupPopup(this, \'%(rel)s\');" href="#">' %
+            {'name': name, 'rel': self.rel})
+        output.append('&nbsp;<img src="%s" width="16" height="16" alt="%s" /></a>' % (static('admin/img/selector-search.gif'), 'Lookup'))
+        return mark_safe(u''.join(output))
+
+    class Media:
+        js = ('js/genericcollections.js', )
