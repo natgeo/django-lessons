@@ -633,7 +633,8 @@ class UnitAdmin(admin.ModelAdmin):
     list_display = ('title', 'thumbnail_display', 'overview_display', 'appropriate_display', 'published_date')
     list_filter = ('published_date', 'published')
     prepopulated_fields = {"slug": ("title",)}
-    raw_id_fields = ("key_image", )
+    if KEY_IMAGE:
+        raw_id_fields = ("key_image", )
     if CREDIT_MODEL is not None:
         raw_id_fields += ("credit", )
     tabs = {
@@ -677,9 +678,16 @@ class UnitAdmin(admin.ModelAdmin):
         return formfield
 
     def get_fieldsets(self, request, obj=None):
-        fieldsets = [
-            ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'subtitle', 'key_image', 'description', 'overview', 'id_number'], 'classes': ['collapse']}),
-        ]
+        fieldsets = []
+        if KEY_IMAGE:
+            fieldsets.append(
+                ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'subtitle', 'key_image', 'description', 'overview', 'id_number'], 'classes': ['collapse']}),
+            )
+        else:
+            fieldsets.append(
+                ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'subtitle', 'description', 'overview', 'id_number'], 'classes': ['collapse']}),
+            )
+
         if CREDIT_MODEL is not None:
             fieldsets.append(('Credits, Sponsors, Partners', {'fields': ['credit'], 'classes': ['collapse']}))
         fieldsets += [
