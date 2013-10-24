@@ -142,7 +142,7 @@ class ActivityAdmin(ContentAdmin):
         raw_id_fields = ("credit", )
 
     search_fields = ['title', 'subtitle_guiding_question', 'description', 'id_number']
-    varying_fields = settings.AUDIENCE_SETTINGS['CURRICULA_FIELDS']['curricula.Activity']
+    varying_fields = AUDIENCE_FIELDS.get('curricula.Activity', [])
 
     class Media:
         css = {'all': (
@@ -429,7 +429,7 @@ class LessonAdmin(ContentAdmin):
     if CREDIT_MODEL is not None:
         raw_id_fields = ("credit",)
     search_fields = ['title', 'description', 'id_number']
-    varying_fields = settings.AUDIENCE_SETTINGS['CURRICULA_FIELDS']['curricula.Lesson']
+    varying_fields = AUDIENCE_FIELDS.get('curricula.Lesson', [])
 
     class Media:
         css = {'all': (
@@ -634,7 +634,7 @@ class UnitAdmin(admin.ModelAdmin):
         'Time and Date Metadata': 1,
         'Publishing': 2,
     }
-    varying_fields = settings.AUDIENCE_SETTINGS['CURRICULA_FIELDS']['curricula.Unit']
+    varying_fields = AUDIENCE_FIELDS.get('curricula.Unit', [])
 
     class Media:
         css = {
