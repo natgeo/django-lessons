@@ -9,6 +9,7 @@ from django.utils.safestring import mark_safe
 from genericcollection import GenericCollectionInlineModelAdmin
 
 from models import (Activity, ActivityRelation, GroupingType,
+from .forms import ActivityForm, ActivityInlineFormset, LessonInlineFormset, LessonForm, IdeaCategoryForm, UnitForm
                      LearningObjective, Lesson, LessonActivity, LessonRelation,
                      Material, ObjectiveRelation, QuestionAnswer, ResourceItem,
                      Skill, Standard, TeachingApproach, TeachingMethodType,
@@ -79,139 +80,13 @@ class ResourceInline(admin.TabularInline):
     raw_id_fields = ('resource',)
 
 if RELATION_MODELS:
-    class ActivityFormSet(forms.models.BaseInlineFormSet):
-        def get_queryset(self):
-            'Returns all ActivityRelation objects which point to our Lesson'
-            return super(ActivityFormSet, self).get_queryset().exclude(relation_type__in=dict(ACTIVITY_FIELDS).keys())
+    from .forms import ActivityFormSet
 
     class InlineActivityRelation(GenericCollectionInlineModelAdmin):
         extra = 7
         model = ActivityRelation
         formset = ActivityFormSet
         template = 'admin/edit_inline/ic_coll_tabular.html'
-
-
-class SpecificGenericRawIdWidget(forms.TextInput):
-    def __init__(self, rel, attrs=None):
-        self.rel = rel
-        super(SpecificGenericRawIdWidget, self).__init__(attrs)
-
-    def render(self, name, value, attrs=None):
-        if attrs is None:
-            attrs = {}
-        # if 'class' not in attrs:
-        #     attrs['class'] = 'vGenericRawIdAdminField'  # The JavaScript looks for this hook.
-        output = [super(SpecificGenericRawIdWidget, self).render(name, value, attrs)]
-        output.append('<a id="lookup_id_%(name)s" class="related-lookup" onclick="return showGenericRequiredModelLookupPopup(this, \'%(rel)s\');" href="#">' %
-            {'name': name, 'rel': self.rel})
-        output.append('&nbsp;<img src="%s" width="16" height="16" alt="%s" /></a>' % (static('admin/img/selector-search.gif'), 'Lookup'))
-        return mark_safe(u''.join(output))
-
-    class Media:
-        js = ('js/genericcollections.js', )
-
-
-class ActivityForm(forms.ModelForm):
-    learning_objs = forms.CharField(required=False, label='Learning objectives',
-                                    widget=forms.Textarea(attrs={'cols': 128, 'rows': 5}),
-                                    help_text="Each learning objective must be separated by a carriage return. Each line displays as a bulleted list.")
-
-    class Media:
-        js = (
-            settings.STATIC_URL + 'js/jquery-1.7.1.js',
-            settings.STATIC_URL + 'js/jquery/ui.core.js',
-            settings.STATIC_URL + 'js/jquery/ui.sortable.js',
-            settings.STATIC_URL + 'js/menu-sort.js',
-        )
-
-    class Meta:
-        model = Activity
-
-    def __init__(self, *args, **kwargs):
-        super(ActivityForm, self).__init__(*args, **kwargs)
-        instance = kwargs.get('instance', None)
-
-        for field in ACTIVITY_FIELDS:
-            field_name = field[0]
-            model = get_model(*field[1].split('.'))
-            self.fields[field_name] = forms.ModelChoiceField(queryset=model.objects.all(), widget=SpecificGenericRawIdWidget(rel=field[1]), required=False)
-            # for existing records, initialize the fields
-            if instance:
-                objects = instance.activityrelation_set.filter(relation_type=field_name)
-                if len(objects) > 0:
-                    self.fields[field_name].initial = objects[0].object_id
-
-        if instance:
-            ctype = ContentType.objects.get_for_model(Activity)
-            initial_objs = ''
-            objectiverelations = ObjectiveRelation.objects.filter(
-                                    content_type=ctype, object_id=instance.id)
-            objectiverelations = objectiverelations.filter()
-            for objectiverelation in objectiverelations:
-                initial_objs += objectiverelation.objective.text
-                initial_objs += '\r\n'
-            self.fields['learning_objs'].initial = initial_objs.strip('\r\n')
-
-    def clean(self):
-        cleaned_data = super(ActivityForm, self).clean()
-        for field in ACTIVITY_FIELDS:
-            field_name = field[0]
-
-            if field_name not in self.cleaned_data:
-                raise forms.ValidationError("%s is required." % field_name)
-        return cleaned_data
-
-    def clean_assessment_type(self):
-        atype = self.cleaned_data['assessment_type']
-        assessment = self.cleaned_data['assessment']
-        if assessment and not atype:
-            raise forms.ValidationError("Assessment Type is required, when there is an Assessment.")
-
-        return atype
-
-    def clean_field(self, name):
-        field = self.cleaned_data[name]
-        if 'published' in self.cleaned_data and self.cleaned_data['published'] and not field:
-            raise forms.ValidationError("This field is required, for published activities.")
-
-        return field
-
-    def clean_background_information(self):
-        return self.clean_field('background_information')
-
-    def clean_directions(self):
-        return self.clean_field('directions')
-
-    def clean_grades(self):
-        return self.clean_field('grades')
-
-    def clean_grouping_types(self):
-        return self.clean_field('grouping_types')
-
-    def clean_internet_access_type(self):
-        return self.clean_field('internet_access_type')
-
-    # def clean_materials(self):
-    #     return self.clean_field('materials')
-
-    # EDU-3361
-    def clean_reporting_categories(self):
-        return self.clean_field('reporting_categories')
-
-    def clean_skills(self):
-        return self.clean_field('skills')
-
-    def clean_subjects(self):
-        return self.clean_field('subjects')
-
-    def clean_standards(self):
-        return self.clean_field('standards')
-
-    def clean_teaching_approaches(self):
-        return self.clean_field('teaching_approaches')
-
-    def clean_teaching_method_types(self):
-        return self.clean_field('teaching_method_types')
 
 
 class ContentAdmin(admin.ModelAdmin):
@@ -393,23 +268,6 @@ class ActivityAdmin(ContentAdmin):
                 o_rel.save()
 
 
-class ActivityInlineFormset(forms.models.BaseInlineFormSet):
-    def clean(self):
-        super(ActivityInlineFormset, self).clean()
-
-        for form in self.forms:
-            if not form.instance:
-                form.save(commit=False)
-
-            order = form.cleaned_data.get('order')
-            if not order:
-                pass
-
-            activity = form.cleaned_data.get('activity')
-            if 'published' in self.data and activity and not activity.published:
-                raise forms.ValidationError('Please publish all associated activities, before publishing this lesson.')
-
-
 class ActivityInline(admin.TabularInline):
     formset = ActivityInlineFormset
     model = LessonActivity
@@ -433,19 +291,6 @@ class IdeaCategoryInline(admin.TabularInline):
     raw_id_fields = ('category', )
     verbose_name = "Idea Category"
     verbose_name_plural = "Idea Categories"
-
-
-class LessonInlineFormset(forms.models.BaseInlineFormSet):
-    def clean(self):
-        super(LessonInlineFormset, self).clean()
-
-        count = 0
-        for form in self.forms:
-            if form.cleaned_data != {} and form.cleaned_data['DELETE'] == False:
-                count += 1
-        if count <= 0:
-            if 'published' in self.data:
-                raise forms.ValidationError('Please include at least one lesson, before publishing this unit.')
 
 
 class LessonInline(admin.TabularInline):
@@ -504,28 +349,6 @@ class IdeaInline(admin.TabularInline):
     raw_id_fields = ('idea', )
     verbose_name = "Idea"
     verbose_name_plural = "Ideas"
-
-
-class IdeaCategoryForm(forms.ModelForm):
-    class Meta:
-        model = IdeaCategory
-
-    def clean(self):
-        cleaned_data = super(IdeaCategoryForm, self).clean()
-
-        if CREDIT_MODEL:
-            self.clean_field('credit')
-        self.clean_field('grades')
-        self.clean_field('license_name')
-        self.clean_field('subjects')
-
-        return cleaned_data
-
-    def clean_field(self, name):
-        field = self.cleaned_data[name]
-        if 'published' in self.cleaned_data:
-            if self.cleaned_data['published'] and not field:
-                raise forms.ValidationError("%s is required, for published activities." % name.capitalize())
 
 
 class IdeaCategoryAdmin(ContentAdmin):
@@ -592,67 +415,6 @@ if RELATION_MODELS:
         model = LessonRelation
         template = 'admin/edit_inline/ic_coll_tabular.html'
 
-
-class LessonForm(forms.ModelForm):
-    learning_objs = forms.CharField(required=False, label='Learning objectives',
-                                    widget=forms.Textarea(attrs={'cols': 128, 'rows': 5}),
-                                    help_text='''All learning objectives from the activities within the lesson will dynamically display. Only use this field if you need to add additional, lesson-level learning objectives.
-                                                 Each learning objective must be separated by a carriage return. Each line displays as a bulleted list.''')
-
-    class Media:
-        js = (
-            settings.STATIC_URL + 'js/jquery-1.7.1.js',
-            settings.STATIC_URL + 'js/jquery/ui.core.js',
-            settings.STATIC_URL + 'js/jquery/ui.sortable.js',
-            settings.STATIC_URL + 'js/menu-sort.js',
-        )
-
-    class Meta:
-        model = Lesson
-
-    def initialize_values(self, kwargs, field_name):
-        if kwargs.has_key('instance'):
-            objects = kwargs['instance'].lessonrelation_set.filter(relation_type=field_name)
-            if len(objects) > 0:
-                self.fields[field_name].initial = objects[0].object_id
-
-    def __init__(self, *args, **kwargs):
-        super(LessonForm, self).__init__(*args, **kwargs)
-        instance = kwargs.get('instance', None)
-        for field in LESSON_FIELDS:
-            field_name = field[0]
-            qset = get_model(*field[1].split('.')).objects.all()
-            self.fields[field_name] = forms.ModelChoiceField(queryset=qset, widget=SpecificGenericRawIdWidget(rel=field[1]))
-            self.initialize_values(kwargs, field_name)
-
-        if instance:
-            ctype = ContentType.objects.get_for_model(Lesson)
-            initial_objs = ''
-            objectiverelations = ObjectiveRelation.objects.filter(
-                                    content_type=ctype, object_id=instance.id)
-            for objectiverelation in objectiverelations:
-                initial_objs += objectiverelation.objective.text
-                initial_objs += '\r\n'
-            self.fields['learning_objs'].initial = initial_objs.strip('\r\n')
-
-    def clean(self):
-        cleaned_data = super(LessonForm, self).clean()
-
-        field_name = 'key_image'
-
-        if field_name not in self.cleaned_data:
-            raise forms.ValidationError("%s is required." % field_name)
-        return cleaned_data
-
-    # EDU-3361
-    def clean_reporting_categories(self):
-        reporting_categories = self.cleaned_data['reporting_categories']
-
-        if self.cleaned_data['published'] and not reporting_categories:
-            if len(reporting_categories) == 0:
-                raise forms.ValidationError("Reporting Categories is required for published content.")
-
-        return reporting_categories
 
 class LessonAdmin(ContentAdmin):
     filter_horizontal = ['eras', 'materials', 'secondary_content_types', 'prior_lessons']
@@ -845,47 +607,6 @@ if RELATION_MODELS:
         extra = 7
         model = UnitRelation
         template = 'admin/edit_inline/ic_coll_tabular.html'
-
-
-class UnitForm(forms.ModelForm):
-    class Media:
-        css = {
-            'all': (settings.STATIC_URL + 'audience/bitfield.css',),
-        }
-        js = (
-            settings.STATIC_URL + 'js/jquery-1.7.1.js',
-            settings.STATIC_URL + 'js/jquery/ui.core.js',
-            settings.STATIC_URL + 'js/jquery/ui.sortable.js',
-            settings.STATIC_URL + 'js/menu-sort.js',
-        )
-
-    class Meta:
-        model = Unit
-
-    def clean(self):
-        cleaned_data = super(UnitForm, self).clean()
-
-        if cleaned_data['published']:
-            if cleaned_data['credit'] is None:
-                raise forms.ValidationError("Credit is required for published units.")
-            for field in ['grades', 'subjects']:
-                if not cleaned_data[field]:
-                    raise forms.ValidationError("%s is required for published units." % field.replace('_', ' ').capitalize())
-
-            content_type = ContentType.objects.get_for_model(Unit)
-            concept_items = ConceptItem.objects.filter(content_type=content_type,
-                                                       object_id=self.instance.id,
-                                                       weight__gt=0)
-            if len(concept_items) <= 0:
-                raise forms.ValidationError("Please uncheck Publish, create at least one tag with weight greater than zero, and then save, before attempting to mark this object as published.")
-        return cleaned_data
-
-    def clean_appropriate_for(self):
-        appropriate_for = self.cleaned_data['appropriate_for']
-        if appropriate_for == 0:
-            raise forms.ValidationError("Appropriate for is a required field for units.")
-
-        return appropriate_for
 
 
 class UnitAdmin(admin.ModelAdmin):
