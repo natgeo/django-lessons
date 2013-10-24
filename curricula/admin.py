@@ -334,6 +334,11 @@ class IdeaAdmin(admin.ModelAdmin):
 
         return formfield
 
+    def appropriate_display(self, obj):
+        return bitfield_display(obj.appropriate_for)
+    appropriate_display.short_description = 'Appropriate For'
+    appropriate_display.allow_tags = True
+
     def categories_display(self, obj):
         return (',').join(obj.get_categories())
 
@@ -382,6 +387,11 @@ class IdeaCategoryAdmin(ContentAdmin):
             formfield.widget = TinyMCE(mce_attrs=MCE_ATTRS['default'])
 
         return formfield
+
+    def appropriate_display(self, obj):
+        return bitfield_display(obj.appropriate_for)
+    appropriate_display.short_description = 'Appropriate For'
+    appropriate_display.allow_tags = True
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = [
