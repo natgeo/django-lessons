@@ -1,43 +1,113 @@
-
+======
 Fields
 ======
 
-#. Overview
+Activity
+========
 
-   #. (None)
+**accessibility_notes**
 
-      #. Create Date (YYYY-MM-DD)
-      #. Last Updated Date (YYYY-MM-DD)
-      #. Title (read-only?)
-      #. Slug - charfield
-      #. Subtitle/Guiding Question
-      #. Description (read-only?)
-      #. Key Image - fk
-      #. Resource Carousel - fk
-      #. Duration in minutes - integer
-      #. ID Number
-      #. Is module - boolean
-      #. Ads excluded - boolean
-      #. Share (Featured Service, Share Services)
+**ads_excluded**
+   If unchecked, this field indicates that external ads are allowed.
 
-   #. Key Concepts (Tags)
+**appropriate_for**
 
-      Question - can we add a public flag?
+**assessment**
 
-   #. Activities - Activity, Transition Text
+**assessment_type**
+   Choices configured through ``ASSESSMENT_TYPES``
 
-   #. Model Student Work
+**background_information**
 
-   #. Pictures of Practice
+**concepts**
 
-#. Directions - Assessment Type, Assessment
+**create_date**
 
-#. Objectives - Variations OR a rich text field
+**credit**
 
-#. Preparation - Materials You Provide
+**description**
 
-#. Background
+**directions**
 
-#. Credits, Sponsors, Partners (Show)
+**duration**
 
-The fields with text variations will initially be displayed as read-only, with an "Add Variations" button to the right. Admin fields can be specified as read-only in Django 1.2
+**eras**
+
+**extending_the_learning**
+
+**geologic_time**
+
+**grades**
+
+**grouping_types**
+
+**id_number**
+   This field is for the internal NG Education ID number. This is required for all instructional content.
+
+**internet_access_type**
+
+**is_modular**
+   If unchecked, this field indicates that this activity should not appear as stand-alone outside of a lesson view.
+
+**learner_groups**
+
+**learning_objective_set**
+
+**lessons**
+
+**materials**
+
+**notes_on_readability_score**
+   Use this internal-use only field to record any details related to the readability of reading passages, such as those on handouts. Include Lexile score, grade-level equivalent, and any criteria used to determine why a higher score is acceptable (proper nouns, difficult vocabulary, etc.).
+
+**other_notes**
+
+**pedagogical_purpose_type**
+   Choices configured through ``PEDAGOGICAL_PURPOSE_TYPE_CHOICES``
+
+**physical_space_types**
+
+**plugin_types**
+
+**prior_activities**
+
+**prior_knowledge**
+
+**published**
+
+**published_date**
+
+**resource_items**
+
+**relevant_start_date**
+
+**relevant_end_date**
+
+**reporting_categories**
+
+**resources**
+
+**resource_items**
+
+**secondary_content_types**
+
+**setup**
+
+**skills**
+
+**slug**
+   The URL slug is auto-generated from the title field
+
+**subtitle_guiding_question**
+
+**teaching_approaches**
+
+**teaching_method_types**
+
+**tech_setup_types**
+
+**tips**
+
+**title**
+
+**vocabulary**
