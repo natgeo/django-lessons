@@ -432,7 +432,7 @@ class LessonAdmin(ContentAdmin):
         'tech_setup_types']
     if REPORTING_MODEL:
         filter_horizontal += ['reporting_categories']
-    readonly_fields += ['reporting_categories',]
+        readonly_fields += ['reporting_categories',]
 
     form = LessonForm
     if RELATION_MODELS:
@@ -624,7 +624,10 @@ if RELATION_MODELS:
 
 class UnitAdmin(admin.ModelAdmin):
     date_hierarchy = 'published_date'
-    filter_horizontal = ['eras', 'grades', 'subjects']
+    readonly_fields = ['eras', 'relevant_start_date', 'relevant_end_date',
+        'geologic_time', 'subjects', 'grades', ]
+    if REPORTING_MODEL:
+        readonly_fields += ['reporting_categories',]
     form = UnitForm
     formfield_overrides = {
         BitField: {

@@ -203,15 +203,14 @@ class LessonForm(forms.ModelForm):
             raise forms.ValidationError("%s is required." % field_name)
         return cleaned_data
 
-    # EDU-3361
-    def clean_reporting_categories(self):
-        reporting_categories = self.cleaned_data['reporting_categories']
+    # def clean_reporting_categories(self):
+    #     reporting_categories = self.cleaned_data['reporting_categories']
 
-        if self.cleaned_data['published'] and not reporting_categories:
-            if len(reporting_categories) == 0:
-                raise forms.ValidationError("Reporting Categories is required for published content.")
+    #     if self.cleaned_data['published'] and not reporting_categories:
+    #         if len(reporting_categories) == 0:
+    #             raise forms.ValidationError("Reporting Categories is required for published content.")
 
-        return reporting_categories
+    #     return reporting_categories
 
 
 class IdeaCategoryForm(forms.ModelForm):
@@ -257,9 +256,9 @@ class UnitForm(forms.ModelForm):
         if cleaned_data['published']:
             if cleaned_data['credit'] is None:
                 raise forms.ValidationError("Credit is required for published units.")
-            for field in ['grades', 'subjects']:
-                if not cleaned_data[field]:
-                    raise forms.ValidationError("%s is required for published units." % field.replace('_', ' ').capitalize())
+            # for field in ['grades', 'subjects']:
+            #     if not cleaned_data[field]:
+            #         raise forms.ValidationError("%s is required for published units." % field.replace('_', ' ').capitalize())
 
             # content_type = ContentType.objects.get_for_model(Unit)
             # concept_items = ConceptItem.objects.filter(content_type=content_type,
