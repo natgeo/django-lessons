@@ -22,6 +22,7 @@ class ActivityForm(forms.ModelForm):
 
     class Meta:
         model = Activity
+        exclude = ['concepts']
 
     def __init__(self, *args, **kwargs):
         super(ActivityForm, self).__init__(*args, **kwargs)
@@ -260,12 +261,12 @@ class UnitForm(forms.ModelForm):
                 if not cleaned_data[field]:
                     raise forms.ValidationError("%s is required for published units." % field.replace('_', ' ').capitalize())
 
-            content_type = ContentType.objects.get_for_model(Unit)
-            concept_items = ConceptItem.objects.filter(content_type=content_type,
-                                                       object_id=self.instance.id,
-                                                       weight__gt=0)
-            if len(concept_items) <= 0:
-                raise forms.ValidationError("Please uncheck Publish, create at least one tag with weight greater than zero, and then save, before attempting to mark this object as published.")
+            # content_type = ContentType.objects.get_for_model(Unit)
+            # concept_items = ConceptItem.objects.filter(content_type=content_type,
+            #                                            object_id=self.instance.id,
+            #                                            weight__gt=0)
+            # if len(concept_items) <= 0:
+            #     raise forms.ValidationError("Please uncheck Publish, create at least one tag with weight greater than zero, and then save, before attempting to mark this object as published.")
         return cleaned_data
 
     def clean_appropriate_for(self):

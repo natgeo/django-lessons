@@ -425,9 +425,15 @@ if RELATION_MODELS:
 
 
 class LessonAdmin(ContentAdmin):
-    filter_horizontal = ['eras', 'materials', 'secondary_content_types', 'prior_lessons']
+    filter_horizontal = ['materials', 'secondary_content_types', 'prior_lessons']
+    readonly_fields = ['accessibility_notes', 'eras', 'prior_knowledge',
+        'relevant_start_date', 'relevant_end_date', 'geologic_time', 'subjects',
+        'grades', 'duration', 'physical_space_types', 'plugin_types',
+        'tech_setup_types']
     if REPORTING_MODEL:
         filter_horizontal += ['reporting_categories']
+    readonly_fields += ['reporting_categories',]
+
     form = LessonForm
     if RELATION_MODELS:
         inlines = [ResourceCarouselInline, ActivityInline, TagInline, InlineLessonRelation, ]
