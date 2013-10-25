@@ -2,7 +2,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.db.models.signals import pre_delete
+from django.db.models.signals import pre_delete, post_save
 from django.utils.datastructures import SortedDict
 from django.utils.html import strip_tags
 
@@ -327,4 +327,10 @@ class ResourceItem(models.Model):
     class Meta:
         app_label = 'curricula'
 
+
+def aggregate_signaler(sender, instance, created, raw, using, *args, **kwargs):
+    for lesson in instance.lessons.all():
+        lesson.save()
+
 pre_delete.connect(delete_listener, sender=Activity)
+post_save.connect(aggregate_signaler, sender=Activity)

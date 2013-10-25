@@ -3,7 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 
 from .models import (Activity, TeachingApproach, Skill, TeachingMethodType,
-        GroupingType, Standard, Lesson, LessonActivity)
+        GroupingType, Standard, Lesson, LessonActivity, Unit, UnitLesson)
 from edumetadata.models import Grade, Subject
 from .settings import (ASSESSMENT_TYPES, PEDAGOGICAL_PURPOSE_TYPE_CHOICES,
                 INTERNET_ACCESS_TYPES)
@@ -17,9 +17,9 @@ class BaseTestCase(TestCase):
     """
     Stuff used by all the tests
     """
-    fixtures = ['fixtures/edumetadata.json', 'fixtures/skills.json',
-                'fixtures/tipcategories.json', 'fixtures/tips.json',
-                'fixtures/standards.json']
+    fixtures = ['fixtures/edumetadata.json', ] #'fixtures/skills.json',
+                # 'fixtures/tipcategories.json', 'fixtures/tips.json',
+                # 'fixtures/standards.json']
     def setUp(self):
         pass
 
@@ -68,17 +68,34 @@ class BaseTestCase(TestCase):
             subtitle_guiding_question="Subtitle",
             other_notes="Other notes",
             background_information="Background info",
-            prior_knowledge="prior knowledge",
+            prior_knowledge="prior knowledge"
         )
         data.update(kwargs)
         return data
+
+    def _get_unit_data(self, **kwargs):
+        """
+        provide the basic data to create a Unit
+        """
+        data = dict(
+            appropriate_for=31,
+            title="title",
+            description="description",
+            id_number="1234",
+            slug="title",
+            subtitle="Subtitle",
+            overview="overview"
+        )
+        data.update(**kwargs)
+        return data
+
 
 class ActivityTest(BaseTestCase):
     """
     Tests for Activity Models
     """
     fixtures = ['fixtures/edumetadata.json', 'fixtures/skills.json',
-                'fixtures/tipcategories.json', 'fixtures/tips.json',
+                # 'fixtures/tipcategories.json', 'fixtures/tips.json',
                 'fixtures/standards.json']
     def setUp(self):
         pass
@@ -129,14 +146,15 @@ class LessonTest(BaseTestCase):
         a1 = Activity.objects.create(**self._get_activity_data())
         a2 = Activity.objects.create(**self._get_activity_data(slug='12345', other_notes='other notes 2'))
         l = Lesson.objects.create(**self._get_lesson_data())
-        grades = Grade.objects.all()[:2]
+        grades = Grade.objects.all()[:3]
 
         a1.grades.add(grades[0])
         a2.grades.add(grades[1])
         LessonActivity.objects.create(lesson=l, activity=a1)
         LessonActivity.objects.create(lesson=l, activity=a2)
-        lesson_grades = l.get_grades()
-        self.assertTrue(len(lesson_grades), 2)
+        l.save()
+        lesson_grades = l.grades.all()
+        self.assertEqual(len(lesson_grades), 2)
         self.assertTrue(lesson_grades[0] in grades)
         self.assertTrue(lesson_grades[1] in grades)
         other_notes = l.get_other_notes()
@@ -144,3 +162,28 @@ class LessonTest(BaseTestCase):
         l.other_notes = 'lesson notes'
         other_notes = l.get_other_notes()
         self.assertEqual(len(other_notes), 3)
+        a1.grades.add(grades[2])
+        a1.save()
+        self.assertEqual(l.grades.count(), 3)
+        a1.grades.remove(grades[0])
+        a1.save()
+        self.assertEqual(a1.grades.count(), 1)
+        self.assertEqual(l.grades.count(), 2)
+
+class UnitsTest(BaseTestCase):
+    def test_activity_aggregation(self):
+        a1 = Activity.objects.create(**self._get_activity_data())
+        a2 = Activity.objects.create(**self._get_activity_data(slug='12345', other_notes='other notes 2'))
+        l = Lesson.objects.create(**self._get_lesson_data())
+        u = Unit.objects.create(**self._get_unit_data())
+        grades = Grade.objects.all()[:3]
+
+        a1.grades.add(grades[0])
+        a2.grades.add(grades[1])
+        LessonActivity.objects.create(lesson=l, activity=a1)
+        LessonActivity.objects.create(lesson=l, activity=a2)
+        UnitLesson.objects.create(unit=u, lesson=l)
+        l.save()
+
+        self.assertEqual(l.grades.count(), u.grades.count())
+

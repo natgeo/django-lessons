@@ -32,7 +32,7 @@ class UnitManager(models.Manager):
 
 
 class Unit(models.Model):
-    # Global Metadata
+    # Unit-specific fields
     appropriate_for = BitField(
         flags=AUDIENCE_FLAGS,
         help_text='''Select the audience(s) for which this content is
@@ -44,45 +44,47 @@ class Unit(models.Model):
         you either need to add text variations or the default text must be
         appropriate for those audiences.''')
     create_date = models.DateTimeField(auto_now_add=True)
+    if CREDIT_MODEL:
+        credit = models.ForeignKey(CREDIT_MODEL,
+            blank=True,
+            null=True)
+    description = models.TextField()
+    id_number = models.CharField(
+        max_length=10,
+        help_text="""This field is for the internal NG Education ID number.
+        This is required for all instructional content.""")
+    if KeyImageModel:
+        key_image = models.ForeignKey(KeyImageModel)
+    lessons = models.ManyToManyField('curricula.Lesson',
+        through='curricula.UnitLesson')
+    overview = models.TextField()
+    published = models.BooleanField()
+    published_date = models.DateTimeField(
+        blank=True,
+        null=True)
     slug = models.SlugField(
         unique=True,
         max_length=100,
         help_text="""The URL slug is auto-generated, but producers should adjust
         it if: a) punctuation in the title causes display errors; and/or b) the
         title changes after the slug has been generated.""")
+    subtitle = models.TextField(
+        blank=True,
+        null=True)
     title = models.CharField(
         max_length=256,
         verbose_name="Unit Title",
         help_text="""GLOBAL: Use the text variations field to create versions
         for audiences other than the default.""")
-    subtitle = models.TextField(
-        blank=True,
-        null=True)
-    if KeyImageModel:
-        key_image = models.ForeignKey(KeyImageModel)
-    description = models.TextField()
-    overview = models.TextField()
-    id_number = models.CharField(
-        max_length=10,
-        help_text="""This field is for the internal NG Education ID number.
-        This is required for all instructional content.""")
-    grades = models.ManyToManyField(Grade,
-        blank=True,
-        null=True)
-    subjects = models.ManyToManyField(Subject,
-        blank=True,
-        null=True,
-        limit_choices_to={'parent__isnull': False})
-    # Credits, Sponsors, Partners
-    if CREDIT_MODEL:
-        credit = models.ForeignKey(CREDIT_MODEL,
-            blank=True,
-            null=True)
-    # Time and Date Metadata
+
+    # Read-only fields aggregated from lessons/activities
     eras = models.ManyToManyField(HistoricalEra,
         blank=True,
         null=True)
     geologic_time = models.ForeignKey(GeologicTime,
+        blank=True,
+        null=True)
+    grades = models.ManyToManyField(Grade,
         blank=True,
         null=True)
     relevant_start_date = HistoricalDateField(
@@ -91,14 +93,15 @@ class Unit(models.Model):
     relevant_end_date = HistoricalDateField(
         blank=True,
         null=True)
-    # Schedule Metadata
-    published = models.BooleanField()
-    published_date = models.DateTimeField(
+    if REPORTING_MODEL:
+        reporting_categories = models.ManyToManyField(REPORTING_MODEL,
+            blank=True,
+            null=True)
+    subjects = models.ManyToManyField(Subject,
         blank=True,
-        null=True)
+        null=True,
+        limit_choices_to={'parent__isnull': False})
 
-    lessons = models.ManyToManyField('curricula.Lesson',
-        through='curricula.UnitLesson')
     objects = UnitManager()
 
     class Meta:
@@ -109,6 +112,43 @@ class Unit(models.Model):
         """
         Roll up all pertinent metadata
         """
+        if self.id is None:
+            super(Unit, self).save(*args, **kwargs)
+            kwargs['force_update'] = True
+            kwargs['force_insert'] = False
+
+        if self.lessons.count() == 0:
+            return
+        agg_activities = self.aggregate_activity_attr
+
+        rsd = agg_activities('relevant_start_date')
+        if rsd:
+            self.relevant_start_date = min(rsd)
+        red = agg_activities('relevant_end_date')
+        if red:
+            self.relevant_end_date = max(red)
+        gt = agg_activities('geologic_time')
+        if gt:
+            self.geologic_time = min(gt)
+        super(Unit, self).save(*args, **kwargs)
+        self._sync_m2m(self.eras, agg_activities('eras'))
+        if REPORTING_MODEL:
+            self._sync_m2m(self.reporting_categories, agg_activities('reporting_categories', ignore_own=True))
+        self._sync_m2m(self.subjects, agg_activities('subjects', ignore_own=True))
+        self._sync_m2m(self.grades, agg_activities('grades', ignore_own=True))
+
+    def _sync_m2m(self, attr, new_set):
+        """
+        Synchronize the objects m2m objects in <attr> with the objects in <new_set>
+        """
+        current = set(attr.all())
+        newer = set(new_set)
+        to_remove = current - newer
+        to_add = newer - current
+        if to_add:
+            attr.add(*list(to_add))
+        if to_remove:
+            attr.remove(*list(to_remove))
 
 
     def __unicode__(self):
@@ -118,7 +158,7 @@ class Unit(models.Model):
     def get_absolute_url(self):
         return ('unit-detail', (), {'slug': self.slug})
 
-    def aggregate_activity_attr(self, attr_name):
+    def aggregate_activity_attr(self, attr_name, ignore_own=False):
         """
         Generic method to gather up the activities and deduplicate a specific attribute
 
@@ -131,15 +171,26 @@ class Unit(models.Model):
         # To find out if the attribute is a m2m or a regular field, we test for
         # attribute on the uninstantiated class. m2m Descriptors will be there,
         # regular fields will not
-        is_m2m = hasattr(Activity, attr_name)
+        if hasattr(Activity, attr_name):
+            if hasattr(getattr(Activity, attr_name), 'through'):
+                is_m2m = True
+                is_fk = False
+            else:
+                is_fk = True
+                is_m2m = False
+        else:
+            is_m2m = is_fk = False
         qset = reduce(operator.or_, [x.activities.all() for x in self.lessons.prefetch_related('activities')])
         if is_m2m:
             qset = qset.prefetch_related(attr_name)
             biglist = reduce(operator.or_, [getattr(x, attr_name).all() for x in qset])
             unique = set(biglist)
+        elif is_fk:
+            qset = qset.select_related(attr_name)
+            unique = set([getattr(x, attr_name) for x in qset])
         else:
             unique = set(qset.values_list(attr_name, flat=True))
-            if hasattr(self, attr_name):
+            if hasattr(self, attr_name) and not ignore_own:
                 unique.add(getattr(self, attr_name))
 
         return list(unique)

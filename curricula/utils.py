@@ -1,6 +1,5 @@
 from collections import defaultdict
 
-from django.db.models.loading import get_model
 from django.template.loader import render_to_string
 
 from BeautifulSoup import BeautifulSoup
@@ -9,9 +8,23 @@ from curricula.settings import INTERNET_ACCESS_TYPES
 from edumetadata.models import Subject
 
 
+def unique(self, *args):
+    """
+    Get the unique items of args
+    """
+    if args:
+        return list(set(*args))
+    else:
+        return []
+
+
 def ul_as_list(html):
     soup = BeautifulSoup(html)
     return [li.contents[0] for li in soup('li')]
+
+
+def list_as_ul(items):
+    return "<ul>%s</ul>" % "".join("<li>%s</li>" % x for x in items)
 
 
 def truncate(string, limit=48, fill="..."):
