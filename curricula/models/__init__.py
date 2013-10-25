@@ -1,5 +1,8 @@
-from south.modelsinspector import add_ignored_fields
-add_ignored_fields(["^concepts\.managers"])
+try:
+    from south.models.inspector import add_ignored_fields
+    add_ignored_fields(["^concepts\.managers"])
+except ImportError:
+    pass
 
 from metadata import (GroupingType,
     LearnerGroup,
