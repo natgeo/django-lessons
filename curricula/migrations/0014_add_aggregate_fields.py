@@ -16,6 +16,14 @@ class Migration(SchemaMigration):
         ))
         db.create_unique('curricula_unit_reporting_categories', ['unit_id', 'reportingcategory_id'])
 
+        # Adding M2M table for field secondary_content_types on 'Unit'
+        db.create_table('curricula_unit_secondary_content_types', (
+            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
+            ('unit', models.ForeignKey(orm['curricula.unit'], null=False)),
+            ('alternatetype', models.ForeignKey(orm['edumetadata.alternatetype'], null=False))
+        ))
+        db.create_unique('curricula_unit_secondary_content_types', ['unit_id', 'alternatetype_id'])
+
         # Adding field 'Lesson.duration'
         db.add_column('curricula_lesson', 'duration',
                       self.gf('django.db.models.fields.IntegerField')(default=0),
@@ -70,6 +78,9 @@ class Migration(SchemaMigration):
     def backwards(self, orm):
         # Removing M2M table for field reporting_categories on 'Unit'
         db.delete_table('curricula_unit_reporting_categories')
+
+        # Removing M2M table for field secondary_content_types on 'Unit'
+        db.delete_table('curricula_unit_secondary_content_types')
 
         # Deleting field 'Lesson.duration'
         db.delete_column('curricula_lesson', 'duration')

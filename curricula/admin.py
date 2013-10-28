@@ -495,6 +495,7 @@ class LessonAdmin(ContentAdmin):
         else:
             fieldsets.append(('Global Metadata', {'fields': ['secondary_content_types', 'reporting_categories'], 'classes': ['collapse']}))
         fieldsets += [
+            ('Content Related Metadata', {'fields': ['subjects', 'grades'], 'classes': ['collapse']}),
             ('Time and Date Metadata', {'fields': ['eras', 'geologic_time', 'relevant_start_date', 'relevant_end_date'], 'classes': ['collapse']}),
             ('Publishing', {'fields': ['published', 'published_date'], 'classes': ['collapse']}),
         ]
@@ -533,6 +534,14 @@ class LessonAdmin(ContentAdmin):
                 o_rel = ObjectiveRelation(objective=lo, content_type=ctype,
                                           object_id=obj.id)
                 o_rel.save()
+
+    def response_add(self, request, obj, post_url_continue=None):
+        obj.save()
+        return super(LessonAdmin, self).response_add(request, obj, post_url_continue)
+
+    def response_change(self, request, obj):
+        obj.save()
+        return super(LessonAdmin, self).response_change(request, obj)
 
     def update_ARs(self, obj, rcs):
         unique_indices = []
@@ -649,6 +658,7 @@ class UnitAdmin(admin.ModelAdmin):
     tabs = {
         'Overview': 0,
         'Credits, Sponsors, Partners': 0,
+        'Global Metadata': 1,
         'Content Related Metadata': 1,
         'Time and Date Metadata': 1,
         'Publishing': 2,
@@ -699,12 +709,24 @@ class UnitAdmin(admin.ModelAdmin):
 
         if CREDIT_MODEL is not None:
             fieldsets.append(('Credits, Sponsors, Partners', {'fields': ['credit'], 'classes': ['collapse']}))
+        if REPORTING_MODEL is None:
+            fieldsets.append(('Global Metadata', {'fields': ['secondary_content_types'], 'classes': ['collapse']}))
+        else:
+            fieldsets.append(('Global Metadata', {'fields': ['secondary_content_types', 'reporting_categories'], 'classes': ['collapse']}))
         fieldsets += [
             ('Content Related Metadata', {'fields': ['subjects', 'grades'], 'classes': ['collapse']}),
             ('Time and Date Metadata', {'fields': ['eras', 'geologic_time', 'relevant_start_date', 'relevant_end_date'], 'classes': ['collapse']}),
             ('Publishing', {'fields': ['published', 'published_date'], 'classes': ['collapse']}),
         ]
         return fieldsets
+
+    def response_add(self, request, obj, post_url_continue=None):
+        obj.save()
+        return super(UnitAdmin, self).response_add(request, obj, post_url_continue)
+
+    def response_change(self, request, obj):
+        obj.save()
+        return super(UnitAdmin, self).response_change(request, obj)
 
     def thumbnail_display(self, obj):
         return '<img src="%s"/>' % obj.key_image.thumbnail_url()

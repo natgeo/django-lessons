@@ -1,5 +1,3 @@
-from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import pre_delete
 from django.utils.html import strip_tags
@@ -7,7 +5,7 @@ from django.utils.html import strip_tags
 from audience.settings import AUDIENCE_FLAGS
 from bitfield import BitField
 from concepts.models import delete_listener  #, Concept, ConceptItem
-from edumetadata.models import (GeologicTime, Grade,
+from edumetadata.models import (AlternateType, GeologicTime, Grade,
                                  HistoricalEra, Subject)
 from edumetadata.fields import HistoricalDateField
 
@@ -60,6 +58,9 @@ class Unit(models.Model):
     overview = models.TextField()
     published = models.BooleanField()
     published_date = models.DateTimeField(
+        blank=True,
+        null=True)
+    secondary_content_types = models.ManyToManyField(AlternateType,
         blank=True,
         null=True)
     slug = models.SlugField(
