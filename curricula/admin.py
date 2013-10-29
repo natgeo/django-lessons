@@ -537,6 +537,9 @@ class LessonAdmin(ContentAdmin):
 
     def response_add(self, request, obj, post_url_continue=None):
         obj.save()
+        import django
+        if post_url_continue is None and django.VERSION[1] < 5:
+            post_url_continue = '../%s/'
         return super(LessonAdmin, self).response_add(request, obj, post_url_continue)
 
     def response_change(self, request, obj):
@@ -722,6 +725,9 @@ class UnitAdmin(admin.ModelAdmin):
 
     def response_add(self, request, obj, post_url_continue=None):
         obj.save()
+        import django
+        if post_url_continue is None and django.VERSION[1] < 5:
+            post_url_continue = '../%s/'
         return super(UnitAdmin, self).response_add(request, obj, post_url_continue)
 
     def response_change(self, request, obj):
