@@ -636,6 +636,7 @@ if RELATION_MODELS:
 
 class UnitAdmin(admin.ModelAdmin):
     date_hierarchy = 'published_date'
+    filter_horizontal = ['secondary_content_types', ]
     readonly_fields = ['eras', 'relevant_start_date', 'relevant_end_date',
         'geologic_time', 'subjects', 'grades', ]
     if REPORTING_MODEL:
