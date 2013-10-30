@@ -168,6 +168,7 @@ class LessonForm(forms.ModelForm):
 
     class Meta:
         model = Lesson
+        exclude = ['concepts']
 
     def initialize_values(self, kwargs, field_name):
         if kwargs.has_key('instance'):
