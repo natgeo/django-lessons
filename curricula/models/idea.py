@@ -151,14 +151,14 @@ class IdeaCategory(models.Model):
             """
             Get all related items of the specified content type
             """
-            return self.ideacategoryrelation_set.filter(
+            return self.relations.filter(
                 content_type__name=content_type)
 
         def get_relation_type(self, relation_type):
             """
             Get all relations of the specified relation type
             """
-            return self.ideacategoryrelation_set.filter(
+            return self.relations.filter(
                 relation_type__iexact=relation_type)
 
     def more_like_this(self, ar_a):
