@@ -508,13 +508,13 @@ class LessonAdmin(ContentAdmin):
         field, model = KEY_IMAGE
         if form[field].data != None and form[field].data != '':
             try:
-                item = obj.lessonrelation_set.get(relation_type=field)
+                item = obj.relations.get(relation_type=field)
                 item.object_id = form[field].data
                 item.save()
             except LessonRelation.DoesNotExist:
                 app_label, model = model.split('.')
                 ctype = ContentType.objects.get(app_label=app_label, model=model)
-                item = obj.lessonrelation_set.create(relation_type=field, object_id=form[field].data, content_type_id=ctype.id)
+                item = obj.relations.create(relation_type=field, object_id=form[field].data, content_type_id=ctype.id)
 
         learning_objectives = form.cleaned_data['learning_objs']
         ctype = ContentType.objects.get_for_model(Lesson)
