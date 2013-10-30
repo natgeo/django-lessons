@@ -19,8 +19,10 @@ def unique(self, *args):
 
 
 def ul_as_list(html):
-    soup = BeautifulSoup(html)
-    return [li.contents[0] for li in soup('li')]
+    if html:
+        soup = BeautifulSoup(html)
+        return [li.contents[0] for li in soup('li')]
+    return []
 
 
 def list_as_ul(items):
