@@ -84,6 +84,9 @@ class ObjectiveRelation(models.Model):
     class Meta:
         app_label = 'curricula'
 
+    def __unicode__(self):
+        return self.objective.__unicode__()
+
 
 class Material(models.Model):
     name = models.TextField()
