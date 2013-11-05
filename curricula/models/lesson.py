@@ -87,6 +87,9 @@ class Lesson(models.Model):
         max_length=10,
         help_text="""This field is for the internal NG Education ID number.
         This is required for all instructional content.""")
+    instructional_pathways = models.BooleanField(
+        default=True,
+        verbose_name="Display instructional pathways module")
     is_modular = models.BooleanField(
         default=True,
         help_text="""If unchecked, this field indicates that this lesson should
