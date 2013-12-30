@@ -1,6 +1,6 @@
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
-from django.contrib.localflavor.us.us_states import STATE_CHOICES
+from localflavor.us.us_states import STATE_CHOICES
 from django.db import models
 from django.db.models import Q
 from django.utils.html import strip_tags
@@ -160,7 +160,7 @@ class Tip(models.Model):
     def __unicode__(self):
         if self.category:
             return u'%s: %s' % (self.category.name,
-                               truncate(strip_tags(self.body), 45))
+                                truncate(strip_tags(self.body), 45))
         else:
             return truncate(strip_tags(self.body), 75)
 
@@ -181,8 +181,8 @@ class Standard(models.Model):
 
     def __unicode__(self):
         return u"%s: %s: %s" % (truncate(self.get_standard_type_display(), 54),
-                               truncate(self.name, 44),
-                               truncate(strip_tags(self.definition), 54))
+                                truncate(self.name, 44),
+                                truncate(strip_tags(self.definition), 54))
 
     class Meta:
         ordering = ["standard_type", "name"]

@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import patterns, url
 from .models import Activity, Lesson
 
 urlpatterns = patterns('',
@@ -23,36 +23,27 @@ urlpatterns = patterns('',
         'django.views.generic.list_detail.object_list',
         {'template_name': 'curricula/activity_list.html',
          'queryset': Activity.objects.filter(published=True), },
-        name="activity-list",
-    ),
+        name="activity-list",),
     url(r'^activity/(?P<slug>[-\w]*)/$',
         'curricula.views.activity_detail',
         {'template_name': 'curricula/activity_detail.html'},
-        name='activity-detail'
-    ),
+        name='activity-detail'),
     url(r'^lesson/$',
         'django.views.generic.list_detail.object_list',
         {'template_name': 'curricula/lesson_list.html',
          'queryset': Lesson.objects.filter(published=True), },
-        name="lesson-list",
-    ),
+        name="lesson-list",),
     url(r'^lesson/(?P<slug>[-\w]*)/$',
         'curricula.views.lesson_detail',
         {'template_name': 'curricula/lesson_detail.html'},
-        name='lesson-detail'
-    ),
+        name='lesson-detail'),
     url(r'activity_info/(?P<ids>.+)$',
         'activity_info',
         name='activity-info'),
-
     url(r'^standards/$',
         'curricula.views.standard_type_list',
-        name='standard-type-list'
-    ),
-
+        name='standard-type-list'),
     url(r'^standards/(?P<standard_type>[-\w]*)/$',
         'curricula.views.standard_type_detail',
-        name='standard-type-detail'
-    ),
-
+        name='standard-type-detail'),
 )
