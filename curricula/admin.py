@@ -1,14 +1,15 @@
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
+from django.utils.encoding import force_unicode
 from django.utils.html import strip_tags
+from django.utils.html import escape, conditional_escape
 
 from audience.models import AUDIENCE_FLAGS
 from audience.settings import AUDIENCE_FIELDS
 from audience.widgets import AdminBitFieldWidget, bitfield_display, VariationWidgetWrapper
 from bitfield import BitField
 from concepts.admin import ConceptItemInline
-from concepts.models import ConceptItem
 from contentrelations.admin import RelatedInline
 from genericcollection import GenericCollectionInlineModelAdmin
 from tinymce.widgets import TinyMCE
@@ -119,6 +120,27 @@ class ContentAdmin(admin.ModelAdmin):
     thumbnail_display.allow_tags = True
 
 
+class StandardsWidget(admin.widgets.FilteredSelectMultiple):
+    def render_option(self, selected_choices, option_value, option_label):
+        option_value = force_unicode(option_value)
+        if option_value in selected_choices:
+            selected_html = u' selected="selected"'
+            if not self.allow_multiple_selected:
+                # Only allow for a single selection.
+                selected_choices.remove(option_value)
+        else:
+            selected_html = ''
+
+        standard = Standard.objects.get(pk=option_value)
+        title = u"%s: %s: %s" % (standard.get_standard_type_display(),
+                                 standard.name,
+                                 strip_tags(standard.definition))
+
+        return u'<option value="%s" title="%s"%s>%s</option>' % (
+            escape(option_value), title, selected_html,
+            conditional_escape(force_unicode(option_label)))
+
+
 class ActivityAdmin(ContentAdmin):
     filter_horizontal = ['eras', 'grades', 'grouping_types', 'materials',
                          'physical_space_types', 'prior_activities',
@@ -167,6 +189,14 @@ class ActivityAdmin(ContentAdmin):
             formfield.widget = VariationWidgetWrapper(formfield.widget,
                 self.admin_site, obj_id=obj_id, field=db_field.name,
                 object_name=self.object_name)
+
+        return formfield
+
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        formfield = super(ActivityAdmin, self).formfield_for_manytomany(db_field, request, **kwargs)
+
+        if db_field.name.lower() == 'standards':
+            formfield.widget = StandardsWidget(db_field.verbose_name, True)
 
         return formfield
 
