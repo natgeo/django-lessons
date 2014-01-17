@@ -4,13 +4,18 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models.loading import get_model
 
 from .models import Activity, ObjectiveRelation, Lesson, IdeaCategory, Unit
-from .settings import ACTIVITY_FIELDS, LESSON_FIELDS, CREDIT_MODEL
+from .settings import (ACTIVITY_FIELDS, LESSON_FIELDS, CREDIT_MODEL,
+                       REQUIRE_REPORTING_CATEGORIES)
 from .widgets import SpecificGenericRawIdWidget
 
+
 class ActivityForm(forms.ModelForm):
-    learning_objs = forms.CharField(required=False, label='Learning objectives',
-                                    widget=forms.Textarea(attrs={'cols': 128, 'rows': 5}),
-                                    help_text="Each learning objective must be separated by a carriage return. Each line displays as a bulleted list.")
+    learning_objs = forms.CharField(
+        required=False,
+        label='Learning objectives',
+        widget=forms.Textarea(attrs={'cols': 128, 'rows': 5}),
+        help_text="Each learning objective must be separated by a carriage "
+                  "return. Each line displays as a bulleted list.")
 
     class Media:
         js = (
@@ -45,7 +50,7 @@ class ActivityForm(forms.ModelForm):
             ctype = ContentType.objects.get_for_model(Activity)
             initial_objs = ''
             objectiverelations = ObjectiveRelation.objects.filter(
-                                    content_type=ctype, object_id=instance.id)
+                content_type=ctype, object_id=instance.id)
             objectiverelations = objectiverelations.filter()
             for objectiverelation in objectiverelations:
                 initial_objs += objectiverelation.objective.text
@@ -65,14 +70,16 @@ class ActivityForm(forms.ModelForm):
         atype = self.cleaned_data['assessment_type']
         assessment = self.cleaned_data['assessment']
         if assessment and not atype:
-            raise forms.ValidationError("Assessment Type is required, when there is an Assessment.")
+            raise forms.ValidationError("Assessment Type is required, when "
+                                        "there is an Assessment.")
 
         return atype
 
     def clean_field(self, name):
         field = self.cleaned_data[name]
         if 'published' in self.cleaned_data and self.cleaned_data['published'] and not field:
-            raise forms.ValidationError("This field is required, for published activities.")
+            raise forms.ValidationError("This field is required for "
+                                        "published activities.")
 
         return field
 
@@ -92,7 +99,10 @@ class ActivityForm(forms.ModelForm):
         return self.clean_field('internet_access_type')
 
     def clean_reporting_categories(self):
-        return self.clean_field('reporting_categories')
+        if REQUIRE_REPORTING_CATEGORIES:
+            return self.clean_field('reporting_categories')
+        else:
+            return self.cleaned_data['reporting_categories']
 
     def clean_skills(self):
         return self.clean_field('skills')
@@ -113,7 +123,8 @@ class ActivityForm(forms.ModelForm):
 class ActivityFormSet(forms.models.BaseInlineFormSet):
     def get_queryset(self):
         'Returns all ActivityRelation objects which point to our Lesson'
-        return super(ActivityFormSet, self).get_queryset().exclude(relation_type__in=dict(ACTIVITY_FIELDS).keys())
+        return super(ActivityFormSet, self).get_queryset().exclude(
+            relation_type__in=dict(ACTIVITY_FIELDS).keys())
 
 
 class ActivityInlineFormset(forms.models.BaseInlineFormSet):
@@ -130,7 +141,9 @@ class ActivityInlineFormset(forms.models.BaseInlineFormSet):
 
             activity = form.cleaned_data.get('activity')
             if 'published' in self.data and activity and not activity.published:
-                raise forms.ValidationError('Please publish all associated activities, before publishing this lesson.')
+                msg = "Please publish all associated activities before " \
+                      "publishing this lesson."
+                raise forms.ValidationError(msg)
 
 
 class LessonInlineFormset(forms.models.BaseInlineFormSet):
@@ -139,7 +152,7 @@ class LessonInlineFormset(forms.models.BaseInlineFormSet):
 
         count = 0
         for form in self.forms:
-            if form.cleaned_data != {} and form.cleaned_data['DELETE'] == False:
+            if form.cleaned_data != {} and not form.cleaned_data['DELETE']:
                 count += 1
         if count <= 0:
             if 'published' in self.data:
@@ -171,7 +184,7 @@ class LessonForm(forms.ModelForm):
         exclude = ['concepts']
 
     def initialize_values(self, kwargs, field_name):
-        if kwargs.has_key('instance'):
+        if 'instance' in kwargs:
             objects = kwargs['instance'].relations.filter(relation_type=field_name)
             if len(objects) > 0:
                 self.fields[field_name].initial = objects[0].object_id
@@ -189,7 +202,7 @@ class LessonForm(forms.ModelForm):
             ctype = ContentType.objects.get_for_model(Lesson)
             initial_objs = ''
             objectiverelations = ObjectiveRelation.objects.filter(
-                                    content_type=ctype, object_id=instance.id)
+                content_type=ctype, object_id=instance.id)
             for objectiverelation in objectiverelations:
                 initial_objs += objectiverelation.objective.text
                 initial_objs += '\r\n'
@@ -203,15 +216,6 @@ class LessonForm(forms.ModelForm):
         if field_name not in self.cleaned_data:
             raise forms.ValidationError("%s is required." % field_name)
         return cleaned_data
-
-    # def clean_reporting_categories(self):
-    #     reporting_categories = self.cleaned_data['reporting_categories']
-
-    #     if self.cleaned_data['published'] and not reporting_categories:
-    #         if len(reporting_categories) == 0:
-    #             raise forms.ValidationError("Reporting Categories is required for published content.")
-
-    #     return reporting_categories
 
 
 class IdeaCategoryForm(forms.ModelForm):
@@ -231,9 +235,10 @@ class IdeaCategoryForm(forms.ModelForm):
 
     def clean_field(self, name):
         field = self.cleaned_data[name]
+        msg = "%s is required for published idea categories." % name.capitalize()
         if 'published' in self.cleaned_data:
             if self.cleaned_data['published'] and not field:
-                raise forms.ValidationError("%s is required, for published activities." % name.capitalize())
+                raise forms.ValidationError(msg)
 
 
 class UnitForm(forms.ModelForm):

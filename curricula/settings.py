@@ -19,7 +19,7 @@ SUBTITLE_MCE_ATTRS = {
 }
 
 DIRECTIONS_MCE_ATTRS = {
-    'content_css' : settings.STATIC_URL + "css/glossary_term.css",
+    'content_css': settings.STATIC_URL + "css/glossary_term.css",
     'theme_advanced_buttons1': 'glossify, fullscreen,preview,code,print,spellchecker,|,cut,copy,paste,pastetext,pasteword,undo,redo,|,search,replace,|,rawmode',
     'setup': 'add_button_callback',
     'entity_encoding': 'numeric',
@@ -83,7 +83,8 @@ DEFAULT_SETTINGS = {
         (1, 'Tip'),
         (2, 'Modification'),
     ),
-    'MCE_ATTRS': None
+    'MCE_ATTRS': None,
+    'REQUIRE_REPORTING_CATEGORIES': True,
 }
 
 DEFAULT_SETTINGS.update(getattr(settings, 'LESSON_SETTINGS', {}))
