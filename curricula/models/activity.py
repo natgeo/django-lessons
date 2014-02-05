@@ -9,21 +9,21 @@ from django.utils.html import strip_tags
 from audience.settings import AUDIENCE_FLAGS
 from bitfield import BitField
 from edumetadata.models import (AlternateType, GeologicTime, Grade,
-                                 HistoricalEra, Subject)
+                                HistoricalEra, Subject)
 from edumetadata.fields import HistoricalDateField
-from concepts.models import delete_listener  #, Concept, ConceptItem
+from concepts.models import delete_listener
 from concepts.managers import ConceptManager
 
 from curricula.settings import (ASSESSMENT_TYPES, RELATION_MODELS,
-                      PEDAGOGICAL_PURPOSE_TYPE_CHOICES, REPORTING_MODEL,
-                      CREDIT_MODEL, INTERNET_ACCESS_TYPES, KEY_IMAGE)
+                                PEDAGOGICAL_PURPOSE_TYPE_CHOICES, REPORTING_MODEL,
+                                CREDIT_MODEL, INTERNET_ACCESS_TYPES, KEY_IMAGE)
 from curricula.utils import truncate
 
 if REPORTING_MODEL:
-    # REPORTING_MODEL = get_model(*REPORTING_MODEL.split("."))
     from reporting.models import ReportingCategory as REPORTING_MODEL
 
 __all__ = ('Activity', 'ResourceItem', 'Vocabulary', 'QuestionAnswer')
+
 
 class ActivityManager(models.Manager):
     def get_published(self):
@@ -66,7 +66,8 @@ class Activity(models.Model):
     concepts = ConceptManager()
     create_date = models.DateTimeField(auto_now_add=True)
     if CREDIT_MODEL:
-        credit = models.ForeignKey(CREDIT_MODEL,
+        credit = models.ForeignKey(
+            CREDIT_MODEL,
             blank=True,
             null=True)
     description = models.TextField()
@@ -74,25 +75,29 @@ class Activity(models.Model):
         blank=True,
         null=True)
     duration = models.IntegerField(verbose_name="Duration Minutes")
-    eras = models.ManyToManyField(HistoricalEra,
+    eras = models.ManyToManyField(
+        HistoricalEra,
         blank=True,
         null=True)
     extending_the_learning = models.TextField(
         blank=True,
         null=True)
-    geologic_time = models.ForeignKey(GeologicTime,
+    geologic_time = models.ForeignKey(
+        GeologicTime,
         blank=True,
         null=True)
-    grades = models.ManyToManyField(Grade,
+    grades = models.ManyToManyField(
+        Grade,
         blank=True,
         null=True)
-    grouping_types = models.ManyToManyField('curricula.GroupingType',
+    grouping_types = models.ManyToManyField(
+        'curricula.GroupingType',
         blank=True,
         null=True)
     id_number = models.CharField(
         max_length=10,
-        help_text="""This field is for the internal NG Education ID number. This
-        is required for all instructional content.""")
+        help_text="This field is for the internal NG Education ID number. "
+        "This is required for all instructional content.")
     internet_access_type = models.IntegerField(
         blank=True,
         null=True,
@@ -101,13 +106,17 @@ class Activity(models.Model):
         default=True,
         help_text="""If unchecked, this field indicates that this activity
         should not appear as stand-alone outside of a lesson view.""")
-    learner_groups = models.ManyToManyField('curricula.LearnerGroup',
+    last_updated_date = models.DateTimeField(auto_now=True)
+    learner_groups = models.ManyToManyField(
+        'curricula.LearnerGroup',
         blank=True,
         null=True)
     learning_objective_set = generic.GenericRelation('curricula.ObjectiveRelation')
-    lessons = models.ManyToManyField('curricula.Lesson',
+    lessons = models.ManyToManyField(
+        'curricula.Lesson',
         through='curricula.LessonActivity')
-    materials = models.ManyToManyField('curricula.Material',
+    materials = models.ManyToManyField(
+        'curricula.Material',
         blank=True,
         null=True)
     notes_on_readability_score = models.TextField(
@@ -125,13 +134,16 @@ class Activity(models.Model):
         blank=True,
         null=True,
         choices=PEDAGOGICAL_PURPOSE_TYPE_CHOICES)
-    physical_space_types = models.ManyToManyField('curricula.PhysicalSpaceType',
+    physical_space_types = models.ManyToManyField(
+        'curricula.PhysicalSpaceType',
         blank=True,
         null=True)
-    plugin_types = models.ManyToManyField('curricula.PluginType',
+    plugin_types = models.ManyToManyField(
+        'curricula.PluginType',
         blank=True,
         null=True)
-    prior_activities = models.ManyToManyField('self',
+    prior_activities = models.ManyToManyField(
+        'self',
         blank=True,
         null=True,
         symmetrical=False,
@@ -150,18 +162,22 @@ class Activity(models.Model):
         blank=True,
         null=True)
     if REPORTING_MODEL:
-        reporting_categories = models.ManyToManyField(REPORTING_MODEL,
+        reporting_categories = models.ManyToManyField(
+            REPORTING_MODEL,
             blank=True,
             null=True)
-    resource_items = models.ManyToManyField('resource_carousel.ExternalResource',
+    resource_items = models.ManyToManyField(
+        'resource_carousel.ExternalResource',
         through='curricula.ResourceItem')
-    secondary_content_types = models.ManyToManyField(AlternateType,
+    secondary_content_types = models.ManyToManyField(
+        AlternateType,
         blank=True,
         null=True)
     setup = models.TextField(
         blank=True,
         null=True)
-    skills = models.ManyToManyField('curricula.Skill',
+    skills = models.ManyToManyField(
+        'curricula.Skill',
         blank=True,
         null=True,
         limit_choices_to={'children__isnull': True})
@@ -171,26 +187,32 @@ class Activity(models.Model):
         help_text="""The URL slug is auto-generated, but producers should adjust
         it if: a) punctuation in the title causes display errors; and/or b) the
         title changes after the slug has been generated.""")
-    standards = models.ManyToManyField('curricula.Standard',
+    standards = models.ManyToManyField(
+        'curricula.Standard',
         blank=True,
         null=True)
-    subjects = models.ManyToManyField(Subject,
+    subjects = models.ManyToManyField(
+        Subject,
         blank=True,
         null=True,
         limit_choices_to={'parent__isnull': False},
         verbose_name="Subjects and Disciplines")
     subtitle_guiding_question = models.TextField(
         verbose_name="Subtitle or Guiding Question")
-    teaching_approaches = models.ManyToManyField('curricula.TeachingApproach',
+    teaching_approaches = models.ManyToManyField(
+        'curricula.TeachingApproach',
         blank=True,
         null=True)
-    teaching_method_types = models.ManyToManyField('curricula.TeachingMethodType',
+    teaching_method_types = models.ManyToManyField(
+        'curricula.TeachingMethodType',
         blank=True,
         null=True)
-    tech_setup_types = models.ManyToManyField('curricula.TechSetupType',
+    tech_setup_types = models.ManyToManyField(
+        'curricula.TechSetupType',
         blank=True,
         null=True)
-    tips = models.ManyToManyField('curricula.Tip',
+    tips = models.ManyToManyField(
+        'curricula.Tip',
         blank=True,
         null=True,
         verbose_name="Tips & Modifications")
@@ -198,7 +220,8 @@ class Activity(models.Model):
         max_length=256,
         help_text="""GLOBAL: Use the text variations field to create versions
         for audiences other than the default.""")
-    vocabulary = models.ManyToManyField('reference.GlossaryTerm',
+    vocabulary = models.ManyToManyField(
+        'reference.GlossaryTerm',
         through='curricula.Vocabulary')
 
     objects = ActivityManager()
@@ -321,8 +344,9 @@ class QuestionAnswer(models.Model):
 
 class ResourceItem(models.Model):
     activity = models.ForeignKey(Activity, related_name="+")
-    resource = models.ForeignKey('resource_carousel.ExternalResource',
-            related_name='instructional_resource')
+    resource = models.ForeignKey(
+        'resource_carousel.ExternalResource',
+        related_name='instructional_resource')
 
     class Meta:
         app_label = 'curricula'

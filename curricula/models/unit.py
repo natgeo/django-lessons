@@ -4,16 +4,13 @@ from django.utils.html import strip_tags
 
 from audience.settings import AUDIENCE_FLAGS
 from bitfield import BitField
-from concepts.models import delete_listener  #, Concept, ConceptItem
+from concepts.models import delete_listener
 from edumetadata.models import (AlternateType, GeologicTime, Grade,
-                                 HistoricalEra, Subject)
+                                HistoricalEra, Subject)
 from edumetadata.fields import HistoricalDateField
 
-from curricula.settings import (
-                    RELATION_MODELS,
-                      CREDIT_MODEL,
-                      REPORTING_MODEL, KEY_IMAGE
-                      )
+from curricula.settings import (RELATION_MODELS, CREDIT_MODEL,
+                                REPORTING_MODEL, KEY_IMAGE)
 
 __all__ = ('Unit', 'UnitLesson')
 
@@ -43,7 +40,8 @@ class Unit(models.Model):
         appropriate for those audiences.''')
     create_date = models.DateTimeField(auto_now_add=True)
     if CREDIT_MODEL:
-        credit = models.ForeignKey(CREDIT_MODEL,
+        credit = models.ForeignKey(
+            CREDIT_MODEL,
             blank=True,
             null=True)
     description = models.TextField()
@@ -53,14 +51,16 @@ class Unit(models.Model):
         This is required for all instructional content.""")
     if KeyImageModel:
         key_image = models.ForeignKey(KeyImageModel)
-    lessons = models.ManyToManyField('curricula.Lesson',
+    lessons = models.ManyToManyField(
+        'curricula.Lesson',
         through='curricula.UnitLesson')
     overview = models.TextField()
     published = models.BooleanField()
     published_date = models.DateTimeField(
         blank=True,
         null=True)
-    secondary_content_types = models.ManyToManyField(AlternateType,
+    secondary_content_types = models.ManyToManyField(
+        AlternateType,
         blank=True,
         null=True)
     slug = models.SlugField(
@@ -77,15 +77,19 @@ class Unit(models.Model):
         verbose_name="Unit Title",
         help_text="""GLOBAL: Use the text variations field to create versions
         for audiences other than the default.""")
+    last_updated_date = models.DateTimeField(auto_now=True)
 
     # Read-only fields aggregated from lessons/activities
-    eras = models.ManyToManyField(HistoricalEra,
+    eras = models.ManyToManyField(
+        HistoricalEra,
         blank=True,
         null=True)
-    geologic_time = models.ForeignKey(GeologicTime,
+    geologic_time = models.ForeignKey(
+        GeologicTime,
         blank=True,
         null=True)
-    grades = models.ManyToManyField(Grade,
+    grades = models.ManyToManyField(
+        Grade,
         blank=True,
         null=True)
     relevant_start_date = HistoricalDateField(
@@ -95,10 +99,12 @@ class Unit(models.Model):
         blank=True,
         null=True)
     if REPORTING_MODEL:
-        reporting_categories = models.ManyToManyField(REPORTING_MODEL,
+        reporting_categories = models.ManyToManyField(
+            REPORTING_MODEL,
             blank=True,
             null=True)
-    subjects = models.ManyToManyField(Subject,
+    subjects = models.ManyToManyField(
+        Subject,
         blank=True,
         null=True,
         limit_choices_to={'parent__isnull': False})
@@ -151,7 +157,6 @@ class Unit(models.Model):
         if to_remove:
             attr.remove(*list(to_remove))
 
-
     def __unicode__(self):
         return strip_tags(self.title)
 
@@ -161,7 +166,8 @@ class Unit(models.Model):
 
     def aggregate_activity_attr(self, attr_name, ignore_own=False):
         """
-        Generic method to gather up the activities and deduplicate a specific attribute
+        Generic method to gather up the activities and deduplicate a specific
+        attribute
 
         Can pass a list of IDs or a QuerySet
         """
@@ -222,7 +228,7 @@ class UnitLesson(models.Model):
     unit = models.ForeignKey('curricula.Unit')
     lesson = models.ForeignKey('curricula.Lesson')
     transition_text = models.TextField(blank=True, null=True)
-    order = models.IntegerField(blank=True, null=True) #, verbose_name='Sort Order')
+    order = models.IntegerField(blank=True, null=True)
 
     class Meta:
         ordering = ('order', )
