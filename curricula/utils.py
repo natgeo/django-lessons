@@ -26,7 +26,10 @@ def ul_as_list(html):
 
 
 def list_as_ul(items):
-    return "<ul>%s</ul>" % "".join("<li>%s</li>" % x for x in items)
+    if items:
+        return "<ul>%s</ul>" % "".join("<li>%s</li>" % x for x in items)
+    else:
+        return ""
 
 
 def truncate(string, limit=48, fill="..."):
