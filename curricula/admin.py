@@ -25,13 +25,12 @@ from .models import (Activity, ActivityRelation, GroupingType,
 if settings.DEBUG:
     from .models import PluginType
 from .settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
-                      CREDIT_MODEL, REPORTING_MODEL, ACTIVITY_FIELDS,
-                      MCE_ATTRS, ACTIVITY_TINYMCE_FIELDS,
-                      IDEACATEGORY_TINYMCE_FIELDS, LESSON_TINYMCE_FIELDS,
-                      UNIT_TINYMCE_FIELDS)
+                       CREDIT_MODEL, REPORTING_MODEL, ACTIVITY_FIELDS,
+                       MCE_ATTRS, ACTIVITY_TINYMCE_FIELDS,
+                       IDEACATEGORY_TINYMCE_FIELDS, LESSON_TINYMCE_FIELDS,
+                       UNIT_TINYMCE_FIELDS)
 from .utils import truncate
 from .widgets import VocabularyIdWidget
-
 
 
 class ResourceCarouselInline(RelatedInline):
@@ -141,6 +140,16 @@ class StandardsWidget(admin.widgets.FilteredSelectMultiple):
             conditional_escape(force_unicode(option_label)))
 
 
+class SkillAdmin(admin.ModelAdmin):
+    formfield_overrides = {
+        BitField: {
+            'choices': AUDIENCE_FLAGS,
+            'initial': 1,
+            'widget': AdminBitFieldWidget()
+        }
+    }
+
+
 class ActivityAdmin(ContentAdmin):
     filter_horizontal = ['eras', 'grades', 'grouping_types', 'materials',
                          'physical_space_types', 'prior_activities',
@@ -186,7 +195,8 @@ class ActivityAdmin(ContentAdmin):
                     obj_id = None
             else:
                 obj_id = None
-            formfield.widget = VariationWidgetWrapper(formfield.widget,
+            formfield.widget = VariationWidgetWrapper(
+                formfield.widget,
                 self.admin_site, obj_id=obj_id, field=db_field.name,
                 object_name=self.object_name)
 
@@ -202,39 +212,44 @@ class ActivityAdmin(ContentAdmin):
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = [
-            ('Overview',
-                {'fields': [
+            ('Overview', {
+                'fields': [
                     'appropriate_for', 'title', 'slug',
                     'subtitle_guiding_question', 'pedagogical_purpose_type',
                     'description', 'duration', 'learner_groups', 'is_modular',
                     'ads_excluded', 'id_number', 'notes_on_readability_score'
-                 ],
-                 'classes': ['collapse']}),
-            ('Directions',
-                {'fields': [
+                ],
+                'classes': ['collapse']
+            }),
+            ('Directions', {
+                'fields': [
                     'directions', 'assessment_type', 'assessment',
                     'extending_the_learning', 'tips'
                 ],
-                'classes': ['collapse']}),
-            ('Objectives',
-                {'fields': [
+                'classes': ['collapse']
+            }),
+            ('Objectives', {
+                'fields': [
                     'learning_objs', 'teaching_approaches',
                     'teaching_method_types', 'skills', 'standards'
                 ],
-                'classes': ['collapse']}),
-            ('Preparation',
-                {'fields': [
+                'classes': ['collapse']
+            }),
+            ('Preparation', {
+                'fields': [
                     'materials', 'tech_setup_types', 'internet_access_type',
                     'plugin_types', 'physical_space_types', 'setup',
                     'grouping_types', 'accessibility_notes', 'other_notes'
-                 ],
-                 'classes': ['collapse']}),
-            ('Background & Vocabulary',
-                {'fields': [
+                ],
+                'classes': ['collapse']
+            }),
+            ('Background & Vocabulary', {
+                'fields': [
                     'background_information', 'prior_knowledge',
                     'prior_activities'
                 ],
-                'classes': ['collapse']}),
+                'classes': ['collapse']
+            }),
         ]
         if CREDIT_MODEL is not None:
             fieldsets.append(('Credits, Sponsors, Partners', {'fields': ['credit'], 'classes': ['collapse']}))
@@ -258,7 +273,7 @@ class ActivityAdmin(ContentAdmin):
         super(ActivityAdmin, self).save_model(request, obj, form, change, *args, **kwargs)
 
         for field, model in ACTIVITY_FIELDS:
-            if form[field].data == None or form[field].data == '':
+            if form[field].data is None or form[field].data == '':
                 # user cleared the field
                 items = obj.relations.filter(relation_type=field)
                 if len(items) > 0:
@@ -277,7 +292,7 @@ class ActivityAdmin(ContentAdmin):
         ctype = ContentType.objects.get_for_model(Activity)
         # clear existing
         objectiverelations = ObjectiveRelation.objects.filter(
-                                content_type=ctype, object_id=obj.id)
+            content_type=ctype, object_id=obj.id)
 
         for objectiverelation in objectiverelations:
             try:
@@ -355,7 +370,7 @@ class IdeaAdmin(admin.ModelAdmin):
               JAVASCRIPT_URL + 'admin.js',
               JAVASCRIPT_URL + 'reference_tinymce_widget.js',
               settings.STATIC_URL + 'js_scss/libs/jquery.ui.core.min.js',
-        )
+              )
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(IdeaAdmin, self).formfield_for_dbfield(db_field, **kwargs)
@@ -409,7 +424,7 @@ class IdeaCategoryAdmin(ContentAdmin):
               JAVASCRIPT_URL + 'admin.js',
               JAVASCRIPT_URL + 'reference_tinymce_widget.js',
               settings.STATIC_URL + 'js_scss/libs/jquery.ui.core.min.js',
-        )
+              )
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(IdeaCategoryAdmin, self).formfield_for_dbfield(db_field, **kwargs)
@@ -456,13 +471,15 @@ if RELATION_MODELS:
 
 class LessonAdmin(ContentAdmin):
     filter_horizontal = ['materials', 'secondary_content_types', 'prior_lessons']
-    readonly_fields = ['accessibility_notes', 'eras', 'prior_knowledge',
+    readonly_fields = [
+        'accessibility_notes', 'eras', 'prior_knowledge',
         'relevant_start_date', 'relevant_end_date', 'geologic_time', 'subjects',
         'grades', 'duration', 'physical_space_types', 'plugin_types',
-        'tech_setup_types']
+        'tech_setup_types'
+    ]
     if REPORTING_MODEL:
         filter_horizontal += ['reporting_categories']
-        readonly_fields += ['reporting_categories',]
+        readonly_fields += ['reporting_categories', ]
 
     form = LessonForm
     if RELATION_MODELS:
@@ -500,7 +517,8 @@ class LessonAdmin(ContentAdmin):
                     obj_id = None
             else:
                 obj_id = None
-            formfield.widget = VariationWidgetWrapper(formfield.widget,
+            formfield.widget = VariationWidgetWrapper(
+                formfield.widget,
                 self.admin_site, obj_id=obj_id, field=db_field.name,
                 object_name=self.object_name)
 
@@ -512,7 +530,7 @@ class LessonAdmin(ContentAdmin):
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = [
-            ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'subtitle_guiding_question', 'description', 'is_modular', 'ads_excluded', 'id_number', 'instructional_pathways',], 'classes': ['collapse']}),
+            ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'subtitle_guiding_question', 'description', 'is_modular', 'ads_excluded', 'id_number', 'instructional_pathways', ], 'classes': ['collapse']}),
             ('Directions', {'fields': ['assessment_type', 'assessment'], 'classes': ['collapse']}),
             ('Objectives', {'fields': ['learning_objs'], 'classes': ['collapse']}),
             ('Preparation', {'fields': ['materials', 'other_notes'], 'classes': ['collapse']}),
@@ -536,7 +554,7 @@ class LessonAdmin(ContentAdmin):
         super(LessonAdmin, self).save_model(request, obj, form, change, *args, **kwargs)
 
         field, model = KEY_IMAGE
-        if form[field].data != None and form[field].data != '':
+        if form[field].data is not None and form[field].data != '':
             try:
                 item = obj.relations.get(relation_type=field)
                 item.object_id = form[field].data
@@ -550,7 +568,8 @@ class LessonAdmin(ContentAdmin):
         ctype = ContentType.objects.get_for_model(Lesson)
         # clear existing
         objectiverelations = ObjectiveRelation.objects.filter(
-                                content_type=ctype, object_id=obj.id)
+            content_type=ctype,
+            object_id=obj.id)
 
         for objectiverelation in objectiverelations:
             objectiverelation.objective.delete()
@@ -670,7 +689,7 @@ class UnitAdmin(admin.ModelAdmin):
     readonly_fields = ['eras', 'relevant_start_date', 'relevant_end_date',
         'geologic_time', 'subjects', 'grades', ]
     if REPORTING_MODEL:
-        readonly_fields += ['reporting_categories',]
+        readonly_fields += ['reporting_categories', ]
     form = UnitForm
     formfield_overrides = {
         BitField: {
@@ -775,11 +794,11 @@ admin.site.register(Idea, IdeaAdmin)
 admin.site.register(IdeaCategory, IdeaCategoryAdmin)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Material, TypeAdmin)
+admin.site.register(Skill, SkillAdmin)
 if settings.DEBUG:
     admin.site.register(LearningObjective)
     admin.site.register(PluginType)
     admin.site.register(QuestionAnswer)
-    admin.site.register(Skill)
     admin.site.register(TeachingApproach)
 admin.site.register(Standard, StandardAdmin)
 admin.site.register(TeachingMethodType, TypeAdmin)
