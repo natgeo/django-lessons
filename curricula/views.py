@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render_to_response
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.template import RequestContext
 from django.utils import simplejson
 
@@ -128,17 +128,20 @@ def standard_type_detail(request, standard_type):
     """
     Detail of a standard types
     """
-    from .settings import STD_TYPE_SLUG_MAP
-    context = {
-        'objects': Standard.objects.filter(
-            standard_type=STD_TYPE_SLUG_MAP[standard_type]['key']
-        ),
-        'standard_type': STD_TYPE_SLUG_MAP[standard_type]['name']
-    }
-    template = (
-        "curricula/%s_detail.html" % standard_type,
-        "curricula/standard_type_detail.html"
-    )
-    return render_to_response(template,
-                              context,
-                              context_instance=RequestContext(request))
+    try:
+        from .settings import STD_TYPE_SLUG_MAP
+        context = {
+            'objects': Standard.objects.filter(
+                standard_type=STD_TYPE_SLUG_MAP[standard_type]['key']
+            ),
+            'standard_type': STD_TYPE_SLUG_MAP[standard_type]['name']
+        }
+        template = (
+            "curricula/%s_detail.html" % standard_type,
+            "curricula/standard_type_detail.html"
+        )
+        return render_to_response(template,
+                                  context,
+                                  context_instance=RequestContext(request))
+    except KeyError:
+        raise Http404
