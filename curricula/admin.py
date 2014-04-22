@@ -624,6 +624,7 @@ class StandardAdmin(admin.ModelAdmin):
     list_display = ('standard_type', 'name', 'definition', 'grade_levels')
     list_filter = ('standard_type', 'state', 'grades')
     search_fields = ['name', 'definition']
+    fields = ('standard_type', 'name', 'definition', 'state', 'url', 'grades', )
 
     def grade_levels(self, obj):
         return obj.grades.all().as_grade_range()
