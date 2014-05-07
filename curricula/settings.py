@@ -8,6 +8,8 @@ DEFAULT_MCE_ATTRS = {
     'theme_advanced_buttons1': "pasteword,|,bold,underline,italic,strikethrough,|,link,unlink,|,numlist,bullist,|,charmap,|,rawmode",
     'theme_advanced_buttons2': "",
     'entity_encoding': 'numeric',
+    'relative_urls': False,
+    'convert_urls': False
 }
 
 SUBTITLE_MCE_ATTRS = {
@@ -16,6 +18,8 @@ SUBTITLE_MCE_ATTRS = {
     'theme_advanced_buttons2': "",
     'height': "150",
     'entity_encoding': 'numeric',
+    'relative_urls': False,
+    'convert_urls': False
 }
 
 DIRECTIONS_MCE_ATTRS = {
@@ -23,6 +27,8 @@ DIRECTIONS_MCE_ATTRS = {
     'theme_advanced_buttons1': 'glossify, fullscreen,preview,code,print,spellchecker,|,cut,copy,paste,pastetext,pasteword,undo,redo,|,search,replace,|,rawmode',
     'setup': 'add_button_callback',
     'entity_encoding': 'numeric',
+    'relative_urls': False,
+    'convert_urls': False
 }
 
 DEFAULT_SETTINGS = {

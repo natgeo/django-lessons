@@ -661,7 +661,7 @@ class TipAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(TipAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name == 'body':
-            formfield.widget = TinyMCE()
+            formfield.widget = TinyMCE(mce_attrs=MCE_ATTRS['default'])
         if db_field.name in self.varying_fields:
             request = kwargs.get('request', None)
             if request:
