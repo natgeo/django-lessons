@@ -13,10 +13,10 @@ from bitfield import BitField
 from edumetadata.models import (AlternateType, GeologicTime, Grade,
                                  HistoricalEra, Subject)
 from edumetadata.fields import HistoricalDateField
-from concepts.models import delete_listener  #, Concept, ConceptItem
+from concepts.models import delete_listener  # , Concept, ConceptItem
 from concepts.managers import ConceptManager
 
-from curricula.utils import ul_as_list, unique, list_as_ul
+from curricula.utils import ul_as_list, list_as_ul
 from curricula.settings import (ASSESSMENT_TYPES,
                     RELATION_MODELS,
                       CREDIT_MODEL,
@@ -30,6 +30,7 @@ class LessonManager(models.Manager):
     def get_published(self):
         qs = self.get_query_set()
         return qs.filter(published=True)
+
 
 class Lesson(models.Model):
     # Lesson-specific fields
@@ -129,7 +130,6 @@ class Lesson(models.Model):
     units = models.ManyToManyField('curricula.Unit',
         through='curricula.UnitLesson')
 
-
     # Read-only fields aggregated from Activities
     accessibility_notes = models.TextField(
         blank=True,
@@ -189,15 +189,11 @@ class Lesson(models.Model):
 
         # These are normal fields, so we can set them before we save
         self.prior_knowledge = list_as_ul(
-                unique(
-                    chain(*[ul_as_list(x) for x in agg_activities('prior_knowledge')])
-                )
-            )
+            list(set(chain(*[ul_as_list(x) for x in agg_activities('prior_knowledge')])))
+        )
         self.accessibility_notes = list_as_ul(
-                unique(
-                    chain(*[ul_as_list(x) for x in agg_activities('accessibility_notes')])
-                )
-            )
+            list(set(chain(*[ul_as_list(x) for x in agg_activities('accessibility_notes')])))
+        )
         rsd = agg_activities('relevant_start_date')
         if rsd:
             self.relevant_start_date = min(rsd)
@@ -230,7 +226,6 @@ class Lesson(models.Model):
             attr.add(*list(to_add))
         if to_remove:
             attr.remove(*list(to_remove))
-
 
     @models.permalink
     def get_absolute_url(self):
