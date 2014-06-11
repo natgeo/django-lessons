@@ -10,12 +10,10 @@ from edumetadata.models import (AlternateType, GeologicTime, Grade,
 from edumetadata.fields import HistoricalDateField
 from concepts.models import delete_listener, Concept, ConceptItem
 from licensing.models import GrantedLicense
+from acknowledge.models import Entity
 
-from curricula.settings import (
-                    RELATION_MODELS,
-                      CREDIT_MODEL, DEFAULT_LICENSE,
-                      REPORTING_MODEL, KEY_IMAGE
-                      )
+from curricula.settings import (RELATION_MODELS, CREDIT_MODEL, DEFAULT_LICENSE,
+                                REPORTING_MODEL, KEY_IMAGE)
 
 __all__ = ('IdeaCategory', 'Idea', 'CategoryIdea')
 
@@ -219,6 +217,7 @@ class Idea(models.Model):
     categories = models.ManyToManyField(IdeaCategory,
         through='CategoryIdea',
         related_name='ideas')
+    source = models.ForeignKey(Entity, related_name='ideas', null=True, blank=True)
 
     def __unicode__(self):
         return self.title

@@ -1,4 +1,5 @@
 # --extra-index-url http://callowayproject.com/simple/
+django-acknowledge
 django-audience>=0.5.3
 django-categories>=1.0.2
 django-concepts>=0.3.5

@@ -359,7 +359,9 @@ class IdeaAdmin(admin.ModelAdmin):
     inlines = [TagInline, IdeaCategoryInline]
     list_display = ('title', 'thumbnail_display', 'categories_display', 'appropriate_display')
     if KEY_IMAGE:
-        raw_id_fields = ("key_image", )
+        raw_id_fields = ("key_image", 'source', )
+    else:
+        raw_id_fields = ('source', )
     search_fields = ['title', 'content_body']
 
     class Media:
