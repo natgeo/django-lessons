@@ -328,6 +328,10 @@ class Lesson(models.Model):
         deduped_notes = set(accessibility_notes)
         return list(deduped_notes)
 
+    def get_concepts(self, activities=None):
+        activities = activities or self.activities.all()
+        return self.aggregate_activity_attr(activities, 'concepts')
+
     def _calc_duration(self, activities=None):
         activities = activities or self.activities.all()
         return sum([activity.duration for activity in activities])
