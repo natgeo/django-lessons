@@ -388,7 +388,7 @@ class Lesson(models.Model):
         return self.aggregate_activity_attr(activities, 'subjects', ignore_own=True)
 
     def get_key_image(self):
-        ctype = ContentType.objects.get(app_label='core_media', model='ngphoto')
+        ctype = ContentType.objects.get_by_natural_key(app_label='core_media', model='ngphoto')
         lr = self.get_related_content_type(ctype.name)
         if len(lr) > 0:
             return lr[0].content_object
