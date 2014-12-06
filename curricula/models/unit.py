@@ -223,22 +223,6 @@ class Unit(models.Model):
     def get_vocabulary(self):
         return self.aggregate_activity_attr('vocabulary')
 
-    # def get_key_image(self):
-    #     from django.contrib.contenttypes.models import ContentType
-    #     ctype = ContentType.objects.get_by_natural_key(app_label='core_media', model='ngphoto')
-    #     lr = self.get_related_content_type(ctype.name)
-    #     if len(lr) > 0:
-    #         return lr[0].content_object
-    #     else:
-    #         return None
-
-    # def key_image(self):
-    #     image = self.get_key_image()
-    #     if image:
-    #         return image.thumbnail_url()
-    #     else:
-    #         return None
-
 
 class UnitLesson(models.Model):
     unit = models.ForeignKey('curricula.Unit')
