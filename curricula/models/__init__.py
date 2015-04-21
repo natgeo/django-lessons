@@ -1,27 +1,16 @@
 try:
     from south.models.inspector import add_ignored_fields
     add_ignored_fields(["^concepts\.managers"])
-except ImportError:
+except (ImportError, RuntimeError):
     pass
 
-from metadata import (GroupingType,
-    LearnerGroup,
-    LearningObjective,
-    Material,
-    ObjectiveRelation,
-    PhysicalSpaceType,
-    PluginType,
-    Skill,
-    Standard,
-    TeachingApproach,
-    TeachingMethodType,
-    TechSetupType,
-    Tip,
-    TipCategory)
+from metadata import (GroupingType, LearnerGroup, LearningObjective,  # NOQA
+    Material, ObjectiveRelation, PhysicalSpaceType, PluginType, Skill,
+    Standard, TeachingApproach, TeachingMethodType, TechSetupType, Tip,
+    TipCategory)  # NOQA
 
-from activity import (Activity, ResourceItem, Vocabulary, QuestionAnswer)
-from lesson import (Lesson, LessonActivity,)
-from unit import (Unit, UnitLesson)
-from idea import (IdeaCategory, Idea, CategoryIdea)
-from relations import (ActivityRelation, LessonRelation, UnitRelation, IdeaCategoryRelation)
-
+from activity import Activity, ResourceItem, Vocabulary, QuestionAnswer  # NOQA
+from lesson import Lesson, LessonActivity  # NOQA
+from unit import Unit, UnitLesson  # NOQA
+from idea import IdeaCategory, Idea, CategoryIdea  # NOQA
+from relations import ActivityRelation, LessonRelation, UnitRelation, IdeaCategoryRelation  # NOQA
