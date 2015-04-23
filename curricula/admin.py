@@ -5,7 +5,6 @@ from django.utils.encoding import force_unicode
 from django.utils.html import strip_tags
 from django.utils.html import escape, conditional_escape
 
-from audience.models import AUDIENCE_FLAGS
 from audience.settings import AUDIENCE_FIELDS
 from audience.widgets import AdminBitFieldWidget, bitfield_display, VariationWidgetWrapper
 from bitfield import BitField
@@ -14,7 +13,6 @@ from contentrelations.admin import RelatedInline
 from genericcollection import GenericCollectionInlineModelAdmin
 from tinymce.widgets import TinyMCE
 
-from .forms import ActivityForm, ActivityInlineFormset, LessonInlineFormset, LessonForm, IdeaCategoryForm, UnitForm
 from .models import (Activity, ActivityRelation, GroupingType,
                      LearningObjective, Lesson, LessonActivity, LessonRelation,
                      Material, ObjectiveRelation, QuestionAnswer, ResourceItem,
@@ -22,19 +20,24 @@ from .models import (Activity, ActivityRelation, GroupingType,
                      Tip, Vocabulary, Idea, IdeaCategory, CategoryIdea,
                      IdeaCategoryRelation, Unit, UnitLesson, UnitRelation,
                      )
+from .forms import ActivityForm, ActivityInlineFormset, LessonInlineFormset, LessonForm, IdeaCategoryForm, UnitForm
+
 if settings.DEBUG:
     from .models import PluginType
-from .settings import (RELATION_MODELS, JAVASCRIPT_URL, KEY_IMAGE,
-                       CREDIT_MODEL, REPORTING_MODEL, ACTIVITY_FIELDS,
+from .settings import (RELATION_MODELS,
                        MCE_ATTRS, ACTIVITY_TINYMCE_FIELDS,
                        IDEACATEGORY_TINYMCE_FIELDS, LESSON_TINYMCE_FIELDS,
-                       UNIT_TINYMCE_FIELDS)
+                       UNIT_TINYMCE_FIELDS, THUMBNAIL_SIZE
+)
 from .utils import truncate
 from .widgets import VocabularyIdWidget
 
 
 class ResourceCarouselInline(RelatedInline):
     rel_name = 'resources'
+    ct_field = "source_type"
+    ct_fk_field = "source_id"
+
     verbose_name_plural = "Resource Carousel"
     exclude = ('source_type', 'source_id', 'relation_type')
 
@@ -59,7 +62,7 @@ class QuestionAnswerInline(admin.TabularInline):
     extra = 3
     formfield_overrides = {
         BitField: {
-            'choices': AUDIENCE_FLAGS,
+            # 'choices': AUDIENCE_FLAGS,
             'required': False,
             'widget': AdminBitFieldWidget()
         }
@@ -103,7 +106,7 @@ class ContentAdmin(admin.ModelAdmin):
 
     formfield_overrides = {
         BitField: {
-            'choices': AUDIENCE_FLAGS,
+            # 'choices': AUDIENCE_FLAGS,
             'initial': 1,
             'widget': AdminBitFieldWidget()
         }
@@ -115,7 +118,14 @@ class ContentAdmin(admin.ModelAdmin):
     get_title.short_description = 'Title'
 
     def thumbnail_display(self, obj):
-        return obj.thumbnail_html()
+        w, h = THUMBNAIL_SIZE.split('x')
+        bits = [
+            '<img src="',
+            obj.key_image._get_SIZE_url(THUMBNAIL_SIZE),
+            '" alt="',
+            obj.title,
+            '" width="%s" height="%s" />' % (w, h)]
+        return "".join(bits)
     thumbnail_display.allow_tags = True
 
 
@@ -143,7 +153,7 @@ class StandardsWidget(admin.widgets.FilteredSelectMultiple):
 class SkillAdmin(admin.ModelAdmin):
     formfield_overrides = {
         BitField: {
-            'choices': AUDIENCE_FLAGS,
+            # 'choices': AUDIENCE_FLAGS,
             'initial': 1,
             'widget': AdminBitFieldWidget()
         }
@@ -157,8 +167,6 @@ class ActivityAdmin(ContentAdmin):
                          'tech_setup_types', 'tips', 'teaching_approaches',
                          'secondary_content_types', 'learner_groups',
                          'plugin_types']
-    if REPORTING_MODEL:
-        filter_horizontal += ['reporting_categories']
     filter_vertical = ['standards', 'skills']
     form = ActivityForm
     inlines = [ResourceCarouselInline, TagInline, VocabularyInline,
@@ -166,11 +174,11 @@ class ActivityAdmin(ContentAdmin):
     if RELATION_MODELS:
         inlines.append(InlineActivityRelation)
 
-    list_display = ('get_title', 'thumbnail_display', 'description', 'pedagogical_purpose_type', 'grade_levels', 'published_date')
+    list_display = ('get_title', 'thumbnail_display', 'description',
+        'pedagogical_purpose_type', 'grade_levels', 'published_date')
     list_filter = ('pedagogical_purpose_type', 'published', 'published_date')
     object_name = 'activity'
-    if CREDIT_MODEL is not None:
-        raw_id_fields = ("credit", )
+    raw_id_fields = ("credit", )
 
     search_fields = ['title', 'subtitle_guiding_question', 'description', 'id_number']
     varying_fields = AUDIENCE_FIELDS.get('curricula.Activity', [])
@@ -216,8 +224,9 @@ class ActivityAdmin(ContentAdmin):
                 'fields': [
                     'appropriate_for', 'title', 'slug',
                     'subtitle_guiding_question', 'pedagogical_purpose_type',
-                    'description', 'duration', 'learner_groups', 'is_modular',
-                    'ads_excluded', 'id_number', 'notes_on_readability_score'
+                    'key_image', 'description', 'duration', 'learner_groups',
+                    'is_modular', 'ads_excluded', 'id_number',
+                    'notes_on_readability_score'
                 ],
                 'classes': ['collapse']
             }),
@@ -250,20 +259,22 @@ class ActivityAdmin(ContentAdmin):
                 ],
                 'classes': ['collapse']
             }),
+            ('Credits, Sponsors, Partners', {
+                'fields': ['credit'],
+                'classes': ['collapse']}),
+            ('Global Metadata', {
+                'fields': ['secondary_content_types'],
+                'classes': ['collapse']}),
+            ('Content Related Metadata', {
+                'fields': ['subjects', 'grades'],
+                'classes': ['collapse']}),
+            ('Time and Date Metadata', {
+                'fields': ['eras', 'geologic_time', 'relevant_start_date', 'relevant_end_date'],
+                'classes': ['collapse']}),
+            ('Publishing', {
+                'fields': ['published', 'published_date'],
+                'classes': ['collapse']}),
         ]
-        if CREDIT_MODEL is not None:
-            fieldsets.append(('Credits, Sponsors, Partners', {'fields': ['credit'], 'classes': ['collapse']}))
-        if REPORTING_MODEL is None:
-            fieldsets.append(('Global Metadata', {'fields': ['secondary_content_types'], 'classes': ['collapse']}))
-        else:
-            fieldsets.append(('Global Metadata', {'fields': ['secondary_content_types', 'reporting_categories'], 'classes': ['collapse']}))
-        fieldsets += [
-            ('Content Related Metadata', {'fields': ['subjects', 'grades'], 'classes': ['collapse']}),
-            ('Time and Date Metadata', {'fields': ['eras', 'geologic_time', 'relevant_start_date', 'relevant_end_date'], 'classes': ['collapse']}),
-            ('Publishing', {'fields': ['published', 'published_date'], 'classes': ['collapse']}),
-        ]
-        for field in ACTIVITY_FIELDS:
-            fieldsets[0][1]['fields'].insert(5, field[0])
         return fieldsets
 
     def grade_levels(self, obj):
@@ -271,23 +282,6 @@ class ActivityAdmin(ContentAdmin):
 
     def save_model(self, request, obj, form, change, *args, **kwargs):
         super(ActivityAdmin, self).save_model(request, obj, form, change, *args, **kwargs)
-
-        for field, model in ACTIVITY_FIELDS:
-            if form[field].data is None or form[field].data == '':
-                # user cleared the field
-                items = obj.relations.filter(relation_type=field)
-                if len(items) > 0:
-                    items[0].delete()
-            else:
-                try:
-                    item = obj.relations.get(relation_type=field)
-                    item.object_id = form[field].data
-                    item.save()
-                except ActivityRelation.DoesNotExist:
-                    app_label, model = model.split('.')
-                    ctype = ContentType.objects.get(app_label=app_label, model=model)
-                    item = obj.relations.create(relation_type=field, object_id=form[field].data, content_type_id=ctype.id)
-
         learning_objectives = form.cleaned_data['learning_objs']
         ctype = ContentType.objects.get_for_model(Activity)
         # clear existing
@@ -351,28 +345,19 @@ class IdeaAdmin(admin.ModelAdmin):
     date_hierarchy = 'create_date'
     formfield_overrides = {
         BitField: {
-            'choices': AUDIENCE_FLAGS,
+            # 'choices': AUDIENCE_FLAGS,
             'initial': 1,
             'widget': AdminBitFieldWidget()
         }
     }
     inlines = [TagInline, IdeaCategoryInline]
     list_display = ('title', 'thumbnail_display', 'categories_display', 'appropriate_display')
-    if KEY_IMAGE:
-        raw_id_fields = ("key_image", 'source', )
-    else:
-        raw_id_fields = ('source', )
+    raw_id_fields = ("key_image", 'source', )
     search_fields = ['title', 'content_body']
 
     class Media:
-        css = {'all': (settings.STATIC_URL + 'audience/bitfield.css', )}
-        js = ('/media/static/audience/bitfield.js',
-              JAVASCRIPT_URL + 'jquery-1.7.1.min.js',
-              JAVASCRIPT_URL + 'genericcollections.js',
-              JAVASCRIPT_URL + 'admin.js',
-              JAVASCRIPT_URL + 'reference_tinymce_widget.js',
-              settings.STATIC_URL + 'js_scss/libs/jquery.ui.core.min.js',
-              )
+        css = {'all': ('audience/bitfield.css', )}
+        js = ('genericcollections.js', )
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(IdeaAdmin, self).formfield_for_dbfield(db_field, **kwargs)
@@ -390,7 +375,14 @@ class IdeaAdmin(admin.ModelAdmin):
         return (',').join(obj.get_categories())
 
     def thumbnail_display(self, obj):
-        return obj.thumbnail_html()
+        w, h = THUMBNAIL_SIZE.split('x')
+        bits = [
+            '<img src="',
+            obj.key_image._get_SIZE_url(THUMBNAIL_SIZE),
+            '" alt="',
+            obj.title,
+            '" width="%s" height="%s" />' % (w, h)]
+        return "".join(bits)
     thumbnail_display.allow_tags = True
 
 
@@ -403,30 +395,18 @@ class IdeaInline(admin.TabularInline):
 
 class IdeaCategoryAdmin(ContentAdmin):
     filter_horizontal = ['eras', 'grades', 'secondary_content_types', 'subjects', ]
-    if REPORTING_MODEL:
-        filter_horizontal += ['reporting_categories']
     form = IdeaCategoryForm
     list_display = ('title', 'content_body', 'thumbnail_display', 'appropriate_display', 'grade_levels', 'published_date')
     list_filter = ('grades', 'published', 'published_date')
     inlines = [TagInline, IdeaInline]
     if RELATION_MODELS:
         inlines.append(InlineIdeaCategoryRelation)
-    raw_id_fields = ("geologic_time", "license_name")
-    if CREDIT_MODEL:
-        raw_id_fields += ("credit", )
-    if KEY_IMAGE:
-        raw_id_fields += ("key_image", )
+    raw_id_fields = ("geologic_time", "license_name", "credit", "key_image", )
     search_fields = ['title', 'content_body']
 
     class Media:
         css = {'all': (settings.STATIC_URL + 'audience/bitfield.css', )}
-        js = ('/media/static/audience/bitfield.js',
-              JAVASCRIPT_URL + 'jquery-1.7.1.min.js',
-              JAVASCRIPT_URL + 'genericcollections.js',
-              JAVASCRIPT_URL + 'admin.js',
-              JAVASCRIPT_URL + 'reference_tinymce_widget.js',
-              settings.STATIC_URL + 'js_scss/libs/jquery.ui.core.min.js',
-              )
+        js = ('js/genericcollections.js', )
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(IdeaCategoryAdmin, self).formfield_for_dbfield(db_field, **kwargs)
@@ -442,22 +422,17 @@ class IdeaCategoryAdmin(ContentAdmin):
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = [
-            ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'description', 'id_number'], 'classes': ['collapse']}),
+            ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'description', 'key_image', 'id_number'], 'classes': ['collapse']}),
             ('Content Detail', {'fields': ['content_body', ], 'classes': ['collapse']}),
         ]
-        if CREDIT_MODEL is not None:
-            fieldsets.append(('Credits, Sponsors, Partners', {'fields': ['credit', ], 'classes': ['collapse']}))
+        fieldsets.append(('Credits, Sponsors, Partners', {'fields': ['credit', ], 'classes': ['collapse']}))
         fieldsets.append(('Licensing', {'fields': ['license_name', ], 'classes': ['collapse']}))
-        if REPORTING_MODEL is None:
-            fieldsets.append(('Global Metadata', {'fields': ['secondary_content_types'], 'classes': ['collapse']}))
-        else:
-            fieldsets.append(('Global Metadata', {'fields': ['secondary_content_types', 'reporting_categories'], 'classes': ['collapse']}))
+        fieldsets.append(('Global Metadata', {'fields': ['secondary_content_types'], 'classes': ['collapse']}))
         fieldsets += [
             ('Content Related Metadata', {'fields': ['subjects', 'grades'], 'classes': ['collapse']}),
             ('Time and Date Metadata', {'fields': ['eras', 'geologic_time', 'relevant_start_date', 'relevant_end_date'], 'classes': ['collapse']}),
             ('Publishing', {'fields': ['published', 'published_date'], 'classes': ['collapse']}),
         ]
-        fieldsets[0][1]['fields'].insert(4, KEY_IMAGE[0])
         return fieldsets
 
     def grade_levels(self, obj):
@@ -479,9 +454,6 @@ class LessonAdmin(ContentAdmin):
         'grades', 'duration', 'physical_space_types', 'plugin_types',
         'tech_setup_types'
     ]
-    if REPORTING_MODEL:
-        filter_horizontal += ['reporting_categories']
-        readonly_fields += ['reporting_categories', ]
 
     form = LessonForm
     if RELATION_MODELS:
@@ -491,8 +463,7 @@ class LessonAdmin(ContentAdmin):
     list_display = ('get_title', 'thumbnail_display', 'get_description', 'appropriate_display', 'published_date')
     list_filter = ('published_date', 'published')
     object_name = 'lesson'
-    if CREDIT_MODEL is not None:
-        raw_id_fields = ("credit",)
+    raw_id_fields = ("credit",)
     search_fields = ['title', 'description', 'id_number']
     varying_fields = AUDIENCE_FIELDS.get('curricula.Lesson', [])
 
@@ -532,40 +503,50 @@ class LessonAdmin(ContentAdmin):
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = [
-            ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'subtitle_guiding_question', 'description', 'is_modular', 'ads_excluded', 'id_number', 'instructional_pathways', ], 'classes': ['collapse']}),
-            ('Directions', {'fields': ['assessment_type', 'assessment'], 'classes': ['collapse']}),
-            ('Objectives', {'fields': ['learning_objs'], 'classes': ['collapse']}),
-            ('Preparation', {'fields': ['materials', 'other_notes'], 'classes': ['collapse']}),
-            ('Background & Vocabulary', {'fields': ['background_information', 'prior_knowledge', 'prior_lessons'], 'classes': ['collapse']}),
+            ('Overview', {
+                'fields': [
+                    'appropriate_for', 'title', 'slug', 'subtitle_guiding_question',
+                    'key_iamge', 'description', 'is_modular', 'ads_excluded',
+                    'id_number', 'instructional_pathways',
+                ],
+                'classes': ['collapse']}),
+            ('Directions', {
+                'fields': [
+                    'assessment_type', 'assessment'
+                ],
+                'classes': ['collapse']}),
+            ('Objectives', {
+                'fields': ['learning_objs'],
+                'classes': ['collapse']}),
+            ('Preparation', {
+                'fields': ['materials', 'other_notes'],
+                'classes': ['collapse']}),
+            ('Background & Vocabulary', {
+                'fields': [
+                    'background_information', 'prior_knowledge', 'prior_lessons'
+                ],
+                'classes': ['collapse']}),
+            ('Credits, Sponsors, Partners', {
+                'fields': ['credit'],
+                'classes': ['collapse']}),
+            ('Global Metadata', {
+                'fields': ['secondary_content_types'],
+                'classes': ['collapse']}),
+            ('Content Related Metadata', {
+                'fields': ['subjects', 'grades'],
+                'classes': ['collapse']}),
+            ('Time and Date Metadata', {
+                'fields': [
+                    'eras', 'geologic_time', 'relevant_start_date', 'relevant_end_date'
+                ], 'classes': ['collapse']}),
+            ('Publishing', {
+                'fields': ['published', 'published_date'],
+                'classes': ['collapse']}),
         ]
-        if CREDIT_MODEL is not None:
-            fieldsets.append(('Credits, Sponsors, Partners', {'fields': ['credit'], 'classes': ['collapse']}))
-        if REPORTING_MODEL is None:
-            fieldsets.append(('Global Metadata', {'fields': ['secondary_content_types'], 'classes': ['collapse']}))
-        else:
-            fieldsets.append(('Global Metadata', {'fields': ['secondary_content_types', 'reporting_categories'], 'classes': ['collapse']}))
-        fieldsets += [
-            ('Content Related Metadata', {'fields': ['subjects', 'grades'], 'classes': ['collapse']}),
-            ('Time and Date Metadata', {'fields': ['eras', 'geologic_time', 'relevant_start_date', 'relevant_end_date'], 'classes': ['collapse']}),
-            ('Publishing', {'fields': ['published', 'published_date'], 'classes': ['collapse']}),
-        ]
-        fieldsets[0][1]['fields'].insert(4, KEY_IMAGE[0])
         return fieldsets
 
     def save_model(self, request, obj, form, change, *args, **kwargs):
         super(LessonAdmin, self).save_model(request, obj, form, change, *args, **kwargs)
-
-        field, model = KEY_IMAGE
-        if form[field].data is not None and form[field].data != '':
-            try:
-                item = obj.relations.get(relation_type=field)
-                item.object_id = form[field].data
-                item.save()
-            except LessonRelation.DoesNotExist:
-                app_label, model = model.split('.')
-                ctype = ContentType.objects.get(app_label=app_label, model=model)
-                item = obj.relations.create(relation_type=field, object_id=form[field].data, content_type_id=ctype.id)
-
         learning_objectives = form.cleaned_data['learning_objs']
         ctype = ContentType.objects.get_for_model(Lesson)
         # clear existing
@@ -581,9 +562,7 @@ class LessonAdmin(ContentAdmin):
         for learning_objective in learning_objectives.split('\r\n'):
             if learning_objective and len(learning_objective) > 0:
                 lo, created = LearningObjective.objects.get_or_create(text=learning_objective)
-
-                o_rel = ObjectiveRelation(objective=lo, content_type=ctype,
-                                          object_id=obj.id)
+                o_rel = ObjectiveRelation(objective=lo, content_type=ctype, object_id=obj.id)
                 o_rel.save()
 
     def response_add(self, request, obj, post_url_continue=None):
@@ -597,7 +576,7 @@ class LessonAdmin(ContentAdmin):
         obj.save()
         return super(LessonAdmin, self).response_change(request, obj)
 
-    def update_ARs(self, obj, rcs):
+    def update_ARs(self, obj, rcs):  # NOQA
         unique_indices = []
         # clear existing, first
         rcs.body.delete_ARs()
@@ -636,7 +615,7 @@ class StandardAdmin(admin.ModelAdmin):
 class TipAdmin(admin.ModelAdmin):
     formfield_overrides = {
         BitField: {
-            'choices': AUDIENCE_FLAGS,
+            # 'choices': AUDIENCE_FLAGS,
             'widget': AdminBitFieldWidget()
         }
     }
@@ -648,8 +627,7 @@ class TipAdmin(admin.ModelAdmin):
 
     class Media:
         css = {'all': ('/media/static/audience/bitfield.css',)}
-        js = ('/media/static/audience/bitfield.js',
-              JAVASCRIPT_URL + 'jquery-1.7.1.min.js')
+        js = ()
 
     def appropriate_display(self, obj):
         return bitfield_display(obj.appropriate_for)
@@ -691,12 +669,10 @@ class UnitAdmin(admin.ModelAdmin):
     filter_horizontal = ['secondary_content_types', ]
     readonly_fields = ['eras', 'relevant_start_date', 'relevant_end_date',
         'geologic_time', 'subjects', 'grades', ]
-    if REPORTING_MODEL:
-        readonly_fields += ['reporting_categories', ]
     form = UnitForm
     formfield_overrides = {
         BitField: {
-            'choices': AUDIENCE_FLAGS,
+            # 'choices': AUDIENCE_FLAGS,
             'initial': 1,
             'widget': AdminBitFieldWidget()
         }
@@ -707,10 +683,7 @@ class UnitAdmin(admin.ModelAdmin):
     list_display = ('title', 'thumbnail_display', 'overview_display', 'appropriate_display', 'published_date')
     list_filter = ('published_date', 'published')
     prepopulated_fields = {"slug": ("title",)}
-    if KEY_IMAGE:
-        raw_id_fields = ("key_image", )
-    if CREDIT_MODEL is not None:
-        raw_id_fields += ("credit", )
+    raw_id_fields = ("key_image", "credit", )
     tabs = {
         'Overview': 0,
         'Credits, Sponsors, Partners': 0,
@@ -754,21 +727,12 @@ class UnitAdmin(admin.ModelAdmin):
 
     def get_fieldsets(self, request, obj=None):
         fieldsets = []
-        if KEY_IMAGE:
-            fieldsets.append(
-                ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'subtitle', 'key_image', 'description', 'overview', 'id_number'], 'classes': ['collapse']}),
-            )
-        else:
-            fieldsets.append(
-                ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'subtitle', 'description', 'overview', 'id_number'], 'classes': ['collapse']}),
-            )
+        fieldsets.append(
+            ('Overview', {'fields': ['appropriate_for', 'title', 'slug', 'subtitle', 'key_image', 'description', 'overview', 'id_number'], 'classes': ['collapse']}),
+        )
 
-        if CREDIT_MODEL is not None:
-            fieldsets.append(('Credits, Sponsors, Partners', {'fields': ['credit'], 'classes': ['collapse']}))
-        if REPORTING_MODEL is None:
-            fieldsets.append(('Global Metadata', {'fields': ['secondary_content_types'], 'classes': ['collapse']}))
-        else:
-            fieldsets.append(('Global Metadata', {'fields': ['secondary_content_types', 'reporting_categories'], 'classes': ['collapse']}))
+        fieldsets.append(('Credits, Sponsors, Partners', {'fields': ['credit'], 'classes': ['collapse']}))
+        fieldsets.append(('Global Metadata', {'fields': ['secondary_content_types'], 'classes': ['collapse']}))
         fieldsets += [
             ('Content Related Metadata', {'fields': ['subjects', 'grades'], 'classes': ['collapse']}),
             ('Time and Date Metadata', {'fields': ['eras', 'geologic_time', 'relevant_start_date', 'relevant_end_date'], 'classes': ['collapse']}),

@@ -12,15 +12,9 @@ from concepts.models import delete_listener, Concept, ConceptItem
 from licensing.models import GrantedLicense
 from acknowledge.models import Entity
 
-from curricula.settings import (RELATION_MODELS, CREDIT_MODEL, DEFAULT_LICENSE,
-                                REPORTING_MODEL, KEY_IMAGE)
+from curricula.settings import RELATION_MODELS, DEFAULT_LICENSE
 
 __all__ = ('IdeaCategory', 'Idea', 'CategoryIdea')
-
-if KEY_IMAGE and len(KEY_IMAGE) > 0:
-    KeyImageModel = KEY_IMAGE[1]
-else:
-    KeyImageModel = None
 
 
 class IdeaManager(models.Manager):
@@ -33,66 +27,40 @@ class IdeaCategory(models.Model):
     """
     Idea-specific categories
     """
-    create_date = models.DateTimeField(auto_now_add=True)
-    last_updated_date = models.DateTimeField(auto_now=True)
-    # Overview
     appropriate_for = BitField(
         flags=AUDIENCE_FLAGS,
         help_text='''Select the audience(s) for which this content is
         appropriate.''')
-    title = models.CharField(
-        max_length=256)
-    slug = models.SlugField(
-        unique=True,
-        help_text="""The URL slug is auto-generated, but producers should adjust
-        it if: a) punctuation in the title causes display errors; and/or b) the
-        title changes after the slug has been generated.""")
-    subtitle_guiding_question = models.TextField(
-        verbose_name="Subtitle or Guiding Question",
+    content_body = models.TextField()
+    create_date = models.DateTimeField(auto_now_add=True)
+    credit = models.ForeignKey('credits.CreditGroup',
         blank=True,
         null=True)
-    if KeyImageModel:
-        key_image = models.ForeignKey(KeyImageModel)
     description = models.TextField()
+    eras = models.ManyToManyField(HistoricalEra,
+        blank=True,
+        null=True)
+    geologic_time = models.ForeignKey(GeologicTime,
+        blank=True,
+        null=True)
+    grades = models.ManyToManyField(Grade,
+        blank=True,
+        null=True)
     id_number = models.CharField(
         max_length=10,
         null=True,
         help_text="""This field is for the internal NG Education ID number. This
         is required for all instructional content.""")
-    # Content Detail
-    content_body = models.TextField()
-    # Credits, Sponsors, Partners
-    if CREDIT_MODEL:
-        credit = models.ForeignKey(CREDIT_MODEL,
-            blank=True,
-            null=True)
-    # Licensing
+    key_image = models.ForeignKey(
+        'core_media.ngphoto',
+        blank=True, null=True)
+    last_updated_date = models.DateTimeField(auto_now=True)
     license_name = models.ForeignKey(GrantedLicense,
         blank=True,
         null=True,
         default=DEFAULT_LICENSE)
-    # Global Metadata
-    secondary_content_types = models.ManyToManyField(AlternateType,
-        blank=True,
-        null=True)
-    if REPORTING_MODEL:
-        reporting_categories = models.ManyToManyField(REPORTING_MODEL,
-            blank=True,
-            null=True)
-    # Content Related Metadata
-    subjects = models.ManyToManyField(Subject,
-        blank=True,
-        null=True,
-        limit_choices_to={'parent__isnull': False},
-        verbose_name="Subjects and Disciplines")
-    grades = models.ManyToManyField(Grade,
-        blank=True,
-        null=True)
-    # Time and Date Metadata
-    eras = models.ManyToManyField(HistoricalEra,
-        blank=True,
-        null=True)
-    geologic_time = models.ForeignKey(GeologicTime,
+    published = models.BooleanField(default=False)
+    published_date = models.DateTimeField(
         blank=True,
         null=True)
     relevant_start_date = HistoricalDateField(
@@ -101,11 +69,25 @@ class IdeaCategory(models.Model):
     relevant_end_date = HistoricalDateField(
         blank=True,
         null=True)
-    # Schedule
-    published = models.BooleanField()
-    published_date = models.DateTimeField(
+    secondary_content_types = models.ManyToManyField(AlternateType,
         blank=True,
         null=True)
+    slug = models.SlugField(
+        unique=True,
+        help_text="""The URL slug is auto-generated, but producers should adjust
+        it if: a) punctuation in the title causes display errors; and/or b) the
+        title changes after the slug has been generated.""")
+    subjects = models.ManyToManyField(Subject,
+        blank=True,
+        null=True,
+        limit_choices_to={'parent__isnull': False},
+        verbose_name="Subjects and Disciplines")
+    subtitle_guiding_question = models.TextField(
+        verbose_name="Subtitle or Guiding Question",
+        blank=True,
+        null=True)
+    title = models.CharField(
+        max_length=256)
 
     objects = IdeaManager()
 
@@ -121,7 +103,6 @@ class IdeaCategory(models.Model):
         return ('idea-detail', (), {'slug': self.slug})
 
     def _concept_items(self):
-        # idea_ids = [c.idea.id for c in CategoryIdea.objects.filter(category=self)]
         idea_ids = self.ideas.all().values_list('id', flat=True)
         ct1 = ContentType.objects.get_for_model(self)
         ct2 = ContentType.objects.get_for_model(Idea)
@@ -185,39 +166,33 @@ class IdeaCategory(models.Model):
 
         return Concept.objects.filter(id__in=item_ids)
 
-    def thumbnail_html(self):
-        if self.key_image:
-            return '<img src="%s"/>' % self.key_image.thumbnail_url()
-        else:
-            return None
-
 
 class Idea(models.Model):
-    create_date = models.DateTimeField(auto_now_add=True)
-    last_updated_date = models.DateTimeField(auto_now=True)
-    # Overview
     appropriate_for = BitField(
         flags=AUDIENCE_FLAGS,
         help_text='''Select the audience(s) for which this content is
         appropriate.''')
-    title = models.CharField(
-        max_length=256,
-        null=True)
-    if KeyImageModel:
-        key_image = models.ForeignKey(KeyImageModel,
-            blank=True,
-            null=True)
+    categories = models.ManyToManyField(IdeaCategory,
+        through='CategoryIdea',
+        related_name='ideas')
+    content_body = models.TextField()
+    create_date = models.DateTimeField(auto_now_add=True)
     id_number = models.CharField(
         max_length=10,
         null=True,
         help_text="""This field is for the internal NG Education ID number. This
         is required for all instructional content.""")
-    # Content Detail
-    content_body = models.TextField()
-    categories = models.ManyToManyField(IdeaCategory,
-        through='CategoryIdea',
-        related_name='ideas')
-    source = models.ForeignKey(Entity, related_name='ideas', null=True, blank=True)
+    key_image = models.ForeignKey('core_media.ngphoto',
+        blank=True,
+        null=True)
+    last_updated_date = models.DateTimeField(auto_now=True)
+    source = models.ForeignKey(
+        Entity,
+        related_name='ideas',
+        null=True, blank=True)
+    title = models.CharField(
+        max_length=256,
+        null=True)
 
     def __unicode__(self):
         return self.title
@@ -225,18 +200,8 @@ class Idea(models.Model):
     def _get_categories(self):
         return [ci.category for ci in CategoryIdea.objects.filter(idea=self)]
 
-    # def appropriate_display(self):
-    #     return bitfield_display(self.appropriate_for)
-    # appropriate_display.allow_tags = True
-
     def get_categories(self):
         return [ic.title for ic in self._get_categories()]
-
-    def thumbnail_html(self):
-        if self.key_image:
-            return '<img src="%s"/>' % self.key_image.thumbnail_url()
-        else:
-            return None
 
     class Meta:
         app_label = 'curricula'

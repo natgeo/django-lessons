@@ -9,15 +9,11 @@ from edumetadata.models import (AlternateType, GeologicTime, Grade,
                                 HistoricalEra, Subject)
 from edumetadata.fields import HistoricalDateField
 
-from curricula.settings import (RELATION_MODELS, CREDIT_MODEL,
-                                REPORTING_MODEL, KEY_IMAGE)
+from curricula.settings import RELATION_MODELS
+
+from core_media.models import NGPhoto
 
 __all__ = ('Unit', 'UnitLesson')
-
-if KEY_IMAGE and len(KEY_IMAGE) > 0:
-    KeyImageModel = KEY_IMAGE[1]
-else:
-    KeyImageModel = None
 
 
 class UnitManager(models.Manager):
@@ -39,23 +35,21 @@ class Unit(models.Model):
         you either need to add text variations or the default text must be
         appropriate for those audiences.''')
     create_date = models.DateTimeField(auto_now_add=True)
-    if CREDIT_MODEL:
-        credit = models.ForeignKey(
-            CREDIT_MODEL,
-            blank=True,
-            null=True)
+    credit = models.ForeignKey(
+        'credits.CreditGroup',
+        blank=True,
+        null=True)
     description = models.TextField()
     id_number = models.CharField(
         max_length=10,
         help_text="""This field is for the internal NG Education ID number.
         This is required for all instructional content.""")
-    if KeyImageModel:
-        key_image = models.ForeignKey(KeyImageModel)
+    key_image = models.ForeignKey('core_media.ngphoto')
     lessons = models.ManyToManyField(
         'curricula.Lesson',
         through='curricula.UnitLesson')
     overview = models.TextField()
-    published = models.BooleanField()
+    published = models.BooleanField(default=False)
     published_date = models.DateTimeField(
         blank=True,
         null=True)
@@ -98,11 +92,6 @@ class Unit(models.Model):
     relevant_end_date = HistoricalDateField(
         blank=True,
         null=True)
-    if REPORTING_MODEL:
-        reporting_categories = models.ManyToManyField(
-            REPORTING_MODEL,
-            blank=True,
-            null=True)
     subjects = models.ManyToManyField(
         Subject,
         blank=True,
@@ -139,8 +128,6 @@ class Unit(models.Model):
             self.geologic_time = min(gt)
         super(Unit, self).save(*args, **kwargs)
         self._sync_m2m(self.eras, agg_activities('eras'))
-        if REPORTING_MODEL:
-            self._sync_m2m(self.reporting_categories, agg_activities('reporting_categories', ignore_own=True))
         self._sync_m2m(self.subjects, agg_activities('subjects', ignore_own=True))
         self._sync_m2m(self.grades, agg_activities('grades', ignore_own=True))
 

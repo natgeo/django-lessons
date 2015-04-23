@@ -1,11 +1,10 @@
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import HttpResponse, Http404
 from django.template import RequestContext
-from django.utils import simplejson
+import json
 
-from settings import RELATION_MODELS, KEY_IMAGE, RC_SLIDE
 from curricula.models import Activity, Lesson, Standard, IdeaCategory
-from curricula.utils import activities_info, tags_for_activities
+from curricula.utils import activities_info
 
 
 def activity_detail(request, slug, preview=False, template_name='curricula/activity_detail.html'):
@@ -80,7 +79,7 @@ def activity_info(request, ids):
     Return a json serialized datastream of activity infomation based on the
     requested id combination.
     """
-    result = simplejson.dumps(activities_info(ids))
+    result = json.dumps(activities_info(ids))
     return HttpResponse(result, mimetype="text/javascript")
 
 
@@ -109,7 +108,7 @@ def get_breakout_terms(request, id):
     activity = get_object_or_404(Activity, id=id)
     breakout_terms = activity.vocabulary.all()
     terms = [gt.word_lower for gt in breakout_terms]
-    res = simplejson.dumps(terms)
+    res = json.dumps(terms)
     return HttpResponse(res)
 
 

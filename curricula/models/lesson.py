@@ -17,11 +17,7 @@ from concepts.models import delete_listener  # , Concept, ConceptItem
 from concepts.managers import ConceptManager
 
 from curricula.utils import ul_as_list, list_as_ul
-from curricula.settings import (ASSESSMENT_TYPES,
-                    RELATION_MODELS,
-                      CREDIT_MODEL,
-                      REPORTING_MODEL
-                      )
+from curricula.settings import ASSESSMENT_TYPES, RELATION_MODELS
 
 __all__ = ('Lesson', 'LessonActivity',)
 
@@ -36,10 +32,6 @@ class Lesson(models.Model):
     # Lesson-specific fields
     activities = models.ManyToManyField('curricula.Activity',
         through='curricula.LessonActivity')
-    ads_excluded = models.BooleanField(
-        default=True,
-        help_text="""If unchecked, this field indicates that external ads are
-        allowed.""")
     appropriate_for = BitField(
         flags=AUDIENCE_FLAGS,
         help_text='''Select the audience(s) for which this content is
@@ -53,8 +45,7 @@ class Lesson(models.Model):
         appropriate for for both audiences.''')
     assessment_type = models.CharField(
         max_length=15,
-        blank=True,
-        null=True,
+        blank=True, null=True,
         choices=ASSESSMENT_TYPES)
     assessment = models.TextField(
         blank=True,
@@ -62,8 +53,7 @@ class Lesson(models.Model):
         help_text="""This field is for a new, lesson-level assessment. It is
         not impacted by activity-level assessments.""")
     background_information = models.TextField(
-        blank=True,
-        null=True,
+        blank=True, null=True,
         help_text="""Producers can either copy/paste background information
         into this field, or click the "import text" link to import background
         information from all activities in this lesson into this field and edit
@@ -71,19 +61,16 @@ class Lesson(models.Model):
         imported text, note that clicking "import text from activities" again
         will re-set the text back to the imported version.""")
     create_date = models.DateTimeField(auto_now_add=True)
-    if CREDIT_MODEL:
-        credit = models.ForeignKey(CREDIT_MODEL,
-            blank=True,
-            null=True,
-            help_text="""All activity-level credits will dynamically display in
-            the lesson credits, broken out by activity number. Only use this
-            field if you need to add additional, lesson-level credits.""")
+    credit = models.ForeignKey('credits.CreditGroup',
+        blank=True, null=True,
+        help_text="""All activity-level credits will dynamically display in
+        the lesson credits, broken out by activity number. Only use this
+        field if you need to add additional, lesson-level credits.""")
     concepts = ConceptManager()
     description = models.TextField()
-    title = models.CharField(
-        max_length=256,
-        help_text="""GLOBAL: Use the text variations field to create versions
-        for audiences other than the default.""")
+    key_image = models.ForeignKey(
+        'core_media.ngphoto',
+        blank=True, null=True)
     id_number = models.CharField(
         max_length=10,
         help_text="""This field is for the internal NG Education ID number.
@@ -97,29 +84,24 @@ class Lesson(models.Model):
         NOT appear as stand-alone outside of a unit view.""")
     last_updated_date = models.DateTimeField(auto_now=True)
     materials = models.ManyToManyField('curricula.Material',
-        blank=True,
-        null=True,
+        blank=True, null=True,
         help_text="""This field is for additional, lesson-level materials a
         teacher will need to provide; for example, new materials needed in
         order to conduct the lesson-level assessment. Do not repeat activity-
         specific materials.""")
     other_notes = models.TextField(
-        blank=True,
-        null=True,
+        blank=True, null=True,
         help_text="""This field has multiple uses, but one possible use is to
         indicate the larger context into which the lesson fits. Example: This
         is lesson 1 in a series of 10 lessons in a unit on Europe.""")
     prior_lessons = models.ManyToManyField('self',
         symmetrical=False,
-        blank=True,
-        null=True)
-    published = models.BooleanField()
+        blank=True, null=True)
+    published = models.BooleanField(default=False)
     published_date = models.DateTimeField(
-        blank=True,
-        null=True)
+        blank=True, null=True)
     secondary_content_types = models.ManyToManyField(AlternateType,
-        blank=True,
-        null=True)
+        blank=True, null=True)
     slug = models.SlugField(
         unique=True,
         help_text="""The URL slug is auto-generated, but producers should adjust
@@ -127,51 +109,40 @@ class Lesson(models.Model):
         title changes after the slug has been generated.""")
     subtitle_guiding_question = models.TextField(
         verbose_name="Subtitle or Guiding Question")
+    title = models.CharField(
+        max_length=256,
+        help_text="""GLOBAL: Use the text variations field to create versions
+        for audiences other than the default.""")
     units = models.ManyToManyField('curricula.Unit',
         through='curricula.UnitLesson')
 
     # Read-only fields aggregated from Activities
     accessibility_notes = models.TextField(
-        blank=True,
-        null=True)
+        blank=True, null=True)
     eras = models.ManyToManyField(HistoricalEra,
-        blank=True,
-        null=True)
+        blank=True, null=True)
     prior_knowledge = models.TextField(
-        blank=True,
-        null=True)
-    if REPORTING_MODEL:
-        reporting_categories = models.ManyToManyField(REPORTING_MODEL,
-            blank=True,
-            null=True)
+        blank=True, null=True)
     relevant_start_date = HistoricalDateField(
-        blank=True,
-        null=True)
+        blank=True, null=True)
     relevant_end_date = HistoricalDateField(
-        blank=True,
-        null=True)
+        blank=True, null=True)
     geologic_time = models.ForeignKey(GeologicTime,
-        blank=True,
-        null=True)
+        blank=True, null=True)
     subjects = models.ManyToManyField(Subject,
-        blank=True,
-        null=True,
+        blank=True, null=True,
         limit_choices_to={'parent__isnull': False},
         verbose_name="Subjects and Disciplines")
     grades = models.ManyToManyField(Grade,
-        blank=True,
-        null=True)
+        blank=True, null=True)
     duration = models.IntegerField(verbose_name="Duration Minutes",
         default=0)
     physical_space_types = models.ManyToManyField('curricula.PhysicalSpaceType',
-        blank=True,
-        null=True)
+        blank=True, null=True)
     plugin_types = models.ManyToManyField('curricula.PluginType',
-        blank=True,
-        null=True)
+        blank=True, null=True)
     tech_setup_types = models.ManyToManyField('curricula.TechSetupType',
-        blank=True,
-        null=True)
+        blank=True, null=True)
 
     objects = LessonManager()
 
@@ -206,8 +177,6 @@ class Lesson(models.Model):
         self.duration = self._calc_duration(self.activities.all())
         super(Lesson, self).save(*args, **kwargs)
         self._sync_m2m(self.eras, agg_activities('eras'))
-        if REPORTING_MODEL:
-            self._sync_m2m(self.reporting_categories, agg_activities('reporting_categories', ignore_own=True))
         self._sync_m2m(self.subjects, agg_activities('subjects', ignore_own=True))
         self._sync_m2m(self.grades, agg_activities('grades', ignore_own=True))
         self._sync_m2m(self.physical_space_types, agg_activities('physical_space_types', ignore_own=True))
@@ -254,7 +223,7 @@ class Lesson(models.Model):
             return self.relations.filter(
                 relation_type__iexact=relation_type)
 
-    ## Activity Aggregations
+    # Activity Aggregations
 
     def aggregate_activity_attr(self, activities, attr_name, ignore_own=False):
         """
@@ -392,20 +361,6 @@ class Lesson(models.Model):
         lr = self.get_related_content_type(ctype.name)
         if len(lr) > 0:
             return lr[0].content_object
-        else:
-            return None
-
-    def key_image(self):
-        image = self.get_key_image()
-        if image:
-            return image.thumbnail_url()
-        else:
-            return None
-
-    def thumbnail_html(self):
-        key_image = self.key_image()
-        if key_image:
-            return '<img src="%s"/>' % self.key_image()
         else:
             return None
 

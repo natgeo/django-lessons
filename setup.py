@@ -2,6 +2,7 @@ import os
 import sys
 from setuptools import setup, find_packages
 
+
 def read_file(filename):
     """Read a file into a string"""
     path = os.path.abspath(os.path.dirname(__file__))
@@ -11,9 +12,10 @@ def read_file(filename):
     except IOError:
         return ''
 
+
 def get_readme():
     """Return the README file contents. Supports text,rst, and markdown"""
-    for name in ('README','README.rst','README.md'):
+    for name in ('README', 'README.rst', 'README.md'):
         if os.path.exists(name):
             return read_file(name)
     return ''
@@ -23,18 +25,18 @@ __import__('curricula')
 DESC = " ".join(sys.modules['curricula'].__doc__.splitlines()).strip()
 
 setup(
-    name = "django-lessons",
-    version = sys.modules['curricula'].get_version().replace(' ', '-'),
-    url = 'github.com',
-    author = 'rsarkar',
-    author_email = 'rsarkar@celerity.com',
-    description = DESC,
-    long_description = get_readme(),
-    packages = find_packages(),
+    name="django-curricula",
+    version=sys.modules['curricula'].get_version().replace(' ', '-'),
+    url='github.com',
+    author='rsarkar',
+    author_email='rsarkar@celerity.com',
+    description=DESC,
+    long_description=get_readme(),
+    packages=find_packages(),
     namespace_packages=[],
-    include_package_data = True,
-    install_requires = read_file('requirements.txt'),
-    classifiers = [
+    include_package_data=True,
+    install_requires=read_file('requirements.txt'),
+    classifiers=[
         'License :: OSI Approved :: Apache Software License',
         'Framework :: Django',
     ],

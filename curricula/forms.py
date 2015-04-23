@@ -1,12 +1,8 @@
 from django import forms
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
-from django.db.models.loading import get_model
 
 from .models import Activity, ObjectiveRelation, Lesson, IdeaCategory, Unit
-from .settings import (ACTIVITY_FIELDS, LESSON_FIELDS, CREDIT_MODEL,
-                       REQUIRE_REPORTING_CATEGORIES)
-from .widgets import SpecificGenericRawIdWidget
 
 
 class ActivityForm(forms.ModelForm):
@@ -19,10 +15,9 @@ class ActivityForm(forms.ModelForm):
 
     class Media:
         js = (
-            settings.STATIC_URL + 'js/jquery-1.7.1.js',
-            settings.STATIC_URL + 'js/jquery/ui.core.js',
-            settings.STATIC_URL + 'js/jquery/ui.sortable.js',
-            settings.STATIC_URL + 'js/menu-sort.js',
+            'js/jquery/ui.core.js',
+            'js/jquery/ui.sortable.js',
+            'js/menu-sort.js',
         )
 
     class Meta:
@@ -32,19 +27,6 @@ class ActivityForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ActivityForm, self).__init__(*args, **kwargs)
         instance = kwargs.get('instance', None)
-
-        for field in ACTIVITY_FIELDS:
-            field_name = field[0]
-            model = get_model(*field[1].split('.'))
-            self.fields[field_name] = forms.ModelChoiceField(
-                queryset=model.objects.all(),
-                widget=SpecificGenericRawIdWidget(rel=field[1]),
-                required=False)
-            # for existing records, initialize the fields
-            if instance:
-                objects = instance.relations.filter(relation_type=field_name)
-                if len(objects) > 0:
-                    self.fields[field_name].initial = objects[0].object_id
 
         if instance:
             ctype = ContentType.objects.get_for_model(Activity)
@@ -59,11 +41,6 @@ class ActivityForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(ActivityForm, self).clean()
-        for field in ACTIVITY_FIELDS:
-            field_name = field[0]
-
-            if field_name not in self.cleaned_data:
-                raise forms.ValidationError("%s is required." % field_name)
         return cleaned_data
 
     def clean_assessment_type(self):
@@ -98,12 +75,6 @@ class ActivityForm(forms.ModelForm):
     def clean_internet_access_type(self):
         return self.clean_field('internet_access_type')
 
-    def clean_reporting_categories(self):
-        if REQUIRE_REPORTING_CATEGORIES:
-            return self.clean_field('reporting_categories')
-        else:
-            return self.cleaned_data['reporting_categories']
-
     def clean_skills(self):
         return self.clean_field('skills')
 
@@ -123,8 +94,7 @@ class ActivityForm(forms.ModelForm):
 class ActivityFormSet(forms.models.BaseInlineFormSet):
     def get_queryset(self):
         'Returns all ActivityRelation objects which point to our Lesson'
-        return super(ActivityFormSet, self).get_queryset().exclude(
-            relation_type__in=dict(ACTIVITY_FIELDS).keys())
+        return super(ActivityFormSet, self).get_queryset()
 
 
 class ActivityInlineFormset(forms.models.BaseInlineFormSet):
@@ -173,30 +143,18 @@ class LessonForm(forms.ModelForm):
 
     class Media:
         js = (
-            settings.STATIC_URL + 'js/jquery-1.7.1.js',
-            settings.STATIC_URL + 'js/jquery/ui.core.js',
-            settings.STATIC_URL + 'js/jquery/ui.sortable.js',
-            settings.STATIC_URL + 'js/menu-sort.js',
+            'js/jquery/ui.core.js',
+            'js/jquery/ui.sortable.js',
+            'js/menu-sort.js',
         )
 
     class Meta:
         model = Lesson
         exclude = ['concepts']
 
-    def initialize_values(self, kwargs, field_name):
-        if 'instance' in kwargs:
-            objects = kwargs['instance'].relations.filter(relation_type=field_name)
-            if len(objects) > 0:
-                self.fields[field_name].initial = objects[0].object_id
-
     def __init__(self, *args, **kwargs):
         super(LessonForm, self).__init__(*args, **kwargs)
         instance = kwargs.get('instance', None)
-        for field in LESSON_FIELDS:
-            field_name = field[0]
-            qset = get_model(*field[1].split('.')).objects.all()
-            self.fields[field_name] = forms.ModelChoiceField(queryset=qset, widget=SpecificGenericRawIdWidget(rel=field[1]))
-            self.initialize_values(kwargs, field_name)
 
         if instance:
             ctype = ContentType.objects.get_for_model(Lesson)
@@ -224,9 +182,7 @@ class IdeaCategoryForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(IdeaCategoryForm, self).clean()
-
-        if CREDIT_MODEL:
-            self.clean_field('credit')
+        self.clean_field('credit')
         self.clean_field('grades')
         self.clean_field('license_name')
         self.clean_field('subjects')
@@ -247,14 +203,18 @@ class UnitForm(forms.ModelForm):
             'all': (settings.STATIC_URL + 'audience/bitfield.css',),
         }
         js = (
-            settings.STATIC_URL + 'js/jquery-1.7.1.js',
-            settings.STATIC_URL + 'js/jquery/ui.core.js',
-            settings.STATIC_URL + 'js/jquery/ui.sortable.js',
-            settings.STATIC_URL + 'js/menu-sort.js',
+            'js/jquery/ui.core.js',
+            'js/jquery/ui.sortable.js',
+            'js/menu-sort.js',
         )
 
     class Meta:
         model = Unit
+        fields = ['appropriate_for', 'credit', 'description', 'id_number',
+            'key_image', 'lessons', 'overview', 'published', 'published_date',
+            'secondary_content_types', 'slug', 'subtitle', 'title', 'eras',
+            'geologic_time', 'grades', 'relevant_start_date',
+            'relevant_end_date', 'subjects', ]
 
     def clean(self):
         cleaned_data = super(UnitForm, self).clean()
@@ -262,16 +222,6 @@ class UnitForm(forms.ModelForm):
         if cleaned_data['published']:
             if cleaned_data['credit'] is None:
                 raise forms.ValidationError("Credit is required for published units.")
-            # for field in ['grades', 'subjects']:
-            #     if not cleaned_data[field]:
-            #         raise forms.ValidationError("%s is required for published units." % field.replace('_', ' ').capitalize())
-
-            # content_type = ContentType.objects.get_for_model(Unit)
-            # concept_items = ConceptItem.objects.filter(content_type=content_type,
-            #                                            object_id=self.instance.id,
-            #                                            weight__gt=0)
-            # if len(concept_items) <= 0:
-            #     raise forms.ValidationError("Please uncheck Publish, create at least one tag with weight greater than zero, and then save, before attempting to mark this object as published.")
         return cleaned_data
 
     def clean_appropriate_for(self):

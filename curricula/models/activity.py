@@ -15,14 +15,14 @@ from concepts.models import delete_listener
 from concepts.managers import ConceptManager
 
 from curricula.settings import (ASSESSMENT_TYPES, RELATION_MODELS,
-                                PEDAGOGICAL_PURPOSE_TYPE_CHOICES, REPORTING_MODEL,
-                                CREDIT_MODEL, INTERNET_ACCESS_TYPES, KEY_IMAGE)
+                                PEDAGOGICAL_PURPOSE_TYPE_CHOICES,
+                                INTERNET_ACCESS_TYPES)
 from curricula.utils import truncate
 
-if REPORTING_MODEL:
-    from reporting.models import ReportingCategory as REPORTING_MODEL
 
 __all__ = ('Activity', 'ResourceItem', 'Vocabulary', 'QuestionAnswer')
+
+from core_media.models import NGPhoto  # NOQA
 
 
 class ActivityManager(models.Manager):
@@ -33,12 +33,7 @@ class ActivityManager(models.Manager):
 
 class Activity(models.Model):
     accessibility_notes = models.TextField(
-        blank=True,
-        null=True)
-    ads_excluded = models.BooleanField(
-        default=True, verbose_name="Are ads excluded?",
-        help_text="""If unchecked, this field indicates that external ads are
-        allowed.""")
+        blank=True, null=True)
     appropriate_for = BitField(
         flags=AUDIENCE_FLAGS,
         help_text='''Select the audience(s) for which this content is
@@ -50,136 +45,107 @@ class Activity(models.Model):
         you either need to add text variations or the default text must be
         appropriate for those audiences.''')
     assessment = models.TextField(
-        blank=True,
-        null=True)
+        blank=True, null=True)
     assessment_type = models.CharField(
         max_length=15,
-        blank=True,
-        null=True,
+        blank=True, null=True,
         choices=ASSESSMENT_TYPES)
     background_information = models.TextField(
-        blank=True,
-        null=True,
+        blank=True, null=True,
         help_text="""If this activity is part of an already-created lesson and
         you update the background information, you must also make the same
         change in lesson for this field.""")
     concepts = ConceptManager()
     create_date = models.DateTimeField(auto_now_add=True)
-    if CREDIT_MODEL:
-        credit = models.ForeignKey(
-            CREDIT_MODEL,
-            blank=True,
-            null=True)
+    credit = models.ForeignKey(
+        'credits.CreditGroup',
+        blank=True, null=True)
     description = models.TextField()
     directions = models.TextField(
-        blank=True,
-        null=True)
+        blank=True, null=True)
     duration = models.IntegerField(verbose_name="Duration Minutes")
     eras = models.ManyToManyField(
         HistoricalEra,
-        blank=True,
-        null=True)
+        blank=True, null=True)
     extending_the_learning = models.TextField(
-        blank=True,
-        null=True)
+        blank=True, null=True)
     geologic_time = models.ForeignKey(
         GeologicTime,
-        blank=True,
-        null=True)
+        blank=True, null=True)
     grades = models.ManyToManyField(
         Grade,
-        blank=True,
-        null=True)
+        blank=True, null=True)
     grouping_types = models.ManyToManyField(
         'curricula.GroupingType',
-        blank=True,
-        null=True)
+        blank=True, null=True)
     id_number = models.CharField(
         max_length=10,
         help_text="This field is for the internal NG Education ID number. "
         "This is required for all instructional content.")
     internet_access_type = models.IntegerField(
-        blank=True,
-        null=True,
+        blank=True, null=True,
         choices=INTERNET_ACCESS_TYPES)
     is_modular = models.BooleanField(
         default=True,
         help_text="""If unchecked, this field indicates that this activity
         should not appear as stand-alone outside of a lesson view.""")
+    key_image = models.ForeignKey(
+        'core_media.ngphoto',
+        blank=True, null=True)
     last_updated_date = models.DateTimeField(auto_now=True)
     learner_groups = models.ManyToManyField(
         'curricula.LearnerGroup',
-        blank=True,
-        null=True)
+        blank=True, null=True)
     learning_objective_set = generic.GenericRelation('curricula.ObjectiveRelation')
     lessons = models.ManyToManyField(
         'curricula.Lesson',
         through='curricula.LessonActivity')
     materials = models.ManyToManyField(
         'curricula.Material',
-        blank=True,
-        null=True)
+        blank=True, null=True)
     notes_on_readability_score = models.TextField(
-        blank=True,
-        null=True,
+        blank=True, null=True,
         help_text="""Use this internal-use only field to record any details
         related to the readability of reading passages, such as those on
         handouts. Include Lexile score, grade-level equivalent, and any
         criteria used to determine why a higher score is acceptable
         (proper nouns, difficult vocabulary, etc.).""")
     other_notes = models.TextField(
-        blank=True,
-        null=True)
+        blank=True, null=True)
     pedagogical_purpose_type = models.SmallIntegerField(
-        blank=True,
-        null=True,
+        blank=True, null=True,
         choices=PEDAGOGICAL_PURPOSE_TYPE_CHOICES)
     physical_space_types = models.ManyToManyField(
         'curricula.PhysicalSpaceType',
-        blank=True,
-        null=True)
+        blank=True, null=True)
     plugin_types = models.ManyToManyField(
         'curricula.PluginType',
-        blank=True,
-        null=True)
+        blank=True, null=True)
     prior_activities = models.ManyToManyField(
         'self',
-        blank=True,
-        null=True,
+        blank=True, null=True,
         symmetrical=False,
         verbose_name="Recommended Prior Activities")
     prior_knowledge = models.TextField(
-        blank=True,
-        null=True)
-    published = models.BooleanField()
+        blank=True, null=True)
+    published = models.BooleanField(default=False)
     published_date = models.DateTimeField(
-        blank=True,
-        null=True)
+        blank=True, null=True)
     relevant_start_date = HistoricalDateField(
-        blank=True,
-        null=True)
+        blank=True, null=True)
     relevant_end_date = HistoricalDateField(
-        blank=True,
-        null=True)
-    if REPORTING_MODEL:
-        reporting_categories = models.ManyToManyField(
-            REPORTING_MODEL,
-            blank=True,
-            null=True)
+        blank=True, null=True)
     resource_items = models.ManyToManyField(
         'resource_carousel.ExternalResource',
         through='curricula.ResourceItem')
     secondary_content_types = models.ManyToManyField(
         AlternateType,
-        blank=True,
-        null=True)
+        blank=True, null=True)
     setup = models.TextField(
-        blank=True,
-        null=True)
+        blank=True, null=True)
     skills = models.ManyToManyField(
         'curricula.Skill',
-        blank=True,
-        null=True,
+        blank=True, null=True,
         limit_choices_to={'children__isnull': True})
     slug = models.SlugField(
         unique=True,
@@ -189,28 +155,23 @@ class Activity(models.Model):
         title changes after the slug has been generated.""")
     standards = models.ManyToManyField(
         'curricula.Standard',
-        blank=True,
-        null=True)
+        blank=True, null=True)
     subjects = models.ManyToManyField(
         Subject,
-        blank=True,
-        null=True,
+        blank=True, null=True,
         limit_choices_to={'parent__isnull': False},
         verbose_name="Subjects and Disciplines")
     subtitle_guiding_question = models.TextField(
         verbose_name="Subtitle or Guiding Question")
     teaching_approaches = models.ManyToManyField(
         'curricula.TeachingApproach',
-        blank=True,
-        null=True)
+        blank=True, null=True)
     teaching_method_types = models.ManyToManyField(
         'curricula.TeachingMethodType',
-        blank=True,
-        null=True)
+        blank=True, null=True)
     tech_setup_types = models.ManyToManyField(
         'curricula.TechSetupType',
-        blank=True,
-        null=True)
+        blank=True, null=True)
     tips = models.ManyToManyField(
         'curricula.Tip',
         blank=True,
@@ -261,16 +222,14 @@ class Activity(models.Model):
         ctxt = self.grades.all().as_struct()
         return render_to_string('curricula/grades_range.html', ctxt)
 
-    if CREDIT_MODEL:
-        def get_credit_details(self):
-            # [EDU-3431] Credit Category display order not working
-            credit_details = SortedDict()
-            if self.credit and self.credit.credit_details:
-                for detail in self.credit.credit_details.order_by('credit_category__order'):
-                    if detail.credit_category not in credit_details:
-                        credit_details[detail.credit_category] = []
-                    credit_details[detail.credit_category].append(detail.entity)
-            return credit_details
+    def get_credit_details(self):
+        credit_details = SortedDict()
+        if self.credit and self.credit.credit_details:
+            for detail in self.credit.credit_details.order_by('credit_category__order'):
+                if detail.credit_category not in credit_details:
+                    credit_details[detail.credit_category] = []
+                credit_details[detail.credit_category].append(detail.entity)
+        return credit_details
 
     if RELATION_MODELS:
         def get_related_content_type(self, content_type):
@@ -297,21 +256,8 @@ class Activity(models.Model):
                 return None
 
         def get_key_image(self):
+            from curricula.settings import KEY_IMAGE
             return self.get_content_object(KEY_IMAGE)
-
-        @property
-        def key_image(self):
-            content_object = self.get_key_image()
-            if content_object:
-                return content_object.thumbnail_url()
-            else:
-                return None
-
-        def thumbnail_html(self):
-            if self.key_image:
-                return '<img src="%s"/>' % self.key_image
-            else:
-                return None
 
 
 class Vocabulary(models.Model):

@@ -89,6 +89,7 @@ DEFAULT_SETTINGS = {
         (1, 'Tip'),
         (2, 'Modification'),
     ),
+    'THUMBNAIL_SIZE': '100x75',
     'MCE_ATTRS': None,
     'REQUIRE_REPORTING_CATEGORIES': True,
 }
@@ -125,20 +126,14 @@ UNIT_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle', 'overview')
 
 globals().update(DEFAULT_SETTINGS)
 
-ACTIVITY_FIELDS = []
-LESSON_FIELDS = []
-if DEFAULT_SETTINGS['KEY_IMAGE'] is not None:
-    ACTIVITY_FIELDS.append(DEFAULT_SETTINGS['KEY_IMAGE'])
-    LESSON_FIELDS.append(DEFAULT_SETTINGS['KEY_IMAGE'])
-
-## Create a mapping from a key to a dict of name and slug
+# Create a mapping from a key to a dict of name and slug
 STD_TYPE_KEY_MAP = dict([
     (key, {'name': val, 'slug': slugify(val)}) for key, val in STANDARD_TYPES
 ])
 for key, val in STANDARD_TYPE_SLUGS:
     STD_TYPE_KEY_MAP[key]['slug'] = val
 
-## Create a mapping from a slug to a dict of name and key
+# Create a mapping from a slug to a dict of name and key
 STD_TYPE_SLUG_MAP = dict([
     (val['slug'], {'name': val['name'], 'key': key}) for key, val in STD_TYPE_KEY_MAP.items()
 ])
