@@ -43,11 +43,10 @@ class ResourceCarouselInline(RelatedInline):
 
 
 class TagInline(ConceptItemInline):
-    extra = 10
+    pass
 
 
 class VocabularyInline(admin.TabularInline):
-    extra = 10
     model = Vocabulary
     raw_id_fields = ('glossary_term',)
 
@@ -59,7 +58,6 @@ class VocabularyInline(admin.TabularInline):
 
 
 class QuestionAnswerInline(admin.TabularInline):
-    extra = 3
     formfield_overrides = {
         BitField: {
             # 'choices': AUDIENCE_FLAGS,
@@ -84,7 +82,6 @@ if RELATION_MODELS:
     from .forms import ActivityFormSet
 
     class InlineActivityRelation(GenericCollectionInlineModelAdmin):
-        extra = 7
         model = ActivityRelation
         formset = ActivityFormSet
         template = 'admin/edit_inline/ic_coll_tabular.html'
@@ -225,8 +222,7 @@ class ActivityAdmin(ContentAdmin):
                     'appropriate_for', 'title', 'slug',
                     'subtitle_guiding_question', 'pedagogical_purpose_type',
                     'key_image', 'description', 'duration', 'learner_groups',
-                    'is_modular', 'ads_excluded', 'id_number',
-                    'notes_on_readability_score'
+                    'is_modular', 'id_number', 'notes_on_readability_score'
                 ],
                 'classes': ['collapse']
             }),
@@ -318,7 +314,6 @@ class ActivityInline(admin.TabularInline):
 
 if RELATION_MODELS:
     class InlineIdeaCategoryRelation(GenericCollectionInlineModelAdmin):
-        extra = 7
         model = IdeaCategoryRelation
         template = 'admin/edit_inline/ic_coll_tabular.html'
 
@@ -441,7 +436,6 @@ class IdeaCategoryAdmin(ContentAdmin):
 
 if RELATION_MODELS:
     class InlineLessonRelation(GenericCollectionInlineModelAdmin):
-        extra = 7
         model = LessonRelation
         template = 'admin/edit_inline/ic_coll_tabular.html'
 
@@ -506,8 +500,7 @@ class LessonAdmin(ContentAdmin):
             ('Overview', {
                 'fields': [
                     'appropriate_for', 'title', 'slug', 'subtitle_guiding_question',
-                    'key_iamge', 'description', 'is_modular', 'ads_excluded',
-                    'id_number', 'instructional_pathways',
+                    'key_iamge', 'description', 'is_modular', 'id_number', 'instructional_pathways',
                 ],
                 'classes': ['collapse']}),
             ('Directions', {
@@ -659,7 +652,6 @@ class TipAdmin(admin.ModelAdmin):
 
 if RELATION_MODELS:
     class InlineUnitRelation(GenericCollectionInlineModelAdmin):
-        extra = 7
         model = UnitRelation
         template = 'admin/edit_inline/ic_coll_tabular.html'
 
