@@ -35,8 +35,8 @@ from .widgets import VocabularyIdWidget
 
 class ResourceCarouselInline(RelatedInline):
     rel_name = 'resources'
-    ct_field = "source_type"
-    ct_fk_field = "source_id"
+    ct_field = "object_type"
+    ct_fk_field = "object_id"
 
     verbose_name_plural = "Resource Carousel"
     exclude = ('source_type', 'source_id', 'relation_type')

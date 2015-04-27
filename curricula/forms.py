@@ -15,9 +15,9 @@ class ActivityForm(forms.ModelForm):
 
     class Media:
         js = (
-            'js/jquery/ui.core.js',
-            'js/jquery/ui.sortable.js',
-            'js/menu-sort.js',
+            # 'js/jquery/ui.core.js',
+            # 'js/jquery/ui.sortable.js',
+            # 'js/menu-sort.js',
         )
 
     class Meta:
@@ -41,16 +41,12 @@ class ActivityForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super(ActivityForm, self).clean()
-        return cleaned_data
-
-    def clean_assessment_type(self):
-        atype = self.cleaned_data['assessment_type']
-        assessment = self.cleaned_data['assessment']
+        atype = cleaned_data['assessment_type']
+        assessment = cleaned_data['assessment']
         if assessment and not atype:
             raise forms.ValidationError("Assessment Type is required, when "
                                         "there is an Assessment.")
-
-        return atype
+        return cleaned_data
 
     def clean_field(self, name):
         field = self.cleaned_data[name]
@@ -143,9 +139,9 @@ class LessonForm(forms.ModelForm):
 
     class Media:
         js = (
-            'js/jquery/ui.core.js',
-            'js/jquery/ui.sortable.js',
-            'js/menu-sort.js',
+            # 'js/jquery/ui.core.js',
+            # 'js/jquery/ui.sortable.js',
+            # 'js/menu-sort.js',
         )
 
     class Meta:
@@ -203,9 +199,9 @@ class UnitForm(forms.ModelForm):
             'all': (settings.STATIC_URL + 'audience/bitfield.css',),
         }
         js = (
-            'js/jquery/ui.core.js',
-            'js/jquery/ui.sortable.js',
-            'js/menu-sort.js',
+            # 'js/jquery/ui.core.js',
+            # 'js/jquery/ui.sortable.js',
+            # 'js/menu-sort.js',
         )
 
     class Meta:

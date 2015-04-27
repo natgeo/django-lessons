@@ -12,11 +12,11 @@ class GenericCollectionInlineModelAdmin(admin.options.InlineModelAdmin):
         elements = ["%s: '%s/%s'" % (x, y, z) for x, y, z in ctypes]
         self.content_types = "{%s}" % ",".join(elements)
 
-    # def get_formset(self, request, obj=None):
-    #     result = super(GenericCollectionInlineModelAdmin, self).get_formset(request, obj)
-    #     result.content_types = self.content_types
-    #     result.ct_fk_field = self.ct_fk_field
-    #     return result
+    def get_formset(self, request, obj=None, **kwargs):
+        result = super(GenericCollectionInlineModelAdmin, self).get_formset(request, obj, **kwargs)
+        result.content_types = self.content_types
+        result.ct_fk_field = self.ct_fk_field
+        return result
 
 
 class GenericCollectionTabularInline(GenericCollectionInlineModelAdmin):
