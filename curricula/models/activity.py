@@ -23,6 +23,7 @@ from curricula.utils import truncate
 __all__ = ('Activity', 'ResourceItem', 'Vocabulary', 'QuestionAnswer')
 
 from core_media.models import NGPhoto  # NOQA
+from credits.models import CreditGroup  # NOQA
 
 
 class ActivityManager(models.Manager):
