@@ -493,7 +493,7 @@ class LessonAdmin(ContentAdmin):
             ('Overview', {
                 'fields': [
                     'appropriate_for', 'title', 'slug', 'subtitle_guiding_question',
-                    'key_iamge', 'description', 'is_modular', 'id_number', 'instructional_pathways',
+                    'key_image', 'description', 'is_modular', 'id_number', 'instructional_pathways',
                 ],
                 'classes': ['collapse']}),
             ('Directions', {
