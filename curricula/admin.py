@@ -33,6 +33,21 @@ from .utils import truncate
 from .widgets import VocabularyIdWidget
 
 
+def thumbnail_display(obj):
+    if obj.key_image is None:
+        return ''
+    w, h = THUMBNAIL_SIZE.split('x')
+    bits = [
+        '<img src="',
+        obj.key_image._get_SIZE_url(THUMBNAIL_SIZE),
+        '" alt="',
+        obj.title,
+        '" width="%s" height="%s" />' % (w, h)]
+    return "".join(bits)
+thumbnail_display.allow_tags = True
+thumbnail_display.short_description = 'Thumbnail'
+
+
 class ResourceCarouselInline(RelatedInline):
     rel_name = 'resources'
     ct_field = "object_type"
@@ -114,17 +129,6 @@ class ContentAdmin(admin.ModelAdmin):
         return strip_tags(obj.title)
     get_title.short_description = 'Title'
 
-    def thumbnail_display(self, obj):
-        w, h = THUMBNAIL_SIZE.split('x')
-        bits = [
-            '<img src="',
-            obj.key_image._get_SIZE_url(THUMBNAIL_SIZE),
-            '" alt="',
-            obj.title,
-            '" width="%s" height="%s" />' % (w, h)]
-        return "".join(bits)
-    thumbnail_display.allow_tags = True
-
 
 class StandardsWidget(admin.widgets.FilteredSelectMultiple):
     def render_option(self, selected_choices, option_value, option_label):
@@ -171,7 +175,7 @@ class ActivityAdmin(ContentAdmin):
     if RELATION_MODELS:
         inlines.append(InlineActivityRelation)
 
-    list_display = ('get_title', 'thumbnail_display', 'description',
+    list_display = ('get_title', thumbnail_display, 'description',
         'pedagogical_purpose_type', 'grade_levels', 'published_date')
     list_filter = ('pedagogical_purpose_type', 'published', 'published_date')
     object_name = 'activity'
@@ -346,7 +350,7 @@ class IdeaAdmin(admin.ModelAdmin):
         }
     }
     inlines = [TagInline, IdeaCategoryInline]
-    list_display = ('title', 'thumbnail_display', 'categories_display', 'appropriate_display')
+    list_display = ('title', thumbnail_display, 'categories_display', 'appropriate_display')
     raw_id_fields = ("key_image", 'source', )
     search_fields = ['title', 'content_body']
 
@@ -369,17 +373,6 @@ class IdeaAdmin(admin.ModelAdmin):
     def categories_display(self, obj):
         return (',').join(obj.get_categories())
 
-    def thumbnail_display(self, obj):
-        w, h = THUMBNAIL_SIZE.split('x')
-        bits = [
-            '<img src="',
-            obj.key_image._get_SIZE_url(THUMBNAIL_SIZE),
-            '" alt="',
-            obj.title,
-            '" width="%s" height="%s" />' % (w, h)]
-        return "".join(bits)
-    thumbnail_display.allow_tags = True
-
 
 class IdeaInline(admin.TabularInline):
     model = CategoryIdea
@@ -391,7 +384,7 @@ class IdeaInline(admin.TabularInline):
 class IdeaCategoryAdmin(ContentAdmin):
     filter_horizontal = ['eras', 'grades', 'secondary_content_types', 'subjects', ]
     form = IdeaCategoryForm
-    list_display = ('title', 'content_body', 'thumbnail_display', 'appropriate_display', 'grade_levels', 'published_date')
+    list_display = ('title', 'content_body', thumbnail_display, 'appropriate_display', 'grade_levels', 'published_date')
     list_filter = ('grades', 'published', 'published_date')
     inlines = [TagInline, IdeaInline]
     if RELATION_MODELS:
@@ -454,7 +447,7 @@ class LessonAdmin(ContentAdmin):
         inlines = [ResourceCarouselInline, ActivityInline, TagInline, InlineLessonRelation, ]
     else:
         inlines = [ResourceCarouselInline, ActivityInline, ]
-    list_display = ('get_title', 'thumbnail_display', 'get_description', 'appropriate_display', 'published_date')
+    list_display = ('get_title', thumbnail_display, 'get_description', 'appropriate_display', 'published_date')
     list_filter = ('published_date', 'published')
     object_name = 'lesson'
     raw_id_fields = ("credit",)
@@ -672,7 +665,7 @@ class UnitAdmin(admin.ModelAdmin):
     inlines = [LessonInline, TagInline]
     if RELATION_MODELS:
         inlines += [InlineUnitRelation, ]
-    list_display = ('title', 'thumbnail_display', 'overview_display', 'appropriate_display', 'published_date')
+    list_display = ('title', thumbnail_display, 'overview_display', 'appropriate_display', 'published_date')
     list_filter = ('published_date', 'published')
     prepopulated_fields = {"slug": ("title",)}
     raw_id_fields = ("key_image", "credit", )
@@ -688,7 +681,7 @@ class UnitAdmin(admin.ModelAdmin):
 
     class Media:
         css = {
-            'all': (settings.STATIC_URL + 'audience/bitfield.css',),
+            'all': ('audience/bitfield.css',),
         }
 
     def appropriate_display(self, obj):
@@ -743,9 +736,6 @@ class UnitAdmin(admin.ModelAdmin):
         obj.save()
         return super(UnitAdmin, self).response_change(request, obj)
 
-    def thumbnail_display(self, obj):
-        return '<img src="%s"/>' % obj.key_image.thumbnail_url()
-    thumbnail_display.allow_tags = True
 
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(GroupingType)
