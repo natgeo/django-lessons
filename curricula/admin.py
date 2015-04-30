@@ -12,6 +12,7 @@ from concepts.admin import ConceptItemInline
 from contentrelations.admin import RelatedInline
 from genericcollection import GenericCollectionInlineModelAdmin
 from tinymce.widgets import TinyMCE
+from ckeditor.widgets import CKEditorWidget
 
 from .models import (Activity, ActivityRelation, GroupingType,
                      LearningObjective, Lesson, LessonActivity, LessonRelation,
@@ -72,7 +73,8 @@ class VocabularyInline(admin.TabularInline):
         return formfield
 
 
-class QuestionAnswerInline(admin.TabularInline):
+class QuestionAnswerInline(admin.StackedInline):
+    extra = 1
     formfield_overrides = {
         BitField: {
             # 'choices': AUDIENCE_FLAGS,
@@ -85,7 +87,7 @@ class QuestionAnswerInline(admin.TabularInline):
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         if db_field.name in ('question', 'answer'):
-            return db_field.formfield(widget=TinyMCE(mce_attrs={'theme': "simple", 'width': 30, 'height': 5}))
+            return db_field.formfield(widget=CKEditorWidget(config_name='simple_3line_micro'))
         return super(QuestionAnswerInline, self).formfield_for_dbfield(db_field, **kwargs)
 
 
@@ -192,10 +194,10 @@ class ActivityAdmin(ContentAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(ActivityAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name in ACTIVITY_TINYMCE_FIELDS:
-            if db_field.name in MCE_ATTRS:
+            if db_field.name in ('directions', ):
                 formfield.widget = TinyMCE(mce_attrs=MCE_ATTRS[db_field.name])
             else:
-                formfield.widget = TinyMCE(mce_attrs=MCE_ATTRS['default'])
+                formfield.widget = CKEditorWidget(config_name='simple_paragraph')
         if db_field.name in self.varying_fields:
             request = kwargs.get('request', None)
             if request:
@@ -312,7 +314,7 @@ class ActivityInline(admin.TabularInline):
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         if db_field.name == 'transition_text':
-            return db_field.formfield(widget=TinyMCE(mce_attrs={'theme': "simple", 'height': 5}))
+            return db_field.formfield(widget=CKEditorWidget(config_name='simple_3line_micro'))
         return super(ActivityInline, self).formfield_for_dbfield(db_field, **kwargs)
 
 
@@ -336,7 +338,7 @@ class LessonInline(admin.TabularInline):
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         if db_field.name == 'transition_text':
-            return db_field.formfield(widget=TinyMCE(mce_attrs={'theme': "simple", 'height': 5}))
+            return db_field.formfield(widget=CKEditorWidget(config_name='simple_3line_micro'))
         return super(LessonInline, self).formfield_for_dbfield(db_field, **kwargs)
 
 
@@ -361,7 +363,7 @@ class IdeaAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(IdeaAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name == 'content_body':
-            formfield.widget = TinyMCE(mce_attrs=MCE_ATTRS['default'])
+            formfield.widget = CKEditorWidget('simple_paragraph')
 
         return formfield
 
@@ -399,7 +401,7 @@ class IdeaCategoryAdmin(ContentAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(IdeaCategoryAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name in IDEACATEGORY_TINYMCE_FIELDS:
-            formfield.widget = TinyMCE(mce_attrs=MCE_ATTRS['default'])
+            formfield.widget = CKEditorWidget(config_name='simple_paragraph')
 
         return formfield
 
@@ -468,7 +470,7 @@ class LessonAdmin(ContentAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(LessonAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name in LESSON_TINYMCE_FIELDS:
-            formfield.widget = TinyMCE(mce_attrs=MCE_ATTRS['default'])
+            formfield.widget = CKEditorWidget(config_name='simple_paragraph')
         if db_field.name in self.varying_fields:
             request = kwargs.get('request', None)
             if request:
@@ -627,7 +629,7 @@ class TipAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(TipAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name == 'body':
-            formfield.widget = TinyMCE(mce_attrs=MCE_ATTRS['default'])
+            formfield.widget = CKEditorWidget(config_name='simple_paragraph')
         if db_field.name in self.varying_fields:
             request = kwargs.get('request', None)
             if request:
@@ -662,6 +664,7 @@ class UnitAdmin(admin.ModelAdmin):
             'widget': AdminBitFieldWidget()
         }
     }
+    object_name = 'unit'
     inlines = [LessonInline, TagInline]
     if RELATION_MODELS:
         inlines += [InlineUnitRelation, ]
@@ -695,7 +698,7 @@ class UnitAdmin(admin.ModelAdmin):
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(UnitAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name in UNIT_TINYMCE_FIELDS:
-            formfield.widget = TinyMCE(mce_attrs=MCE_ATTRS['default'])
+            formfield.widget = CKEditorWidget(config_name='simple_paragraph')
         if db_field.name in self.varying_fields:
             request = kwargs.get('request', None)
             if request:
