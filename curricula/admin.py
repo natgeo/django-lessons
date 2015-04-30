@@ -179,7 +179,7 @@ class ActivityAdmin(ContentAdmin):
         'pedagogical_purpose_type', 'grade_levels', 'published_date')
     list_filter = ('pedagogical_purpose_type', 'published', 'published_date')
     object_name = 'activity'
-    raw_id_fields = ("credit", )
+    raw_id_fields = ("credit", "key_image", )
 
     search_fields = ['title', 'subtitle_guiding_question', 'description', 'id_number']
     varying_fields = AUDIENCE_FIELDS.get('curricula.Activity', [])
@@ -450,7 +450,7 @@ class LessonAdmin(ContentAdmin):
     list_display = ('get_title', thumbnail_display, 'get_description', 'appropriate_display', 'published_date')
     list_filter = ('published_date', 'published')
     object_name = 'lesson'
-    raw_id_fields = ("credit",)
+    raw_id_fields = ("credit", "key_image", )
     search_fields = ['title', 'description', 'id_number']
     varying_fields = AUDIENCE_FIELDS.get('curricula.Lesson', [])
 
