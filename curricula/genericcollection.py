@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.contrib.contenttypes.models import ContentType
+from django.core.urlresolvers import reverse, NoReverseMatch
+import json
 
 
 class GenericCollectionInlineModelAdmin(admin.options.InlineModelAdmin):
@@ -9,8 +11,13 @@ class GenericCollectionInlineModelAdmin(admin.options.InlineModelAdmin):
     def __init__(self, parent_model, admin_site):
         super(GenericCollectionInlineModelAdmin, self).__init__(parent_model, admin_site)
         ctypes = ContentType.objects.all().order_by('id').values_list('id', 'app_label', 'model')
-        elements = ["%s: '%s/%s'" % (x, y, z) for x, y, z in ctypes]
-        self.content_types = "{%s}" % ",".join(elements)
+        elements = {}
+        for x, y, z in ctypes:
+            try:
+                elements[x] = reverse("admin:%s_%s_changelist" % (y, z))
+            except NoReverseMatch:
+                continue
+        self.content_types = json.dumps(elements)
 
     def get_formset(self, request, obj=None, **kwargs):
         result = super(GenericCollectionInlineModelAdmin, self).get_formset(request, obj, **kwargs)
@@ -18,10 +25,13 @@ class GenericCollectionInlineModelAdmin(admin.options.InlineModelAdmin):
         result.ct_fk_field = self.ct_fk_field
         return result
 
+    class Media:
+        js = ('contentrelations/js/genericlookup.js', )
+
 
 class GenericCollectionTabularInline(GenericCollectionInlineModelAdmin):
-    template = 'admin/edit_inline/ic_coll_tabular.html'
+    template = 'admin/edit_inline/gen_coll_tabular.html'
 
 
 class GenericCollectionStackedInline(GenericCollectionInlineModelAdmin):
-    template = 'admin/edit_inline/ic_coll_stacked.html'
+    template = 'admin/edit_inline/gen_coll_stacked.html'
