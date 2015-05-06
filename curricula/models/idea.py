@@ -11,6 +11,8 @@ from edumetadata.fields import HistoricalDateField
 from concepts.models import delete_listener, Concept, ConceptItem
 from licensing.models import GrantedLicense
 from acknowledge.models import Entity
+from core_media.models import NGPhoto  # NOQA
+from credits.models import CreditGroup  # NOQA
 
 from curricula.settings import RELATION_MODELS, DEFAULT_LICENSE
 
@@ -33,7 +35,7 @@ class IdeaCategory(models.Model):
         appropriate.''')
     content_body = models.TextField()
     create_date = models.DateTimeField(auto_now_add=True)
-    credit = models.ForeignKey('credits.CreditGroup',
+    credit = models.ForeignKey(CreditGroup,
         blank=True,
         null=True)
     description = models.TextField()
@@ -52,7 +54,7 @@ class IdeaCategory(models.Model):
         help_text="""This field is for the internal NG Education ID number. This
         is required for all instructional content.""")
     key_image = models.ForeignKey(
-        'core_media.ngphoto',
+        NGPhoto,
         blank=True, null=True)
     last_updated_date = models.DateTimeField(auto_now=True)
     license_name = models.ForeignKey(GrantedLicense,
@@ -182,7 +184,7 @@ class Idea(models.Model):
         null=True,
         help_text="""This field is for the internal NG Education ID number. This
         is required for all instructional content.""")
-    key_image = models.ForeignKey('core_media.ngphoto',
+    key_image = models.ForeignKey(NGPhoto,
         blank=True,
         null=True)
     last_updated_date = models.DateTimeField(auto_now=True)

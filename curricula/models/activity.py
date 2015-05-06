@@ -59,7 +59,7 @@ class Activity(models.Model):
     concepts = ConceptManager()
     create_date = models.DateTimeField(auto_now_add=True)
     credit = models.ForeignKey(
-        'credits.CreditGroup',
+        CreditGroup,
         blank=True, null=True)
     description = models.TextField()
     directions = models.TextField(
@@ -91,7 +91,7 @@ class Activity(models.Model):
         help_text="""If unchecked, this field indicates that this activity
         should not appear as stand-alone outside of a lesson view.""")
     key_image = models.ForeignKey(
-        'core_media.ngphoto',
+        NGPhoto,
         blank=True, null=True)
     last_updated_date = models.DateTimeField(auto_now=True)
     learner_groups = models.ManyToManyField(

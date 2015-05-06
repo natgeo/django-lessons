@@ -19,6 +19,9 @@ from concepts.managers import ConceptManager
 from curricula.utils import ul_as_list, list_as_ul
 from curricula.settings import ASSESSMENT_TYPES, RELATION_MODELS
 
+from core_media.models import NGPhoto  # NOQA
+from credits.models import CreditGroup  # NOQA
+
 __all__ = ('Lesson', 'LessonActivity',)
 
 
@@ -61,7 +64,7 @@ class Lesson(models.Model):
         imported text, note that clicking "import text from activities" again
         will re-set the text back to the imported version.""")
     create_date = models.DateTimeField(auto_now_add=True)
-    credit = models.ForeignKey('credits.CreditGroup',
+    credit = models.ForeignKey(CreditGroup,
         blank=True, null=True,
         help_text="""All activity-level credits will dynamically display in
         the lesson credits, broken out by activity number. Only use this
@@ -69,7 +72,7 @@ class Lesson(models.Model):
     concepts = ConceptManager()
     description = models.TextField()
     key_image = models.ForeignKey(
-        'core_media.ngphoto',
+        NGPhoto,
         blank=True, null=True)
     id_number = models.CharField(
         max_length=10,

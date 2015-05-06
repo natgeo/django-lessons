@@ -11,7 +11,8 @@ from edumetadata.fields import HistoricalDateField
 
 from curricula.settings import RELATION_MODELS
 
-from core_media.models import NGPhoto
+from core_media.models import NGPhoto  # NOQA
+from credits.models import CreditGroup  # NOQA
 
 __all__ = ('Unit', 'UnitLesson')
 
@@ -36,7 +37,7 @@ class Unit(models.Model):
         appropriate for those audiences.''')
     create_date = models.DateTimeField(auto_now_add=True)
     credit = models.ForeignKey(
-        'credits.CreditGroup',
+        CreditGroup,
         blank=True,
         null=True)
     description = models.TextField()
@@ -44,7 +45,7 @@ class Unit(models.Model):
         max_length=10,
         help_text="""This field is for the internal NG Education ID number.
         This is required for all instructional content.""")
-    key_image = models.ForeignKey('core_media.ngphoto')
+    key_image = models.ForeignKey(NGPhoto)
     lessons = models.ManyToManyField(
         'curricula.Lesson',
         through='curricula.UnitLesson')
