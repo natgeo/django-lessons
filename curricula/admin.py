@@ -351,6 +351,14 @@ class IdeaAdmin(admin.ModelAdmin):
             'widget': AdminBitFieldWidget()
         }
     }
+    fieldsets = [
+        (None, {
+            'fields': ['appropriate_for', ]
+        }),
+        ('Content', {
+            'fields': ['title', 'id_number', 'content_body', 'key_image', 'source']
+        }),
+    ]
     inlines = [TagInline, IdeaCategoryInline]
     list_display = ('title', thumbnail_display, 'categories_display', 'appropriate_display')
     raw_id_fields = ("key_image", 'source', )
