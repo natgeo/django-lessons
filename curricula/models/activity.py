@@ -185,6 +185,7 @@ class Activity(models.Model):
     vocabulary = models.ManyToManyField(
         'reference.GlossaryTerm',
         through='curricula.Vocabulary')
+    archived = models.BooleanField(default=False)
 
     objects = ActivityManager()
 

@@ -90,6 +90,7 @@ class IdeaCategory(models.Model):
         null=True)
     title = models.CharField(
         max_length=256)
+    archived = models.BooleanField(default=False)
 
     objects = IdeaManager()
 

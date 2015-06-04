@@ -179,7 +179,7 @@ class ActivityAdmin(ContentAdmin):
 
     list_display = ('get_title', thumbnail_display, 'description',
         'pedagogical_purpose_type', 'grade_levels', 'published_date')
-    list_filter = ('pedagogical_purpose_type', 'published', 'published_date')
+    list_filter = ('pedagogical_purpose_type', 'published', 'published_date', 'archived')
     object_name = 'activity'
     raw_id_fields = ("credit", "key_image", )
 
@@ -274,7 +274,7 @@ class ActivityAdmin(ContentAdmin):
                 'fields': ['eras', 'geologic_time', 'relevant_start_date', 'relevant_end_date'],
                 'classes': ['collapse']}),
             ('Publishing', {
-                'fields': ['published', 'published_date'],
+                'fields': ['published', 'published_date', 'archived'],
                 'classes': ['collapse']}),
         ]
         return fieldsets
@@ -395,7 +395,7 @@ class IdeaCategoryAdmin(ContentAdmin):
     filter_horizontal = ['eras', 'grades', 'secondary_content_types', 'subjects', ]
     form = IdeaCategoryForm
     list_display = ('title', 'content_body', thumbnail_display, 'appropriate_display', 'grade_levels', 'published_date')
-    list_filter = ('grades', 'published', 'published_date')
+    list_filter = ('grades', 'published', 'published_date', 'archived')
     inlines = [TagInline, IdeaInline]
     if RELATION_MODELS:
         inlines.append(InlineIdeaCategoryRelation)
@@ -429,7 +429,7 @@ class IdeaCategoryAdmin(ContentAdmin):
         fieldsets += [
             ('Content Related Metadata', {'fields': ['subjects', 'grades'], 'classes': ['collapse']}),
             ('Time and Date Metadata', {'fields': ['eras', 'geologic_time', 'relevant_start_date', 'relevant_end_date'], 'classes': ['collapse']}),
-            ('Publishing', {'fields': ['published', 'published_date'], 'classes': ['collapse']}),
+            ('Publishing', {'fields': ['published', 'published_date', 'archived'], 'classes': ['collapse']}),
         ]
         return fieldsets
 
@@ -458,7 +458,7 @@ class LessonAdmin(ContentAdmin):
     else:
         inlines = [ResourceCarouselInline, ActivityInline, ]
     list_display = ('get_title', thumbnail_display, 'get_description', 'appropriate_display', 'published_date')
-    list_filter = ('published_date', 'published')
+    list_filter = ('published_date', 'published', 'archived')
     object_name = 'lesson'
     raw_id_fields = ("credit", "key_image", )
     search_fields = ['title', 'description', 'id_number']
@@ -536,7 +536,7 @@ class LessonAdmin(ContentAdmin):
                     'eras', 'geologic_time', 'relevant_start_date', 'relevant_end_date'
                 ], 'classes': ['collapse']}),
             ('Publishing', {
-                'fields': ['published', 'published_date'],
+                'fields': ['published', 'published_date', 'archived'],
                 'classes': ['collapse']}),
         ]
         return fieldsets
@@ -677,7 +677,7 @@ class UnitAdmin(admin.ModelAdmin):
     if RELATION_MODELS:
         inlines += [InlineUnitRelation, ]
     list_display = ('title', thumbnail_display, 'overview_display', 'appropriate_display', 'published_date')
-    list_filter = ('published_date', 'published')
+    list_filter = ('published_date', 'published', 'archived')
     prepopulated_fields = {"slug": ("title",)}
     raw_id_fields = ("key_image", "credit", )
     tabs = {
@@ -732,7 +732,7 @@ class UnitAdmin(admin.ModelAdmin):
         fieldsets += [
             ('Content Related Metadata', {'fields': ['subjects', 'grades'], 'classes': ['collapse']}),
             ('Time and Date Metadata', {'fields': ['eras', 'geologic_time', 'relevant_start_date', 'relevant_end_date'], 'classes': ['collapse']}),
-            ('Publishing', {'fields': ['published', 'published_date'], 'classes': ['collapse']}),
+            ('Publishing', {'fields': ['published', 'published_date', 'archived'], 'classes': ['collapse']}),
         ]
         return fieldsets
 

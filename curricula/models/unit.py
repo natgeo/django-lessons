@@ -98,6 +98,7 @@ class Unit(models.Model):
         blank=True,
         null=True,
         limit_choices_to={'parent__isnull': False})
+    archived = models.BooleanField(default=False)
 
     objects = UnitManager()
 

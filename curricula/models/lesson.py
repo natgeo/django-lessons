@@ -146,6 +146,7 @@ class Lesson(models.Model):
         blank=True, null=True)
     tech_setup_types = models.ManyToManyField('curricula.TechSetupType',
         blank=True, null=True)
+    archived = models.BooleanField(default=False)
 
     objects = LessonManager()
 
