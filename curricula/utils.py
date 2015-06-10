@@ -1,5 +1,4 @@
 from collections import defaultdict
-
 from django.template.loader import render_to_string
 
 from BeautifulSoup import BeautifulSoup
@@ -60,7 +59,7 @@ def tags_for_activities(ids):
 
 
 def tags_for_object(obj):
-    from concepts.models import Concept, ConceptItem
+    from concepts.models import ConceptItem
     from django.contrib.contenttypes.models import ContentType
 
     ctype = ContentType.objects.get_for_model(obj)
@@ -71,7 +70,7 @@ def tags_for_object(obj):
 
 
 def keyword_wrapper(obj, model, ar_a=1, tags=None):
-    from concepts.models import Concept, ConceptItem
+    from concepts.models import ConceptItem
     from django.contrib.contenttypes.models import ContentType
 
     tags = tags or tags_for_object(obj)
@@ -82,11 +81,47 @@ def keyword_wrapper(obj, model, ar_a=1, tags=None):
     return model.objects.filter(id__in=set(ids))
 
 
+def get_gfk_items(ctypes_and_ids):
+    """
+    given a list of content type and id tuples, get all the objects and return
+    them as a list
+    """
+    from django.contrib.contenttypes.models import ContentType
+    gfks = defaultdict(list)
+    objects = []
+    for ctype, obj_id in ctypes_and_ids:
+        gfks[ctype].append(obj_id)
+
+    for ctype, obj_ids in gfks.items():
+        objs = ContentType.objects.get_for_id(ctype).model_class()._default_manager.in_bulk(obj_ids)
+        objects.extend(objs.values())
+    return objects
+
+
+def group_resources(resources):
+    """
+    group a list of resources by their resource_type
+    """
+    from contentrelations.base import ResourceIterator
+    items = resources
+    output = defaultdict(list)
+    if not isinstance(resources, ResourceIterator):
+        items = ResourceIterator(resources)
+    for obj in items:
+        output[obj.resource_type].append({
+            'pk': obj.id,
+            'url': obj.url,
+            'title': obj.title,
+            'type': obj.resource_type,
+        })
+    return output
+
+
 def activities_info(ids, l_id=None):
     """
     De-duplicate and aggregate fields on a comma-delimited list of activity ids
     """
-    from resourcecarousel.models import ExternalResource as ResourceModel
+    from resource_carousel.models import ExternalResource as ResourceModel
     from reference.models import GlossaryTerm
     from curricula.models import (Activity, TeachingApproach, TeachingMethodType,
                                   Standard, Material, Skill, PluginType,
@@ -102,8 +137,12 @@ def activities_info(ids, l_id=None):
         objectives_list = ObjectiveRelation.objects.filter(content_type=ctype,
                                                            object_id=l_id)
         learning_objs = set([objrel.objective for objrel in objectives_list])
+        resources = set(Lesson.objects.get(id=l_id).resources.all().values_list('object_type_id', 'object_id'))
+        items = ConceptItem.objects.filter(content_type=ctype, object_id=l_id, weight__gt=0)
     else:
         learning_objs = set()
+        resources = set()
+        items = []
 
     ctype = ContentType.objects.get_for_model(Activity)
 
@@ -115,7 +154,6 @@ def activities_info(ids, l_id=None):
     skills = set()
     standards = set()
     materials = set()
-    resources = defaultdict(list)
     inet_access = 1  # can't aggregate this, really need to take most specific.
                      # If one activity is optional and one is required, inet_activity
                      # must be required.
@@ -132,7 +170,8 @@ def activities_info(ids, l_id=None):
     # we can't get the related fields using values querysets in this version
     # of Django. Instead, we'll query them separately and replace the id
     # with the tag information we need
-    items = ConceptItem.objects.filter(content_type=ctype, object_id__in=act_ids)
+    if len(items) <= 0:
+        items = ConceptItem.objects.filter(content_type=ctype, object_id__in=act_ids, weight__gt=0)
     concepts = list(items.values('tag').annotate(avg_weight=Avg('weight')).order_by('tag').distinct())
     con_ids = [x['tag'] for x in concepts]
     tags = Concept.objects.filter(id__in=con_ids).values('id', 'name', 'url')
@@ -149,8 +188,10 @@ def activities_info(ids, l_id=None):
         materials |= set(activity.materials.values_list('id', flat=True))
 
         objectives_list = ObjectiveRelation.objects.filter(
-                                    content_type=ctype, object_id=activity.id)
+            content_type=ctype, object_id=activity.id)
         learning_objs |= set([objrel.objective for objrel in objectives_list])
+        resources |= set(activity.resources.all().values_list('object_type_id', 'object_id'))
+
         if activity.internet_access_type > inet_access:
             inet_access = activity.internet_access_type
         plugins |= set(activity.plugin_types.values_list('id', flat=True))
@@ -160,8 +201,8 @@ def activities_info(ids, l_id=None):
         grouping |= set(activity.grouping_types.values_list('id', flat=True))
         access_notes.append(activity.accessibility_notes)
         other.append(activity.other_notes)
-        glossary |= set(activity.vocabulary_set.values_list('glossary_term__id', flat=True))
-        further_expl |= set(activity.resourceitem_set.values_list('resource__id', flat=True))
+        glossary |= set(activity.vocabulary.values_list('id', flat=True))
+        further_expl |= set(activity.resource_items.values_list('id', flat=True))
 
     output = {}
 
@@ -206,23 +247,36 @@ def activities_info(ids, l_id=None):
 
     # these are complex and require rendering
     ctxt = {'objects': Subject.objects.filter(id__in=list(subjects))}
-    output['subjects'] = render_to_string('includes/tree_list.html', ctxt)
+    output['subjects'] = render_to_string('widgets/tree_list.html', ctxt)
 
     ctxt = {'objects': Skill.objects.filter(id__in=list(skills))}
-    output['skills'] = render_to_string('includes/tree_list.html', ctxt)
+    output['skills'] = render_to_string('widgets/tree_list.html', ctxt)
 
     ctxt = {'objects': Standard.objects.filter(id__in=list(standards))}
-    output['standards'] = render_to_string('includes/standards.html', ctxt)
+    output['standards'] = render_to_string('widgets/standards.html', ctxt)
 
-    objects = GlossaryTerm.objects.filter(id__in=list(glossary)).values('word', 'definition', 'part_of_speech')
-    ctxt = {'objects': objects}
-    output['glossary'] = render_to_string('includes/vocabulary_list.html', ctxt)
+    objects = GlossaryTerm.objects.select_related().filter(id__in=list(glossary))
+    ctxt = {'vocabulary': objects}
+    output['glossary'] = render_to_string('widgets/vocabulary_table.html', ctxt)
+    output['vocabulary'] = []  # ctxt['objects']
+    for obj in objects:
+        if obj.generic_article:
+            generic_article_slug = {'slug': obj.generic_article.slug}
+        else:
+            generic_article_slug = None
+        output['vocabulary'].append({
+            'word': obj.word,
+            'phonetic': obj.phonetic,
+            'get_part_of_speech_display': obj.get_part_of_speech_display(),
+            'definition': obj.definition,
+            'generic_article': generic_article_slug})
 
     ctxt = {'objects': ResourceModel.objects.select_related().filter(id__in=list(further_expl))}
-    output['further_exploration'] = render_to_string('includes/further_exploration_list.html', ctxt)
+    output['further_exploration'] = render_to_string('widgets/further_exploration_list.html', ctxt)
     ctxt = {'key_concepts': concepts}
-    output['key_concepts'] = render_to_string('includes/key_concepts_list.html', ctxt)
+    output['key_concepts'] = render_to_string('widgets/key_concepts_list.html', ctxt)
 
     # We'll keep resources as is, and call the javascript to render it.
-    output['resources'] = resources
+    objects = get_gfk_items(resources)
+    output['resources'] = group_resources(objects)
     return output
