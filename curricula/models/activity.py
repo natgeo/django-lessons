@@ -205,9 +205,7 @@ class Activity(models.Model):
         """
         Return the URL to the first audience set
         """
-        audience = self.appropriate_for and self.appropriate_for.get_set_bits()[0]
-        if audience:
-            return '%s?ar_a=%s' % (reverse('activity-detail', args=[self.slug]), audience)
+        return reverse('activity-detail', args=[self.slug])
 
     def get_grades_and_ages(self):
         return self.grades.all().as_grade_age_range()

@@ -205,9 +205,7 @@ class Lesson(models.Model):
         return ('lesson-detail', (), {'slug': self.slug})
 
     def get_canonical_page(self):
-        for i in range(0, 5):
-            if self.appropriate_for.get_bit(i).is_set:
-                return '%s?ar_a=%s' % (reverse('lesson-detail', args=[self.slug]), i + 1)
+        return reverse('lesson-detail', args=[self.slug])
 
     def __unicode__(self):
         return strip_tags(self.title)

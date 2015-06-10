@@ -160,8 +160,7 @@ class IdeaCategory(models.Model):
 
         categories = list(set(categories))
         categories.remove(self)
-        return [category for category in categories
-                if ar_a in category.appropriate_for.get_set_bits()]
+        return categories
 
     @property
     def tags(self):
