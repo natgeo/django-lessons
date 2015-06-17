@@ -363,6 +363,8 @@ class IdeaAdmin(admin.ModelAdmin):
     list_display = ('title', thumbnail_display, 'categories_display', 'appropriate_display')
     raw_id_fields = ("key_image", 'source', )
     search_fields = ['title', 'content_body']
+    varying_fields = AUDIENCE_FIELDS.get('curricula.Idea', [])
+    object_name = 'idea'
 
     class Media:
         css = {'all': ('audience/bitfield.css', )}
@@ -372,6 +374,18 @@ class IdeaAdmin(admin.ModelAdmin):
         formfield = super(IdeaAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name == 'content_body':
             formfield.widget = CKEditorWidget('simple_paragraph')
+        if db_field.name in self.varying_fields:
+            request = kwargs.get('request', None)
+            if request:
+                obj_id = request.path.split('/')[-2]
+                if not obj_id.isdigit():
+                    obj_id = None
+            else:
+                obj_id = None
+            formfield.widget = VariationWidgetWrapper(
+                formfield.widget,
+                self.admin_site, obj_id=obj_id, field=db_field.name,
+                object_name=self.object_name)
 
         return formfield
 
@@ -401,6 +415,8 @@ class IdeaCategoryAdmin(ContentAdmin):
         inlines.append(InlineIdeaCategoryRelation)
     raw_id_fields = ("geologic_time", "license_name", "credit", "key_image", )
     search_fields = ['title', 'content_body']
+    object_name = 'ideacategory'
+    varying_fields = AUDIENCE_FIELDS.get('curricula.IdeaCategory', [])
 
     class Media:
         css = {'all': (settings.STATIC_URL + 'audience/bitfield.css', )}
@@ -410,6 +426,18 @@ class IdeaCategoryAdmin(ContentAdmin):
         formfield = super(IdeaCategoryAdmin, self).formfield_for_dbfield(db_field, **kwargs)
         if db_field.name in IDEACATEGORY_TINYMCE_FIELDS:
             formfield.widget = CKEditorWidget(config_name='simple_paragraph')
+        if db_field.name in self.varying_fields:
+            request = kwargs.get('request', None)
+            if request:
+                obj_id = request.path.split('/')[-2]
+                if not obj_id.isdigit():
+                    obj_id = None
+            else:
+                obj_id = None
+            formfield.widget = VariationWidgetWrapper(
+                formfield.widget,
+                self.admin_site, obj_id=obj_id, field=db_field.name,
+                object_name=self.object_name)
 
         return formfield
 
