@@ -20,7 +20,8 @@ def unique(self, *args):
 def ul_as_list(html):
     if html:
         soup = BeautifulSoup(html)
-        return [li.contents[0] for li in soup('li')]
+        items = [str(li).replace("<li>", "").replace("</li>", "") for li in soup('li')]
+        return [x for x in items if x != "None"]
     return []
 
 
