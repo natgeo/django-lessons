@@ -2,6 +2,9 @@ from django.conf import settings
 from django.contrib.admin import widgets
 from django.utils.safestring import mark_safe
 from django import forms
+from django.forms.widgets import Widget
+from django.utils.encoding import force_text
+from django.template.loader import render_to_string
 
 try:
     from django.contrib.admin.templatetags.admin_static import static
@@ -47,3 +50,25 @@ class SpecificGenericRawIdWidget(forms.TextInput):
 
     class Media:
         js = ('js/genericcollections.js', )
+
+
+class DynalistWidget(Widget):
+    class Media:
+        css = {
+            'all': ('curricula/dynalist.css', ),
+        }
+        js = ('curricula/dynalist.js', )
+
+    def render(self, name, value, attrs=None):
+        if value is None:
+            value = ''
+        final_attrs = self.build_attrs(attrs, name=name)
+        if value != '':
+            # Only add the 'value' attribute if a value is non-empty.
+            final_attrs['value'] = force_text(value)
+        return render_to_string('admin/curricula/dynalist.html', {
+            'value': value,
+            'name': name,
+            'attrs': attrs,
+            'items': value.split(',') if value else [],
+        })

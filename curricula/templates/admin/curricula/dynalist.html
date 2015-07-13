@@ -1,0 +1,31 @@
+<section id="{{ attrs.id }}-dynalist" class="dynalist">
+    <script class="item-template" type="text/x-template">{% verbatim %}
+        <li id="{{id}}">
+            <div class="view">
+                <label class="label">{{title}}</label>
+                <button class="destroy"></button>
+            </div>
+            <input class="edit" value="{{title}}">
+        </li>
+    {% endverbatim %}</script>
+    <input type="hidden" name="{{ name }}" id="{{ attrs.id }}" value="{{ attrs.value }}">
+    <input class="new-item" placeholder="Enter an answer here">
+    <section class="main">
+        <ul class="item-list">
+            {% for item in items %}
+                <li id="{{ attrs.id }}-item-{{ forloop.counter0 }}">
+                    <div class="view">
+                        <label class="label">{{ item }}</label>
+                        <button class="destroy"></button>
+                    </div>
+                    <input class="edit" value="{{ item }}">
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+</section>
+<script type="text/javascript">
+django.jQuery(document).ready(function(){
+    django.jQuery("#{{ attrs.id }}-dynalist").dynalist({itemStoreId: '{{ attrs.id }}'});
+});
+</script>

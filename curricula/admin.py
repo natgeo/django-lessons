@@ -31,7 +31,7 @@ from .settings import (RELATION_MODELS,
                        UNIT_TINYMCE_FIELDS, THUMBNAIL_SIZE
 )
 from .utils import truncate
-from .widgets import VocabularyIdWidget
+from .widgets import VocabularyIdWidget, DynalistWidget
 
 
 def thumbnail_display(obj):
@@ -198,6 +198,8 @@ class ActivityAdmin(ContentAdmin):
                 formfield.widget = TinyMCE(mce_attrs=MCE_ATTRS[db_field.name])
             else:
                 formfield.widget = CKEditorWidget(config_name='simple_paragraph')
+        elif db_field.name == 'prior_knowledge':
+            formfield.widget = DynalistWidget()
         if db_field.name in self.varying_fields:
             request = kwargs.get('request', None)
             if request:

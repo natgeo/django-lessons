@@ -1,0 +1,194 @@
+.hidden {
+    display: none;
+}
+
+.dynalist {
+    display: inline-block;
+    background: #fff;
+    margin: 3px 0 3px 0;
+    position: relative;
+    /*box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);*/
+}
+
+.dynalist input::-webkit-input-placeholder {
+    font-style: italic;
+    font-weight: 300;
+    color: #E3E3E3;
+}
+
+.dynalist input::-moz-placeholder {
+    font-style: italic;
+    font-weight: 300;
+    color: #E3E3E3;
+}
+
+.dynalist input::input-placeholder {
+    font-style: italic;
+    font-weight: 300;
+    color: #E3E3E3;
+}
+
+.dynalist h1 {
+    position: absolute;
+    top: -155px;
+    width: 100%;
+    font-size: 100px;
+    font-weight: 100;
+    text-align: center;
+    color: rgba(175, 47, 47, 0.15);
+    -webkit-text-rendering: optimizeLegibility;
+    -moz-text-rendering: optimizeLegibility;
+    text-rendering: optimizeLegibility;
+}
+
+.new-item,
+.edit {
+    position: relative;
+    margin: 0;
+    width: 100%;
+    font-size: 16px;
+    font-family: inherit;
+    font-weight: inherit;
+    line-height: 1.4em;
+    border: 0;
+    outline: none;
+    color: inherit;
+    padding: 6px;
+    border: 1px solid #999;
+    /*box-shadow: inset 0 -1px 5px 0 rgba(0, 0, 0, 0.2);*/
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-font-smoothing: antialiased;
+    font-smoothing: antialiased;
+}
+
+.new-item {
+    padding: 4px;
+    width: 610px;
+    /*border: none;*/
+    background: rgba(0, 0, 0, 0.003);
+    /*box-shadow: inset 0 -2px 1px rgba(0,0,0,0.03);*/
+}
+
+.main {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid #e6e6e6;
+}
+
+.dynalist .item-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    padding-left: 0;
+}
+
+.item-list li {
+    list-style: none;
+    position: relative;
+    font-size: 24px;
+    border-bottom: 1px solid #ededed;
+}
+
+.item-list li:last-child {
+    border-bottom: none;
+}
+
+.item-list li.editing {
+    border-bottom: none;
+    padding: 0;
+}
+
+.item-list li.editing .edit {
+    display: block;
+}
+
+.item-list li.editing .view {
+    display: none;
+}
+
+.item-list li .toggle {
+    text-align: center;
+    width: 20px;
+    /* auto, since non-WebKit browsers doesn't support input styling */
+    height: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    border: none; /* Mobile Safari */
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.item-list li .toggle:after {
+    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 20 20" version="1.1" ><circle cx="10" cy="10" r="8" style="fill:#fff;stroke-width:3px;stroke:#ccc;"/></svg>');
+}
+
+.item-list li .toggle:checked:after {
+    content: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 20 20" version="1.1" ><circle cx="10" cy="10" r="8" style="fill:#090;stroke-width:3px;stroke:#090;"/></svg>');
+}
+
+.item-list li label {
+    white-space: pre;
+    word-break: break-word;
+    padding: 5px 10px 5px 5px;
+    margin-left: 20px;
+    display: block;
+    line-height: 1.2;
+    transition: color 0.4s;
+    width: auto !important;
+}
+
+.item-list li.completed label {
+    color: #d9d9d9;
+    text-decoration: line-through;
+}
+
+.item-list li .destroy {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    bottom: 0;
+    width: 20px;
+    height: 20px;
+    margin: auto 0;
+    margin-top: 3px;
+    font-size: 18px;
+    color: #cc9a9a;
+    margin-bottom: 4px;
+}
+
+.item-list li .destroy:hover {
+    color: #af5b5e;
+}
+
+.item-list li .destroy:after {
+    content: '×';
+}
+
+.item-list li:hover .destroy {
+    display: block;
+}
+
+.item-list li .edit {
+    display: none;
+}
+
+.item-list li.editing:last-child {
+    margin-bottom: -1px;
+}
+
+
+
+/*
+    Hack to remove background from Mobile Safari.
+    Can't use it globally since it destroys checkboxes in Firefox
+*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .item-list li .toggle {
+        background: none;
+        height: 20px;
+    }
+}

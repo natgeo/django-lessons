@@ -119,7 +119,7 @@ TINYMCE_FIELDS = ('description', 'assessment', 'learning_objectives',
                   'other_notes', 'background_information')
 ACTIVITY_TINYMCE_FIELDS = TINYMCE_FIELDS + ('directions',
                 'subtitle_guiding_question', 'extending_the_learning',
-                'setup', 'accessibility_notes', 'prior_knowledge')
+                'setup', 'accessibility_notes',)
 IDEACATEGORY_TINYMCE_FIELDS = ('content_body', 'description')
 LESSON_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle_guiding_question', 'prior_knowledge')
 UNIT_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle', 'overview')
