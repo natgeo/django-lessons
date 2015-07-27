@@ -71,11 +71,15 @@
 }
 
 .main {
+    margin-top: 10px;
     position: relative;
     z-index: 2;
-    border-top: 1px solid #e6e6e6;
+    /*border-top: 1px solid #e6e6e6;*/
 }
-
+section.main p {
+    margin-left: 0;
+    padding-left: 0;
+}
 .dynalist .item-list {
     margin: 0;
     padding: 0;
@@ -86,12 +90,9 @@
 .item-list li {
     list-style: none;
     position: relative;
-    font-size: 24px;
+    font-size: 28px;
+    border-top: 1px solid #ededed;
     border-bottom: 1px solid #ededed;
-}
-
-.item-list li:last-child {
-    border-bottom: none;
 }
 
 .item-list li.editing {
@@ -133,9 +134,10 @@
     white-space: pre;
     word-break: break-word;
     padding: 5px 10px 5px 5px;
-    margin-left: 20px;
     display: block;
     line-height: 1.2;
+    font-size: 14px;
+    margin-right: 22px;
     transition: color 0.4s;
     width: auto !important;
 }
@@ -146,7 +148,7 @@
 }
 
 .item-list li .destroy {
-    display: none;
+    /*display: none;*/
     position: absolute;
     top: 0;
     right: 10px;
@@ -158,10 +160,10 @@
     font-size: 18px;
     color: #cc9a9a;
     margin-bottom: 4px;
+    color: #af5b5e;
 }
 
 .item-list li .destroy:hover {
-    color: #af5b5e;
 }
 
 .item-list li .destroy:after {

@@ -1,4 +1,5 @@
 from itertools import chain
+import json
 
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
@@ -163,9 +164,8 @@ class Lesson(models.Model):
         agg_activities = curry(self.aggregate_activity_attr, self.activities.all())
 
         # These are normal fields, so we can set them before we save
-        self.prior_knowledge = list_as_ul(
-            list(set(chain(*[ul_as_list(x) for x in agg_activities('prior_knowledge')])))
-        )
+        self.prior_knowledge = json.dumps(list(set(chain(*[agg_activities('prior_knowledge_items')]))))
+
         self.accessibility_notes = list_as_ul(
             list(set(chain(*[ul_as_list(x) for x in agg_activities('accessibility_notes')])))
         )
@@ -291,6 +291,10 @@ class Lesson(models.Model):
         else:
             return True
         return self.activities.count() == count
+
+    @property
+    def prior_knowledge_items(self):
+        return json.loads(self.prior_knowledge)
 
     def get_accessibility(self, activities=None):
         if self.is_all_activities(activities):

@@ -1,3 +1,4 @@
+import json
 from django.conf import settings
 from django.contrib.admin import widgets
 from django.utils.safestring import mark_safe
@@ -70,5 +71,5 @@ class DynalistWidget(Widget):
             'value': value,
             'name': name,
             'attrs': attrs,
-            'items': value.split(',') if value else [],
+            'items': json.loads(value) if value else [],
         })

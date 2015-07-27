@@ -57,7 +57,7 @@
             for (var i=0; i<this.items.length; i++) {
                 items.push(this.items[i].title);
             }
-            this.$itemStore.val(items.join(","));
+            this.$itemStore.val(JSON.stringify(items));
             if (this.correctIndex >= 0)
                 this.$correctStore.val(this.correctIndex + 1);
         },

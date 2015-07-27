@@ -14,13 +14,19 @@ def reformat_prior_knowledge(apps, schema_editor):
     Lesson = apps.get_model("curricula", "Lesson")  # NOQA
 
     for activity in Activity.objects.all():
-        new_list = ul_as_list(activity.prior_knowledge)
-        activity.prior_knowledge = json.dumps(new_list)
+        pk = activity.prior_knowledge or ""
+        pk = pk.replace("\n", "")
+        new_list = ul_as_list(pk)
+        new_list = [x.strip() for x in new_list]
+        activity.prior_knowledge = json.dumps([x for x in new_list if x])
         activity.save()
 
     for lesson in Lesson.objects.all():
-        new_list = ul_as_list(lesson.prior_knowledge)
-        lesson.prior_knowledge = json.dumps(new_list)
+        pk = lesson.prior_knowledge or ""
+        pk = pk.replace("\n", "")
+        new_list = ul_as_list(pk)
+        new_list = [x.strip() for x in new_list]
+        lesson.prior_knowledge = json.dumps([x for x in new_list if x])
         lesson.save()
 
 

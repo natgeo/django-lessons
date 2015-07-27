@@ -9,8 +9,9 @@
         </li>
     {% endverbatim %}</script>
     <input type="hidden" name="{{ name }}" id="{{ attrs.id }}" value="{{ attrs.value }}">
-    <input class="new-item" placeholder="Enter an answer here">
+    <input class="new-item" placeholder="Enter an item here. Press Return key to save.">
     <section class="main">
+        <p>Entered items. Double click to edit. Click "x" to remove</p>
         <ul class="item-list">
             {% for item in items %}
                 <li id="{{ attrs.id }}-item-{{ forloop.counter0 }}">

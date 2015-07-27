@@ -1,3 +1,4 @@
+import json
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.core.urlresolvers import reverse
@@ -200,6 +201,10 @@ class Activity(models.Model):
         ordering = ["title"]
         verbose_name_plural = 'Activities'
         app_label = 'curricula'
+
+    @property
+    def prior_knowledge_items(self):
+        return json.loads(self.prior_knowledge)
 
     def get_canonical_page(self):
         """
