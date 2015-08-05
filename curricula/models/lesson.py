@@ -164,8 +164,14 @@ class Lesson(models.Model):
         agg_activities = curry(self.aggregate_activity_attr, self.activities.all())
 
         # These are normal fields, so we can set them before we save
-        self.prior_knowledge = json.dumps(list(set(chain(*[agg_activities('prior_knowledge_items')]))))
-
+        agg_pki = agg_activities('prior_knowledge_items')
+        self.prior_knowledge = json.dumps(
+            list(
+                set(
+                    chain(*agg_pki)
+                )
+            )
+        )
         self.accessibility_notes = list_as_ul(
             list(set(chain(*[ul_as_list(x) for x in agg_activities('accessibility_notes')])))
         )
@@ -243,12 +249,15 @@ class Lesson(models.Model):
         if hasattr(Activity, attr_name):
             if hasattr(getattr(Activity, attr_name), 'through'):
                 is_m2m = True
-                is_fk = False
+                is_property = is_fk = False
+            elif isinstance(getattr(Activity, attr_name), property):
+                is_m2m = is_fk = False
+                is_property = True
             else:
                 is_fk = True
-                is_m2m = False
+                is_property = is_m2m = False
         else:
-            is_m2m = is_fk = False
+            is_property = is_m2m = is_fk = False
 
         if isinstance(activities, (list, tuple)):
             if isinstance(activities[0], Activity):
@@ -270,6 +279,8 @@ class Lesson(models.Model):
         elif is_fk:
             qset = qset.select_related(attr_name)
             unique = set([getattr(x, attr_name) for x in qset])
+        elif is_property:
+            unique = [getattr(x, attr_name) for x in qset]
         else:
             unique = set(qset.values_list(attr_name, flat=True))
             if hasattr(self, attr_name) and not ignore_own:
