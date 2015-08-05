@@ -1,7 +1,7 @@
 recursive-include doc_src *
 recursive-include docs *
 
-recursive-include curricula/media *
+recursive-include curricula/static *
 recursive-include curricula/templates *
 
 include LICENSE
