@@ -32,6 +32,7 @@ from .settings import (RELATION_MODELS,
 )
 from .utils import truncate
 from .widgets import VocabularyIdWidget, DynalistWidget
+from taxonomy.admin import autotag_action
 
 
 def thumbnail_display(obj):
@@ -112,6 +113,7 @@ class ContentAdmin(admin.ModelAdmin):
         'Objectives': 0,
         'Background & Vocabulary': 0,
         'Credits, Sponsors, Partners': 0,
+        'Taxonomy': 0,
         'Global Metadata': 1,
         'Content Related Metadata': 1,
         'Time and Date Metadata': 1,
@@ -172,6 +174,7 @@ class ActivityAdmin(ContentAdmin):
                          'plugin_types']
     filter_vertical = ['standards', 'skills']
     form = ActivityForm
+    actions = [autotag_action]
     inlines = [ResourceCarouselInline, TagInline, VocabularyInline,
                ResourceInline, QuestionAnswerInline]
     if RELATION_MODELS:
@@ -278,6 +281,9 @@ class ActivityAdmin(ContentAdmin):
             ('Publishing', {
                 'fields': ['published', 'published_date', 'archived'],
                 'classes': ['collapse']}),
+            ('Taxonomy', {
+                'fields': ['taxonomy'],
+            }),
         ]
         return fieldsets
 
