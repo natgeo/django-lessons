@@ -175,6 +175,7 @@ class LessonForm(forms.ModelForm):
 class IdeaCategoryForm(forms.ModelForm):
     class Meta:
         model = IdeaCategory
+        fields = '__all__'
 
     def clean(self):
         cleaned_data = super(IdeaCategoryForm, self).clean()
