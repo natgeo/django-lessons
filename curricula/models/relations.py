@@ -13,11 +13,11 @@ else:
 
 class RelationManager(models.Manager):
     def get_content_type(self, content_type):
-        qs = self.get_query_set()
+        qs = self.get_queryset()
         return qs.filter(content_type__name=content_type)
 
     def get_relation_type(self, relation_type):
-        qs = self.get_query_set()
+        qs = self.get_queryset()
         return qs.filter(relation_type=relation_type)
 
 

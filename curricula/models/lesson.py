@@ -29,7 +29,7 @@ __all__ = ('Lesson', 'LessonActivity',)
 
 class LessonManager(models.Manager):
     def get_published(self):
-        qs = self.get_query_set()
+        qs = self.get_queryset()
         return qs.filter(published=True)
 
 
@@ -89,7 +89,7 @@ class Lesson(models.Model):
         NOT appear as stand-alone outside of a unit view.""")
     last_updated_date = models.DateTimeField(auto_now=True)
     materials = models.ManyToManyField('curricula.Material',
-        blank=True, null=True,
+        blank=True,
         help_text="""This field is for additional, lesson-level materials a
         teacher will need to provide; for example, new materials needed in
         order to conduct the lesson-level assessment. Do not repeat activity-
@@ -101,12 +101,12 @@ class Lesson(models.Model):
         is lesson 1 in a series of 10 lessons in a unit on Europe.""")
     prior_lessons = models.ManyToManyField('self',
         symmetrical=False,
-        blank=True, null=True)
+        blank=True, )
     published = models.BooleanField(default=False)
     published_date = models.DateTimeField(
         blank=True, null=True)
     secondary_content_types = models.ManyToManyField(AlternateType,
-        blank=True, null=True)
+        blank=True, )
     slug = models.SlugField(
         unique=True,
         help_text="""The URL slug is auto-generated, but producers should adjust
@@ -125,7 +125,7 @@ class Lesson(models.Model):
     accessibility_notes = models.TextField(
         blank=True, null=True)
     eras = models.ManyToManyField(HistoricalEra,
-        blank=True, null=True)
+        blank=True, )
     prior_knowledge = models.TextField(
         blank=True, null=True)
     relevant_start_date = HistoricalDateField(
@@ -135,19 +135,19 @@ class Lesson(models.Model):
     geologic_time = models.ForeignKey(GeologicTime,
         blank=True, null=True)
     subjects = models.ManyToManyField(Subject,
-        blank=True, null=True,
+        blank=True,
         limit_choices_to={'parent__isnull': False},
         verbose_name="Subjects and Disciplines")
     grades = models.ManyToManyField(Grade,
-        blank=True, null=True)
+        blank=True, )
     duration = models.IntegerField(verbose_name="Duration Minutes",
         default=0)
     physical_space_types = models.ManyToManyField('curricula.PhysicalSpaceType',
-        blank=True, null=True)
+        blank=True, )
     plugin_types = models.ManyToManyField('curricula.PluginType',
-        blank=True, null=True)
+        blank=True, )
     tech_setup_types = models.ManyToManyField('curricula.TechSetupType',
-        blank=True, null=True)
+        blank=True, )
     archived = models.BooleanField(default=False)
 
     taxonomy = TaxonomyTaggableManager()

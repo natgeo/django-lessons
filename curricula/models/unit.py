@@ -20,7 +20,7 @@ __all__ = ('Unit', 'UnitLesson')
 
 class UnitManager(models.Manager):
     def get_published(self):
-        qs = self.get_query_set()
+        qs = self.get_queryset()
         return qs.filter(published=True)
 
 
@@ -57,8 +57,7 @@ class Unit(models.Model):
         null=True)
     secondary_content_types = models.ManyToManyField(
         AlternateType,
-        blank=True,
-        null=True)
+        blank=True)
     slug = models.SlugField(
         unique=True,
         max_length=100,
@@ -78,16 +77,14 @@ class Unit(models.Model):
     # Read-only fields aggregated from lessons/activities
     eras = models.ManyToManyField(
         HistoricalEra,
-        blank=True,
-        null=True)
+        blank=True)
     geologic_time = models.ForeignKey(
         GeologicTime,
         blank=True,
         null=True)
     grades = models.ManyToManyField(
         Grade,
-        blank=True,
-        null=True)
+        blank=True)
     relevant_start_date = HistoricalDateField(
         blank=True,
         null=True)
@@ -97,7 +94,6 @@ class Unit(models.Model):
     subjects = models.ManyToManyField(
         Subject,
         blank=True,
-        null=True,
         limit_choices_to={'parent__isnull': False})
     archived = models.BooleanField(default=False)
 

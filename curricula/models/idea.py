@@ -21,7 +21,7 @@ __all__ = ('IdeaCategory', 'Idea', 'CategoryIdea')
 
 class IdeaManager(models.Manager):
     def get_published(self):
-        qs = self.get_query_set()
+        qs = self.get_queryset()
         return qs.filter(published=True)
 
 
@@ -40,14 +40,12 @@ class IdeaCategory(models.Model):
         null=True)
     description = models.TextField()
     eras = models.ManyToManyField(HistoricalEra,
-        blank=True,
-        null=True)
+        blank=True)
     geologic_time = models.ForeignKey(GeologicTime,
         blank=True,
         null=True)
     grades = models.ManyToManyField(Grade,
-        blank=True,
-        null=True)
+        blank=True)
     id_number = models.CharField(
         max_length=10,
         null=True,
@@ -72,8 +70,7 @@ class IdeaCategory(models.Model):
         blank=True,
         null=True)
     secondary_content_types = models.ManyToManyField(AlternateType,
-        blank=True,
-        null=True)
+        blank=True)
     slug = models.SlugField(
         unique=True,
         help_text="""The URL slug is auto-generated, but producers should adjust
@@ -81,7 +78,6 @@ class IdeaCategory(models.Model):
         title changes after the slug has been generated.""")
     subjects = models.ManyToManyField(Subject,
         blank=True,
-        null=True,
         limit_choices_to={'parent__isnull': False},
         verbose_name="Subjects and Disciplines")
     subtitle_guiding_question = models.TextField(

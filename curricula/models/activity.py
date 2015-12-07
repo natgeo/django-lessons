@@ -29,7 +29,7 @@ from credits.models import CreditGroup  # NOQA
 
 class ActivityManager(models.Manager):
     def get_published(self):
-        qs = self.get_query_set()
+        qs = self.get_queryset()
         return qs.filter(published=True)
 
 
@@ -68,7 +68,7 @@ class Activity(models.Model):
     duration = models.IntegerField(verbose_name="Duration Minutes")
     eras = models.ManyToManyField(
         HistoricalEra,
-        blank=True, null=True)
+        blank=True, )
     extending_the_learning = models.TextField(
         blank=True, null=True)
     geologic_time = models.ForeignKey(
@@ -76,10 +76,10 @@ class Activity(models.Model):
         blank=True, null=True)
     grades = models.ManyToManyField(
         Grade,
-        blank=True, null=True)
+        blank=True, )
     grouping_types = models.ManyToManyField(
         'curricula.GroupingType',
-        blank=True, null=True)
+        blank=True, )
     id_number = models.CharField(
         max_length=10,
         help_text="This field is for the internal NG Education ID number. "
@@ -97,14 +97,14 @@ class Activity(models.Model):
     last_updated_date = models.DateTimeField(auto_now=True)
     learner_groups = models.ManyToManyField(
         'curricula.LearnerGroup',
-        blank=True, null=True)
+        blank=True, )
     learning_objective_set = generic.GenericRelation('curricula.ObjectiveRelation')
     lessons = models.ManyToManyField(
         'curricula.Lesson',
         through='curricula.LessonActivity')
     materials = models.ManyToManyField(
         'curricula.Material',
-        blank=True, null=True)
+        blank=True, )
     notes_on_readability_score = models.TextField(
         blank=True, null=True,
         help_text="""Use this internal-use only field to record any details
@@ -119,13 +119,13 @@ class Activity(models.Model):
         choices=PEDAGOGICAL_PURPOSE_TYPE_CHOICES)
     physical_space_types = models.ManyToManyField(
         'curricula.PhysicalSpaceType',
-        blank=True, null=True)
+        blank=True, )
     plugin_types = models.ManyToManyField(
         'curricula.PluginType',
-        blank=True, null=True)
+        blank=True, )
     prior_activities = models.ManyToManyField(
         'self',
-        blank=True, null=True,
+        blank=True,
         symmetrical=False,
         verbose_name="Recommended Prior Activities")
     prior_knowledge = models.TextField(
@@ -142,12 +142,12 @@ class Activity(models.Model):
         through='curricula.ResourceItem')
     secondary_content_types = models.ManyToManyField(
         AlternateType,
-        blank=True, null=True)
+        blank=True, )
     setup = models.TextField(
         blank=True, null=True)
     skills = models.ManyToManyField(
         'curricula.Skill',
-        blank=True, null=True,
+        blank=True,
         limit_choices_to={'children__isnull': True})
     slug = models.SlugField(
         unique=True,
@@ -157,27 +157,26 @@ class Activity(models.Model):
         title changes after the slug has been generated.""")
     standards = models.ManyToManyField(
         'curricula.Standard',
-        blank=True, null=True)
+        blank=True, )
     subjects = models.ManyToManyField(
         Subject,
-        blank=True, null=True,
+        blank=True,
         limit_choices_to={'parent__isnull': False},
         verbose_name="Subjects and Disciplines")
     subtitle_guiding_question = models.TextField(
         verbose_name="Subtitle or Guiding Question")
     teaching_approaches = models.ManyToManyField(
         'curricula.TeachingApproach',
-        blank=True, null=True)
+        blank=True, )
     teaching_method_types = models.ManyToManyField(
         'curricula.TeachingMethodType',
-        blank=True, null=True)
+        blank=True, )
     tech_setup_types = models.ManyToManyField(
         'curricula.TechSetupType',
-        blank=True, null=True)
+        blank=True, )
     tips = models.ManyToManyField(
         'curricula.Tip',
         blank=True,
-        null=True,
         verbose_name="Tips & Modifications")
     title = models.CharField(
         max_length=256,
