@@ -19,7 +19,7 @@ from curricula.settings import (ASSESSMENT_TYPES, RELATION_MODELS,
                                 PEDAGOGICAL_PURPOSE_TYPE_CHOICES,
                                 INTERNET_ACCESS_TYPES)
 from curricula.utils import truncate
-
+from taxonomy.managers import TaxonomyTaggableManager
 
 __all__ = ('Activity', 'ResourceItem', 'Vocabulary', 'QuestionAnswer')
 
@@ -188,6 +188,7 @@ class Activity(models.Model):
         through='curricula.Vocabulary')
     archived = models.BooleanField(default=False)
 
+    taxonomy = TaxonomyTaggableManager()
     objects = ActivityManager()
 
     @models.permalink

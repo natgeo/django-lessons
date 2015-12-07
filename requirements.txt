@@ -9,5 +9,5 @@ django-localflavor>=1.0
 django-quotations
 django-reference
 django-resourcecarousel>=1.0.1
-django-tinymce
+django-ngs-taxonomy
 BeautifulSoup

@@ -22,6 +22,7 @@ from curricula.settings import ASSESSMENT_TYPES, RELATION_MODELS
 
 from core_media.models import NGPhoto  # NOQA
 from credits.models import CreditGroup  # NOQA
+from taxonomy.managers import TaxonomyTaggableManager
 
 __all__ = ('Lesson', 'LessonActivity',)
 
@@ -149,6 +150,7 @@ class Lesson(models.Model):
         blank=True, null=True)
     archived = models.BooleanField(default=False)
 
+    taxonomy = TaxonomyTaggableManager()
     objects = LessonManager()
 
     class Meta:
@@ -372,6 +374,10 @@ class Lesson(models.Model):
         if self.is_all_activities(activities):
             return self.subjects.all()
         return self.aggregate_activity_attr(activities, 'subjects', ignore_own=True)
+
+    def get_taxonomy(self, activities=None):
+        activities = activities or self.activities.all()
+        return self.aggregate_activity_attr(activities, 'taxonomy')
 
     def get_key_image(self):
         ctype = ContentType.objects.get_by_natural_key(app_label='core_media', model='ngphoto')

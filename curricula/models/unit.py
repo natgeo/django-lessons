@@ -13,6 +13,7 @@ from curricula.settings import RELATION_MODELS
 
 from core_media.models import NGPhoto  # NOQA
 from credits.models import CreditGroup  # NOQA
+from taxonomy.managers import TaxonomyTaggableManager
 
 __all__ = ('Unit', 'UnitLesson')
 
@@ -100,6 +101,7 @@ class Unit(models.Model):
         limit_choices_to={'parent__isnull': False})
     archived = models.BooleanField(default=False)
 
+    taxonomy = TaxonomyTaggableManager()
     objects = UnitManager()
 
     class Meta:
