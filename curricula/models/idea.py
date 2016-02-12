@@ -130,7 +130,7 @@ class IdeaCategory(models.Model):
             Get all related items of the specified content type
             """
             return self.relations.filter(
-                content_type__name=content_type)
+                content_type__model=content_type)
 
         def get_relation_type(self, relation_type):
             """
