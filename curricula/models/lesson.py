@@ -252,12 +252,13 @@ class Lesson(models.Model):
             if hasattr(getattr(Activity, attr_name), 'through'):
                 is_m2m = True
                 is_property = is_fk = False
-            elif isinstance(getattr(Activity, attr_name), property):
-                is_m2m = is_fk = False
-                is_property = True
-            else:
+            elif hasattr(getattr(Activity, attr_name), 'pk'):
                 is_fk = True
                 is_property = is_m2m = False
+            else:
+                is_m2m = is_fk = False
+                is_property = True
+
         else:
             is_property = is_m2m = is_fk = False
 
