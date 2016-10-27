@@ -1,7 +1,7 @@
 from collections import defaultdict
 from django.template.loader import render_to_string
 
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 from curricula.settings import INTERNET_ACCESS_TYPES
 from edumetadata.models import Subject
@@ -272,7 +272,7 @@ def activities_info(ids, l_id=None):
             'definition': obj.definition,
             'generic_article': generic_article_slug})
 
-    ctxt = {'objects': ResourceModel.objects.select_related().filter(id__in=list(further_expl))}
+    ctxt = {'objects': ResourceModel.objects.select_related().filter(id__in=list(further_expl)).order_by('resource_type')}
     output['further_exploration'] = render_to_string('widgets/further_exploration_list.html', ctxt)
     ctxt = {'key_concepts': concepts}
     output['key_concepts'] = render_to_string('widgets/key_concepts_list.html', ctxt)

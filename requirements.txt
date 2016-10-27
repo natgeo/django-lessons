@@ -10,4 +10,4 @@ django-quotations
 django-reference
 django-resourcecarousel>=1.0.1
 django-ngs-taxonomy
-BeautifulSoup
+beautifulsoup4
