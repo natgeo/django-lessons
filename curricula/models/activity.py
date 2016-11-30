@@ -1,10 +1,12 @@
 import json
+
+from collections import OrderedDict
+
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericRelation
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import pre_delete, post_save
-from django.utils.datastructures import SortedDict
 from django.utils.html import strip_tags
 
 from audience.settings import AUDIENCE_FLAGS
@@ -98,7 +100,7 @@ class Activity(models.Model):
     learner_groups = models.ManyToManyField(
         'curricula.LearnerGroup',
         blank=True, )
-    learning_objective_set = generic.GenericRelation('curricula.ObjectiveRelation')
+    learning_objective_set = GenericRelation('curricula.ObjectiveRelation')
     lessons = models.ManyToManyField(
         'curricula.Lesson',
         through='curricula.LessonActivity')
@@ -228,12 +230,17 @@ class Activity(models.Model):
         return render_to_string('curricula/grades_range.html', ctxt)
 
     def get_credit_details(self):
-        credit_details = SortedDict()
+        credit_details = OrderedDict()
+
         if self.credit and self.credit.credit_details:
-            for detail in self.credit.credit_details.order_by('credit_category__order'):
+            for detail in self.credit.credit_details.order_by(
+                'credit_category__order'):
+
                 if detail.credit_category not in credit_details:
                     credit_details[detail.credit_category] = []
+
                 credit_details[detail.credit_category].append(detail.entity)
+
         return credit_details
 
     if RELATION_MODELS:

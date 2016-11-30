@@ -1,5 +1,5 @@
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericForeignKey
 from localflavor.us.us_states import STATE_CHOICES
 from django.db import models
 from django.db.models import Q
@@ -79,7 +79,7 @@ class ObjectiveRelation(models.Model):
     content_type = models.ForeignKey(
         ContentType, limit_choices_to=obj_rel_limits)
     object_id = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey()
+    content_object = GenericForeignKey()
 
     class Meta:
         app_label = 'curricula'

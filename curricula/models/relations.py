@@ -1,5 +1,5 @@
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.db import models
 
 
@@ -25,7 +25,7 @@ class ModelRelation(models.Model):
     content_type = models.ForeignKey(
         ContentType, limit_choices_to=relation_limits)
     object_id = models.PositiveIntegerField()
-    content_object = generic.GenericForeignKey()
+    content_object = GenericForeignKey()
     relation_type = models.CharField("Relation Type",
         max_length="200",
         blank=True,
