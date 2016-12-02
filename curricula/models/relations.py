@@ -1,9 +1,10 @@
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.db import models
-
+from django.utils.translation import ugettext_lazy as _
 
 from curricula.settings import (RELATIONS, RELATION_TYPES)
+
 
 if RELATIONS:
     relation_limits = reduce(lambda x, y: x | y, RELATIONS)
@@ -26,12 +27,10 @@ class ModelRelation(models.Model):
         ContentType, limit_choices_to=relation_limits)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
-    relation_type = models.CharField("Relation Type",
-        max_length="200",
-        blank=True,
-        null=True,
-        choices=RELATION_TYPES,
-        help_text="A generic text field to tag a relation, like 'primaryphoto'.")
+    relation_type = models.CharField(
+        verbose_name=_("Relation Type"), max_length=200, blank=True, null=True,
+        choices=RELATION_TYPES, help_text=_(
+            "A generic text field to tag a relation, like 'primaryphoto'."))
 
     objects = RelationManager()
 
@@ -71,7 +70,8 @@ class UnitRelation(ModelRelation):
 
 
 class IdeaCategoryRelation(ModelRelation):
-    idea_category = models.ForeignKey('curricula.IdeaCategory', related_name='relations')
+    idea_category = models.ForeignKey(
+        'curricula.IdeaCategory', related_name='relations')
 
     def __unicode__(self):
         out = u"%s related to %s" % (self.content_object, self.idea_category)
