@@ -10,7 +10,7 @@ from audience.widgets import AdminBitFieldWidget, bitfield_display, VariationWid
 from bitfield import BitField
 from concepts.admin import ConceptItemInline
 from contentrelations.admin import RelatedInline
-from genericcollection import GenericCollectionInlineModelAdmin
+from contentrelations.genericcollection import GenericCollectionInlineModelAdmin
 from tinymce.widgets import TinyMCE
 from ckeditor.widgets import CKEditorWidget
 
