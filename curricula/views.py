@@ -4,7 +4,7 @@ from django.http import HttpResponse, Http404
 from django.template.response import TemplateResponse
 import json
 
-from curricula.models import Activity, Lesson, Standard, IdeaCategory, Unit
+from curricula.models import Activity, CategoryIdea, Lesson, Standard, IdeaCategory, Unit
 from curricula.utils import activities_info, tags_for_activities
 
 from concepts.models import Concept, ConceptItem
@@ -60,10 +60,14 @@ def idea_category(request, slug, preview=False, template_name='curricula/idea_ca
                 credit_details[detail.credit_category] = []
             credit_details[detail.credit_category].append(detail.entity)
 
+    ideas = []
+    for categoryidea in CategoryIdea.objects.filter(category=category):
+        ideas.append(categoryidea.idea)
+
     return TemplateResponse(request, template_name, {
         'category': category,
         'object': category,
-        'ideas': category.ideas.all(),
+        'ideas': ideas,
         'credit_details': credit_details,
         'preview': preview,
     })

@@ -208,9 +208,11 @@ class Idea(models.Model):
 class CategoryIdea(models.Model):
     category = models.ForeignKey(IdeaCategory, null=True)
     idea = models.ForeignKey(Idea, null=True)
+    order = models.IntegerField(null=True)
 
     class Meta:
         app_label = 'curricula'
+        ordering = ('order', )
 
     def __unicode__(self):
         return self.category.title
