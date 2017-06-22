@@ -95,7 +95,8 @@ class Activity(models.Model):
         should not appear as stand-alone outside of a lesson view.""")
     key_image = models.ForeignKey(
         NGPhoto,
-        blank=True, null=True)
+        blank=True, null=True,
+        on_delete=models.SET_NULL)
     last_updated_date = models.DateTimeField(auto_now=True)
     learner_groups = models.ManyToManyField(
         'curricula.LearnerGroup',
@@ -234,7 +235,7 @@ class Activity(models.Model):
 
         if self.credit and self.credit.credit_details:
             for detail in self.credit.credit_details.order_by(
-                'credit_category__order'):
+                    'credit_category__order'):
 
                 if detail.credit_category not in credit_details:
                     credit_details[detail.credit_category] = []

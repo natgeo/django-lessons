@@ -53,7 +53,8 @@ class IdeaCategory(models.Model):
         is required for all instructional content.""")
     key_image = models.ForeignKey(
         NGPhoto,
-        blank=True, null=True)
+        blank=True, null=True,
+        on_delete=models.SET_NULL)
     last_updated_date = models.DateTimeField(auto_now=True)
     license_name = models.ForeignKey(GrantedLicense,
         blank=True,
@@ -180,9 +181,11 @@ class Idea(models.Model):
         null=True,
         help_text="""This field is for the internal NG Education ID number. This
         is required for all instructional content.""")
-    key_image = models.ForeignKey(NGPhoto,
+    key_image = models.ForeignKey(
+        NGPhoto,
         blank=True,
-        null=True)
+        null=True,
+        on_delete=models.SET_NULL)
     last_updated_date = models.DateTimeField(auto_now=True)
     source = models.ForeignKey(
         Entity,

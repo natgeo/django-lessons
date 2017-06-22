@@ -75,7 +75,8 @@ class Lesson(models.Model):
     description = models.TextField()
     key_image = models.ForeignKey(
         NGPhoto,
-        blank=True, null=True)
+        blank=True, null=True,
+        on_delete=models.SET_NULL)
     id_number = models.CharField(
         max_length=10,
         help_text="""This field is for the internal NG Education ID number.

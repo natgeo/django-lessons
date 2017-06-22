@@ -46,7 +46,10 @@ class Unit(models.Model):
         max_length=10,
         help_text="""This field is for the internal NG Education ID number.
         This is required for all instructional content.""")
-    key_image = models.ForeignKey(NGPhoto)
+    key_image = models.ForeignKey(
+        NGPhoto,
+        null=True,
+        on_delete=models.SET_NULL)
     lessons = models.ManyToManyField(
         'curricula.Lesson',
         through='curricula.UnitLesson')
