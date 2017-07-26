@@ -171,12 +171,15 @@ class Unit(models.Model):
         if hasattr(Activity, attr_name):
             if hasattr(getattr(Activity, attr_name), 'through'):
                 is_m2m = True
-                is_fk = False
-            else:
+                is_property = is_fk = False
+            elif hasattr(getattr(Activity, attr_name), 'pk'):
                 is_fk = True
-                is_m2m = False
+                is_property = is_m2m = False
+            else:
+                is_m2m = is_fk = False
+                is_property = True
         else:
-            is_m2m = is_fk = False
+            is_property = is_m2m = is_fk = False
         qset = reduce(operator.or_, [x.activities.all() for x in self.lessons.prefetch_related('activities')])
         if is_m2m:
             qset = qset.prefetch_related(attr_name)
@@ -185,7 +188,7 @@ class Unit(models.Model):
         elif is_fk:
             qset = qset.select_related(attr_name)
             unique = set([getattr(x, attr_name) for x in qset])
-        else:
+        elif is_property:
             unique = set(qset.values_list(attr_name, flat=True))
             if hasattr(self, attr_name) and not ignore_own:
                 unique.add(getattr(self, attr_name))
