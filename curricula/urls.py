@@ -4,8 +4,8 @@ from django.views.generic.list_detail import object_list
 from .models import Activity, Lesson
 from .views import (
     activity_detail, activity_info, background_information, get_breakout_terms,
-    learning_objectives, lesson_detail, list_detail.object_list,
-    standard_type_detail, standard_type_list)
+    learning_objectives, lesson_detail, standard_type_detail, standard_type_list
+)
 
 
 urlpatterns = [
@@ -39,4 +39,4 @@ urlpatterns = [
     url(r'^standards/$', standard_type_list, name='standard-type-list'),
     url(r'^standards/(?P<standard_type>[-\w]*)/$', standard_type_detail,
         name='standard-type-detail'),
-    ]
+]

@@ -155,9 +155,11 @@ def activities_info(ids, l_id=None):
     skills = set()
     standards = set()
     materials = set()
-    inet_access = 1  # can't aggregate this, really need to take most specific.
-                     # If one activity is optional and one is required, inet_activity
-                     # must be required.
+
+    # can't aggregate this, really need to take most specific.
+    # If one activity is optional and one is required, inet_activity
+    # must be required.
+    inet_access = 1
     plugins = set()
     tech = set()
     phys_space = set()

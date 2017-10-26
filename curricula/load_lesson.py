@@ -7,7 +7,7 @@ a2, created = Activity.objects.get_or_create(slug='comparing-political-borders')
 l = Lesson(title='Political Borders', slug='political-borders', id_number='0417')
 l.appropriate_for = 1
 l.subtitle_guiding_question = 'Why are the borders of countries located in certain places?'
-l.description = '''Students think about regions and borders by determining where they would place borders in 
+l.description = '''Students think about regions and borders by determining where they would place borders in
                 an artificial continent, based on a set of physical and cultural features of the area.'''
 l.other_notes = 'This is lesson 1 in a series of 10 lessons in a unit on Europe.'
 l.save()

@@ -124,17 +124,17 @@ IDEACATEGORY_TINYMCE_FIELDS = ('content_body', 'description')
 LESSON_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle_guiding_question', 'prior_knowledge')
 UNIT_TINYMCE_FIELDS = TINYMCE_FIELDS + ('subtitle', 'overview')
 
-globals().update(DEFAULT_SETTINGS)
-
 # Create a mapping from a key to a dict of name and slug
 STD_TYPE_KEY_MAP = dict([
-    (key, {'name': val, 'slug': slugify(val)}) for key, val in STANDARD_TYPES
+    (key, {'name': val, 'slug': slugify(val)}) for key, val in DEFAULT_SETTINGS['STANDARD_TYPES']
 ])
-for key, val in STANDARD_TYPE_SLUGS:
+for key, val in DEFAULT_SETTINGS['STANDARD_TYPE_SLUGS']:
     STD_TYPE_KEY_MAP[key]['slug'] = val
 
 # Create a mapping from a slug to a dict of name and key
 STD_TYPE_SLUG_MAP = dict([
     (val['slug'], {'name': val['name'], 'key': key}) for key, val in STD_TYPE_KEY_MAP.items()
 ])
-RELATIONS = [Q(app_label=al, model=m) for al, m in [x.split('.') for x in RELATION_MODELS]]
+RELATIONS = [Q(app_label=al, model=m) for al, m in [x.split('.') for x in DEFAULT_SETTINGS['RELATION_MODELS']]]
+
+globals().update(DEFAULT_SETTINGS)

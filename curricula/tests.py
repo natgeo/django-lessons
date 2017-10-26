@@ -17,9 +17,14 @@ class BaseTestCase(TestCase):
     """
     Stuff used by all the tests
     """
-    fixtures = ['fixtures/edumetadata.json', ] #'fixtures/skills.json',
-                # 'fixtures/tipcategories.json', 'fixtures/tips.json',
-                # 'fixtures/standards.json']
+    fixtures = [
+        'fixtures/edumetadata.json',
+        # 'fixtures/skills.json',
+        # 'fixtures/tipcategories.json',
+        # 'fixtures/tips.json',
+        # 'fixtures/standards.json',
+    ]
+
     def setUp(self):
         pass
 
@@ -94,9 +99,14 @@ class ActivityTest(BaseTestCase):
     """
     Tests for Activity Models
     """
-    fixtures = ['fixtures/edumetadata.json', 'fixtures/skills.json',
-                # 'fixtures/tipcategories.json', 'fixtures/tips.json',
-                'fixtures/standards.json']
+    fixtures = [
+        'fixtures/edumetadata.json',
+        'fixtures/skills.json',
+        # 'fixtures/tipcategories.json',
+        # 'fixtures/tips.json',
+        'fixtures/standards.json',
+    ]
+
     def setUp(self):
         pass
 
@@ -109,7 +119,6 @@ class ActivityTest(BaseTestCase):
         adminform = activityadmin.get_form(type("request", (), {'user': user}))
         initialdata = self._get_activity_data()
         self.assertTrue(adminform(initialdata).is_valid())
-
 
     def test_admin_publish(self):
         """
@@ -137,6 +146,7 @@ class ActivityTest(BaseTestCase):
         # a.plugin_types.add()
         # a.tech_setup_types.add()
         # a.eras.add()
+
 
 class LessonTest(BaseTestCase):
     """
@@ -170,6 +180,7 @@ class LessonTest(BaseTestCase):
         self.assertEqual(a1.grades.count(), 1)
         self.assertEqual(l.grades.count(), 2)
 
+
 class UnitsTest(BaseTestCase):
     def test_activity_aggregation(self):
         a1 = Activity.objects.create(**self._get_activity_data())
@@ -186,4 +197,3 @@ class UnitsTest(BaseTestCase):
         l.save()
 
         self.assertEqual(l.grades.count(), u.grades.count())
-

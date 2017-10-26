@@ -13,7 +13,14 @@ from contentrelations.admin import RelatedInline
 from contentrelations.genericcollection import GenericCollectionInlineModelAdmin
 from tinymce.widgets import TinyMCE
 from ckeditor.widgets import CKEditorWidget
-
+from .settings import (RELATION_MODELS,
+                       MCE_ATTRS, ACTIVITY_TINYMCE_FIELDS,
+                       IDEACATEGORY_TINYMCE_FIELDS, LESSON_TINYMCE_FIELDS,
+                       UNIT_TINYMCE_FIELDS, THUMBNAIL_SIZE
+)
+from .utils import truncate
+from .widgets import VocabularyIdWidget, DynalistWidget
+from taxonomy.admin import autotag_action
 from .models import (Activity, ActivityRelation, GroupingType,
                      LearningObjective, Lesson, LessonActivity, LessonRelation,
                      Material, ObjectiveRelation, QuestionAnswer, ResourceItem,
@@ -25,14 +32,6 @@ from .forms import ActivityForm, ActivityInlineFormset, LessonInlineFormset, Les
 
 if settings.DEBUG:
     from .models import PluginType
-from .settings import (RELATION_MODELS,
-                       MCE_ATTRS, ACTIVITY_TINYMCE_FIELDS,
-                       IDEACATEGORY_TINYMCE_FIELDS, LESSON_TINYMCE_FIELDS,
-                       UNIT_TINYMCE_FIELDS, THUMBNAIL_SIZE
-)
-from .utils import truncate
-from .widgets import VocabularyIdWidget, DynalistWidget
-from taxonomy.admin import autotag_action
 
 
 def thumbnail_display(obj):
