@@ -1,6 +1,19 @@
 import os
 import sys
 from setuptools import setup, find_packages
+import curricula
+
+version = curricula.get_version()
+
+if sys.argv[-1] == 'publish':
+    os.system('python setup.py bdist_wheel upload -r natgeo')
+    print("You probably want to also tag the version now:")
+    print("  python setup.py tag")
+    sys.exit()
+elif sys.argv[-1] == 'tag':
+    cmd = "git tag -a %s -m 'version %s';git push --tags" % (version, version)
+    os.system(cmd)
+    sys.exit()
 
 
 def read_file(filename):
@@ -21,13 +34,12 @@ def get_readme():
     return ''
 
 # Use the docstring of the __init__ file to be the description
-__import__('curricula')
-DESC = " ".join(sys.modules['curricula'].__doc__.splitlines()).strip()
+DESC = " ".join(curricula.__doc__.splitlines()).strip()
 
 setup(
     name="django-curricula",
-    version=sys.modules['curricula'].get_version().replace(' ', '-'),
-    url='github.com',
+    version=version.replace(' ', '-'),
+    url='https://github.com/natgeosociety/django-curricula',
     author='rsarkar',
     author_email='rsarkar@celerity.com',
     description=DESC,

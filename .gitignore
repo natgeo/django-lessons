@@ -11,3 +11,8 @@ media/css/*.r*.css
 *.egg-info
 dist/
 build/
+.tox/
+.cache/
+.coverage
+coverage.xml
+htmlcov/
