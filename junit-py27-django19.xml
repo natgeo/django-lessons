@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="1" failures="0" name="pytest" skips="0" tests="1" time="0.904"><testcase classname="curricula.tests.test_tests.BaseTestCase" file="curricula/tests/test_tests.py" line="5" name="test_tests" time="0.137754201889"><error message="test setup failure">request = &lt;SubRequest &apos;_django_setup_unittest&apos; for &lt;TestCaseFunction &apos;test_tests&apos;&gt;&gt;, django_db_blocker = &lt;pytest_django.plugin._DatabaseBlocker object at 0x10bf33dd0&gt;
+
+    @pytest.fixture(autouse=True, scope=&apos;class&apos;)
+    def _django_setup_unittest(request, django_db_blocker):
+        &quot;&quot;&quot;Setup a django unittest, internal to pytest-django.&quot;&quot;&quot;
+        if django_settings_is_configured() and is_django_unittest(request):
+            getfixturevalue(request, &apos;django_test_environment&apos;)
+&gt;           getfixturevalue(request, &apos;django_db_setup&apos;)
+
+.tox/py27-django19/lib/python2.7/site-packages/pytest_django/plugin.py:384: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+.tox/py27-django19/lib/python2.7/site-packages/pytest_django/pytest_compat.py:3: in getfixturevalue
+    return request.getfixturevalue(value)
+.tox/py27-django19/lib/python2.7/site-packages/pytest_django/fixtures.py:97: in django_db_setup
+    **setup_databases_args
+.tox/py27-django19/lib/python2.7/site-packages/django/test/runner.py:726: in setup_databases
+    serialize=connection.settings_dict.get(&quot;TEST&quot;, {}).get(&quot;SERIALIZE&quot;, True),
+.tox/py27-django19/lib/python2.7/site-packages/django/db/backends/base/creation.py:70: in create_test_db
+    run_syncdb=True,
+.tox/py27-django19/lib/python2.7/site-packages/django/core/management/__init__.py:119: in call_command
+    return command.execute(*args, **defaults)
+.tox/py27-django19/lib/python2.7/site-packages/django/core/management/base.py:399: in execute
+    output = self.handle(*args, **options)
+.tox/py27-django19/lib/python2.7/site-packages/django/core/management/commands/migrate.py:89: in handle
+    executor = MigrationExecutor(connection, self.migration_progress_callback)
+.tox/py27-django19/lib/python2.7/site-packages/django/db/migrations/executor.py:20: in __init__
+    self.loader = MigrationLoader(self.connection)
+.tox/py27-django19/lib/python2.7/site-packages/django/db/migrations/loader.py:49: in __init__
+    self.build_graph()
+.tox/py27-django19/lib/python2.7/site-packages/django/db/migrations/loader.py:170: in build_graph
+    self.load_disk()
+.tox/py27-django19/lib/python2.7/site-packages/django/db/migrations/loader.py:105: in load_disk
+    migration_module = import_module(&quot;%s.%s&quot; % (module_name, migration_name))
+/usr/local/Cellar/python/2.7.13/Frameworks/Python.framework/Versions/2.7/lib/python2.7/importlib/__init__.py:37: in import_module
+    __import__(name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    from __future__ import unicode_literals
+    
+    from django.db import migrations, models
+    import django.db.models.deletion
+&gt;   import queued_storage.overwrites3storage
+E   ImportError: No module named overwrites3storage
+
+.tox/py27-django19/lib/python2.7/site-packages/resource_carousel/migrations/0004_delete_cascade_fix.py:7: ImportError</error></testcase></testsuite>
