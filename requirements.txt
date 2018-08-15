@@ -20,7 +20,6 @@ django-resourcecarousel>=1.0.1
 django-salesforce
 django-teachingatlas
 django-treebeard
-django-treenav
 django-viddler
 django-viewmaster>1.7.1
 beautifulsoup4

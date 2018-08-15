@@ -50,7 +50,6 @@ def pytest_configure():
             'taxonomy',
             'teachingatlas',
             'treebeard',
-            'treenav',
             'viddler',
             'viewmaster',
         ],

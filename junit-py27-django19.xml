@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><testsuite errors="1" failures="0" name="pytest" skips="0" tests="1" time="1.657"><testcase classname="curricula.tests.test_tests.BaseTestCase" file="curricula/tests/test_tests.py" line="5" name="test_tests" time="0.871886968613"><error message="test setup failure">request = &lt;SubRequest &apos;_django_setup_unittest&apos; for &lt;TestCaseFunction &apos;test_tests&apos;&gt;&gt;, django_db_blocker = &lt;pytest_django.plugin._DatabaseBlocker object at 0x109add250&gt;
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="1" failures="0" name="pytest" skips="0" tests="1" time="1.626"><testcase classname="curricula.tests.test_tests.BaseTestCase" file="curricula/tests/test_tests.py" line="5" name="test_tests" time="0.819092988968"><error message="test setup failure">request = &lt;SubRequest &apos;_django_setup_unittest&apos; for &lt;TestCaseFunction &apos;test_tests&apos;&gt;&gt;, django_db_blocker = &lt;pytest_django.plugin._DatabaseBlocker object at 0x10144c250&gt;
 
     @pytest.fixture(autouse=True, scope=&apos;class&apos;)
     def _django_setup_unittest(request, django_db_blocker):
@@ -21,27 +21,45 @@ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
     return command.execute(*args, **defaults)
 .tox/py27-django19/lib/python2.7/site-packages/django/core/management/base.py:399: in execute
     output = self.handle(*args, **options)
-.tox/py27-django19/lib/python2.7/site-packages/django/core/management/commands/migrate.py:172: in handle
-    self.sync_apps(connection, executor.loader.unmigrated_apps)
-.tox/py27-django19/lib/python2.7/site-packages/django/core/management/commands/migrate.py:293: in sync_apps
-    cursor.execute(statement)
-.tox/py27-django19/lib/python2.7/site-packages/django/db/backends/utils.py:62: in execute
-    return self.cursor.execute(sql)
-.tox/py27-django19/lib/python2.7/site-packages/django/db/utils.py:95: in __exit__
-    six.reraise(dj_exc_type, dj_exc_value, traceback)
+.tox/py27-django19/lib/python2.7/site-packages/django/core/management/commands/migrate.py:89: in handle
+    executor = MigrationExecutor(connection, self.migration_progress_callback)
+.tox/py27-django19/lib/python2.7/site-packages/django/db/migrations/executor.py:20: in __init__
+    self.loader = MigrationLoader(self.connection)
+.tox/py27-django19/lib/python2.7/site-packages/django/db/migrations/loader.py:49: in __init__
+    self.build_graph()
+.tox/py27-django19/lib/python2.7/site-packages/django/db/migrations/loader.py:306: in build_graph
+    _reraise_missing_dependency(migration, parent, e)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = &lt;django.db.backends.utils.CursorWrapper object at 0x10d1e4e50&gt;
-sql = &apos;ALTER TABLE &quot;audience_externalresourcevariation&quot; ADD CONSTRAINT &quot;D4127db0078a867ebf896c7a6f23411c&quot; FOREIGN KEY (&quot;variation_model_id&quot;) REFERENCES &quot;resource_carousel_externalresource&quot; (&quot;id&quot;) DEFERRABLE INITIALLY DEFERRED&apos;
-params = None
+migration = &lt;Migration ngsprojects.0001_initial&gt;, missing = (&apos;treenav&apos;, &apos;0002_auto_20151001_1646&apos;)
+exc = &lt;[TypeError(&quot;not all arguments converted during string formatting&quot;) raised in repr()] SafeRepr object at 0x105406ef0&gt;
 
-    def execute(self, sql, params=None):
-        self.db.validate_no_broken_transaction()
-        with self.db.wrap_database_errors:
-            if params is None:
-&gt;               return self.cursor.execute(sql)
-E               ProgrammingError: relation &quot;resource_carousel_externalresource&quot; does not exist
+    def _reraise_missing_dependency(migration, missing, exc):
+        &quot;&quot;&quot;
+                Checks if ``missing`` could have been replaced by any squash
+                migration but wasn&apos;t because the the squash migration was partially
+                applied before. In that case raise a more understandable exception.
+    
+                #23556
+                &quot;&quot;&quot;
+        if missing in reverse_replacements:
+            candidates = reverse_replacements.get(missing, set())
+            is_replaced = any(candidate in self.graph.nodes for candidate in candidates)
+            if not is_replaced:
+                tries = &apos;, &apos;.join(&apos;%s.%s&apos; % c for c in candidates)
+                exc_value = NodeNotFoundError(
+                    &quot;Migration {0} depends on nonexistent node (&apos;{1}&apos;, &apos;{2}&apos;). &quot;
+                    &quot;Django tried to replace migration {1}.{2} with any of [{3}] &quot;
+                    &quot;but wasn&apos;t able to because some of the replaced migrations &quot;
+                    &quot;are already applied.&quot;.format(
+                        migration, missing[0], missing[1], tries
+                    ),
+                    missing)
+                exc_value.__cause__ = exc
+                six.reraise(NodeNotFoundError, exc_value, sys.exc_info()[2])
+&gt;       raise exc
+E       NodeNotFoundError: Migration ngsprojects.0001_initial dependencies reference nonexistent parent node (u&apos;treenav&apos;, u&apos;0002_auto_20151001_1646&apos;)
 
-.tox/py27-django19/lib/python2.7/site-packages/django/db/backends/utils.py:62: ProgrammingError</error><system-err>Got an error creating the test database: database &quot;test_curricula&quot; already exists
+.tox/py27-django19/lib/python2.7/site-packages/django/db/migrations/loader.py:276: NodeNotFoundError</error><system-err>Got an error creating the test database: database &quot;test_curricula&quot; already exists
 
 </system-err></testcase></testsuite>
