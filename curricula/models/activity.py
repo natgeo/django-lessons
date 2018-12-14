@@ -164,7 +164,7 @@ class Activity(models.Model):
     subjects = models.ManyToManyField(
         Subject,
         blank=True,
-        limit_choices_to={'parent__isnull': False},
+        # limit_choices_to={'parent__isnull': False},
         verbose_name="Subjects and Disciplines")
     subtitle_guiding_question = models.TextField(
         verbose_name="Subtitle or Guiding Question")

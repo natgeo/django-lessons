@@ -17,3 +17,5 @@ build/
 coverage.xml
 htmlcov/
 junit*.xml
+.idea
+.idea/vcs.xml
