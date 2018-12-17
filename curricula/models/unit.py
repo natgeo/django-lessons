@@ -96,8 +96,8 @@ class Unit(models.Model):
         null=True)
     subjects = models.ManyToManyField(
         Subject,
-        blank=True,
-        limit_choices_to={'parent__isnull': False})
+        blank=True)
+        # limit_choices_to={'parent__isnull': False})
     archived = models.BooleanField(default=False)
 
     taxonomy = TaxonomyTaggableManager()
