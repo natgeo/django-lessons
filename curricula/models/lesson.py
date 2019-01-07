@@ -137,7 +137,7 @@ class Lesson(models.Model):
         blank=True, null=True)
     subjects = models.ManyToManyField(Subject,
         blank=True,
-        limit_choices_to={'parent__isnull': False},
+        # limit_choices_to={'parent__isnull': False},
         verbose_name="Subjects and Disciplines")
     grades = models.ManyToManyField(Grade,
         blank=True, )
