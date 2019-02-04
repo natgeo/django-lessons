@@ -375,7 +375,7 @@ class IdeaAdmin(admin.ModelAdmin):
 
     class Media:
         css = {'all': ('audience/bitfield.css', )}
-        js = ('genericcollections.js', )
+        js = ('js/genericcollections.js', )
 
     def formfield_for_dbfield(self, db_field, **kwargs):
         formfield = super(IdeaAdmin, self).formfield_for_dbfield(db_field, **kwargs)
