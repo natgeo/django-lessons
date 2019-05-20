@@ -11,9 +11,7 @@ django-edumetadata>=0.6
 django-expeditions
 django-licensing>=0.3,<1.0
 django-localflavor>=1.0
-django-ngs-navigation
 django-ngs-taxonomy
-django-ngsprojects
 django-quotations
 django-reference
 django-resourcecarousel>=1.0.1
