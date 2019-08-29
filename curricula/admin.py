@@ -9,7 +9,7 @@ from audience.settings import AUDIENCE_FIELDS
 from audience.widgets import AdminBitFieldWidget, bitfield_display, VariationWidgetWrapper
 from bitfield import BitField
 from concepts.admin import ConceptItemInline
-from contentrelations.admin import RelatedInline
+from resource_carousel.admin import RCRelatedInline
 from contentrelations.genericcollection import GenericCollectionInlineModelAdmin
 from tinymce.widgets import TinyMCE
 from ckeditor.widgets import CKEditorWidget
@@ -49,7 +49,7 @@ thumbnail_display.allow_tags = True
 thumbnail_display.short_description = 'Thumbnail'
 
 
-class ResourceCarouselInline(RelatedInline):
+class ResourceCarouselInline(RCRelatedInline):
     rel_name = 'resources'
     ct_field = "object_type"
     ct_fk_field = "object_id"
