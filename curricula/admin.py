@@ -708,7 +708,7 @@ class UnitAdmin(admin.ModelAdmin):
         }
     }
     object_name = 'unit'
-    inlines = [LessonInline, TagInline]
+    inlines = [ResourceCarouselInline, LessonInline, TagInline]
     if RELATION_MODELS:
         inlines += [InlineUnitRelation, ]
     list_display = ('title', thumbnail_display, 'overview_display', 'appropriate_display', 'published_date')
