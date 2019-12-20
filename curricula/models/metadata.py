@@ -12,6 +12,7 @@ from categories.models import CategoryBase
 from curricula.settings import TIP_TYPE_CHOICES, STANDARD_TYPES
 from curricula.utils import truncate
 from edumetadata.models import Grade
+from functools import reduce
 
 __all__ = (
     'GroupingType',
@@ -159,7 +160,7 @@ class Tip(models.Model):
 
     def __unicode__(self):
         if self.category:
-            return u'%s: %s' % (self.category.name,
+            return '%s: %s' % (self.category.name,
                                 truncate(strip_tags(self.body), 45))
         else:
             return truncate(strip_tags(self.body), 75)
@@ -180,7 +181,7 @@ class Standard(models.Model):
     grades = models.ManyToManyField(Grade)
 
     def __unicode__(self):
-        return u"%s: %s: %s" % (truncate(self.get_standard_type_display(), 54),
+        return "%s: %s: %s" % (truncate(self.get_standard_type_display(), 54),
                                 truncate(self.name, 44),
                                 truncate(strip_tags(self.definition), 54))
 

@@ -26,11 +26,11 @@ class VocabularyIdWidget(widgets.ForeignKeyRawIdWidget):
                 if encyclopedic:
                     src = settings.STATIC_URL + 'sites/education/i/ico_ee.png'
 
-                    output.append(u'<a href="/admin/reference/genericarticle/%s/" target="_blank">' % encyclopedic.id)
-                    output.append(u'<img src="%s" alt="Encyclopedic Entry available"/></a>' % src)
+                    output.append('<a href="/admin/reference/genericarticle/%s/" target="_blank">' % encyclopedic.id)
+                    output.append('<img src="%s" alt="Encyclopedic Entry available"/></a>' % src)
             except GlossaryTerm.DoesNotExist:
                 pass
-        return mark_safe(u''.join(output))
+        return mark_safe(''.join(output))
 
 
 class SpecificGenericRawIdWidget(forms.TextInput):
@@ -47,7 +47,7 @@ class SpecificGenericRawIdWidget(forms.TextInput):
         output.append('<a id="lookup_id_%(name)s" class="related-lookup" onclick="return showGenericRequiredModelLookupPopup(this, \'%(rel)s\');" href="#">' %
             {'name': name, 'rel': self.rel})
         output.append('&nbsp;<img src="%s" width="16" height="16" alt="%s" /></a>' % (static('admin/img/selector-search.gif'), 'Lookup'))
-        return mark_safe(u''.join(output))
+        return mark_safe(''.join(output))
 
     class Media:
         js = ('js/genericcollections.js', )

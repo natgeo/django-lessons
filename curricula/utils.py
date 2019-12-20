@@ -40,7 +40,7 @@ def truncate(string, limit=48, fill="..."):
     if len(string) <= limit:
         return string
     trunc_limit = limit - len(fill)
-    return u"%s%s" % (string[:trunc_limit], fill)
+    return "%s%s" % (string[:trunc_limit], fill)
 
 
 def tags_for_activities(ids):
@@ -93,9 +93,9 @@ def get_gfk_items(ctypes_and_ids):
     for ctype, obj_id in ctypes_and_ids:
         gfks[ctype].append(obj_id)
 
-    for ctype, obj_ids in gfks.items():
+    for ctype, obj_ids in list(gfks.items()):
         objs = ContentType.objects.get_for_id(ctype).model_class()._default_manager.in_bulk(obj_ids)
-        objects.extend(objs.values())
+        objects.extend(list(objs.values()))
     return objects
 
 

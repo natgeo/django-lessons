@@ -137,7 +137,7 @@ class StandardsWidget(admin.widgets.FilteredSelectMultiple):
     def render_option(self, selected_choices, option_value, option_label):
         option_value = force_unicode(option_value)
         if option_value in selected_choices:
-            selected_html = u' selected="selected"'
+            selected_html = ' selected="selected"'
             if not self.allow_multiple_selected:
                 # Only allow for a single selection.
                 selected_choices.remove(option_value)
@@ -145,11 +145,11 @@ class StandardsWidget(admin.widgets.FilteredSelectMultiple):
             selected_html = ''
 
         standard = Standard.objects.get(pk=option_value)
-        title = u"%s: %s: %s" % (standard.get_standard_type_display(),
+        title = "%s: %s: %s" % (standard.get_standard_type_display(),
                                  standard.name,
                                  strip_tags(standard.definition))
 
-        return u'<option value="%s" title="%s"%s>%s</option>' % (
+        return '<option value="%s" title="%s"%s>%s</option>' % (
             escape(option_value), title, selected_html,
             conditional_escape(force_unicode(option_label)))
 

@@ -294,8 +294,8 @@ class QuestionAnswer(models.Model):
 
     class Meta:
         app_label = 'curricula'
-        verbose_name = u'Question and Answer'
-        verbose_name_plural = u'Questions and Answers'
+        verbose_name = 'Question and Answer'
+        verbose_name_plural = 'Questions and Answers'
 
     def __unicode__(self):
         return truncate(self.question)
