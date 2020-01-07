@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         ('reference', '0001_initial'),
         ('resource_carousel', '0001_initial'),
         ('contenttypes', '0001_initial'),
-        ('edumetadata', '0001_initial'),
+        ('edumetadata', '0001_squashed_0003_change_array_field_type'),
     ]
 
     operations = [
