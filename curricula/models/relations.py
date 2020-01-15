@@ -43,7 +43,7 @@ class ModelRelation(models.Model):
 class ActivityRelation(ModelRelation):
     activity = models.ForeignKey('curricula.Activity', related_name='relations')
 
-    def __unicode__(self):
+    def __str__(self):
         out = "%s related to %s" % (self.content_object, self.activity)
         if self.relation_type:
             out += " as %s" % self.relation_type
@@ -53,7 +53,7 @@ class ActivityRelation(ModelRelation):
 class LessonRelation(ModelRelation):
     lesson = models.ForeignKey('curricula.Lesson', related_name='relations')
 
-    def __unicode__(self):
+    def __str__(self):
         out = "%s related to %s" % (self.content_object, self.lesson)
         if self.relation_type:
             out += " as %s" % self.relation_type
@@ -63,7 +63,7 @@ class LessonRelation(ModelRelation):
 class UnitRelation(ModelRelation):
     unit = models.ForeignKey('curricula.Unit', related_name='relations')
 
-    def __unicode__(self):
+    def __str__(self):
         out = "%s related to %s" % (self.content_object, self.unit)
         if self.relation_type:
             out += " as %s" % self.relation_type
@@ -74,7 +74,7 @@ class IdeaCategoryRelation(ModelRelation):
     idea_category = models.ForeignKey(
         'curricula.IdeaCategory', related_name='relations')
 
-    def __unicode__(self):
+    def __str__(self):
         out = "%s related to %s" % (self.content_object, self.idea_category)
         if self.relation_type:
             out += " as %s" % self.relation_type

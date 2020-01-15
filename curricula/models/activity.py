@@ -197,7 +197,7 @@ class Activity(models.Model):
     def get_absolute_url(self):
         return ('activity-detail', (), {'slug': self.slug})
 
-    def __unicode__(self):
+    def __str__(self):
         return strip_tags(self.title)
 
     class Meta:
@@ -282,8 +282,8 @@ class Vocabulary(models.Model):
         verbose_name_plural = 'Vocabulary'
         app_label = 'curricula'
 
-    def __unicode__(self):
-        return self.glossary_term.__unicode__()
+    def __str__(self):
+        return self.glossary_term.__str__()
 
 
 class QuestionAnswer(models.Model):
@@ -297,7 +297,7 @@ class QuestionAnswer(models.Model):
         verbose_name = 'Question and Answer'
         verbose_name_plural = 'Questions and Answers'
 
-    def __unicode__(self):
+    def __str__(self):
         return truncate(self.question)
 
 

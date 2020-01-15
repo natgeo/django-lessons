@@ -216,7 +216,7 @@ class Lesson(models.Model):
     def get_canonical_page(self):
         return reverse('lesson-detail', args=[self.slug])
 
-    def __unicode__(self):
+    def __str__(self):
         return strip_tags(self.title)
 
     if RELATION_MODELS:

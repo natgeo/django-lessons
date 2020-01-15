@@ -95,7 +95,7 @@ class IdeaCategory(models.Model):
         verbose_name_plural = 'Idea categories'
         app_label = 'curricula'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     @models.permalink
@@ -195,7 +195,7 @@ class Idea(models.Model):
         max_length=256,
         null=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def _get_categories(self):
@@ -217,7 +217,7 @@ class CategoryIdea(models.Model):
         app_label = 'curricula'
         ordering = ('order', )
 
-    def __unicode__(self):
+    def __str__(self):
         return self.category.title
 
 pre_delete.connect(delete_listener, sender=IdeaCategory)

@@ -148,7 +148,7 @@ class Unit(models.Model):
         if to_remove:
             attr.remove(*list(to_remove))
 
-    def __unicode__(self):
+    def __str__(self):
         return strip_tags(self.title)
 
     @models.permalink
