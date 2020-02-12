@@ -178,15 +178,6 @@ class Lesson(models.Model):
         self.accessibility_notes = list_as_ul(
             list(set(chain(*[ul_as_list(x) for x in agg_activities('accessibility_notes')])))
         )
-        rsd = agg_activities('relevant_start_date')
-        if rsd:
-            self.relevant_start_date = min(rsd)
-        red = agg_activities('relevant_end_date')
-        if red:
-            self.relevant_end_date = max(red)
-        gt = agg_activities('geologic_time')
-        if gt:
-            self.geologic_time = min(gt)
         self.duration = self._calc_duration(self.activities.all())
         super(Lesson, self).save(*args, **kwargs)
         self._sync_m2m(self.eras, agg_activities('eras'))
