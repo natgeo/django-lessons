@@ -2,9 +2,9 @@
 django-lessons
 """
 __version_info__ = {
-    'major': 2,
-    'minor': 9,
-    'micro': 2,
+    'major': 3,
+    'minor': 0,
+    'micro': 0,
     'releaselevel': 'final',
     'serial': 1,
 }
