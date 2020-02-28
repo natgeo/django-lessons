@@ -14,6 +14,7 @@ from curricula.settings import RELATION_MODELS
 from core_media.models import NGPhoto  # NOQA
 from credits.models import CreditGroup  # NOQA
 from taxonomy.managers import TaxonomyTaggableManager
+from functools import reduce
 
 __all__ = ('Unit', 'UnitLesson')
 
@@ -147,7 +148,7 @@ class Unit(models.Model):
         if to_remove:
             attr.remove(*list(to_remove))
 
-    def __unicode__(self):
+    def __str__(self):
         return strip_tags(self.title)
 
     @models.permalink

@@ -100,7 +100,7 @@ DEFAULT_SETTINGS.update(getattr(settings, 'LESSON_SETTINGS', {}))
 #     raise ImproperlyConfigured("The KEY_IMAGE setting for curricula is not set.")
 if DEFAULT_SETTINGS['MCE_ATTRS']:
     if isinstance(DEFAULT_SETTINGS['MCE_ATTRS'], dict):
-        if not isinstance(DEFAULT_SETTINGS['MCE_ATTRS'].values()[0], dict):
+        if not isinstance(list(DEFAULT_SETTINGS['MCE_ATTRS'].values())[0], dict):
             # If the values aren't a dict, then they passed in a TinyMCE config
             # for all fields. Convert it to {'default': }
             DEFAULT_SETTINGS['MCE_ATTRS'] = {'default': DEFAULT_SETTINGS['MCE_ATTRS'].copy()}
@@ -133,7 +133,7 @@ for key, val in DEFAULT_SETTINGS['STANDARD_TYPE_SLUGS']:
 
 # Create a mapping from a slug to a dict of name and key
 STD_TYPE_SLUG_MAP = dict([
-    (val['slug'], {'name': val['name'], 'key': key}) for key, val in STD_TYPE_KEY_MAP.items()
+    (val['slug'], {'name': val['name'], 'key': key}) for key, val in list(STD_TYPE_KEY_MAP.items())
 ])
 RELATIONS = [Q(app_label=al, model=m) for al, m in [x.split('.') for x in DEFAULT_SETTINGS['RELATION_MODELS']]]
 

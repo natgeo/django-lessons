@@ -192,5 +192,5 @@ RESOURCECAROUSEL_SETTINGS = {
 
 try:
     from local_settings import *
-except ImportError, exp:
+except ImportError as exp:
     pass

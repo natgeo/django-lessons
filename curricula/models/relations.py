@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from curricula.settings import (RELATIONS, RELATION_TYPES)
+from functools import reduce
 
 
 if RELATIONS:
@@ -42,30 +43,30 @@ class ModelRelation(models.Model):
 class ActivityRelation(ModelRelation):
     activity = models.ForeignKey('curricula.Activity', related_name='relations')
 
-    def __unicode__(self):
-        out = u"%s related to %s" % (self.content_object, self.activity)
+    def __str__(self):
+        out = "%s related to %s" % (self.content_object, self.activity)
         if self.relation_type:
-            out += u" as %s" % self.relation_type
+            out += " as %s" % self.relation_type
         return out
 
 
 class LessonRelation(ModelRelation):
     lesson = models.ForeignKey('curricula.Lesson', related_name='relations')
 
-    def __unicode__(self):
-        out = u"%s related to %s" % (self.content_object, self.lesson)
+    def __str__(self):
+        out = "%s related to %s" % (self.content_object, self.lesson)
         if self.relation_type:
-            out += u" as %s" % self.relation_type
+            out += " as %s" % self.relation_type
         return out
 
 
 class UnitRelation(ModelRelation):
     unit = models.ForeignKey('curricula.Unit', related_name='relations')
 
-    def __unicode__(self):
-        out = u"%s related to %s" % (self.content_object, self.unit)
+    def __str__(self):
+        out = "%s related to %s" % (self.content_object, self.unit)
         if self.relation_type:
-            out += u" as %s" % self.relation_type
+            out += " as %s" % self.relation_type
         return out
 
 
@@ -73,8 +74,8 @@ class IdeaCategoryRelation(ModelRelation):
     idea_category = models.ForeignKey(
         'curricula.IdeaCategory', related_name='relations')
 
-    def __unicode__(self):
-        out = u"%s related to %s" % (self.content_object, self.idea_category)
+    def __str__(self):
+        out = "%s related to %s" % (self.content_object, self.idea_category)
         if self.relation_type:
-            out += u" as %s" % self.relation_type
+            out += " as %s" % self.relation_type
         return out

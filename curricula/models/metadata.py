@@ -12,6 +12,7 @@ from categories.models import CategoryBase
 from curricula.settings import TIP_TYPE_CHOICES, STANDARD_TYPES
 from curricula.utils import truncate
 from edumetadata.models import Grade
+from functools import reduce
 
 __all__ = (
     'GroupingType',
@@ -39,7 +40,7 @@ class MetadataBase(models.Model):
         ordering = ["name"]
         app_label = 'curricula'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
@@ -50,7 +51,7 @@ class GroupingType(MetadataBase):
 class LearnerGroup(models.Model):
     name = models.CharField(max_length=31)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
@@ -65,7 +66,7 @@ class LearningObjective(models.Model):
         ordering = ['text']
         app_label = 'curricula'
 
-    def __unicode__(self):
+    def __str__(self):
         return self.text
 
 
@@ -84,14 +85,14 @@ class ObjectiveRelation(models.Model):
     class Meta:
         app_label = 'curricula'
 
-    def __unicode__(self):
-        return self.objective.__unicode__()
+    def __str__(self):
+        return self.objective.__str__()
 
 
 class Material(models.Model):
     name = models.TextField()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
@@ -126,7 +127,7 @@ class TeachingMethodType(MetadataBase):
 class TechSetupType(models.Model):
     title = models.CharField(max_length=64)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     class Meta:
@@ -157,9 +158,9 @@ class Tip(models.Model):
         verbose_name_plural = "Tips & Modifications"
         app_label = 'curricula'
 
-    def __unicode__(self):
+    def __str__(self):
         if self.category:
-            return u'%s: %s' % (self.category.name,
+            return '%s: %s' % (self.category.name,
                                 truncate(strip_tags(self.body), 45))
         else:
             return truncate(strip_tags(self.body), 75)
@@ -179,8 +180,8 @@ class Standard(models.Model):
     when_updated = models.DateTimeField(null=True, blank=True, auto_now=True)
     grades = models.ManyToManyField(Grade)
 
-    def __unicode__(self):
-        return u"%s: %s: %s" % (truncate(self.get_standard_type_display(), 54),
+    def __str__(self):
+        return "%s: %s: %s" % (truncate(self.get_standard_type_display(), 54),
                                 truncate(self.name, 44),
                                 truncate(strip_tags(self.definition), 54))
 
