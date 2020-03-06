@@ -195,7 +195,7 @@ def activities_info(ids, l_id=None):
         learning_objs |= set([objrel.objective for objrel in objectives_list])
         resources |= set(activity.resources.all().values_list('object_type_id', 'object_id'))
 
-        if activity.internet_access_type > inet_access:
+        if activity.internet_access_type and activity.internet_access_type > inet_access:
             inet_access = activity.internet_access_type
         plugins |= set(activity.plugin_types.values_list('id', flat=True))
         tech |= set(activity.tech_setup_types.values_list('id', flat=True))
